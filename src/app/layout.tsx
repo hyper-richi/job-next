@@ -62,9 +62,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="ru">
             <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
-                <Header className={styles.header} />
+                <Header />
                 {children}
-                <Footer className={styles.footer} />
+                <Footer />
             </body>
         </html>
     );

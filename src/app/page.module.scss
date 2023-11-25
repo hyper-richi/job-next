@@ -1,0 +1,114 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 6rem;
+    min-height: 100vh;
+}
+
+.search {
+    width: 100%;
+    position: sticky;
+    z-index: 1;
+    top: 0;
+    padding: 32px 0 0;
+    top: 186px;
+
+    &__title {
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+        text-align: center;
+    }
+    &__form {
+        width: 100%;
+    }
+
+    &__block {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+        background-image: linear-gradient(90deg, rgba(255, 255, 255, 1) 98%, rgba(37, 99, 235, 1) 0%);
+        border: 1px solid rgb(37, 99, 235);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        height: 56px;
+    }
+    &__icon {
+        margin: 1rem;
+    }
+    &__input {
+        height: 100%;
+        flex-grow: 1;
+        padding: 0;
+        border: none;
+        background-color: #fff;
+        color: var(--dark-space-100);
+        font-family: GT Eesti Pro Text, sans-serif;
+        font-size: 18px;
+        font-weight: 300;
+        letter-spacing: 0.4px;
+        line-height: 26px;
+        outline: none;
+    }
+    &__count {
+        margin-right: 15px;
+        color: #005bff;
+    }
+    &__button {
+        width: 100px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-transform: none;
+        background-color: #005bff;
+        border-radius: 0 8px 8px 0;
+        color: #fff;
+        cursor: pointer;
+        font-weight: 300;
+        letter-spacing: 0.4px;
+        font-feature-settings: inherit;
+        font-variation-settings: inherit;
+        font-size: 100%;
+        margin: 0;
+        padding: 0;
+
+        border-width: 0;
+        border-color: #005bff;
+    }
+}
+
+.finder {
+    display: flex;
+    margin-top: 36px;
+    width: 100%;
+}
+
+.filters {
+    width: 320px;
+    position: sticky;
+    top: 202px;
+    height: fit-content;
+    margin-right: 70px;
+
+    &__header {
+        display: grid;
+        grid-template-columns: min-content min-content;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 24px;
+    }
+    &__title {
+        color: #002855;
+        font-size: 24px;
+        line-height: 28px;
+    }
+    &__selects {
+        min-width: 250px;
+        border: 1px solid #dee5ea;
+    }
+}
+
+.content {
+    max-width: 830px;
+}

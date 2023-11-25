@@ -1,0 +1,49 @@
+.vacancy {
+    position: relative;
+    &__hr {
+        border-top: 1px solid #d6dbe0;
+        margin: 0 21px;
+    }
+    &__link {
+        padding: 20px 80px 18px 24px;
+    }
+    &__title {
+        line-height: 1.75rem;
+        font-weight: 500;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #002855;
+    }
+
+    &__wrp {
+        padding-left: 34px;
+        position: relative;
+    }
+
+    &__info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: #4c6888;
+        font-size: 16px;
+        font-weight: 300;
+        letter-spacing: 0.4px;
+        line-height: 22px;
+
+        &__location {
+            position: absolute;
+            left: 0;
+            vertical-align: bottom;
+        }
+    }
+    &__salary {
+        line-height: 22px;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+    &__arrow {
+        top: 46%;
+        right: 24px;
+        position: absolute;
+    }
+}

@@ -78,18 +78,19 @@ const category = [
 
 const Navbar = () => {
     return (
-        <div className={styles.navbar}>
-            {category.map((item) => {
-                return (
-                    <Link key={item.categoryName} className={styles.navbar__links} href={item.categoryName}>
-                        {/* <Image src={item.icon} width={30} height={24} alt="svg-icon" /> */}
-                        {item.icon}
-                        <span className={styles["links-name"]}>{item.name}</span>
-                    </Link>
-                );
-            })}
-            {/* className={cn("", { [styles.selected]: viewType.view === view })} */}
-        </div>
+        <nav className={styles.navbar}>
+            <div className={styles.wrapper}>
+                {category.map((item) => {
+                    return (
+                        <Link key={item.categoryName} className={styles.navbar__links} href={item.categoryName}>
+                            {/* <Image src={item.icon} width={30} height={24} alt="svg-icon" /> */}
+                            {item.icon}
+                            <span className={styles["links-name"]}>{item.name}</span>
+                        </Link>
+                    );
+                })}
+            </div>
+        </nav>
     );
 };
 

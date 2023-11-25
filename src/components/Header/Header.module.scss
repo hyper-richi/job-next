@@ -1,7 +1,11 @@
 .headerLayout {
-    box-shadow: 0 4px 16px rgba(0, 26, 52, 0.1);
-    background-color: rgb(37 99 235 /1);
-    color: #fff;
+    display: contents;
+}
+
+.wrapper {
+    position: sticky;
+    z-index: 1;
+    top: 0;
 }
 
 .header {
@@ -11,6 +15,8 @@
     padding: 0 120px;
     align-items: center;
     text-align: center;
+    background-color: rgb(37 99 235 /1);
+    color: #fff;
 
     &__logo {
         font-weight: 700;

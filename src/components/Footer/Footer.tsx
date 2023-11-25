@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const Footer = (): JSX.Element => {
     return (
-        <div className={styles.footer}>
+        <footer className={styles.footer}>
             <div className={styles.footer__container}>
                 <h3 className={styles.footer__title}>Буду рад с вами сотрудничать!</h3>
                 <div className={styles.footer__contacts}>
@@ -56,6 +56,6 @@ export const Footer = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-        </div>
+        </footer>
     );
 };

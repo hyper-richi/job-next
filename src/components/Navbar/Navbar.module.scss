@@ -1,12 +1,21 @@
-.navbar {
-    padding: 0 16px;
+.wrapper {
     display: flex;
     flex-wrap: wrap;
     min-height: 72px;
     align-items: center;
     justify-content: center;
+}
+
+.navbar {
+    position: sticky;
+    z-index: 99;
+    top: 72px;
     background-color: #fff;
     color: rgb(0, 26, 52);
+    box-shadow: 0 4px 16px rgba(0, 26, 52, 0.1);
+    transition: top 0.5s, visibility 0.5s;
+
+    padding: 0 16px;
     font-family: var(--gteestiprotext);
 
     &__links {
@@ -32,4 +41,9 @@
     color: white;
     cursor: pointer;
     border-radius: 3px;
+}
+
+.hidden {
+    top: -36px;
+    visibility: hidden;
 }
