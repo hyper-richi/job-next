@@ -48,7 +48,6 @@
     &__info {
         display: grid;
         justify-content: space-around;
-        -moz-column-gap: 16px;
         grid-column-gap: 16px;
         column-gap: 16px;
         grid-template-columns: 1fr min-content;
@@ -69,7 +68,6 @@
         align-items: center;
         justify-content: flex-end;
         padding-left: 12px;
-        -moz-column-gap: 12px;
         grid-column-gap: 12px;
         column-gap: 12px;
         cursor: pointer;
@@ -79,7 +77,6 @@
     &__socials {
         display: grid;
         align-items: center;
-        -moz-column-gap: 16px;
         grid-column-gap: 16px;
         column-gap: 16px;
         grid-template-columns: 7px 1fr 1fr;

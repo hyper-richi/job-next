@@ -2,76 +2,76 @@ import Link from "next/link";
 import Image from "next/image";
 import cn from "classnames";
 import styles from "./Navbar.module.scss";
-import itIcon from "../../../public/images/svg/itIcon.svg";
-import oficeIcon from "../../../public/images/svg/oficeIcon.svg";
-import financeIcon from "../../../public/images/svg/financeIcon.svg";
-import safetyIcon from "../../../public/images/svg/safetyIcon.svg";
-import accountingIcon from "../../../public/images/svg/accountingIcon.svg";
-import managementIcon from "../../../public/images/svg/managementIcon.svg";
-import logistickIcon from "../../../public/images/svg/logistickIcon.svg";
-import medicineIcon from "../../../public/images/svg/medicineIcon.svg";
-import searchIcon from "../../../public/images/svg/searchIcon.svg";
-import constructionIcon from "../../../public/images/svg/constructionIcon.svg";
+import ItIcon from "../../../public/images/svg/itIcon.svg";
+import OfficeIcon from "../../../public/images/svg/officeIcon.svg";
+import FinanceIcon from "../../../public/images/svg/financeIcon.svg";
+import SafetyIcon from "../../../public/images/svg/safetyIcon.svg";
+import AccountingIcon from "../../../public/images/svg/accountingIcon.svg";
+import ManagementIcon from "../../../public/images/svg/managementIcon.svg";
+import LogistickIcon from "../../../public/images/svg/logistickIcon.svg";
+import MedicineIcon from "../../../public/images/svg/medicineIcon.svg";
+import SearchIcon from "../../../public/images/svg/searchIcon.svg";
+import ConstructionIcon from "../../../public/images/svg/constructionIcon.svg";
 
 const category = [
     {
         name: "Поиск по вакансиям",
         categoryName: "/",
-        icon: searchIcon,
+        icon: <SearchIcon />,
         title: "Поиск по вакансиям",
     },
     {
         name: "IT",
         categoryName: "InformationTechnology",
-        icon: itIcon,
+        icon: <ItIcon />,
         title: "Информационные технологии",
     },
     {
         name: "Офис",
         categoryName: "DeskWork",
-        icon: oficeIcon,
+        icon: <OfficeIcon />,
         title: "Административная работа, секретариат, АХО",
     },
     {
         name: "Финансы",
         categoryName: "Finances",
-        icon: financeIcon,
+        icon: <FinanceIcon />,
         title: "Банки, кредит, страхование, пенсионное обеспечение",
     },
     {
         name: "Безопасность",
         categoryName: "Safety",
-        icon: safetyIcon,
+        icon: <SafetyIcon />,
         title: "Безопасность, службы охраны",
     },
     {
         name: "Бухучет",
         categoryName: "AccountingTaxesManagement",
-        icon: accountingIcon,
+        icon: <AccountingIcon />,
         title: "Бухгалтерия, налоги, управленческий учет",
     },
     {
         name: "Управление",
         categoryName: "Management",
-        icon: managementIcon,
+        icon: <ManagementIcon />,
         title: "Высший менеджмент",
     },
     {
         name: "Логистика",
         categoryName: "Transport",
-        icon: logistickIcon,
+        icon: <LogistickIcon />,
         title: "Транспорт, автобизнес, логистика, склад, ВЭД",
     },
     {
         name: "Медицина",
         categoryName: "Medicine",
-        icon: medicineIcon,
+        icon: <MedicineIcon />,
         title: "Здравоохранение и социальное обеспечение",
     },
     {
         name: "Строительство",
         categoryName: "BuldindRealty",
-        icon: constructionIcon,
+        icon: <ConstructionIcon />,
         title: "Строительство, ремонт, стройматериалы, недвижимость",
     },
 ];
@@ -81,8 +81,9 @@ const Navbar = () => {
         <div className={styles.navbar}>
             {category.map((item) => {
                 return (
-                    <Link className={styles.navbar__links} href={item.categoryName}>
-                        <Image src={item.icon} width={30} height={24} alt="svg-icon" />
+                    <Link key={item.categoryName} className={styles.navbar__links} href={item.categoryName}>
+                        {/* <Image src={item.icon} width={30} height={24} alt="svg-icon" /> */}
+                        {item.icon}
                         <span className={styles["links-name"]}>{item.name}</span>
                     </Link>
                 );
