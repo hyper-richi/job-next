@@ -1,0 +1,102 @@
+.headerLayout {
+    box-shadow: 0 4px 16px rgba(0, 26, 52, 0.1);
+    background-color: rgb(37 99 235 /1);
+    color: #fff;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 10fr 16fr 10fr;
+    height: 72px;
+    padding: 0 120px;
+    align-items: center;
+    text-align: center;
+
+    &__logo {
+        font-weight: 700;
+        display: inline;
+        text-align: center;
+        font-size: 24px;
+    }
+
+    &__search {
+        display: flex;
+        height: 36px;
+        align-items: center;
+        border: none;
+        background-color: var(--white);
+        border-radius: 8px;
+        cursor: text;
+
+        input {
+            width: 100%;
+            border: none;
+            margin-left: 16px;
+            background-color: transparent;
+            color: #001a34;
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 0.4px;
+            line-height: 26px;
+            outline: none;
+            &::placeholder {
+                color: #8093aa;
+            }
+        }
+    }
+
+    &__info {
+        display: grid;
+        justify-content: space-around;
+        -moz-column-gap: 16px;
+        grid-column-gap: 16px;
+        column-gap: 16px;
+        grid-template-columns: 1fr min-content;
+    }
+}
+
+.search__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+.info {
+    &__cities {
+        display: grid;
+        align-items: center;
+        justify-content: flex-end;
+        padding-left: 12px;
+        -moz-column-gap: 12px;
+        grid-column-gap: 12px;
+        column-gap: 12px;
+        cursor: pointer;
+        grid-template-columns: max-content 24px;
+        margin-right: 6px;
+    }
+    &__socials {
+        display: grid;
+        align-items: center;
+        -moz-column-gap: 16px;
+        grid-column-gap: 16px;
+        column-gap: 16px;
+        grid-template-columns: 7px 1fr 1fr;
+    }
+}
+.city-logo {
+    height: 24px;
+}
+.city-name {
+    font-weight: 500;
+}
+
+@media (max-width: 765px) {
+    .header {
+        display: grid;
+        grid-template-columns: 1fr 40px;
+        gap: 10px;
+        margin: 15px 15px 0;
+    }
+}

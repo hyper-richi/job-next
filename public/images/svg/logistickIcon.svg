@@ -1,0 +1,14 @@
+    <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        class="group group-hover:text-blue-600"
+        fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M9 1H1v16h3.17a3.001 3.001 0 100-2H3V3h6a1 1 0 000-2zM6 16a1 1 0 102 0 1 1 0 00-2 0zm6 0a1 1 0 011-1h1.17a3.001 3.001 0 015.664.014c.054-.01.11-.014.166-.014h1v-4.602L17.376 3H14v7.167a1 1 0 11-2 0V1h6.624L23 9.935V17h-3c-.056 0-.112-.005-.166-.014a3.001 3.001 0 01-5.663.014H13a1 1 0 01-1-1zm4 0a1 1 0 102 0 1 1 0 00-2 0zM1 22a1 1 0 011-1h20a1 1 0 110 2H2a1 1 0 01-1-1z"
+        ></path>
+    </svg>

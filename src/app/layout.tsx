@@ -1,11 +1,57 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
 import { Header } from "@/components/Header/Header";
 import styles from "./layout.module.css";
 import { Footer } from "@/components/Footer/Footer";
+import localFont from "next/font/local";
 
-const inter = Inter({ subsets: ["latin"] });
+import "./globals.css";
+// const inter = Inter({ subsets: ["latin"] });
+
+const GTEestiProText = localFont({
+    src: [
+        {
+            path: "../../public/fonts/GTEestiProText/gteestiprotext_regular.otf",
+            weight: "400",
+            style: "regular",
+        },
+        {
+            path: "../../public/fonts/GTEestiProText/gteestiprotext_medium.otf",
+            weight: "500",
+            style: "medium",
+        },
+        {
+            path: "../../public/fonts/GTEestiProText/gteestiprotext_bold.otf",
+            weight: "700",
+            style: "text_bold",
+        },
+    ],
+    variable: "--gteestiprotext",
+});
+const GTEestiProDisplay = localFont({
+    src: [
+        {
+            path: "../../public/fonts/GTEestiProDisplay/gteestiprodisplay_light.otf",
+            weight: "300",
+            style: "light",
+        },
+        {
+            path: "../../public/fonts/GTEestiProDisplay/gteestiprodisplay_regular.otf",
+            weight: "400",
+            style: "regular",
+        },
+        {
+            path: "../../public/fonts/GTEestiProDisplay/gteestiprodisplay_medium.otf",
+            weight: "500",
+            style: "medium",
+        },
+        {
+            path: "../../public/fonts/GTEestiProDisplay/gteestiprodisplay_bold.otf",
+            weight: "700",
+            style: "bold",
+        },
+    ],
+    variable: "--gteestiprodisplay",
+});
 
 export const metadata: Metadata = {
     title: "Job App",
@@ -15,7 +61,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="ru">
-            <body>
+            <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
                 <Header className={styles.header} />
                 {children}
                 <Footer className={styles.footer} />
