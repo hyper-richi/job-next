@@ -1,50 +1,44 @@
-import styles from "./page.module.scss";
-import SearchIcon from "../../public/images/svg/searchIcon.svg";
-import { Vacancy } from "@/components/Vacancy/Vacancy";
-import { ResponseData } from "./lib/definitions";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import Image from "next/image";
+import AcmeLogo from "@/components/acme-logo";
 
-const getData = async (): Promise<ResponseData> => {
-    const res = await fetch("https://opendata.trudvsem.ru/api/v1/vacancies", {
-        cache: "force-cache",
-    });
-    if (!res.ok) {
-        throw new Error("Failed to fetch data");
-    }
-
-    return res.json();
-};
-
-export default async function Home() {
-    const { results } = await getData();
-    // console.log("data: ", data);
-    console.log("results: ", results);
-
+export default function Home() {
     return (
-        <main className={styles.main}>
-            <div className={styles.search}>
-                <h1 className={styles.search__title}>Поиск по вакансиям</h1>
-                <form className={styles.search__form}>
-                    <div className={styles.search__block}>
-                        <SearchIcon className={styles.search__icon} />
-                        <input className={styles.search__input} placeholder="Введите название должности" type="text" />
-                        <div className={styles.search__count}>вакансий</div>
-                        <button className={styles.search__button} type="submit">
-                            <span className=""> Поиск </span>
-                        </button>
-                    </div>
-                </form>
+        <main className="">
+            <div className="">
+                <AcmeLogo />
             </div>
-            <div className={styles.finder}>
-                <div className={styles.filters}>
-                    <div className={styles.filters__header}>
-                        <h6 className={styles.filters__title}>Фильтры</h6>
-                    </div>
-                    <div className={styles.filters__selects}>selects</div>
+            <div className="">
+                <div className="">
+                    <div className="" />
+                    <p className="">
+                        <strong>Welcome to Acme.</strong> This is the example for the
+                        <a href="https://nextjs.org/learn/" className="">
+                            Next.js Learn Course
+                        </a>
+                        , brought to you by Vercel.
+                    </p>
+                    <Link href="/" className="">
+                        <span>Log in</span> <ArrowRightIcon width={24} height={24} />
+                    </Link>
                 </div>
-                <div className={styles.content}>
-                    {results.vacancies.map((item) => {
-                        return <Vacancy key={item.vacancy.id} />;
-                    })}
+                <div className="">
+                    {/* Add Hero Images Here */}
+                    <Image
+                        src="/images/hero-desktop.png"
+                        width={1000}
+                        height={760}
+                        className="hidden md:block"
+                        alt="Screenshots of the dashboard project showing desktop version"
+                    />
+                    <Image
+                        src="/images/hero-mobile.png"
+                        width={560}
+                        height={620}
+                        className="block md:hidden"
+                        alt="Screenshot of the dashboard project showing mobile version"
+                    />
                 </div>
             </div>
         </main>

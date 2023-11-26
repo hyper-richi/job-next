@@ -18,7 +18,7 @@ import clsx from "clsx";
 const category = [
     {
         name: "Поиск по вакансиям",
-        categoryName: "/",
+        categoryName: "/vacancies",
         icon: <SearchIcon />,
         title: "Поиск по вакансиям",
     },
