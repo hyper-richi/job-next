@@ -27,20 +27,14 @@
         &:hover {
             color: rgb(37 99 235 /1);
         }
+        &--active {
+            color: rgb(37 99 235 /1);
+        }
     }
 }
 .links-name {
     font-weight: 400;
     font-size: 14px;
-}
-
-.logout {
-    padding: 5px;
-    border: none;
-    background-color: #53c28b;
-    color: white;
-    cursor: pointer;
-    border-radius: 3px;
 }
 
 .hidden {

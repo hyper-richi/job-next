@@ -1,11 +1,16 @@
 .vacancy {
     position: relative;
+
     &__hr {
         border-top: 1px solid #d6dbe0;
         margin: 0 21px;
     }
     &__link {
         padding: 20px 80px 18px 24px;
+        position: relative;
+        display: block;
+        border-radius: 6px;
+        cursor: pointer;
     }
     &__title {
         line-height: 1.75rem;
@@ -42,8 +47,19 @@
         white-space: nowrap;
     }
     &__arrow {
-        top: 46%;
-        right: 24px;
         position: absolute;
+        top: 50%;
+        right: 21px;
+        margin-top: -8px;
     }
+}
+
+.vacancy:hover .vacancy__link {
+    background-color: #ccdeff;
+}
+.vacancy:hover .vacancy__hr {
+    opacity: 0;
+}
+.vacancy:hover + div .vacancy__hr {
+    opacity: 0;
 }

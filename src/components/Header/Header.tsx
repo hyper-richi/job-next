@@ -3,14 +3,14 @@ import { HeaderProps } from "./Header.props";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./Header.module.scss";
-import cn from "classnames";
 import Logo from "../../helpers/icons/logo.svg";
 import Navbar from "../Navbar/Navbar";
 import searchIcon from "../../../public/images/svg/searchIcon.svg";
+import clsx from "clsx";
 
 export const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
     return (
-        <header className={cn(className, styles.headerLayout)} {...props}>
+        <header className={clsx(className, styles.headerLayout)} {...props}>
             <div className={styles.wrapper}>
                 <div className={styles.header}>
                     <p>

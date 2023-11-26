@@ -1,8 +1,24 @@
 import styles from "./page.module.scss";
 import SearchIcon from "../../public/images/svg/searchIcon.svg";
 import { Vacancy } from "@/components/Vacancy/Vacancy";
+import { ResponseData } from "./lib/definitions";
 
-export default function Home() {
+const getData = async (): Promise<ResponseData> => {
+    const res = await fetch("https://opendata.trudvsem.ru/api/v1/vacancies", {
+        cache: "force-cache",
+    });
+    if (!res.ok) {
+        throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+};
+
+export default async function Home() {
+    const { results } = await getData();
+    // console.log("data: ", data);
+    console.log("results: ", results);
+
     return (
         <main className={styles.main}>
             <div className={styles.search}>
@@ -26,7 +42,9 @@ export default function Home() {
                     <div className={styles.filters__selects}>selects</div>
                 </div>
                 <div className={styles.content}>
-                    <Vacancy />
+                    {results.vacancies.map((item) => {
+                        return <Vacancy key={item.vacancy.id} />;
+                    })}
                 </div>
             </div>
         </main>
