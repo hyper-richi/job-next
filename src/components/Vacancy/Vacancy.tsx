@@ -2,7 +2,7 @@ import { VacancyProps } from "./Vacancy.props";
 import styles from "./Vacancy.module.scss";
 import Link from "next/link";
 
-export default async function Vacancy({ vacancy }: VacancyProps) {
+export default function Vacancy({ vacancy }: VacancyProps) {
     const { "job-name": vacancyName, region, salary_min, salary_max, category, company, id } = vacancy.vacancy;
     return (
         <div className={styles.vacancy}>

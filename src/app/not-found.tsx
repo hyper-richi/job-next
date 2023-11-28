@@ -12,6 +12,9 @@ export default function NotFound() {
             </div>
             {/* <p>Could not find requested resource</p>
             <Link href="/">Return Home</Link> */}
+            <Link href="/" className="">
+                Go Home
+            </Link>
         </div>
     );
 }

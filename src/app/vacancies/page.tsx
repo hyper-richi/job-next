@@ -4,6 +4,11 @@ import { ResponseData } from "../lib/definitions";
 import Search from "@/components/Search/Search";
 import { Suspense } from "react";
 import { VacancysSkeleton } from "@/components/VacancysSkeleton/VacancysSkeleton";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Поиск по вакансиям",
+};
 
 const getData = async (query?: string): Promise<ResponseData> => {
     const searchUrl = `?text=${query}`;
