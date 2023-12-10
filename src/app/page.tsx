@@ -5,7 +5,7 @@ import AcmeLogo from "@/components/acme-logo";
 
 export default function Home() {
     return (
-        <main className="">
+        <div className="Home">
             <div className="">
                 <AcmeLogo />
             </div>
@@ -41,6 +41,6 @@ export default function Home() {
                     />
                 </div>
             </div>
-        </main>
+        </div>
     );
 }

@@ -1,0 +1,188 @@
+.vacancy {
+    display: flex;
+    justify-content: center;
+    padding: 80px 0;
+    margin: 0 auto;
+    max-width: 1100px;
+
+    &__info {
+        width: 100%;
+        margin-right: 120px;
+
+        &__title {
+            display: flex;
+            margin-bottom: 24px;
+            color: #4c6888;
+
+            &__city {
+                display: flex;
+                align-items: center;
+                margin-right: 26px;
+
+                &__icon {
+                    margin-right: 13px;
+                }
+            }
+
+            &__department {
+                display: grid;
+                align-items: center;
+                -moz-column-gap: 6px;
+                grid-column-gap: 6px;
+                column-gap: 6px;
+                grid-template-columns: min-content 1fr;
+
+                .dot {
+                    width: 2px;
+                    height: 2px;
+                    background-color: #4d5f71;
+                }
+            }
+        }
+        &__name {
+            margin: 0 0 16px;
+            color: #002855;
+            font-size: 46px;
+            font-weight: 500;
+            letter-spacing: 0.8px;
+            line-height: 50px;
+        }
+
+        &__salary {
+            color: #002855;
+            font-size: 36px;
+            font-weight: 500;
+        }
+        &__workplaces {
+            display: flex;
+            align-items: center;
+            height: 22px;
+            gap: 10px;
+            margin: 10px;
+
+            span {
+                color: rgb(100 116 139 / 1);
+                font-weight: 200;
+                font-size: 16px;
+                height: 22px;
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        &__body {
+            max-width: 700px;
+            color: #001a34;
+
+            li,
+            p {
+                color: #4c6888;
+                font-family: var(--gteestiprotext);
+                font-size: 18px;
+                font-weight: 300;
+                letter-spacing: 0.4px;
+                line-height: 26px;
+            }
+            p {
+                margin-bottom: 16px;
+
+                strong {
+                    color: #002855;
+                    font-size: 24px;
+                    font-weight: bolder;
+                }
+            }
+            ul {
+                margin-top: 0;
+                margin-bottom: 16px;
+                padding-left: 40px;
+                color: #4c6888;
+                font-family: var(--gteestiprotext);
+            }
+
+            li:empty {
+                display: none;
+            }
+        }
+    }
+    &__actions {
+        position: sticky;
+        top: 160px;
+        height: 100%;
+
+        &__apply {
+            font-family: var(--gteestiprotext);
+
+            color: #fff;
+            background: #005bff;
+            margin-bottom: 24px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            cursor: pointer;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 20px;
+            text-align: center;
+            letter-spacing: 0.4px;
+
+            &:hover {
+                background: #004ed6;
+            }
+            &:active {
+                background: #003ead;
+            }
+        }
+
+        &__nominee {
+            margin-bottom: 28px;
+            position: relative;
+            display: flex;
+            width: 200px;
+            align-items: center;
+            color: #005bff;
+            cursor: pointer;
+
+            &__text {
+                font-size: 16px;
+                line-height: 20px;
+            }
+        }
+
+        &__share {
+            position: relative;
+            display: flex;
+            width: 200px;
+            align-items: center;
+            color: #005bff;
+            cursor: pointer;
+        }
+        &__icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
+    }
+}
+
+.tooltip {
+    position: absolute;
+    z-index: 100;
+    top: 50px;
+    left: 20px;
+    display: grid;
+    width: max-content;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid #dadada;
+    background-color: var(--white);
+    border-radius: 4px;
+    box-shadow: 2px 6px 11px rgba(0, 0, 0, 0.1);
+    color: #06ca99;
+}

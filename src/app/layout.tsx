@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/Header/Header";
-import styles from "./layout.module.css";
 import { Footer } from "@/components/Footer/Footer";
 import localFont from "next/font/local";
+import styles from "./layout.module.css";
 
 import "./globals.css";
-// const inter = Inter({ subsets: ["latin"] });
 
 const GTEestiProText = localFont({
     src: [
@@ -72,7 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="ru">
             <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
                 <Header />
-                {children}
+                <main className={styles.Container}>{children}</main>
                 <Footer />
             </body>
         </html>

@@ -4,3 +4,11 @@
 
 @media (max-width: 765px) {
 }
+
+.Container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 6rem;
+    min-height: 100vh;
+}

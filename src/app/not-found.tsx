@@ -10,11 +10,7 @@ export default function NotFound() {
                     <h2 className={styles["next-error-msg"]}>This page could not be found.</h2>
                 </div>
             </div>
-            {/* <p>Could not find requested resource</p>
-            <Link href="/">Return Home</Link> */}
-            <Link href="/" className="">
-                Go Home
-            </Link>
+            <Link href="/">Return Home</Link>
         </div>
     );
 }

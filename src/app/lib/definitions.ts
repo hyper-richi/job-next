@@ -10,6 +10,7 @@ export interface Category {
 export interface Requirement {
     education: string;
     experience: number;
+    qualification?: string;
 }
 
 export interface Addresses {
@@ -81,3 +82,9 @@ export interface ResponseData {
     meta: Meta;
     results: Results;
 }
+export interface ResponseVacancy {
+    status: string;
+    meta: Meta;
+    results: Results;
+}
+// type ResultsEmptyObj = Record<Results, {}>;

@@ -9,12 +9,12 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@heroicons/react": "^2.0.18",
         "clsx": "^2.0.0",
+        "html-react-parser": "^5.0.7",
         "next": "14.0.3",
         "react": "^18",
-        "react-dom": "^18",
-        "@heroicons/react": "^2.0.18"
-
+        "react-dom": "^18"
     },
     "devDependencies": {
         "@svgr/webpack": "^8.1.0",

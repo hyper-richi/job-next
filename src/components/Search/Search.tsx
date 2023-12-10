@@ -13,7 +13,7 @@ interface YourFormElement extends HTMLFormElement {
 }
 
 export default function Search({ total }: { total: number }) {
-    console.log("Search: ");
+   // console.log("Search: ");
     const searchParams = useSearchParams(); // хуки только на клиентский компонент
     const pathname = usePathname();
     const { replace } = useRouter();

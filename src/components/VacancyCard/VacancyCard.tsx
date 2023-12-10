@@ -1,13 +1,13 @@
-import { VacancyProps } from "./Vacancy.props";
-import styles from "./Vacancy.module.scss";
+import { VacancyProps } from "./VacancyCard.props";
+import styles from "./VacancyCard.module.scss";
 import Link from "next/link";
 
-export default function Vacancy({ vacancy }: VacancyProps) {
-    const { "job-name": vacancyName, region, salary_min, salary_max, category, company, id } = vacancy.vacancy;
+export default function VacancyCard({ vacancy }: VacancyProps) {
+    const { "job-name": vacancyName, region, salary_min, salary_max, category, company, id: vacancyId } = vacancy.vacancy;
     return (
         <div className={styles.vacancy}>
             <div className={styles.vacancy__hr}></div>
-            <Link className={styles.vacancy__link} href={`vacancies/vacancy/${company.companycode}/${id}`} target="_blank">
+            <Link className={styles.vacancy__link} href={`vacancies/vacancy/${company.companycode}/${vacancyId}`} target="_blank">
                 <h6 className={styles.vacancy__title}>{vacancyName}</h6>
                 <div className={styles.vacancy__wrp}>
                     <div className={styles.vacancy__info}>
