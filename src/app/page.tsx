@@ -26,13 +26,6 @@ export default function Home() {
                 <div className="">
                     {/* Add Hero Images Here */}
                     <Image
-                        src="/images/hero-desktop.png"
-                        width={1000}
-                        height={760}
-                        className="hidden md:block"
-                        alt="Screenshots of the dashboard project showing desktop version"
-                    />
-                    <Image
                         src="/images/hero-mobile.png"
                         width={560}
                         height={620}

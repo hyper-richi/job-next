@@ -1,12 +1,10 @@
-
-
 .search {
     width: 100%;
     position: sticky;
     z-index: 1;
-    top: 0;
     padding: 32px 0 0;
-    top: 186px;
+    top: 185px;
+    background-color: #fff;
 
     &__title {
         font-size: 1.875rem;
@@ -70,39 +68,4 @@
         border-width: 0;
         border-color: #005bff;
     }
-}
-
-.finder {
-    display: flex;
-    margin-top: 36px;
-    width: 100%;
-}
-
-.filters {
-    width: 320px;
-    position: sticky;
-    top: 202px;
-    height: fit-content;
-    margin-right: 70px;
-
-    &__header {
-        display: grid;
-        grid-template-columns: min-content min-content;
-        align-items: flex-end;
-        justify-content: space-between;
-        margin-bottom: 24px;
-    }
-    &__title {
-        color: #002855;
-        font-size: 24px;
-        line-height: 28px;
-    }
-    &__selects {
-        min-width: 250px;
-        border: 1px solid #dee5ea;
-    }
-}
-
-.content {
-    max-width: 830px;
 }

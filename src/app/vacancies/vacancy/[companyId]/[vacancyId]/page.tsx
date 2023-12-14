@@ -2,7 +2,6 @@ import { getVacancie } from "@/app/lib/data";
 import parse, { DOMNode, HTMLReactParserOptions, Element, domToReact } from "html-react-parser";
 import styles from "./page.module.scss";
 import { notFound } from "next/navigation";
-import { Results, Vacancy } from "@/app/lib/definitions";
 import CountVacancyIcon from "../../../../../../public/images/svg/countVacancy.svg";
 
 export default async function Vacancy({ params }: { params: { companyId: string; vacancyId: string } }) {
@@ -16,7 +15,6 @@ export default async function Vacancy({ params }: { params: { companyId: string;
             if (domNode instanceof Element && domNode.name === "p") {
                 return <li>{domToReact(domNode.children as DOMNode[], options)}</li>;
             }
-
             if (domNode instanceof Element && domNode.name === "ul") {
                 return <>{domToReact(domNode.children as DOMNode[], options)}</>;
             }
@@ -28,7 +26,6 @@ export default async function Vacancy({ params }: { params: { companyId: string;
 
     const duty = vacancy ? parse(vacancy?.duty, options) : null;
     const qualification = vacancy?.requirement.qualification ? parse(vacancy.requirement.qualification, options) : null;
-    // console.log("qualification: ", vacancyId, vacancy);
 
     const experience = function (experience: number) {
         switch (experience) {
@@ -85,7 +82,7 @@ export default async function Vacancy({ params }: { params: { companyId: string;
                     <p>
                         <strong>Вам предстоит:</strong>
                     </p>
-
+                   {/*  {vacancy?.duty} */}
                     <ul>{duty}</ul>
                     <p>
                         <strong>Мы ожидаем: </strong>

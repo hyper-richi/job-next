@@ -1,38 +1,51 @@
-export interface Meta {
+interface Params {
+    params: {
+        jobCategory: string;
+    };
+}
+
+interface CategoryVacancy {
+    name: string;
+    jobCategory: string;
+    icon: JSX.Element;
+    title: string;
+}
+
+interface Meta {
     total: number;
     limit: number;
 }
 
-export interface Category {
+interface Category {
     specialisation: string;
 }
 
-export interface Requirement {
+interface Requirement {
     education: string;
     experience: number;
     qualification?: string;
 }
 
-export interface Addresses {
+interface Addresses {
     address: Address[];
 }
 
-export interface Address {
+interface Address {
     location: string;
     lng: string;
     lat: string;
 }
 
-export interface ContactList {
+interface ContactList {
     contact_type: string;
     contact_value: string;
 }
 
-export interface Results {
+interface Results {
     vacancies: Vacancy[];
 }
 
-export interface Vacancy {
+interface Vacancy {
     vacancy: {
         id: string;
         source: string;
@@ -61,12 +74,12 @@ export interface Vacancy {
     };
 }
 
-export interface Region {
+interface Region {
     region_code: string;
     name: string;
 }
 
-export interface Company {
+interface Company {
     companycode: string;
     "hr-agency": boolean;
     inn: string;
@@ -77,12 +90,12 @@ export interface Company {
     url: string;
 }
 
-export interface ResponseData {
+interface ResponseData {
     status: string;
     meta: Meta;
     results: Results;
 }
-export interface ResponseVacancy {
+interface ResponseVacancy {
     status: string;
     meta: Meta;
     results: Results;

@@ -17,7 +17,6 @@ export default function Search({ total }: { total: number }) {
     const searchParams = useSearchParams(); // хуки только на клиентский компонент
     const pathname = usePathname();
     const { replace } = useRouter();
-    // ?text=${searchTerm.value}
 
     const onFormSubmit = (e: React.FormEvent<YourFormElement>) => {
         const params = new URLSearchParams(searchParams);

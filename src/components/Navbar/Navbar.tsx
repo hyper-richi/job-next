@@ -13,66 +13,67 @@ import MedicineIcon from "../../../public/images/svg/medicineIcon.svg";
 import SearchIcon from "../../../public/images/svg/searchIcon.svg";
 import ConstructionIcon from "../../../public/images/svg/constructionIcon.svg";
 import { usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import clsx from "clsx";
 
-const category = [
-    {
+export const category: CategoryVacancy[] = [
+    /*  {
         name: "Поиск по вакансиям",
-        categoryName: "/vacancies",
+        jobCategory: "/",
         icon: <SearchIcon />,
         title: "Поиск по вакансиям",
-    },
+    }, */
     {
         name: "IT",
-        categoryName: "/InformationTechnology",
+        jobCategory: "InformationTechnology",
         icon: <ItIcon />,
         title: "Информационные технологии",
     },
     {
         name: "Офис",
-        categoryName: "/DeskWork",
+        jobCategory: "DeskWork",
         icon: <OfficeIcon />,
         title: "Административная работа, секретариат, АХО",
     },
     {
         name: "Финансы",
-        categoryName: "/Finances",
+        jobCategory: "Finances",
         icon: <FinanceIcon />,
         title: "Банки, кредит, страхование, пенсионное обеспечение",
     },
     {
         name: "Безопасность",
-        categoryName: "/Safety",
+        jobCategory: "Safety",
         icon: <SafetyIcon />,
         title: "Безопасность, службы охраны",
     },
     {
         name: "Бухучет",
-        categoryName: "/AccountingTaxesManagement",
+        jobCategory: "AccountingTaxesManagement",
         icon: <AccountingIcon />,
         title: "Бухгалтерия, налоги, управленческий учет",
     },
     {
         name: "Управление",
-        categoryName: "/Management",
+        jobCategory: "Management",
         icon: <ManagementIcon />,
         title: "Высший менеджмент",
     },
     {
         name: "Логистика",
-        categoryName: "/Transport",
+        jobCategory: "Transport",
         icon: <LogistickIcon />,
         title: "Транспорт, автобизнес, логистика, склад, ВЭД",
     },
     {
         name: "Медицина",
-        categoryName: "/Medicine",
+        jobCategory: "Medicine",
         icon: <MedicineIcon />,
         title: "Здравоохранение и социальное обеспечение",
     },
     {
         name: "Строительство",
-        categoryName: "/BuldindRealty",
+        jobCategory: "BuldindRealty",
         icon: <ConstructionIcon />,
         title: "Строительство, ремонт, стройматериалы, недвижимость",
     },
@@ -80,17 +81,23 @@ const category = [
 
 const Navbar = () => {
     const pathname = usePathname();
+    const { jobCategory } = useParams();
 
     return (
         <nav className={styles.navbar}>
             <div className={styles.wrapper}>
+                <Link
+                    className={clsx(styles.navbar__links, pathname === "/vacancies" && styles["navbar__links--active"])}
+                    href={`/vacancies`}>
+                    <SearchIcon />
+                    <span className={styles["links-name"]}>{"Поиск по вакансиям"}</span>
+                </Link>
                 {category.map((item) => {
                     return (
                         <Link
-                            key={item.categoryName}
-                            className={clsx(styles.navbar__links, pathname === item.categoryName && styles["navbar__links--active"])}
-                            href={item.categoryName}>
-                            {/* <Image src={item.icon} width={30} height={24} alt="svg-icon" /> */}
+                            key={item.jobCategory}
+                            className={clsx(styles.navbar__links, jobCategory === item.jobCategory && styles["navbar__links--active"])}
+                            href={`/vacancies/${item.jobCategory}`}>
                             {item.icon}
                             <span className={styles["links-name"]}>{item.name}</span>
                         </Link>
