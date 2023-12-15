@@ -2,6 +2,7 @@ interface Params {
     params: {
         jobCategory: string;
     };
+    searchParams?: { text?: string };
 }
 
 interface CategoryVacancy {

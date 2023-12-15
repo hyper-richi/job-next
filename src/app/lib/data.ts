@@ -10,8 +10,8 @@ export async function getData(query?: string): Promise<ResponseData> {
         console.log('Data fetch completed after 3 seconds.'); */
         const res = await fetch(`https://opendata.trudvsem.ru/api/v1/vacancies${searchUrl}`, {
             cache: "no-cache", // "no-cache",
-            // "no-store" - SSR getServerSideProps
-            // "force-cache" - SSG getStaticProps
+            // "no-store" - SSR getServerSideProps рендер на сервере
+            // "force-cache" - SSG getStaticProps статическая генерация страниц
             // next: { revalidate: 60 } - ISR getStaticProps and revalidate
         });
 
@@ -35,10 +35,11 @@ export async function getVacancie(companyId: string, vacancyId: string): Promise
         throw new Error("Failed to fetch revenue data.");
     }
 }
-export async function getDataJobCategory(jobCategory: string): Promise<ResponseData> {
+export async function getDataJobCategory(jobCategory: string, query?: string): Promise<ResponseData> {
+    // http://opendata.trudvsem.ru/api/v1/vacancies?industry=%industry%
     try {
-        const url = `?industry=${jobCategory}`;
-        const res = await fetch(`https://opendata.trudvsem.ru/api/v1/vacancies/${url}`, {
+        const url = `?industry=${jobCategory}&${query ? "text=" + query : ""}`;
+        const res = await fetch(`https://opendata.trudvsem.ru/api/v1/vacancies${url}`, {
             cache: "no-cache", // "force-cache",
         });
 

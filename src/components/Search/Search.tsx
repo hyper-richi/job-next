@@ -27,7 +27,7 @@ export default function Search({ total }: { total: number }) {
         } else {
             params.delete("text");
         }
-        replace(`vacancies?${params.toString()}`);
+        replace(`?${params.toString()}`);
     };
 
     return (

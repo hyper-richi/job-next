@@ -9,10 +9,14 @@ export default async function Vacancy({ params }: { params: { companyId: string;
     const vacancyId = params.vacancyId; // "b1a0a4b5-95d2-11ee-8693-ef6fdced905e1"
     const { results, meta } = await getVacancie(companyId, vacancyId);
     const vacancy = Object.keys(results).length ? results.vacancies[0].vacancy : null;
-
+    console.log('vacancy: ', vacancy);
+    // console.log("vacancy?.duty: ", vacancy?.duty);
+    // console.log("vacancy?.duty-replace: ", vacancy?.duty.replace(/(?!([^<]+>))+:/g, "")); //replace(/[^\w\s]+/gi, "-")
+    // .replace(/[^\w\s]+/gi, '-')
     const options = {
         replace(domNode: DOMNode) {
             if (domNode instanceof Element && domNode.name === "p") {
+                // console.log("domNode.children: ", [...domNode.children]);
                 return <li>{domToReact(domNode.children as DOMNode[], options)}</li>;
             }
             if (domNode instanceof Element && domNode.name === "ul") {
@@ -24,8 +28,8 @@ export default async function Vacancy({ params }: { params: { companyId: string;
         },
     };
 
-    const duty = vacancy ? parse(vacancy?.duty, options) : null;
-    const qualification = vacancy?.requirement.qualification ? parse(vacancy.requirement.qualification, options) : null;
+    const duty = vacancy ? parse(vacancy?.duty) : null;
+    const qualification = vacancy?.requirement.qualification ? parse(vacancy.requirement.qualification) : null;
 
     const experience = function (experience: number) {
         switch (experience) {
@@ -82,7 +86,7 @@ export default async function Vacancy({ params }: { params: { companyId: string;
                     <p>
                         <strong>Вам предстоит:</strong>
                     </p>
-                   {/*  {vacancy?.duty} */}
+                    {/* {vacancy?.duty} */}
                     <ul>{duty}</ul>
                     <p>
                         <strong>Мы ожидаем: </strong>

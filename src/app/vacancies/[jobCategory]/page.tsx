@@ -6,9 +6,12 @@ import Search from "@/components/Search/Search";
 import TitleCategory from "@/components/TitleCategory/TitleCategory";
 import { VacancysSkeleton } from "@/components/VacancysSkeleton/VacancysSkeleton";
 
-export default async function JobCategory({ params }: Params) {
+export default async function JobCategory({ params, searchParams }: Params) {
+    console.log('searchParams: ', searchParams);
+    const query = searchParams?.text || "";
+
     const jobCategory: string = params.jobCategory;
-    const { results, meta } = await getDataJobCategory(params.jobCategory);
+    const { results, meta } = await getDataJobCategory(params.jobCategory,query);
     return (
         <div className={"JobCategory"}>
             <TitleCategory jobCategory={jobCategory} />

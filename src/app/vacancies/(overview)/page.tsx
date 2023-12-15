@@ -21,11 +21,14 @@ export default async function Page({ searchParams }: { searchParams?: { text?: s
     const query = searchParams?.text || "";
 
     const { results, meta } = await getData(query);
+    console.log("results: ", results, meta);
 
     return (
         <div className={styles.main}>
-            <Search total={meta.total} />
-            <Finder results={results} query={query} />
+            <div className={styles.finder__container}>
+                <Search total={meta.total} />
+                <Finder results={results} query={query} />
+            </div>
         </div>
     );
 }

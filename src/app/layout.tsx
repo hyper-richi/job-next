@@ -73,7 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="ru">
             <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
                 <Header />
-                <main className={styles.Container}>{children}</main>
+                <main className={styles.container}>{children}</main>
                 <Footer />
             </body>
         </html>
