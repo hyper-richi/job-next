@@ -8,12 +8,35 @@
 // next: { revalidate: 60 } - ISR getStaticProps and revalidate
 
 export async function getVacancies(query?: string): Promise<ResponseData> {
+    console.log("query: ", query);
     try {
         const searchUrl = `?text=${query}`;
-        /*  console.log("Fetching revenue data...");
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-        console.log('Data fetch completed after 3 seconds.'); */
-        const res = await fetch(`https://opendata.trudvsem.ru/api/v1/vacancies${searchUrl}`);
+        // const url2 = `?industry=${jobCategory}&${query ? "text=" + query : ""}`;
+        // let url = "";
+        /* switch (jobCategory || query) {
+            case jobCategory:
+                console.log("jobCategory: ", jobCategory);
+                url = `?industry=${jobCategory}&${query ? "text=" + query : ""}`;
+                break;
+            case query:
+                console.log("query: ", query);
+                url = `${query ? "text=" + query : ""}`;
+                break;
+            default:
+                break;
+        }
+        console.log("url: ", url); */
+
+        /* if (jobCategory) {
+            url = `?industry=${jobCategory}&${query ? "text=" + query : ""}`;
+        }
+        if (query) {
+            url = `${query ? "text=" + query : ""}`;
+        } */
+
+        const res = await fetch(process.env.API_BASE_URL + searchUrl, {
+            cache: "no-store",
+        });
         return res.json();
     } catch (error) {
         console.error("Fetch Error:", error);
@@ -36,13 +59,12 @@ export async function getVacancie(companyId: string, vacancyId: string): Promise
 }
 // http://opendata.trudvsem.ru/api/v1/vacancies?industry=%industry%
 
-export async function getDataJobCategory(jobCategory: string, query?: string): Promise<ResponseData> {
+export async function getDataJobCategory(jobCategory?: string, query?: string): Promise<ResponseData> {
     try {
         const url = `?industry=${jobCategory}&${query ? "text=" + query : ""}`;
         const res = await fetch(`https://opendata.trudvsem.ru/api/v1/vacancies${url}`, {
             cache: "no-store",
         });
-
         return res.json();
     } catch (error) {
         console.error("Fetch Error:", error);

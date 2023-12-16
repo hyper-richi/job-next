@@ -17,7 +17,7 @@ export default async function Page({ searchParams }: { searchParams?: { text?: s
         <div className={styles.main}>
             <div className={styles.finder__container}>
                 <Search total={meta.total} />
-                <Finder results={results} query={query} />
+                <Finder results={results} query={query}/>
             </div>
         </div>
     );

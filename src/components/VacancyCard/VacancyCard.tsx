@@ -3,6 +3,7 @@ import styles from "./VacancyCard.module.scss";
 import Link from "next/link";
 
 export default async function VacancyCard({ vacancy }: VacancyProps) {
+    
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const { "job-name": vacancyName, region, salary_min, salary_max, category, company, id: vacancyId } = vacancy.vacancy;

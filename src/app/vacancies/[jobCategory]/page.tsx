@@ -4,6 +4,7 @@ import Finder from "@/components/Finder/Finder";
 import Search from "@/components/Search/Search";
 import TitleCategory from "@/components/TitleCategory/TitleCategory";
 import styles from "./page.module.scss";
+import { VacancysSkeleton } from "@/components/VacancysSkeleton/VacancysSkeleton";
 
 /* export async function generateStaticParams(): Promise<Record<string, string>[]> {
     const posts = await getPosts();
@@ -22,7 +23,8 @@ export default async function JobCategory({ params, searchParams }: Params) {
         <div className={styles.jobCategory}>
             <TitleCategory jobCategory={jobCategory} />
             <Search total={meta.total} />
-            <Finder results={results} />
+
+            <Finder results={results} query={query} />
         </div>
     );
 }

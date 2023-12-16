@@ -3,31 +3,31 @@ import { VacancySkeleton, VacancysSkeleton } from "../VacancysSkeleton/VacancysS
 import { FinderProps } from "./Finder.props";
 import styles from "./Finder.module.scss";
 import React, { Suspense } from "react";
+import FinderSelect from "../FinderSelect/FinderSelect";
 
-export default function Finder({ results, query }: FinderProps) {
+export default async function Finder({ results, query }: FinderProps) {
     return (
         <div className={styles.finder}>
             <div className={styles.filters}>
                 <div className={styles.filters__header}>
                     <h6 className={styles.filters__title}>Фильтры</h6>
                 </div>
-                <div className={styles.filters__selects}>
-                    selects
-                    {/* <ul>
-                    {location.map((item) => (
-                        <li>{item.location}</li>
-                    ))}
-                </ul> */}
-                </div>
+                <FinderSelect />
             </div>
             <div className={styles.content}>
                 <div className={styles.content__results}>
-                    {/*    <VacancySkeleton /> */}
+                    {/*   <VacancysSkeleton /> */}
                     <Suspense key={query} fallback={<VacancysSkeleton />}>
-                        {results &&
+                        {results.vacancies ? (
                             results.vacancies?.map((item) => {
                                 return <VacancyCard key={item.vacancy.id} vacancy={item} />;
-                            })}
+                            })
+                        ) : (
+                            <h4 className={styles.empty}>Ничего не найдено</h4>
+                        )}
+                        {/* {results.vacancies?.map((item) => {
+                            return <VacancyCard key={item.vacancy.id} vacancy={item} />;
+                        })} */}
                     </Suspense>
                 </div>
             </div>

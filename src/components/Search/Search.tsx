@@ -2,7 +2,7 @@
 import styles from "./Search.module.scss";
 import SearchIcon from "../../../public/images/svg/searchIcon.svg";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { ChangeEvent, FormEvent, FormEventHandler } from "react";
+import { useState } from "react";
 
 interface FormElements extends HTMLFormControlsCollection {
     term: HTMLInputElement;
@@ -13,7 +13,7 @@ interface YourFormElement extends HTMLFormElement {
 }
 
 export default function Search({ total }: { total: number }) {
-   // console.log("Search: ");
+    // console.log("Search: ");
     const searchParams = useSearchParams(); // хуки только на клиентский компонент
     const pathname = usePathname();
     const { replace } = useRouter();
@@ -45,7 +45,7 @@ export default function Search({ total }: { total: number }) {
                     />
                     <div className={styles.search__count}>{total} вакансий</div>
                     <button className={styles.search__button} type="submit">
-                        <span className=""> Поиск </span>
+                        Поиск
                     </button>
                 </div>
             </form>

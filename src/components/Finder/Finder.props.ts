@@ -1,4 +1,5 @@
 export interface FinderProps {
     query?: string;
-    results: Results | null;
+    jobCategory?: string;
+    results: Results;
 }

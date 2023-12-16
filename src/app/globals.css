@@ -39,6 +39,6 @@ a {
     }
 }
 .hidden {
-    top: -36px !important;
+    top: -40px !important;
     visibility: hidden;
 }
