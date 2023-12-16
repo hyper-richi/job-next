@@ -29,15 +29,8 @@ export default function Finder({ results, query }: FinderProps) {
                                 return <VacancyCard key={item.vacancy.id} vacancy={item} />;
                             })}
                     </Suspense>
-                    {/* {results && (
-                        <Suspense key={query} fallback={<VacancysSkeleton />}>
-                            <VacancyCard vacancy={results.vacancies[0]} />
-                        </Suspense>
-                    )} */}
                 </div>
             </div>
         </div>
-    ); /* : (
-        <>No data</>
-    ); */
+    );
 }

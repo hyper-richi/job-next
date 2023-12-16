@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Navbar.module.scss";
@@ -79,12 +78,16 @@ export const category: CategoryVacancy[] = [
     },
 ];
 
-const Navbar = () => {
+type NavbarProps = {
+    show: boolean;
+};
+
+const Navbar = ({ show }: NavbarProps) => {
     const pathname = usePathname();
     const { jobCategory } = useParams();
 
     return (
-        <nav className={styles.navbar}>
+        <nav className={clsx(styles.navbar, show && "hidden")}>
             <div className={styles.wrapper}>
                 <Link
                     className={clsx(styles.navbar__links, pathname === "/vacancies" && styles["navbar__links--active"])}

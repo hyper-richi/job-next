@@ -94,7 +94,7 @@ interface Company {
 interface ResponseData {
     status: string;
     meta: Meta;
-    results: Results;
+    results: Results; // | {};
 }
 interface ResponseVacancy {
     status: string;

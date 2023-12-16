@@ -3,8 +3,6 @@ import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
 import localFont from "next/font/local";
 import styles from "./layout.module.css";
-import { Provider } from "mobx-react";
-import store from "../store/vacanciesStore";
 
 import "./globals.css";
 

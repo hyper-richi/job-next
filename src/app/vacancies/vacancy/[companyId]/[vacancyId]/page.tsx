@@ -1,4 +1,4 @@
-import { getVacancie } from "@/app/lib/data";
+import { getVacancie, getVacancies } from "@/app/lib/data";
 import parse, { DOMNode, HTMLReactParserOptions, Element, domToReact } from "html-react-parser";
 import styles from "./page.module.scss";
 import { notFound } from "next/navigation";
@@ -6,17 +6,12 @@ import CountVacancyIcon from "../../../../../../public/images/svg/countVacancy.s
 
 export default async function Vacancy({ params }: { params: { companyId: string; vacancyId: string } }) {
     const companyId = params.companyId;
-    const vacancyId = params.vacancyId; // "b1a0a4b5-95d2-11ee-8693-ef6fdced905e1"
+    const vacancyId = params.vacancyId;
     const { results, meta } = await getVacancie(companyId, vacancyId);
     const vacancy = Object.keys(results).length ? results.vacancies[0].vacancy : null;
-    console.log('vacancy: ', vacancy);
-    // console.log("vacancy?.duty: ", vacancy?.duty);
-    // console.log("vacancy?.duty-replace: ", vacancy?.duty.replace(/(?!([^<]+>))+:/g, "")); //replace(/[^\w\s]+/gi, "-")
-    // .replace(/[^\w\s]+/gi, '-')
     const options = {
         replace(domNode: DOMNode) {
             if (domNode instanceof Element && domNode.name === "p") {
-                // console.log("domNode.children: ", [...domNode.children]);
                 return <li>{domToReact(domNode.children as DOMNode[], options)}</li>;
             }
             if (domNode instanceof Element && domNode.name === "ul") {
@@ -103,12 +98,13 @@ export default async function Vacancy({ params }: { params: { companyId: string;
                         <li>{vacancy.schedule}</li>
                     </ul>
                     {qualification && (
-                        <p>
-                            <strong>Мы предлагаем:</strong>
-                        </p>
+                        <>
+                            <p>
+                                <strong>Мы предлагаем:</strong>
+                            </p>
+                            <ul>{qualification}</ul>
+                        </>
                     )}
-
-                    <ul>{qualification}</ul>
                 </div>
             </div>
             <div className={styles.vacancy__actions}>

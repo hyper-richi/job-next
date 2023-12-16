@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 import { HeaderProps } from "./Header.props";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,6 +10,25 @@ import searchIcon from "../../../public/images/svg/searchIcon.svg";
 import clsx from "clsx";
 
 export const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
+    const [show, setShow] = useState<boolean>(false);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
+    const controlNavbar = () => {
+        if (window.scrollY > lastScrollY) {
+            setShow(true);
+        } else {
+            setShow(false);
+        }
+        setLastScrollY(window.scrollY);
+    };
+
+    useEffect(() => {
+        window.addEventListener("scroll", controlNavbar);
+        return () => {
+            window.removeEventListener("scroll", controlNavbar);
+        };
+    }, [lastScrollY]);
+
     return (
         <header className={clsx(className, styles.headerLayout)} {...props}>
             <div className={styles.wrapper}>
@@ -68,7 +88,7 @@ export const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <Navbar />
+            <Navbar show={show} />
         </header>
     );
 };

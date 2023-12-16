@@ -31,3 +31,14 @@ a {
     color: inherit;
     text-decoration: none;
 }
+
+.navbar {
+    .hidden {
+        top: -36px;
+        visibility: hidden;
+    }
+}
+.hidden {
+    top: -36px !important;
+    visibility: hidden;
+}
