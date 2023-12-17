@@ -3,7 +3,8 @@ import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
 import localFont from "next/font/local";
 import styles from "./layout.module.css";
-
+import "@mantine/core/styles.css";
+import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import "./globals.css";
 
 const GTEestiProText = localFont({
@@ -69,10 +70,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="ru">
+            <head>
+                <ColorSchemeScript />
+            </head>
+
             <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
-                <Header />
-                <main className={styles.container}>{children}</main>
-                <Footer />
+                <MantineProvider>
+                    <Header />
+                    <main className={styles.container}>{children}</main>
+                    <Footer />
+                </MantineProvider>
             </body>
         </html>
     );

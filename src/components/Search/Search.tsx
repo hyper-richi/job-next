@@ -14,7 +14,8 @@ interface YourFormElement extends HTMLFormElement {
 
 export default function Search({ total }: { total: number }) {
     // console.log("Search: ");
-    const searchParams = useSearchParams(); // хуки только на клиентский компонент
+    const searchParams = useSearchParams();
+    const offset = searchParams.get("offset");
     const pathname = usePathname();
     const { replace } = useRouter();
 
@@ -24,6 +25,7 @@ export default function Search({ total }: { total: number }) {
         const term = e.currentTarget.elements.term.value;
         if (term) {
             params.set("text", term);
+            params.set("offset", offset || "0");
         } else {
             params.delete("text");
         }

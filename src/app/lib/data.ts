@@ -6,33 +6,11 @@
 // "no-store" - SSR getServerSideProps рендер на сервере
 // "force-cache" - SSG getStaticProps статическая генерация страниц
 // next: { revalidate: 60 } - ISR getStaticProps and revalidate
-
-export async function getVacancies(query?: string): Promise<ResponseData> {
-    console.log("query: ", query);
+// offset=1&limit=100
+export async function getVacancies(query?: string, offset?: string): Promise<ResponseData> {
+   // const computedOffset = !!offset ? Number(offset) - 1 : 0;
     try {
-        const searchUrl = `?text=${query}`;
-        // const url2 = `?industry=${jobCategory}&${query ? "text=" + query : ""}`;
-        // let url = "";
-        /* switch (jobCategory || query) {
-            case jobCategory:
-                console.log("jobCategory: ", jobCategory);
-                url = `?industry=${jobCategory}&${query ? "text=" + query : ""}`;
-                break;
-            case query:
-                console.log("query: ", query);
-                url = `${query ? "text=" + query : ""}`;
-                break;
-            default:
-                break;
-        }
-        console.log("url: ", url); */
-
-        /* if (jobCategory) {
-            url = `?industry=${jobCategory}&${query ? "text=" + query : ""}`;
-        }
-        if (query) {
-            url = `${query ? "text=" + query : ""}`;
-        } */
+        const searchUrl = `?text=${query}&offset=${offset || "0"}&limit=100`;
 
         const res = await fetch(process.env.API_BASE_URL + searchUrl, {
             cache: "no-store",
@@ -47,7 +25,7 @@ export async function getVacancies(query?: string): Promise<ResponseData> {
 export async function getVacancie(companyId: string, vacancyId: string): Promise<ResponseVacancy> {
     try {
         const url = `vacancy/${companyId}/${vacancyId}`;
-        const res = await fetch(`https://opendata.trudvsem.ru/api/v1/vacancies/${url}`, {
+        const res = await fetch(process.env.API_BASE_URL + url, {
             cache: "no-cache", // "force-cache", no-store - SSR getServerSideProps
         });
 
@@ -59,10 +37,16 @@ export async function getVacancie(companyId: string, vacancyId: string): Promise
 }
 // http://opendata.trudvsem.ru/api/v1/vacancies?industry=%industry%
 
-export async function getDataJobCategory(jobCategory?: string, query?: string): Promise<ResponseData> {
+export async function getDataJobCategory(jobCategory?: string, query?: string, offset?: string): Promise<ResponseData> {
     try {
-        const url = `?industry=${jobCategory}&${query ? "text=" + query : ""}`;
-        const res = await fetch(`https://opendata.trudvsem.ru/api/v1/vacancies${url}`, {
+        /*  let url = "";
+        if (!!offset) {
+            url = `?industry=${jobCategory}&text=${query}&offset=${offset}&limit=100`;
+        } else {
+            url = `?industry=${jobCategory}&text=${query}`;
+        } */
+        const url = `?industry=${jobCategory}&text=${query}&offset=${offset || "0"}&limit=100`;
+        const res = await fetch(process.env.API_BASE_URL + url, {
             cache: "no-store",
         });
         return res.json();

@@ -1,4 +1,4 @@
-import { getVacancie, getVacancies } from "@/app/lib/data";
+import { getVacancie } from "@/app/lib/data";
 import parse, { DOMNode, HTMLReactParserOptions, Element, domToReact } from "html-react-parser";
 import styles from "./page.module.scss";
 import { notFound } from "next/navigation";

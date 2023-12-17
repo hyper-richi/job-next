@@ -12,22 +12,19 @@ export default async function Finder({ results, query }: FinderProps) {
                 <div className={styles.filters__header}>
                     <h6 className={styles.filters__title}>Фильтры</h6>
                 </div>
-                <FinderSelect />
+                <FinderSelect results={results} />
             </div>
             <div className={styles.content}>
                 <div className={styles.content__results}>
                     {/*   <VacancysSkeleton /> */}
                     <Suspense key={query} fallback={<VacancysSkeleton />}>
-                        {results.vacancies ? (
+                        {results?.vacancies ? (
                             results.vacancies?.map((item) => {
                                 return <VacancyCard key={item.vacancy.id} vacancy={item} />;
                             })
                         ) : (
                             <h4 className={styles.empty}>Ничего не найдено</h4>
                         )}
-                        {/* {results.vacancies?.map((item) => {
-                            return <VacancyCard key={item.vacancy.id} vacancy={item} />;
-                        })} */}
                     </Suspense>
                 </div>
             </div>

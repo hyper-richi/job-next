@@ -1,9 +1,4 @@
-interface Params {
-    params: {
-        jobCategory: string;
-    };
-    searchParams?: { text?: string };
-}
+
 
 interface CategoryVacancy {
     name: string;
@@ -102,3 +97,31 @@ interface ResponseVacancy {
     results: Results;
 }
 // type ResultsEmptyObj = Record<Results, {}>;
+
+interface Components {
+    city: string;
+    city_district: string;
+    continent: string;
+    country: string;
+    country_code: string;
+    house_number: string;
+    postcode: string;
+    region: string;
+    road: string;
+    state: string;
+    suburb: string;
+}
+
+interface StatusResponseGeolocation {
+    code: number;
+    message: string;
+}
+
+interface Data {
+    results: Components[];
+    status: StatusResponseGeolocation;
+}
+
+interface ResponseGeolocation {
+    data: Data;
+}
