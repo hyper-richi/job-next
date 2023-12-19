@@ -1,8 +1,8 @@
     <svg
-        width="24"
-        height="24"
-        viewBox="0 0 48 48"
-        class="group-hover:text-blue-600"
+        width="30"
+        height="25"
+        viewBox="5 0 48 48"
+        className='accountingIcon'
         fill="currentColor"
         xmlns="http://www.w3.org/2000/svg"
     >

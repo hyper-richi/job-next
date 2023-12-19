@@ -1,5 +1,5 @@
 .vacancy {
-   // border: 1px solid #d6dbe0;
+    // border: 1px solid #d6dbe0;
     border-radius: 6px;
 
     &__hr {
@@ -29,6 +29,7 @@
     &__info {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         gap: 1rem;
         color: #4c6888;
         font-size: 16px;

@@ -1,9 +1,9 @@
     <svg
-        class="group-hover:text-blue-600"
+
         fill="currentColor"
-        width="22"
+        width="30"
         height="22"
-        viewBox="0 0 32 32"
+        viewBox="5 0 32 32"
         xmlns="http://www.w3.org/2000/svg"
         enable-background="new 0 0 32 32"
     >

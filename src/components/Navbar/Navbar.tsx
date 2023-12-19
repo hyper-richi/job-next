@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import styles from "./Navbar.module.scss";
 import ItIcon from "../../../public/images/svg/itIcon.svg";
 import OfficeIcon from "../../../public/images/svg/officeIcon.svg";
@@ -11,9 +10,11 @@ import LogistickIcon from "../../../public/images/svg/logistickIcon.svg";
 import MedicineIcon from "../../../public/images/svg/medicineIcon.svg";
 import SearchIcon from "../../../public/images/svg/searchIcon.svg";
 import ConstructionIcon from "../../../public/images/svg/constructionIcon.svg";
-import { usePathname } from "next/navigation";
+import ConstructionIcon2 from "../../../public/images/svg/constructionIcon2.svg";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useParams } from "next/navigation";
 import clsx from "clsx";
+import { CategoryVacancy, Mods } from "@/app/lib/types";
 
 export const category: CategoryVacancy[] = [
     /*  {
@@ -73,25 +74,38 @@ export const category: CategoryVacancy[] = [
     {
         name: "Строительство",
         jobCategory: "BuldindRealty",
-        icon: <ConstructionIcon />,
+        icon: <ConstructionIcon2 />,
         title: "Строительство, ремонт, стройматериалы, недвижимость",
     },
 ];
 
 type NavbarProps = {
-    show: boolean;
+    showNavbar: boolean;
 };
 
-const Navbar = ({ show }: NavbarProps) => {
+const Navbar = ({ showNavbar }: NavbarProps) => {
+    const searchParams = useSearchParams();
+    const text = searchParams.get("text");
+
     const pathname = usePathname();
     const { jobCategory } = useParams();
 
+    const mods: Mods = {
+        [styles.hidden]: showNavbar,
+        // [styles.isClosing]: isClosing,
+    };
+
     return (
-        <nav className={clsx(styles.navbar, show && "hidden")}>
+        <nav className={clsx(styles.navbar, mods)}>
+            {/* showNavbar && styles.hidden, */}
             <div className={styles.wrapper}>
                 <Link
                     className={clsx(styles.navbar__links, pathname === "/vacancies" && styles["navbar__links--active"])}
-                    href={`/vacancies`}>
+                    // href={`/vacancies`}
+                    href={{
+                        pathname: "/vacancies",
+                        // query: { text },
+                    }}>
                     <SearchIcon />
                     <span className={styles["links-name"]}>{"Поиск по вакансиям"}</span>
                 </Link>
@@ -100,7 +114,11 @@ const Navbar = ({ show }: NavbarProps) => {
                         <Link
                             key={item.jobCategory}
                             className={clsx(styles.navbar__links, jobCategory === item.jobCategory && styles["navbar__links--active"])}
-                            href={`/vacancies/${item.jobCategory}`}>
+                            // href={`/vacancies/${item.jobCategory}`}
+                            href={{
+                                pathname: `/vacancies/${item.jobCategory}`,
+                                // query: { text },
+                            }}>
                             {item.icon}
                             <span className={styles["links-name"]}>{item.name}</span>
                         </Link>

@@ -19,8 +19,8 @@ export default async function Finder({ results, query }: FinderProps) {
                     {/*   <VacancysSkeleton /> */}
                     <Suspense key={query} fallback={<VacancysSkeleton />}>
                         {results?.vacancies ? (
-                            results.vacancies?.map((item) => {
-                                return <VacancyCard key={item.vacancy.id} vacancy={item} />;
+                            results.vacancies?.map((item, idx) => {
+                                return <VacancyCard key={item.vacancy.id} vacancy={item} idx={idx} />;
                             })
                         ) : (
                             <h4 className={styles.empty}>Ничего не найдено</h4>

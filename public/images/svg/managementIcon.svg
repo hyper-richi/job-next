@@ -1,10 +1,9 @@
     <svg
-        class="group-hover:text-blue-600"
         fill="currentColor"
         xmlns="http://www.w3.org/2000/svg"
         enable-background="new 0 0 64 64"
-        viewBox="0 0 48 48"
-        width="24"
+        viewBox="5 0 55 55"
+        width="30"
         height="24"
     >
         <path

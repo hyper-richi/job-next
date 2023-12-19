@@ -2,10 +2,10 @@ import { VacancyProps } from "./VacancyCard.props";
 import styles from "./VacancyCard.module.scss";
 import Link from "next/link";
 
-export default async function VacancyCard({ vacancy }: VacancyProps) {
+export default async function VacancyCard({ vacancy, idx }: VacancyProps) {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    const { "job-name": vacancyName, region, salary_min, salary_max, category, company, id: vacancyId } = vacancy.vacancy;
+    const { "job-name": vacancyName, salary_min, salary_max, category, company, id: vacancyId } = vacancy.vacancy;
 
     return (
         <div className={styles.vacancy}>
@@ -16,7 +16,9 @@ export default async function VacancyCard({ vacancy }: VacancyProps) {
                     pathname: `/vacancies/vacancy/${company.companycode}/${vacancyId}`,
                 }}
                 target="_blank">
-                <h6 className={styles.vacancy__title}>{vacancyName}</h6>
+                <h6 className={styles.vacancy__title}>
+                    {idx + 1}.{vacancyName}
+                </h6>
                 <div className={styles.vacancy__wrp}>
                     <div className={styles.vacancy__info}>
                         <svg
@@ -31,7 +33,7 @@ export default async function VacancyCard({ vacancy }: VacancyProps) {
                                 clipRule="evenodd"
                                 d="M12.764 16.834a1 1 0 00-1.414.024A59.4 59.4 0 019 19.143C4.142 14.64 2.5 12.043 2.5 9a6.5 6.5 0 0113 0c0 1.472-.36 2.76-1.179 4.149a1 1 0 001.723 1.015C17.042 12.471 17.5 10.834 17.5 9a8.5 8.5 0 00-17 0c0 3.904 2.065 7.003 7.827 12.24l.673.611.673-.611a67.185 67.185 0 003.116-2.992 1 1 0 00-.025-1.414zM9 13.5a4.5 4.5 0 110-9 4.5 4.5 0 010 9zm0-2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"></path>
                         </svg>
-                        <span className="">{region.name}</span>
+                        <span className="">{vacancy.vacancy.region?.name}</span>
                         <span className=""> · </span>
                         <span className={styles.vacancy__salary}>
                             {salary_min}-{salary_max} ₽

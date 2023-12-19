@@ -8,9 +8,11 @@
 // next: { revalidate: 60 } - ISR getStaticProps and revalidate
 // offset=1&limit=100
 export async function getVacancies(query?: string, offset?: string): Promise<ResponseData> {
-   // const computedOffset = !!offset ? Number(offset) - 1 : 0;
+    // console.log("offset-getVacancies: ", offset);
+    // const computedOffset = !!offset ? Number(offset) - 1 : 0;
     try {
-        const searchUrl = `?text=${query}&offset=${offset || "0"}&limit=100`;
+        const searchUrl = `?offset=${offset || "0"}&limit=100` + `&text=` + query;
+        // console.log("searchUrl: ", searchUrl);
 
         const res = await fetch(process.env.API_BASE_URL + searchUrl, {
             cache: "no-store",
@@ -22,11 +24,11 @@ export async function getVacancies(query?: string, offset?: string): Promise<Res
     }
 }
 
-export async function getVacancie(companyId: string, vacancyId: string): Promise<ResponseVacancy> {
+export async function getVacancy(companyId: string, vacancyId: string): Promise<ResponseVacancy> {
     try {
-        const url = `vacancy/${companyId}/${vacancyId}`;
+        const url = `/vacancy/${companyId}/${vacancyId}`;
         const res = await fetch(process.env.API_BASE_URL + url, {
-            cache: "no-cache", // "force-cache", no-store - SSR getServerSideProps
+            cache: "no-store", // "force-cache", no-store - SSR getServerSideProps
         });
 
         return res.json();

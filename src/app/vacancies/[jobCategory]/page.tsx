@@ -28,14 +28,14 @@ export default async function JobCategory({ params, searchParams }: Params) {
     const jobCategory: string = params.jobCategory;
     const { results, meta } = await getDataJobCategory(params.jobCategory, query, offset);
 
-    console.log("meta: ", meta);
+   // console.log("meta: ", meta);
     // meta: { total: 12431, limit: 100 }
     const totalPages = meta.total / 100 > 100 ? 100 : meta.total / 100 < 1 ? 1 : meta.total / 100;
-    console.log("totalPages: ", totalPages);
+   // console.log("totalPages: ", totalPages);
 
     return (
         <div className={styles.jobCategory}>
-            <CustomPagination totalPages={totalPages} offset={offset || "0"} />
+            <CustomPagination query={query} totalPages={totalPages} offset={offset || "0"} />
             <TitleCategory jobCategory={jobCategory} />
             <Search total={meta.total} />
             <Finder results={results} query={query} />

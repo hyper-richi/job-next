@@ -1,4 +1,4 @@
-import { getVacancie } from "@/app/lib/data";
+import { getVacancy } from "@/app/lib/data";
 import parse, { DOMNode, HTMLReactParserOptions, Element, domToReact } from "html-react-parser";
 import styles from "./page.module.scss";
 import { notFound } from "next/navigation";
@@ -7,7 +7,7 @@ import CountVacancyIcon from "../../../../../../public/images/svg/countVacancy.s
 export default async function Vacancy({ params }: { params: { companyId: string; vacancyId: string } }) {
     const companyId = params.companyId;
     const vacancyId = params.vacancyId;
-    const { results, meta } = await getVacancie(companyId, vacancyId);
+    const { results, meta } = await getVacancy(companyId, vacancyId);
     const vacancy = Object.keys(results).length ? results.vacancies[0].vacancy : null;
     const options = {
         replace(domNode: DOMNode) {

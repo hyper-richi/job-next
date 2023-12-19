@@ -25,11 +25,16 @@ const FinderSelect = ({ results }: PropsFinderSelect) => {
         })
         .catch((error) => console.error(error)); */
 
-   // const arrAdress = results?.vacancies.map((item) => item.vacancy.addresses.address[0].location.split(",")[0]);
+    // const arrAdress = results?.vacancies.map((item) => item.vacancy.addresses.address[0].location.split(",")[0]);
 
-    const arrRegion = results?.vacancies?.map((item) => {
-        return item.vacancy.region.name;
-    }).filter((value, index, array) => array.indexOf(value) === index);
+    /* const arrRegion = results?.vacancies
+        ?.map((item) => {
+            console.log("item: ", item.vacancy);
+
+            return item.vacancy.region?.name;
+        })
+        //.filter((value, index, array) => array.indexOf(value) === index);
+        console.log('arrRegion: ', arrRegion); */
 
     return (
         <div className={styles.filters__selects}>
@@ -38,7 +43,7 @@ const FinderSelect = ({ results }: PropsFinderSelect) => {
                 clearable
                 searchValue={searchValue}
                 onSearchChange={setSearchValue}
-                data={arrRegion}
+                data={["arrRegion"]}
                 placeholder="Локация"
                 nothingFoundMessage="Nothing found..."
                 comboboxProps={{ transitionProps: { transition: "pop", duration: 200 } }}

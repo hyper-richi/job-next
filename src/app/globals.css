@@ -23,22 +23,10 @@
 html,
 body {
     max-width: 100vw;
-    margin: 0;
-    padding: 0;
+    height: auto !important;
 }
 
 a {
     color: inherit;
     text-decoration: none;
-}
-
-.navbar {
-    .hidden {
-        top: -36px;
-        visibility: hidden;
-    }
-}
-.hidden {
-    top: -40px !important;
-    visibility: hidden;
 }

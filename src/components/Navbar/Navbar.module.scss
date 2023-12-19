@@ -24,6 +24,7 @@
         gap: 12px;
         margin: 15px;
         color: #001a34;
+
         &:hover {
             color: rgb(37 99 235 /1);
         }
@@ -31,8 +32,42 @@
             color: rgb(37 99 235 /1);
         }
     }
+}
 
+.hidden {
+    top: -40px !important;
+    visibility: hidden;
+}
+
+@media (max-width: 800px) {
+    .navbar {
+        display: block;
+        margin: 15px 15px 0;
+        position: static;
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+        transition: none;
+
+        &__links {
+            display: flex;
+            height: 66px;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #e5e9ee;
+            margin: 0;
+            width: 100%;
+        }
     }
+
+    .hidden {
+        visibility: visible;
+    }
+
+    .wrapper {
+        flex-direction: column;
+    }
+}
 
 .links-name {
     font-weight: 400;

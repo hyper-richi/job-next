@@ -16,17 +16,18 @@ interface Params {
 export default async function Page({ searchParams }: Params) {
     const query = searchParams?.text || "";
     const offset = searchParams?.offset || "";
+  //  console.log("offset-Page: ", offset);
     // console.log("searchParams: ", searchParams);
     const { results, meta } = await getVacancies(query, offset);
-    //  console.log("results: ", results);
+  //  console.log("results: ", results?.vacancies[0].vacancy.id);
     //  console.log("meta: ", meta);
-
+// c%23
     const totalPages = meta.total / 100 > 100 ? 100 : meta.total / 100 < 1 ? 1 : meta.total / 100;
     // console.log("totalPages: ", totalPages);
 
     return (
         <div className={styles.main}>
-            <CustomPagination totalPages={totalPages} offset={offset || "0"} />
+            <CustomPagination query={query} totalPages={totalPages} offset={offset || "0"} />
             <div className={styles.finder__container}>
                 <Search total={meta.total} />
                 <Finder results={results} query={query} />

@@ -1,5 +1,3 @@
-
-
 interface CategoryVacancy {
     name: string;
     jobCategory: string;
@@ -125,3 +123,5 @@ interface Data {
 interface ResponseGeolocation {
     data: Data;
 }
+
+export type Mods = Record<string, boolean | string | undefined>;
