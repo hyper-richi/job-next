@@ -35,10 +35,7 @@
 .content {
     flex-grow: 1;
     &__results {
-        // max-width: 830px;
-        // display: grid;
         overflow: auto;
-        max-width: 830px;
     }
 }
 .empty {

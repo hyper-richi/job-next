@@ -7,13 +7,6 @@ import styles from "./page.module.scss";
 import { VacancysSkeleton } from "@/components/VacancysSkeleton/VacancysSkeleton";
 import CustomPagination from "@/components/CustomPagination/CustomPagination";
 
-/* export async function generateStaticParams(): Promise<Record<string, string>[]> {
-    const posts = await getPosts();
-    // Return an array of params to generate static HTML files for.
-    // Each entry in the array will be a new page.
-    return posts.map(post => ({ id: post.id }));
-  } */
-
 interface Params {
     params: {
         jobCategory: string;
@@ -28,10 +21,7 @@ export default async function JobCategory({ params, searchParams }: Params) {
     const jobCategory: string = params.jobCategory;
     const { results, meta } = await getDataJobCategory(params.jobCategory, query, offset);
 
-   // console.log("meta: ", meta);
-    // meta: { total: 12431, limit: 100 }
     const totalPages = meta.total / 100 > 100 ? 100 : meta.total / 100 < 1 ? 1 : meta.total / 100;
-   // console.log("totalPages: ", totalPages);
 
     return (
         <div className={styles.jobCategory}>

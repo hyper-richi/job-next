@@ -4,6 +4,8 @@ import { Metadata } from "next";
 import { getVacancies } from "../../lib/data";
 import Finder from "@/components/Finder/Finder";
 import CustomPagination from "@/components/CustomPagination/CustomPagination";
+import TitleCategory from "@/components/TitleCategory/TitleCategory";
+import { usePathname } from "next/navigation";
 
 export const metadata: Metadata = {
     title: "Поиск по вакансиям",
@@ -11,27 +13,25 @@ export const metadata: Metadata = {
 
 interface Params {
     searchParams?: { text?: string; offset: string };
+    params: {
+        jobCategory: string;
+    };
 }
 
-export default async function Page({ searchParams }: Params) {
+export default async function Page({ params, searchParams }: Params) {
     const query = searchParams?.text || "";
     const offset = searchParams?.offset || "";
-  //  console.log("offset-Page: ", offset);
-    // console.log("searchParams: ", searchParams);
+    const jobCategory: string = params.jobCategory;
+
     const { results, meta } = await getVacancies(query, offset);
-  //  console.log("results: ", results?.vacancies[0].vacancy.id);
-    //  console.log("meta: ", meta);
-// c%23
     const totalPages = meta.total / 100 > 100 ? 100 : meta.total / 100 < 1 ? 1 : meta.total / 100;
-    // console.log("totalPages: ", totalPages);
 
     return (
-        <div className={styles.main}>
+        <div className={styles.vacancies}>
             <CustomPagination query={query} totalPages={totalPages} offset={offset || "0"} />
-            <div className={styles.finder__container}>
-                <Search total={meta.total} />
-                <Finder results={results} query={query} />
-            </div>
+            <TitleCategory jobCategory={"/vacancies"} />
+            <Search total={meta.total} />
+            <Finder results={results} query={query} />
         </div>
     );
 }

@@ -12,7 +12,6 @@ import clsx from "clsx";
 export const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
     const [showNavbar, setShowNavbar] = useState(false);
     const [showSidebar, setShowSidebar] = useState(true);
-    console.log("showSidebar: ", showSidebar);
     const [lastScrollY, setLastScrollY] = useState(0);
 
     const controlNavbar = () => {
@@ -116,10 +115,9 @@ export const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                                 fill="#fff"></path>
                         </svg>
                     </button>
-
                     <a href="/" className="nuxt-link-active">
                         <svg width="80" height="27" viewBox="0 0 80 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#logo-small_svg__clip0)" fill="#fff">
+                            <g clipPath="url(#logo-small_svg__clip0)" fill="#fff">
                                 <path d="M13.985 0A14.328 14.328 0 006.22 2.27a13.613 13.613 0 00-5.151 6.055 13.075 13.075 0 00-.801 7.8 13.364 13.364 0 003.82 6.914 14.134 14.134 0 007.152 3.7c2.71.523 5.52.257 8.075-.763a13.884 13.884 0 006.275-4.968 13.177 13.177 0 002.361-7.498 13.092 13.092 0 00-1.057-5.169 13.468 13.468 0 00-3.026-4.383 14.007 14.007 0 00-4.533-2.93A14.393 14.393 0 0013.985 0zm7.449 13.49a7.032 7.032 0 01-1.257 4.002 7.41 7.41 0 01-3.345 2.654 7.703 7.703 0 01-4.308.412 7.544 7.544 0 01-3.82-1.97 7.133 7.133 0 01-2.043-3.686 6.978 6.978 0 01.42-4.162 7.264 7.264 0 012.743-3.236 7.688 7.688 0 016.999-.673c.905.361 1.729.892 2.423 1.561a7.195 7.195 0 011.62 2.339c.375.874.568 1.812.568 2.76zM43.845 18.738c0 3.579-1.593 5.234-4.682 5.234h-1.124v-2.984h.796c1.195 0 1.804-.487 1.804-2.25V3.13h3.206v15.608zM62.371 16.996c0 4.196-3.306 7.273-7.746 7.273s-7.756-3.077-7.756-7.273c0-4.197 3.321-7.26 7.756-7.26 4.435 0 7.746 3.063 7.746 7.26zm-12.302 0c0 2.692 1.865 4.435 4.536 4.435 2.671 0 4.536-1.743 4.536-4.435 0-2.693-1.865-4.435-4.536-4.435-2.671 0-4.536 1.742-4.536 4.435zM68.338 21.815h-.06v2.01h-2.999V3.13h2.999v9.04h.06c.887-1.46 2.45-2.433 4.773-2.433 3.734 0 6.89 2.721 6.89 7.273s-3.156 7.273-6.89 7.273c-2.323-.014-3.886-.988-4.773-2.468zm8.477-4.82c0-2.6-1.713-4.435-4.344-4.435-2.63 0-4.344 1.836-4.344 4.435 0 2.6 1.713 4.426 4.344 4.426 2.63 0 4.344-1.82 4.344-4.425z"></path>
                             </g>
                             <defs>
@@ -145,16 +143,16 @@ export const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="location__icon">
                                     <path
-                                        fill-rule="evenodd"
-                                        clip-rule="evenodd"
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
                                         d="M15.764 17.834a1 1 0 00-1.414.024A59.41 59.41 0 0112 20.143C7.142 15.64 5.5 13.043 5.5 10a6.5 6.5 0 0113 0c0 1.472-.36 2.76-1.179 4.149a1 1 0 001.723 1.015c.998-1.693 1.456-3.33 1.456-5.164a8.5 8.5 0 00-17 0c0 3.904 2.065 7.003 7.828 12.24l.672.611.673-.611a67.199 67.199 0 003.116-2.992 1 1 0 00-.025-1.414zM12 14.5a4.5 4.5 0 110-9 4.5 4.5 0 010 9zm0-2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"></path>
                                 </svg>
                                 <div className="location__inner">
                                     <span>Краснодар</span>
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#location-right_svg__clip0)">
+                                        <g clipPath="url(#location-right_svg__clip0)">
                                             <path fill="#fff" d="M0 16V0h16v16z"></path>
-                                            <path d="M5 13l5-5-5-5" stroke="#B2BAC2" stroke-width="2" stroke-linecap="round"></path>
+                                            <path d="M5 13l5-5-5-5" stroke="#B2BAC2" strokeWidth="2" strokeLinecap="round"></path>
                                         </g>
                                         <defs>
                                             <clipPath id="location-right_svg__clip0">

@@ -17,12 +17,12 @@ import clsx from "clsx";
 import { CategoryVacancy, Mods } from "@/app/lib/types";
 
 export const category: CategoryVacancy[] = [
-    /*  {
+    {
         name: "Поиск по вакансиям",
-        jobCategory: "/",
+        jobCategory: "/vacancies",
         icon: <SearchIcon />,
-        title: "Поиск по вакансиям",
-    }, */
+        title: "Все вакансии",
+    },
     {
         name: "IT",
         jobCategory: "InformationTechnology",
@@ -89,35 +89,34 @@ const Navbar = ({ showNavbar }: NavbarProps) => {
 
     const pathname = usePathname();
     const { jobCategory } = useParams();
+    console.log("jobCategory: ", jobCategory);
 
     const mods: Mods = {
         [styles.hidden]: showNavbar,
-        // [styles.isClosing]: isClosing,
     };
 
     return (
         <nav className={clsx(styles.navbar, mods)}>
-            {/* showNavbar && styles.hidden, */}
             <div className={styles.wrapper}>
                 <Link
                     className={clsx(styles.navbar__links, pathname === "/vacancies" && styles["navbar__links--active"])}
-                    // href={`/vacancies`}
                     href={{
                         pathname: "/vacancies",
-                        // query: { text },
                     }}>
                     <SearchIcon />
                     <span className={styles["links-name"]}>{"Поиск по вакансиям"}</span>
                 </Link>
                 {category.map((item) => {
+                    console.log("item: ", item.jobCategory);
+                    if (item.jobCategory === "/vacancies") {
+                        return <></>;
+                    }
                     return (
                         <Link
                             key={item.jobCategory}
                             className={clsx(styles.navbar__links, jobCategory === item.jobCategory && styles["navbar__links--active"])}
-                            // href={`/vacancies/${item.jobCategory}`}
                             href={{
                                 pathname: `/vacancies/${item.jobCategory}`,
-                                // query: { text },
                             }}>
                             {item.icon}
                             <span className={styles["links-name"]}>{item.name}</span>
