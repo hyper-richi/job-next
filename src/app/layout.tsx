@@ -1,10 +1,10 @@
+import localFont from "next/font/local";
 import type { Metadata } from "next";
 import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
-import localFont from "next/font/local";
-import styles from "./layout.module.css";
-import "@mantine/core/styles.css";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import styles from "./layout.module.scss";
+import "@mantine/core/styles.css";
 import "./globals.css";
 
 const GTEestiProText = localFont({
