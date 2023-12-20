@@ -107,9 +107,8 @@ const Navbar = ({ showNavbar }: NavbarProps) => {
                     <span className={styles["links-name"]}>{"Поиск по вакансиям"}</span>
                 </Link>
                 {category.map((item) => {
-                    console.log("item: ", item.jobCategory);
                     if (item.jobCategory === "/vacancies") {
-                        return <></>;
+                        return null;
                     }
                     return (
                         <Link
