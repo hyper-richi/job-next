@@ -49,18 +49,12 @@ export const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
             <header className={clsx(className, styles.desktop)} {...props}>
                 <div className={styles.wrapper}>
                     <div className={styles.header}>
-                        <p>
-                            <Link className={styles.header__logo} href={`/`}>
-                                JOB
-                            </Link>
-                        </p>
+                        <Link className={styles.header__logo} href={`/`}>
+                            JOB
+                        </Link>
                         <div className={styles.header__search}>
                             <input type="text" placeholder="Поиск по вакансиям" />
-                            <div className={styles.search__icon}>
-                                {/*  <svg width="16" height="16" viewBox="0 0 16 16" fill="#808D9A" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6.663 11.994a5.33 5.33 0 115.33-5.33.667.667 0 01-1.332 0A3.997 3.997 0 109.49 9.49l.471-.471 4.743 4.743a.667.667 0 01-.942.943l-3.83-3.83a5.311 5.311 0 01-3.269 1.12z"></path>
-                        </svg> */}
-                            </div>
+                            <div className={styles.search__icon}></div>
                         </div>
                         <div className={styles.header__info}>
                             <div className={styles.info__cities}>
@@ -115,21 +109,10 @@ export const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                                 fill="#fff"></path>
                         </svg>
                     </button>
-                    <a href="/" className="nuxt-link-active">
-                        <svg width="80" height="27" viewBox="0 0 80 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clipPath="url(#logo-small_svg__clip0)" fill="#fff">
-                                <path d="M13.985 0A14.328 14.328 0 006.22 2.27a13.613 13.613 0 00-5.151 6.055 13.075 13.075 0 00-.801 7.8 13.364 13.364 0 003.82 6.914 14.134 14.134 0 007.152 3.7c2.71.523 5.52.257 8.075-.763a13.884 13.884 0 006.275-4.968 13.177 13.177 0 002.361-7.498 13.092 13.092 0 00-1.057-5.169 13.468 13.468 0 00-3.026-4.383 14.007 14.007 0 00-4.533-2.93A14.393 14.393 0 0013.985 0zm7.449 13.49a7.032 7.032 0 01-1.257 4.002 7.41 7.41 0 01-3.345 2.654 7.703 7.703 0 01-4.308.412 7.544 7.544 0 01-3.82-1.97 7.133 7.133 0 01-2.043-3.686 6.978 6.978 0 01.42-4.162 7.264 7.264 0 012.743-3.236 7.688 7.688 0 016.999-.673c.905.361 1.729.892 2.423 1.561a7.195 7.195 0 011.62 2.339c.375.874.568 1.812.568 2.76zM43.845 18.738c0 3.579-1.593 5.234-4.682 5.234h-1.124v-2.984h.796c1.195 0 1.804-.487 1.804-2.25V3.13h3.206v15.608zM62.371 16.996c0 4.196-3.306 7.273-7.746 7.273s-7.756-3.077-7.756-7.273c0-4.197 3.321-7.26 7.756-7.26 4.435 0 7.746 3.063 7.746 7.26zm-12.302 0c0 2.692 1.865 4.435 4.536 4.435 2.671 0 4.536-1.743 4.536-4.435 0-2.693-1.865-4.435-4.536-4.435-2.671 0-4.536 1.742-4.536 4.435zM68.338 21.815h-.06v2.01h-2.999V3.13h2.999v9.04h.06c.887-1.46 2.45-2.433 4.773-2.433 3.734 0 6.89 2.721 6.89 7.273s-3.156 7.273-6.89 7.273c-2.323-.014-3.886-.988-4.773-2.468zm8.477-4.82c0-2.6-1.713-4.435-4.344-4.435-2.63 0-4.344 1.836-4.344 4.435 0 2.6 1.713 4.426 4.344 4.426 2.63 0 4.344-1.82 4.344-4.425z"></path>
-                            </g>
-                            <defs>
-                                <clipPath id="logo-small_svg__clip0">
-                                    <path fill="#fff" d="M0 0h80v27H0z"></path>
-                                </clipPath>
-                            </defs>
-                        </svg>
-                    </a>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.996 17.991a7.996 7.996 0 117.995-7.995 1 1 0 11-2 0 5.996 5.996 0 10-1.756 4.24l.707-.708 7.115 7.115a1 1 0 11-1.414 1.414l-5.745-5.745a7.967 7.967 0 01-4.902 1.68z"></path>
-                    </svg>
+                    <Link className={styles.header__logo} href={`/`}>
+                        JOB
+                    </Link>
+                    <div></div>
                 </div>
                 <div className={clsx(styles.mobile__sidebar, showSidebar && styles.hidden)} onClick={closeHandler}>
                     <div className={styles.sidebar__content} onClick={onContentClick}>

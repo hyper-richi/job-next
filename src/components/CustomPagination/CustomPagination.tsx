@@ -22,9 +22,9 @@ export default function CustomPagination({ totalPages, offset, query }: { totalP
         <div className={styles.pagination}>
             <Pagination
                 withEdges
-                value={query ? 1 : page}
+                value={page}
                 onChange={handleChange}
-                total={query ? 1 : Math.ceil(totalPages)}
+                total={totalPages}
                 nextIcon={IconArrowRight}
                 previousIcon={IconArrowLeft}
                 firstIcon={IconArrowBarToLeft}

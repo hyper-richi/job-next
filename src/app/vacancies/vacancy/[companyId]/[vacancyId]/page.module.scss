@@ -1,7 +1,7 @@
 .vacancy {
     display: flex;
     justify-content: center;
-    padding: 80px 0;
+    padding: 80px 24px;
     margin: 0 auto;
     max-width: 1100px;
 
@@ -155,34 +155,9 @@
             }
         }
 
-        &__share {
-            position: relative;
-            display: flex;
-            width: 200px;
-            align-items: center;
-            color: #005bff;
-            cursor: pointer;
-        }
-        &__icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 8px;
-        }
+
+        
     }
 }
 
-.tooltip {
-    position: absolute;
-    z-index: 100;
-    top: 50px;
-    left: 20px;
-    display: grid;
-    width: max-content;
-    align-items: center;
-    padding: 8px 12px;
-    border: 1px solid #dadada;
-    background-color: var(--white);
-    border-radius: 4px;
-    box-shadow: 2px 6px 11px rgba(0, 0, 0, 0.1);
-    color: #06ca99;
-}
+

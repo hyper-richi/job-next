@@ -20,9 +20,15 @@
 
     &__logo {
         font-weight: 700;
-        display: inline;
         text-align: center;
         font-size: 24px;
+        height: 100%;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        &:active {
+            color: #ccdeff;
+        }
     }
 
     &__search {
@@ -116,6 +122,8 @@
             font: inherit;
             cursor: pointer;
             outline: inherit;
+            display: flex;
+            align-items: center;
         }
     }
     &__sidebar {

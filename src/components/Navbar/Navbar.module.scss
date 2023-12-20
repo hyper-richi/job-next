@@ -27,13 +27,14 @@
         height: 72px;
 
         &:hover {
-            color: rgb(37 99 235 /1);
+            color: #005bff;
         }
         &--active {
-            color: rgb(37 99 235 /1);
+            color: #005bff;
         }
         &:active {
-            background-color: #ccdeff;
+            // background-color: #ccdeff;
+            color: #0243b5;
         }
     }
 }

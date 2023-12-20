@@ -1,14 +1,19 @@
 import { getVacancy } from "@/app/lib/data";
 import parse, { DOMNode, HTMLReactParserOptions, Element, domToReact } from "html-react-parser";
 import styles from "./page.module.scss";
-import { notFound } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import CountVacancyIcon from "../../../../../../public/images/svg/countVacancy.svg";
+import Link from "next/link";
+import VacancyShare from "@/components/VacancyShare/VacancyShare";
 
 export default async function Vacancy({ params }: { params: { companyId: string; vacancyId: string } }) {
+    //  const router = useRouter();
     const companyId = params.companyId;
     const vacancyId = params.vacancyId;
     const { results, meta } = await getVacancy(companyId, vacancyId);
     const vacancy = Object.keys(results).length ? results.vacancies[0].vacancy : null;
+    console.log("vacancy: ", vacancy?.salary);
+
     const options = {
         replace(domNode: DOMNode) {
             if (domNode instanceof Element && domNode.name === "p") {
@@ -71,7 +76,7 @@ export default async function Vacancy({ params }: { params: { companyId: string;
                 </div>
                 <h1 className={styles.vacancy__info__name}>{vacancy["job-name"]}</h1>
                 <p className={styles.vacancy__info__salary}>
-                    {vacancy.salary_min}-{vacancy.salary_max} ₽
+                    {vacancy?.salary ? `${vacancy.salary_min}-${vacancy.salary_max} ₽` : "«з/п по договоренности»"}
                 </p>
                 <div className={styles.vacancy__info__workplaces}>
                     <CountVacancyIcon width="18" height="22" />
@@ -108,8 +113,8 @@ export default async function Vacancy({ params }: { params: { companyId: string;
                 </div>
             </div>
             <div className={styles.vacancy__actions}>
-                <button type="button" className={styles.vacancy__actions__apply}>
-                    Откликнуться
+                <button /* onClick={handleClick} */ type="button" className={styles.vacancy__actions__apply}>
+                    <Link href={vacancy.vac_url}>Откликнуться</Link>
                 </button>
                 <div className={styles.vacancy__actions__nominee}>
                     <svg
@@ -127,32 +132,7 @@ export default async function Vacancy({ params }: { params: { companyId: string;
                     </svg>
                     <span className={styles.vacancy__actions__nominee__text}>Рекомендовать друга</span>
                 </div>
-                <div className={styles.vacancy__actions__share}>
-                    <div className={styles.tooltip} /* style={{ display: "none" }} */>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M19.759 6.427a1 1 0 00-.372 1.364A8.455 8.455 0 0120.5 12 8.5 8.5 0 1112 3.5c1.503 0 2.947.39 4.22 1.12a1 1 0 10.995-1.735A10.455 10.455 0 0012 1.5C6.201 1.5 1.5 6.201 1.5 12S6.201 22.5 12 22.5 22.5 17.799 22.5 12c0-1.848-.48-3.63-1.377-5.201a1 1 0 00-1.364-.372zM11 13.586l4.293-4.293a1 1 0 111.414 1.414l-5 5a.996.996 0 01-1.414 0l-3-3a1 1 0 111.414-1.414L11 13.586z"
-                                fill="#06CA99"></path>
-                        </svg>
-                        Ссылка успешно скопирована!
-                    </div>
-                    <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className={styles.vacancy__actions__icon}>
-                        <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M18 9a3.99 3.99 0 01-2.997-1.351L8.9 11.112a4.012 4.012 0 01.001 1.771l6.113 3.454a4 4 0 11-.917 1.776l-6.111-3.452a4 4 0 11-.003-5.325l6.11-3.468A4 4 0 1118 9zM7 12a2 2 0 11-4 0 2 2 0 014 0zm13-7a2 2 0 11-4 0 2 2 0 014 0zm0 14a2 2 0 11-4 0 2 2 0 014 0z"
-                            fill="#005BFF"></path>
-                    </svg>
-                    <span className="vacancy__actions__share__text">Поделиться вакансией</span>
-                </div>
+                <VacancyShare />
             </div>
         </div>
     );

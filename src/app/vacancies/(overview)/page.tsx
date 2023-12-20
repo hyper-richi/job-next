@@ -24,7 +24,7 @@ export default async function Page({ params, searchParams }: Params) {
     const jobCategory: string = params.jobCategory;
 
     const { results, meta } = await getVacancies(query, offset);
-    const totalPages = meta.total / 100 > 100 ? 100 : meta.total / 100 < 1 ? 1 : meta.total / 100;
+    const totalPages = meta.total / 100 > 100 ? 100 : Math.ceil(meta.total / 100);
 
     return (
         <div className={styles.vacancies}>

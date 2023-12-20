@@ -89,7 +89,6 @@ const Navbar = ({ showNavbar }: NavbarProps) => {
 
     const pathname = usePathname();
     const { jobCategory } = useParams();
-    console.log("jobCategory: ", jobCategory);
 
     const mods: Mods = {
         [styles.hidden]: showNavbar,

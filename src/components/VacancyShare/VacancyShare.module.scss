@@ -1,0 +1,57 @@
+.share {
+    position: relative;
+    display: flex;
+    width: 200px;
+    align-items: center;
+    color: #005bff;
+    cursor: pointer;
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+    }
+}
+
+.tooltip {
+    position: absolute;
+    z-index: 100;
+    bottom: 0px;
+    right: -90px;
+    display: flex;
+    gap: 5px;
+    width: max-content;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid #dadada;
+    background-color: var(--white);
+    border-radius: 4px;
+    box-shadow: 2px 6px 11px rgba(0, 0, 0, 0.1);
+    color: #06ca99;
+    /* visibility: visible;
+    transform: translate(-2%, -192%); */
+}
+/* .hidden {
+    visibility: hidden;
+    transition: transform 0.2s ease, visibility 0.5s;
+    transform: translate(-50%, -100%);
+} */
+
+/* .exampleEnter {
+    opacity: 0;
+    transform: translateY(-100%);
+}
+.exampleEnterActive {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 350ms, transform 350ms;
+}
+.exampleExit {
+    opacity: 1;
+    transform: translateY(0);
+}
+.exampleExitActive {
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity 350ms, transform 350ms;
+} */
