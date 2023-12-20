@@ -4,7 +4,6 @@ import Finder from "@/components/Finder/Finder";
 import Search from "@/components/Search/Search";
 import TitleCategory from "@/components/TitleCategory/TitleCategory";
 import styles from "./page.module.scss";
-import { VacancysSkeleton } from "@/components/VacancysSkeleton/VacancysSkeleton";
 import CustomPagination from "@/components/CustomPagination/CustomPagination";
 
 interface Params {

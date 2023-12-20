@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import styles from "./FinderSelect.module.scss";
 import { Select } from "@mantine/core";
+import { Results } from "@/app/lib/types";
 interface PropsFinderSelect {
     results?: Results;
 }

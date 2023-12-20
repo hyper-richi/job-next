@@ -1,6 +1,8 @@
 // http://opendata.trudvsem.ru/api/v1/vacancies?industry=%industry%
 // `?industry=${jobCategory}`
 
+import { ResponseData, ResponseVacancy } from "./types";
+
 // https://job.ozon.ru/vacancy/?department=Ozon&speci
 
 // "no-store" - SSR getServerSideProps рендер на сервере
