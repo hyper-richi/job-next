@@ -10,7 +10,6 @@ import LogistickIcon from "../../../public/images/svg/logistickIcon.svg";
 import MedicineIcon from "../../../public/images/svg/medicineIcon.svg";
 import SearchIcon from "../../../public/images/svg/searchIcon.svg";
 import ConstructionIcon from "../../../public/images/svg/constructionIcon.svg";
-import ConstructionIcon2 from "../../../public/images/svg/constructionIcon2.svg";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useParams } from "next/navigation";
 import clsx from "clsx";
@@ -74,7 +73,7 @@ export const category: CategoryVacancy[] = [
     {
         name: "Строительство",
         jobCategory: "BuldindRealty",
-        icon: <ConstructionIcon2 />,
+        icon: <ConstructionIcon />,
         title: "Строительство, ремонт, стройматериалы, недвижимость",
     },
 ];

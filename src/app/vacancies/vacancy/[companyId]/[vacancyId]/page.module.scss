@@ -56,18 +56,17 @@
         &__workplaces {
             display: flex;
             align-items: center;
-            height: 22px;
-            gap: 10px;
+            align-items: flex-start;
+            gap: 40px;
             margin: 10px;
+            color: rgb(100 116 139 / 1);
+            font-weight: 200;
+            font-size: 16px;
+        }
 
-            span {
-                color: rgb(100 116 139 / 1);
-                font-weight: 200;
-                font-size: 16px;
-                height: 22px;
-                display: flex;
-                align-items: center;
-            }
+        &__count {
+            display: flex;
+            gap: 10px;
         }
 
         &__body {
@@ -144,20 +143,24 @@
             margin-bottom: 28px;
             position: relative;
             display: flex;
+            gap: 10px;
+
             width: 200px;
             align-items: center;
             color: #005bff;
             cursor: pointer;
+            &:active {
+                color: #003ead;
+            }
 
             &__text {
                 font-size: 16px;
                 line-height: 20px;
             }
         }
-
-
-        
     }
 }
 
-
+.workplaces {
+    white-space: nowrap;
+}

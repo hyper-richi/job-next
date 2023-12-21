@@ -12,6 +12,7 @@
         "@heroicons/react": "^2.0.18",
         "@mantine/core": "^7.3.2",
         "@mantine/hooks": "^7.3.2",
+        "@pbe/react-yandex-maps": "^1.2.5",
         "@tabler/icons-react": "^2.44.0",
         "clsx": "^2.0.0",
         "html-react-parser": "^5.0.7",

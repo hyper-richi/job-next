@@ -1,22 +1,24 @@
 "use client";
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import styles from "./VacancyShare.module.scss";
 import clsx from "clsx";
-import { Button, Tooltip, Group } from "@mantine/core";
+import { Tooltip } from "@mantine/core";
+import ShareIcon from "../../../public/images/svg/shareIcon.svg";
 
-const VacancyShare = () => {
+interface VacancyShareProps {
+    textURL: string;
+}
+
+const VacancyShare = ({ textURL }: VacancyShareProps) => {
     const [show, setShow] = useState(false);
-    /* function handleClick() {
-        console.log("VacancyShare");
-        setShow((show) => !show);
-    } */
 
-    const handleClick = () => {
+    const handleClick = useCallback(() => {
+        navigator.clipboard.writeText(textURL);
         setShow((show) => !show);
         setTimeout(() => {
             setShow((show) => !show);
         }, 1000);
-    };
+    }, [textURL]);
 
     /* useEffect(() => {
         const timer = setTimeout(() => {
@@ -28,7 +30,7 @@ const VacancyShare = () => {
 
     function label(): ReactElement<any, any> {
         return (
-            <div className={clsx(styles.tooltip /* show && styles.hidden */)} /* style={{ display: "none" }} */>
+            <div className={clsx(styles.tooltip)}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         fillRule="evenodd"
@@ -49,20 +51,8 @@ const VacancyShare = () => {
             closeDelay={500}
             transitionProps={{ transition: "slide-down", duration: 300 }}>
             <div onClick={handleClick} className={styles.share}>
-                <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={styles.share__icon}>
-                    <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M18 9a3.99 3.99 0 01-2.997-1.351L8.9 11.112a4.012 4.012 0 01.001 1.771l6.113 3.454a4 4 0 11-.917 1.776l-6.111-3.452a4 4 0 11-.003-5.325l6.11-3.468A4 4 0 1118 9zM7 12a2 2 0 11-4 0 2 2 0 014 0zm13-7a2 2 0 11-4 0 2 2 0 014 0zm0 14a2 2 0 11-4 0 2 2 0 014 0z"
-                        fill="#005BFF"></path>
-                </svg>
-                <span className="vacancy__actions__share__text">Поделиться вакансией</span>
+                <ShareIcon />
+                <span>Поделиться вакансией</span>
             </div>
         </Tooltip>
     );

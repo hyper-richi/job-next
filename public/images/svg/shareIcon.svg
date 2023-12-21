@@ -1,0 +1,14 @@
+<svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    class="vacancy__actions__share__icon"
+    data-v-5e991654="">
+    <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M18 9a3.99 3.99 0 01-2.997-1.351L8.9 11.112a4.012 4.012 0 01.001 1.771l6.113 3.454a4 4 0 11-.917 1.776l-6.111-3.452a4 4 0 11-.003-5.325l6.11-3.468A4 4 0 1118 9zM7 12a2 2 0 11-4 0 2 2 0 014 0zm13-7a2 2 0 11-4 0 2 2 0 014 0zm0 14a2 2 0 11-4 0 2 2 0 014 0z"
+        fill="currentColor"></path>
+</svg>
