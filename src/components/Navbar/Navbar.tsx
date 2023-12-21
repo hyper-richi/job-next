@@ -83,9 +83,6 @@ type NavbarProps = {
 };
 
 const Navbar = ({ showNavbar }: NavbarProps) => {
-    const searchParams = useSearchParams();
-    const text = searchParams.get("text");
-
     const pathname = usePathname();
     const { jobCategory } = useParams();
 
@@ -98,13 +95,12 @@ const Navbar = ({ showNavbar }: NavbarProps) => {
             <div className={styles.wrapper}>
                 <Link
                     className={clsx(styles.navbar__links, pathname === "/vacancies" && styles["navbar__links--active"])}
-                    href={{
-                        pathname: "/vacancies",
-                    }}>
+                    href={decodeURIComponent("/vacancies?offset=0")}>
                     <SearchIcon />
                     <span className={styles["links-name"]}>{"Поиск по вакансиям"}</span>
                 </Link>
                 {category.map((item) => {
+                    const urlDecode = decodeURIComponent(`/vacancies/${item.jobCategory}?offset=0`);
                     if (item.jobCategory === "/vacancies") {
                         return null;
                     }
@@ -112,9 +108,7 @@ const Navbar = ({ showNavbar }: NavbarProps) => {
                         <Link
                             key={item.jobCategory}
                             className={clsx(styles.navbar__links, jobCategory === item.jobCategory && styles["navbar__links--active"])}
-                            href={{
-                                pathname: `/vacancies/${item.jobCategory}`,
-                            }}>
+                            href={urlDecode}>
                             {item.icon}
                             <span className={styles["links-name"]}>{item.name}</span>
                         </Link>

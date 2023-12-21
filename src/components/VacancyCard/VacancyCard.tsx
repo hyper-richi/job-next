@@ -1,21 +1,48 @@
 import { VacancyProps } from "./VacancyCard.props";
 import styles from "./VacancyCard.module.scss";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
-export default async function VacancyCard({ vacancy, idx }: VacancyProps) {
+export default async function VacancyCard({ vacancy, idx, offset, query, jobCategory }: VacancyProps) {
+
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const { "job-name": vacancyName, salary_min, salary_max, category, company, id: vacancyId } = vacancy.vacancy;
 
+    /* let url = "";
+    switch (jobCategory || query || offset) {
+        case jobCategory && !offset && !query:
+            url = `?jobCategory=${jobCategory}&offset=0`;
+            break;
+        case jobCategory && offset && !query:
+            url = `?jobCategory=${jobCategory}&offset=${offset}`;
+            break;
+        case jobCategory && offset && query:
+            url = `?jobCategory=${jobCategory}&text=${query}&offset=${offset}`;
+            break;
+        case !jobCategory && !offset && query:
+            url = `?text=${query}&offset=0`;
+            break;
+        case !jobCategory && offset && !query:
+            url = `?offset=${offset}`;
+            break;
+        case !jobCategory && offset && query:
+            url = `?text=${query}&offset=${offset}`;
+            break;
+        default:
+            break;
+    } */
+    // `?text=${query}&offset=${offset}&jobCategory=${jobCategory}`
+
+    // console.log("url-VacancyCard: ", url);
+    const urlDecode = decodeURIComponent(
+        `/vacancies/vacancy/${company.companycode}/${vacancyId}` + `?offset=${offset}&jobCategory=${jobCategory}&text=${query}`,
+    );
+
     return (
         <div className={styles.vacancy}>
             <div className={styles.vacancy__hr}></div>
-            <Link
-                className={styles.vacancy__link}
-                href={{
-                    pathname: `/vacancies/vacancy/${company.companycode}/${vacancyId}`,
-                }}
-                target="_blank">
+            <Link className={styles.vacancy__link} href={urlDecode} target="_blank">
                 <h6 className={styles.vacancy__title}>
                     {idx + 1}.{vacancyName}
                 </h6>

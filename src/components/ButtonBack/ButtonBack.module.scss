@@ -1,0 +1,11 @@
+.vacancy__info__back {
+  display: flex;
+  align-items: center;
+  margin-bottom: 26px;
+  color: #005bff;
+  cursor: pointer;
+
+  &:active {
+      color: #003ead;
+  }
+}

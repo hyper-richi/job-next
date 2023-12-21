@@ -7,16 +7,16 @@ import styles from "./page.module.scss";
 import CustomPagination from "@/components/CustomPagination/CustomPagination";
 
 interface Params {
-    searchParams?: { text?: string; offset: string };
+    searchParams?: { text?: string; offset?: string };
     params: {
-        jobCategory: string;
+        jobCategory?: string;
     };
 }
 
 export default async function JobCategory({ params, searchParams }: Params) {
     const query = searchParams?.text || "";
     const offset = searchParams?.offset || "";
-    const jobCategory: string = params.jobCategory;
+    const jobCategory: string = params.jobCategory || "";
 
     const { results, meta } = await getDataJobCategory(params.jobCategory, query, offset);
     const totalPages = meta.total / 100 > 100 ? 100 : Math.ceil(meta.total / 100);
@@ -26,7 +26,7 @@ export default async function JobCategory({ params, searchParams }: Params) {
             <CustomPagination query={query} totalPages={totalPages} offset={offset || "0"} />
             <TitleCategory jobCategory={jobCategory} />
             <Search total={meta.total} />
-            <Finder results={results} query={query} />
+            <Finder results={results} offset={offset} query={query} jobCategory={jobCategory} />
         </div>
     );
 }

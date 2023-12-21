@@ -5,7 +5,7 @@ import styles from "./Finder.module.scss";
 import React, { Suspense } from "react";
 import FinderSelect from "../FinderSelect/FinderSelect";
 
-export default async function Finder({ results, query }: FinderProps) {
+export default async function Finder({ results, query, offset, jobCategory }: FinderProps) {
     return (
         <div className={styles.finder}>
             <div className={styles.filters}>
@@ -20,7 +20,16 @@ export default async function Finder({ results, query }: FinderProps) {
                     <Suspense key={query} fallback={<VacancysSkeleton />}>
                         {results?.vacancies ? (
                             results.vacancies?.map((item, idx) => {
-                                return <VacancyCard key={item.vacancy.id} vacancy={item} idx={idx} />;
+                                return (
+                                    <VacancyCard
+                                        key={item.vacancy.id}
+                                        jobCategory={jobCategory}
+                                        query={query}
+                                        offset={offset}
+                                        vacancy={item}
+                                        idx={idx}
+                                    />
+                                );
                             })
                         ) : (
                             <h4 className={styles.empty}>Ничего не найдено</h4>

@@ -1,13 +1,16 @@
-.vacancy {
-    display: flex;
-    justify-content: center;
+.container {
     padding: 80px 24px;
     margin: 0 auto;
     max-width: 1100px;
 
+    display: block;
+}
+
+.vacancy {
     &__info {
         width: 100%;
-        margin-right: 120px;
+       // margin-right: 120px;
+        border: 1px solid black;
 
         &__title {
             display: flex;
@@ -21,21 +24,6 @@
 
                 &__icon {
                     margin-right: 13px;
-                }
-            }
-
-            &__department {
-                display: grid;
-                align-items: center;
-                -moz-column-gap: 6px;
-                grid-column-gap: 6px;
-                column-gap: 6px;
-                grid-template-columns: min-content 1fr;
-
-                .dot {
-                    width: 2px;
-                    height: 2px;
-                    background-color: #4d5f71;
                 }
             }
         }
@@ -103,15 +91,19 @@
                 display: none;
             }
         }
+
+        &__back {
+            display: none;
+        }
     }
     &__actions {
         position: sticky;
         top: 160px;
         height: 100%;
+        border: 1px solid black;
 
         &__apply {
             font-family: var(--gteestiprotext);
-
             color: #fff;
             background: #005bff;
             margin-bottom: 24px;
@@ -149,6 +141,7 @@
             align-items: center;
             color: #005bff;
             cursor: pointer;
+
             &:active {
                 color: #003ead;
             }
@@ -163,4 +156,35 @@
 
 .workplaces {
     white-space: nowrap;
+}
+
+@media (max-width: 800px) {
+    .container {
+        padding: 20px;
+    }
+    .vacancy {
+        flex-direction: column;
+
+        &__actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 60px;
+
+            &__apply {
+                width: 100%;
+            }
+        }
+        &__info {
+            margin: 0;
+
+            &__workplaces {
+                display: flex;
+                align-items: center;
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    }
 }

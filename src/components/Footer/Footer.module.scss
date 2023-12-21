@@ -74,3 +74,19 @@
 .city-name {
     font-weight: 500;
 }
+
+@media (max-width: 800px) {
+    .footer__contacts {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .contacts__links {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .links__cities {
+        padding: 0;
+    }
+}
