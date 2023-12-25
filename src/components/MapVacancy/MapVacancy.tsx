@@ -11,7 +11,7 @@ const MapVacancy = ({ lng, lat }: { lng: string; lat: string }) => {
     return (
         <div className={styles.MapVacancy}>
             <YMaps>
-                <Map width={"100%"} defaultState={defaultState}>
+                <Map options={{ autoFitToViewport: "always" }} width={"100%"} defaultState={defaultState}>
                     <Placemark geometry={[Number(lat), Number(lng)]} />
                 </Map>
             </YMaps>

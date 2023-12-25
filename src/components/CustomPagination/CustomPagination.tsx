@@ -4,8 +4,10 @@ import { Pagination } from "@mantine/core";
 import { IconArrowBarToRight, IconArrowBarToLeft, IconArrowLeft, IconArrowRight, IconGripHorizontal } from "@tabler/icons-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styles from "./CustomPagination.module.scss";
+import Counter from "../Counter/Counter";
+import { observer } from "mobx-react-lite";
 
-export default function CustomPagination({ totalPages, offset, query }: { totalPages: number; offset: string; query: string | "" }) {
+function CustomPagination({ totalPages, offset, query }: { totalPages: number; offset: string; query: string | "" }) {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
@@ -19,18 +21,22 @@ export default function CustomPagination({ totalPages, offset, query }: { totalP
     }
 
     return (
-        <div className={styles.pagination}>
-            <Pagination
-                withEdges
-                value={page}
-                onChange={handleChange}
-                total={totalPages}
-                nextIcon={IconArrowRight}
-                previousIcon={IconArrowLeft}
-                firstIcon={IconArrowBarToLeft}
-                lastIcon={IconArrowBarToRight}
-                dotsIcon={IconGripHorizontal}
-            />
-        </div>
+        <>
+            <div className={styles.pagination}>
+                <Pagination
+                    withEdges
+                    value={page}
+                    onChange={handleChange}
+                    total={totalPages}
+                    nextIcon={IconArrowRight}
+                    previousIcon={IconArrowLeft}
+                    firstIcon={IconArrowBarToLeft}
+                    lastIcon={IconArrowBarToRight}
+                    dotsIcon={IconGripHorizontal}
+                />
+            </div>
+        </>
     );
 }
+
+export default observer(CustomPagination);

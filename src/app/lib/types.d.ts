@@ -125,3 +125,23 @@ interface ResponseGeolocation {
 }
 
 export type Mods = Record<string, boolean | string | undefined>;
+
+interface VacancyRegion {
+    code: string;
+    name: string;
+    shortName: string;
+    level: Level;
+    parentLevel: Level;
+    text: string;
+    key: string;
+}
+
+interface Level {
+    key: string;
+    text: string;
+}
+
+interface ResponseRegions {
+    code: string;
+    data: VacancyRegion[];
+}

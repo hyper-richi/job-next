@@ -11,29 +11,30 @@ const ButtonBack = () => {
     const jobCategory = searchParams.get("jobCategory");
     const text = searchParams.get("text");
     const offset = searchParams.get("offset");
+    const regionCode = searchParams.get("regionCode");
     // const jobCategory = searchParams.get("jobCategory");
     // const params = useParams<{ jobCategory: string }>();
     // console.log("params: ", params);
 
-    let url = `/vacancies/${jobCategory}?text=${text}&offset=${offset}`;
-    /* switch (jobCategory || text || offset) {
-        case jobCategory && !offset && !text:
-            url = `/vacancies/${jobCategory}`;
-            break;
-        case jobCategory && offset && !text:
-            url = `/vacancies/${jobCategory}&offset=${offset}`;
-            break;
-        case jobCategory && offset && text:
-            url = `/vacancies/${jobCategory}?text=${text}&offset=${offset}`;
-            break;
-        case !jobCategory && text && offset:
-            url = `/vacancies?text=${text}&offset=${offset}`;
-            break;
-        case !jobCategory && !text && offset:
-            url = `/vacancies?offset=${offset}`;
-            break;
-    } */
+    // let url = `/vacancies/${jobCategory}?region=${value}&offset=${offset}&text=${text}`;
+    let url = `/vacancies?`;
 
+    switch (jobCategory || regionCode || offset || text) {
+        case jobCategory:
+            url = url + `${jobCategory}&`;
+        // break;
+        case regionCode:
+            url = url + `regionCode=${regionCode}&`;
+        //break;
+        case offset:
+            url = url + `offset=${offset}&`;
+        // break;
+        case text:
+            url = url + `text=${text}`;
+        // break;
+        default:
+            break;
+    }
     const handleClick = useCallback(() => {
         router.push(url);
     }, [url]);

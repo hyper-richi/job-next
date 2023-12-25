@@ -20,7 +20,7 @@
     &__block {
         font-size: 1.125rem;
         line-height: 1.75rem;
-        background-image: linear-gradient(90deg, rgba(255, 255, 255, 1) 98%, rgba(37, 99, 235, 1) 0%);
+        // background-image: linear-gradient(90deg, rgba(255, 255, 255, 1) 98%, rgba(37, 99, 235, 1) 0%);
         border: 1px solid rgb(37, 99, 235);
         border-radius: 8px;
         display: flex;
@@ -77,6 +77,43 @@
         }
         &:active {
             background-color: #005bff;
+        }
+        &:disabled {
+            background-color: #ccc;
+            opacity: 0.5;
+        }
+    }
+}
+
+.root {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    width: 100px;
+    height: 100%;
+    background-color: #005bff;
+    border-width: 0;
+    border-color: #005bff;
+    margin: 0;
+    padding: 0;
+    transform: none;
+
+    color: #fff;
+    cursor: pointer;
+    font-weight: 300;
+    letter-spacing: 0.4px;
+    &:hover {
+        background-color: #004ed6;
+    }
+    &:active {
+        transform: none;
+    }
+    &:disabled {
+        background-color: #004ed6;
+    }
+    &[data-loading] {
+        transform: none;
+        span {
+            transform: none;
         }
     }
 }

@@ -20,6 +20,7 @@ export default async function Vacancy({ params }: Params) {
 
     const { results, meta } = await getVacancy(companyId, vacancyId);
     const vacancy = Object.keys(results).length ? results.vacancies[0].vacancy : null;
+    console.log("vacancy: ", vacancy);
 
     const lng = vacancy?.addresses?.address[0]?.lng;
     const lat = vacancy?.addresses?.address[0]?.lat;
@@ -82,11 +83,11 @@ export default async function Vacancy({ params }: Params) {
                             </svg>
                             {vacancy.region.name}
                         </div>
-                        <div>
-                            <span>{vacancy.company.name}</span>
-                        </div>
+                        <span>{vacancy.company.name}</span>
                     </div>
-                    <h1 className={styles.vacancy__info__name}>{vacancy["job-name"]}</h1>
+                    <h1 className={styles.vacancy__info__name}>
+                        {vacancy["job-name"].charAt(0).toUpperCase() + vacancy["job-name"].slice(1)}
+                    </h1>
                     <p className={styles.vacancy__info__salary}>
                         {vacancy?.salary && vacancy?.salary !== "от 0"
                             ? `${vacancy.salary_min}-${vacancy.salary_max} ₽`
@@ -101,32 +102,40 @@ export default async function Vacancy({ params }: Params) {
                     </div>
                     <MapVacancy lng={lng || ""} lat={lat || ""} />
                     <div className={styles.vacancy__info__body}>
-                        <ul>{duty}</ul>
-                        <p>
-                            <strong>Мы ожидаем: </strong>
-                        </p>
-                        <ul>
-                            <li>Образование:{` ${vacancy.requirement.education}`};</li>
-                            <li>Опыт работы:{` ${experience(vacancy.requirement.experience)}`};</li>
-                        </ul>
-                        <p>
-                            <strong>Тип занятости:</strong>
-                        </p>
-                        <ul>
-                            <li>{vacancy.employment}</li>
-                            <li>{vacancy.schedule}</li>
-                        </ul>
-                        {qualification && (
-                            <>
-                                <p>
-                                    <strong>Мы предлагаем:</strong>
-                                </p>
-                                <ul>{qualification}</ul>
-                            </>
-                        )}
+                        <div>
+                            {duty}
+                            <p>
+                                <strong>Мы ожидаем: </strong>
+                            </p>
+                            <ul>
+                                <li>Образование:{` ${vacancy.requirement.education}`};</li>
+                                <li>Опыт работы:{` ${experience(vacancy.requirement.experience)}`};</li>
+                            </ul>
+                            <p>
+                                <strong>Тип занятости:</strong>
+                            </p>
+                            <ul>
+                                <li>{vacancy.employment}</li>
+                                <li>{vacancy.schedule}</li>
+                            </ul>
+                            {qualification && (
+                                <>
+                                    <p>
+                                        <strong>Мы предлагаем:</strong>
+                                    </p>
+                                    <ul>{qualification}</ul>
+                                </>
+                            )}
+                        </div>
+                        <div className={styles.vacancy__actions__desktop}>
+                            <button type="button" className={styles.vacancy__actions__apply}>
+                                <Link href={vacancy.vac_url}>Откликнуться</Link>
+                            </button>
+                            <VacancyShare textURL={vacancy.vac_url} />
+                        </div>
                     </div>
                 </div>
-                <div className={styles.vacancy__actions}>
+                <div className={styles.vacancy__actions__mobile}>
                     <button type="button" className={styles.vacancy__actions__apply}>
                         <Link href={vacancy.vac_url}>Откликнуться</Link>
                     </button>

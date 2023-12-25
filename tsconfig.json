@@ -23,6 +23,6 @@
         },
         "experimentalDecorators": true
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/store/storeProvider.js"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/store/StoreProvider.js", "src/store/store.ts"],
     "exclude": ["node_modules"]
 }

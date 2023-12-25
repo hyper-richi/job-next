@@ -1,8 +1,10 @@
-import { Results } from "@/app/lib/types";
+import { Results, VacancyRegion } from "@/app/lib/types";
 
 export interface FinderProps {
-    query?: string;
+    searchText?: string;
     offset?: string;
     jobCategory?: string;
+    regionCode?: string;
     results: Results;
+    regions?: VacancyRegion[];
 }

@@ -1,20 +1,29 @@
 .container {
-    padding: 80px 24px;
+    max-width: 1440px;
+    padding: 0 16px;
     margin: 0 auto;
-    max-width: 1100px;
-
-    display: block;
 }
 
 .vacancy {
+    display: flex;
+    justify-content: center;
+    padding: 80px 0;
+    margin: 0 auto;
+    max-width: 1100px;
+
     &__info {
         width: 100%;
-       // margin-right: 120px;
-        border: 1px solid black;
+        // margin-right: 120px;
+        // border: 1px solid black;
+
+        &__wrapp {
+            display: flex;
+            justify-content: space-between;
+        }
 
         &__title {
             display: flex;
-            margin-bottom: 24px;
+            //margin-bottom: 24px;
             color: #4c6888;
 
             &__city {
@@ -46,7 +55,7 @@
             align-items: center;
             align-items: flex-start;
             gap: 40px;
-            margin: 10px;
+            margin: 10px 0;
             color: rgb(100 116 139 / 1);
             font-weight: 200;
             font-size: 16px;
@@ -56,10 +65,11 @@
             display: flex;
             gap: 10px;
         }
-
         &__body {
-            max-width: 700px;
-            color: #001a34;
+            //max-width: 700px;
+            color: #4c6888;
+            display: flex;
+            gap: 20px;
 
             li,
             p {
@@ -91,66 +101,49 @@
                 display: none;
             }
         }
-
         &__back {
             display: none;
         }
     }
-    &__actions {
+
+    &__actions__apply {
+        font-family: var(--gteestiprotext);
+        color: #fff;
+        background: #005bff;
+        margin-bottom: 24px;
+        padding: 14px 20px;
+        border-radius: 12px;
+        padding: 14px 20px;
+        border-radius: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        cursor: pointer;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        text-align: center;
+        letter-spacing: 0.4px;
+        width: 100%;
+
+        &:hover {
+            background: #004ed6;
+        }
+        &:active {
+            background: #003ead;
+        }
+    }
+    &__actions__mobile {
+        display: none;
+    }
+
+    &__actions__desktop {
+        height: 100%;
         position: sticky;
         top: 160px;
-        height: 100%;
-        border: 1px solid black;
-
-        &__apply {
-            font-family: var(--gteestiprotext);
-            color: #fff;
-            background: #005bff;
-            margin-bottom: 24px;
-            padding: 14px 20px;
-            border-radius: 12px;
-            padding: 14px 20px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: none;
-            cursor: pointer;
-            font-style: normal;
-            font-weight: 500;
-            font-size: 16px;
-            line-height: 20px;
-            text-align: center;
-            letter-spacing: 0.4px;
-
-            &:hover {
-                background: #004ed6;
-            }
-            &:active {
-                background: #003ead;
-            }
-        }
-
-        &__nominee {
-            margin-bottom: 28px;
-            position: relative;
-            display: flex;
-            gap: 10px;
-
-            width: 200px;
-            align-items: center;
-            color: #005bff;
-            cursor: pointer;
-
-            &:active {
-                color: #003ead;
-            }
-
-            &__text {
-                font-size: 16px;
-                line-height: 20px;
-            }
-        }
+        padding: 0 20px;
     }
 }
 
@@ -174,6 +167,17 @@
             &__apply {
                 width: 100%;
             }
+        }
+        &__actions__mobile {
+            display: flex;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        &__actions__desktop {
+            display: none;
         }
         &__info {
             margin: 0;

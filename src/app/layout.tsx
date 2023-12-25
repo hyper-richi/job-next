@@ -1,3 +1,4 @@
+// "use client";
 import localFont from "next/font/local";
 import type { Metadata } from "next";
 import { Header } from "@/components/Header/Header";
@@ -6,6 +7,9 @@ import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import styles from "./layout.module.scss";
 import "@mantine/core/styles.css";
 import "./globals.css";
+import { Provider } from "mobx-react";
+import { StoreProvider } from "@/store/StoreProvider";
+// import store from "../store/store";
 
 const GTEestiProText = localFont({
     src: [
@@ -67,7 +71,7 @@ export const metadata: Metadata = {
     Создавайте резюме и откликайтесь на вакансии. Набирайте сотрудников и публикуйте вакансии.`,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children, pageProps }: { children: React.ReactNode; pageProps: any }) {
     return (
         <html lang="ru">
             <head>
@@ -76,9 +80,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
                 <MantineProvider>
-                    <Header />
-                    <main className={styles.container}>{children}</main>
-                    <Footer />
+                    <StoreProvider {...pageProps}>
+                        <Header />
+                        <main className={styles.container}>{children}</main>
+                        <Footer />
+                    </StoreProvider>
                 </MantineProvider>
             </body>
         </html>
