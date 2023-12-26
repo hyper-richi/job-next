@@ -2,7 +2,7 @@ import { VacancyCardProps as VacancyCardProps } from "./VacancyCard.props";
 import styles from "./VacancyCard.module.scss";
 import Link from "next/link";
 
-export default async function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
+export default function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
     // await new Promise((resolve) => setTimeout(resolve, 0));
     const { "job-name": vacancyName, salary_min, salary_max, category, company, id: vacancyId } = vacancy.vacancy;
 

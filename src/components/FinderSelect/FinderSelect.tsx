@@ -2,8 +2,12 @@
 import React, { useState } from "react";
 import styles from "./FinderSelect.module.scss";
 import { Select } from "@mantine/core";
-import { Results, VacancyRegion } from "@/app/lib/types";
-import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
+import { VacancyRegion } from "@/app/lib/types";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useAppDispatch } from "@/app/lib/hooks";
+import { useSelector } from "react-redux";
+import { selectRegionsData } from "@/app/lib/features/regions/selectors/selectRegionsData";
+import { vacanciesActions } from "@/app/lib/features/vacancies/vacanciesSlice";
 
 interface PropsFinderSelect {
     regions?: VacancyRegion[];
@@ -11,12 +15,13 @@ interface PropsFinderSelect {
 
 // const arrRegion = [{1	'Республика Адыгея (Адыгея)'}]
 
-const FinderSelect = ({ regions }: PropsFinderSelect) => {
+const FinderSelect = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
+    const dispatch = useAppDispatch();
+    const regionsSelect = useSelector(selectRegionsData);
 
-    // console.log("store.regionsList", store.regionsList);
     const jobCategory = searchParams.get("jobCategory");
     const searchText = searchParams.get("text");
     const offset = searchParams.get("offset");
@@ -39,12 +44,14 @@ const FinderSelect = ({ regions }: PropsFinderSelect) => {
 
     // const arrAdress = results?.vacancies.map((item) => item.vacancy.addresses.address[0].location.split(",")[0]);
     // { value: 'react', label: 'React' }
-    const arrRegionsName = regions?.map((item) => {
+    const arrRegionsName = regionsSelect?.map((item) => {
         return { value: item.code, label: item.name };
     });
     //.filter((value, index, array) => array.indexOf(value) === index);
 
     function handleChange(value: string | null) {
+        dispatch(vacanciesActions.startLoadingVacancies());
+
         let url = `${pathname}?`;
 
         if (jobCategory) {

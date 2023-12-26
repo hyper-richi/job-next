@@ -14,7 +14,6 @@ const ButtonBack = () => {
     const regionCode = searchParams.get("regionCode");
     // const jobCategory = searchParams.get("jobCategory");
     // const params = useParams<{ jobCategory: string }>();
-    // console.log("params: ", params);
 
     // let url = `/vacancies/${jobCategory}?region=${value}&offset=${offset}&text=${text}`;
     let url = `/vacancies?`;

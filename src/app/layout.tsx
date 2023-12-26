@@ -8,6 +8,7 @@ import styles from "./layout.module.scss";
 import "@mantine/core/styles.css";
 import "./globals.css";
 import { Provider } from "mobx-react";
+import StoreProvider from "./lib/StoreProvider";
 // import store from "../store/store";
 
 const GTEestiProText = localFont({
@@ -79,11 +80,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
                 <MantineProvider>
-                    {/*   <StoreProvider {...pageProps}> */}
-                    <Header />
-                    <main className={styles.container}>{children}</main>
-                    <Footer />
-                    {/*  </StoreProvider> */}
+                    <StoreProvider>
+                        <Header />
+                        <main className={styles.container}>{children}</main>
+                        <Footer />
+                    </StoreProvider>
                 </MantineProvider>
             </body>
         </html>

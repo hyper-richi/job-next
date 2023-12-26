@@ -1,20 +1,15 @@
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { HeaderProps } from "./Header.props";
-import Image from "next/image";
 import Link from "next/link";
 import styles from "./Header.module.scss";
-import Logo from "../../helpers/icons/logo.svg";
 import Navbar from "../Navbar/Navbar";
-import searchIcon from "../../../public/images/svg/searchIcon.svg";
-import { Modal, Button } from "@mantine/core";
+import { Modal } from "@mantine/core";
 import clsx from "clsx";
 import { useDisclosure } from "@mantine/hooks";
-import { VacancyRegion } from "@/app/lib/types";
 import FinderSelect from "../FinderSelect/FinderSelect";
 
 const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
-    // console.log("Header: ");
     const [showNavbar, setShowNavbar] = useState(false);
     const [showSidebar, setShowSidebar] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);

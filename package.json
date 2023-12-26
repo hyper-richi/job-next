@@ -13,6 +13,7 @@
         "@mantine/core": "^7.3.2",
         "@mantine/hooks": "^7.3.2",
         "@pbe/react-yandex-maps": "^1.2.5",
+        "@reduxjs/toolkit": "^2.0.1",
         "@tabler/icons-react": "^2.44.0",
         "clsx": "^2.0.0",
         "html-react-parser": "^5.0.7",
@@ -21,13 +22,14 @@
         "mobx-react-lite": "^4.0.5",
         "next": "14.0.3",
         "react": "^18",
-        "react-dom": "^18"
+        "react-dom": "^18",
+        "react-redux": "^8.0.5"
     },
     "devDependencies": {
         "@svgr/webpack": "^8.1.0",
-        "@types/node": "^20",
-        "@types/react": "18.2.8",
-        "@types/react-dom": "^18",
+        "@types/node": "18.13.0",
+        "@types/react": "18.0.28",
+        "@types/react-dom": "18.0.11",
         "eslint": "^8",
         "eslint-config-next": "14.0.3",
         "postcss": "^8.4.32",

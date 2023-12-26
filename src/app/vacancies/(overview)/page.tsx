@@ -7,6 +7,7 @@ import Finder from "@/components/Finder/Finder";
 import CustomPagination from "@/components/CustomPagination/CustomPagination";
 import TitleCategory from "@/components/TitleCategory/TitleCategory";
 import Container from "@/components/Container/Container";
+import Counter from "@/components/Counter/Counter";
 
 export const metadata: Metadata = {
     title: "Поиск по вакансиям",
@@ -34,7 +35,8 @@ export default async function Page({ params, searchParams }: Params) {
         <div className={styles.vacancies}>
             <CustomPagination totalPages={totalPages} />
             <TitleCategory jobCategory={jobCategory || "/vacancies"} />
-            <Search countVacancies={meta.total} statusUploadVacancies={statusUploadVacancies}/>
+            <Counter />
+            <Search countVacancies={meta.total} />
             {/* <Finder
                 regions={data.data}
                 results={results}

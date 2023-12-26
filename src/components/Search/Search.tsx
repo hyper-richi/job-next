@@ -2,13 +2,14 @@
 import styles from "./Search.module.scss";
 import SearchIcon from "../../../public/images/svg/searchIcon.svg";
 import SpinnerIcon from "../../../public/images/svg/spinnerIcon.svg";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { memo, useEffect, useState, useTransition } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { plural } from "@/helpers/plural";
-import { Button } from "@mantine/core";
-import { useFormStatus } from "react-dom";
-import { getVacancies, getVacanciesSearch } from "@/app/lib/data";
 import clsx from "clsx";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "@/app/lib/hooks";
+import { selectVacanciesIsLoading } from "@/app/lib/features/vacancies/selectors/selectVacanciesIsLoading";
+import { vacanciesActions } from "@/app/lib/features/vacancies/vacanciesSlice";
 
 interface FormElements extends HTMLFormControlsCollection {
     text: HTMLInputElement;
@@ -18,11 +19,10 @@ interface YourFormElement extends HTMLFormElement {
     readonly elements: FormElements;
 }
 
-function Search({ countVacancies, statusUploadVacancies }: { countVacancies: number; statusUploadVacancies: string }) {
-    console.log("statusUploadVacancies: ", statusUploadVacancies);
+function Search({ countVacancies }: { countVacancies: number }) {
+    const dispatch = useAppDispatch();
     const [inpVal, setInpValue] = useState("");
-    const [isLoading, setLoading] = useState(false);
-    console.log("isLoading: ", isLoading);
+    const isLoadingVacancies = useSelector(selectVacanciesIsLoading);
 
     const searchParams = useSearchParams();
     const { replace } = useRouter();
@@ -33,30 +33,24 @@ function Search({ countVacancies, statusUploadVacancies }: { countVacancies: num
     const regionCode = searchParams.get("regionCode");
 
     useEffect(() => {
-        if (statusUploadVacancies === "200") {
-            setLoading(false);
-        }
-    }, [statusUploadVacancies]);
-
-    useEffect(() => {
         setInpValue(searchText || "");
     }, [searchText]);
 
     const onFormSubmit = (e: React.FormEvent<YourFormElement>) => {
         const SearchParams = new URLSearchParams(searchParams);
         e.preventDefault();
+
+        dispatch(vacanciesActions.startLoadingVacancies());
+
         const searchText = e.currentTarget.elements.text.value;
         setInpValue(searchText);
-        setLoading(true);
         if (jobCategory || regionCode || offset || searchText) {
-            // console.log("searchText: ", { jobCategory, regionCode, offset, searchText });
             if (jobCategory) SearchParams.set("jobCategory", jobCategory);
             if (regionCode) SearchParams.set("regionCode", regionCode);
             if (offset) SearchParams.set("offset", offset || "0");
             if (searchText) SearchParams.set("text", decodeURIComponent(searchText));
         }
         if (!searchText) {
-            //  console.log("searchText-else: ", searchText);
             SearchParams.delete("text");
             replace(`?${SearchParams.toString()}`);
         }
@@ -66,7 +60,6 @@ function Search({ countVacancies, statusUploadVacancies }: { countVacancies: num
     /* const handleClick = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
         const { status } = await getVacancies({ jobCategory, offset, regionCode, searchText });
-        console.log("status: ", status);
         // setLikes(updatedLikes);
     }; */
 
@@ -77,7 +70,7 @@ function Search({ countVacancies, statusUploadVacancies }: { countVacancies: num
             <div className={clsx(styles.search, styles.desktop)}>
                 <h1 className={styles.search__title}>Поиск по вакансиям</h1>
                 <form className={styles.search__form} /* action={getVacanciesSearchWith} */ onSubmit={onFormSubmit}>
-                    <div className={styles.search__block}>
+                    <div className={styles.search__wrap}>
                         <SearchIcon className={styles.search__icon} />
                         <input
                             onChange={(e) => setInpValue(e.target.value)}
@@ -88,8 +81,8 @@ function Search({ countVacancies, statusUploadVacancies }: { countVacancies: num
                             value={inpVal}
                         />
                         <p className={styles.search__count}>{plural(forms, countVacancies)}</p>
-                        <button className={styles.search__button} type="submit">
-                            {isLoading ? <SpinnerIcon width={"24px"} height={24} /> : "Поиск"}
+                        <button disabled={isLoadingVacancies} className={styles.search__button} type="submit">
+                            {isLoadingVacancies ? <SpinnerIcon width={"24px"} height={24} /> : "Поиск"}
                         </button>
                     </div>
                 </form>
