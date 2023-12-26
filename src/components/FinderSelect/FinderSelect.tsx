@@ -4,6 +4,7 @@ import styles from "./FinderSelect.module.scss";
 import { Select } from "@mantine/core";
 import { Results, VacancyRegion } from "@/app/lib/types";
 import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
+
 interface PropsFinderSelect {
     regions?: VacancyRegion[];
 }
@@ -14,8 +15,10 @@ const FinderSelect = ({ regions }: PropsFinderSelect) => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
+
+    // console.log("store.regionsList", store.regionsList);
     const jobCategory = searchParams.get("jobCategory");
-    const text = searchParams.get("text");
+    const searchText = searchParams.get("text");
     const offset = searchParams.get("offset");
     const regionCode = searchParams.get("regionCode");
 
@@ -53,8 +56,8 @@ const FinderSelect = ({ regions }: PropsFinderSelect) => {
         if (offset) {
             url = url + `offset=${offset}&`;
         }
-        if (text) {
-            url = url + `text=${text}`;
+        if (searchText) {
+            url = url + `text=${searchText}`;
         }
         router.push(url);
         // console.log("value: ", value);

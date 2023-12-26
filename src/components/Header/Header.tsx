@@ -7,12 +7,18 @@ import styles from "./Header.module.scss";
 import Logo from "../../helpers/icons/logo.svg";
 import Navbar from "../Navbar/Navbar";
 import searchIcon from "../../../public/images/svg/searchIcon.svg";
+import { Modal, Button } from "@mantine/core";
 import clsx from "clsx";
+import { useDisclosure } from "@mantine/hooks";
+import { VacancyRegion } from "@/app/lib/types";
+import FinderSelect from "../FinderSelect/FinderSelect";
 
-export const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
+const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
+    // console.log("Header: ");
     const [showNavbar, setShowNavbar] = useState(false);
     const [showSidebar, setShowSidebar] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
+    const [opened, { open, close }] = useDisclosure(false);
 
     const controlNavbar = () => {
         if (window.scrollY > lastScrollY) {
@@ -52,13 +58,16 @@ export const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                         <Link className={styles.header__logo} href={`/`}>
                             JOB
                         </Link>
+                        {/*  <FinderSelect regions={store.regionsList} /> */}
                         <div className={styles.header__search}>
                             <input type="text" placeholder="Поиск по вакансиям" />
                             <div className={styles.search__icon}></div>
                         </div>
                         <div className={styles.header__info}>
                             <div className={styles.info__cities}>
-                                <span className={styles["city-name"]}> Санкт-Петербург </span>
+                                <span onClick={open} className={styles["city-name"]}>
+                                    Санкт-Петербург
+                                </span>
                                 <div className={styles["city-logo"]}>
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -100,6 +109,7 @@ export const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                 </div>
                 <Navbar showNavbar={showNavbar} />
             </header>
+
             <div className={clsx(styles.mobile, styles.sticky)}>
                 <div className={styles.mobile__main}>
                     <button onClick={onToggle}>
@@ -150,6 +160,18 @@ export const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                     </div>
                 </div>
             </div>
+            <Modal
+                centered
+                opened={opened}
+                onClose={close}
+                title="Authentication"
+                overlayProps={{
+                    backgroundOpacity: 0.55,
+                    blur: 3,
+                }}>
+                <FinderSelect /* regions={store.regions} */ />
+            </Modal>
         </>
     );
 };
+export default Header;

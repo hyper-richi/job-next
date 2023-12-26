@@ -1,10 +1,9 @@
-import { VacancyProps } from "./VacancyCard.props";
+import { VacancyCardProps as VacancyCardProps } from "./VacancyCard.props";
 import styles from "./VacancyCard.module.scss";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
-export default async function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyProps) {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+export default async function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
+    // await new Promise((resolve) => setTimeout(resolve, 0));
     const { "job-name": vacancyName, salary_min, salary_max, category, company, id: vacancyId } = vacancy.vacancy;
 
     let url = `/vacancies/vacancy/${company.companycode}/${vacancyId}?`;

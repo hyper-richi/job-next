@@ -1,14 +1,14 @@
 "use client";
 import styles from "./Search.module.scss";
 import SearchIcon from "../../../public/images/svg/searchIcon.svg";
+import SpinnerIcon from "../../../public/images/svg/spinnerIcon.svg";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { memo, useEffect, useState, useTransition } from "react";
-import clsx from "clsx";
 import { plural } from "@/helpers/plural";
-import useStore from "@/store/StoreProvider";
 import { Button } from "@mantine/core";
 import { useFormStatus } from "react-dom";
 import { getVacancies, getVacanciesSearch } from "@/app/lib/data";
+import clsx from "clsx";
 
 interface FormElements extends HTMLFormControlsCollection {
     text: HTMLInputElement;
@@ -18,12 +18,11 @@ interface YourFormElement extends HTMLFormElement {
     readonly elements: FormElements;
 }
 
-export default function Search({ total }: { total: number }) {
+function Search({ countVacancies, statusUploadVacancies }: { countVacancies: number; statusUploadVacancies: string }) {
+    console.log("statusUploadVacancies: ", statusUploadVacancies);
     const [inpVal, setInpValue] = useState("");
-    // const [isPending, setPending] = useState(false);
-
-    // const [isPending, startTransition] = useTransition();
-    // console.log("isPending: ", isPending);
+    const [isLoading, setLoading] = useState(false);
+    console.log("isLoading: ", isLoading);
 
     const searchParams = useSearchParams();
     const { replace } = useRouter();
@@ -34,16 +33,21 @@ export default function Search({ total }: { total: number }) {
     const regionCode = searchParams.get("regionCode");
 
     useEffect(() => {
+        if (statusUploadVacancies === "200") {
+            setLoading(false);
+        }
+    }, [statusUploadVacancies]);
+
+    useEffect(() => {
         setInpValue(searchText || "");
     }, [searchText]);
 
-    const onFormSubmit = async (e: React.FormEvent<YourFormElement>) => {
-       // console.log("onFormSubmit: ");
-        // setPending(true);
+    const onFormSubmit = (e: React.FormEvent<YourFormElement>) => {
         const SearchParams = new URLSearchParams(searchParams);
         e.preventDefault();
         const searchText = e.currentTarget.elements.text.value;
         setInpValue(searchText);
+        setLoading(true);
         if (jobCategory || regionCode || offset || searchText) {
             // console.log("searchText: ", { jobCategory, regionCode, offset, searchText });
             if (jobCategory) SearchParams.set("jobCategory", jobCategory);
@@ -83,17 +87,10 @@ export default function Search({ total }: { total: number }) {
                             name="text"
                             value={inpVal}
                         />
-                        <p className={styles.search__count}>{plural(forms, total)}</p>
-                        <Button
-                            // onClick={handleClick}
-                            classNames={styles}
-                            // disabled={isPending}
-                            // loading={isPending}
-                            size="lg"
-                            radius={5}
-                            type="submit">
-                            Поиск
-                        </Button>
+                        <p className={styles.search__count}>{plural(forms, countVacancies)}</p>
+                        <button className={styles.search__button} type="submit">
+                            {isLoading ? <SpinnerIcon width={"24px"} height={24} /> : "Поиск"}
+                        </button>
                     </div>
                 </form>
             </div>
@@ -118,8 +115,10 @@ export default function Search({ total }: { total: number }) {
                         </form> */}
                     </div>
                 </div>
-                <p className={styles.search__count}>Найдено: {plural(forms, total)}</p>
+                <p className={styles.search__count}>Найдено: {plural(forms, countVacancies)}</p>
             </div>
         </>
     );
 }
+
+export default Search;

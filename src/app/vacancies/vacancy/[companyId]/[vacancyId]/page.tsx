@@ -20,7 +20,6 @@ export default async function Vacancy({ params }: Params) {
 
     const { results, meta } = await getVacancy(companyId, vacancyId);
     const vacancy = Object.keys(results).length ? results.vacancies[0].vacancy : null;
-    console.log("vacancy: ", vacancy);
 
     const lng = vacancy?.addresses?.address[0]?.lng;
     const lat = vacancy?.addresses?.address[0]?.lat;

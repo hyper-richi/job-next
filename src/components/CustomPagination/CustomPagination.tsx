@@ -4,11 +4,11 @@ import { Pagination } from "@mantine/core";
 import { IconArrowBarToRight, IconArrowBarToLeft, IconArrowLeft, IconArrowRight, IconGripHorizontal } from "@tabler/icons-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styles from "./CustomPagination.module.scss";
-import Counter from "../Counter/Counter";
-import { observer } from "mobx-react-lite";
 
-function CustomPagination({ totalPages, offset, query }: { totalPages: number; offset: string; query: string | "" }) {
+function CustomPagination({ totalPages }: { totalPages: number }) {
     const searchParams = useSearchParams();
+    const offset = searchParams.get("offset");
+
     const pathname = usePathname();
     const { replace } = useRouter();
 
@@ -27,7 +27,7 @@ function CustomPagination({ totalPages, offset, query }: { totalPages: number; o
                     withEdges
                     value={page}
                     onChange={handleChange}
-                    total={totalPages}
+                    total={totalPages || 1}
                     nextIcon={IconArrowRight}
                     previousIcon={IconArrowLeft}
                     firstIcon={IconArrowBarToLeft}
@@ -39,4 +39,4 @@ function CustomPagination({ totalPages, offset, query }: { totalPages: number; o
     );
 }
 
-export default observer(CustomPagination);
+export default CustomPagination;
