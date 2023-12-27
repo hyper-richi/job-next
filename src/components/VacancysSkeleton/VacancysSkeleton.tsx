@@ -1,5 +1,6 @@
 import { Skeleton } from "../Skeleton/Skeleton";
 import styles from "./VacancysSkeleton.module.scss";
+import { AnimatePresence, motion } from "framer-motion";
 
 export function VacancySkeleton() {
     return (

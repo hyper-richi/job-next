@@ -4,12 +4,13 @@ import SearchIcon from "../../../public/images/svg/searchIcon.svg";
 import SpinnerIcon from "../../../public/images/svg/spinnerIcon.svg";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { plural } from "@/helpers/plural";
+import { plural } from "@/app/lib/helpers/plural";
 import clsx from "clsx";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/app/lib/store/hooks";
 import { selectVacanciesIsLoading } from "@/app/lib/store/features/vacancies/selectors/selectVacanciesIsLoading";
 import { vacanciesActions } from "@/app/lib/store/features/vacancies/vacanciesSlice";
+import { useFormStatus } from "react-dom";
 
 interface FormElements extends HTMLFormControlsCollection {
     text: HTMLInputElement;
@@ -19,22 +20,45 @@ interface YourFormElement extends HTMLFormElement {
     readonly elements: FormElements;
 }
 
+function Submit() {
+    const isLoadingVacancies = useSelector(selectVacanciesIsLoading);
+
+    const { pending } = useFormStatus();
+    // console.log("pending || isLoadingVacancies: ", pending || isLoadingVacancies);
+    // console.log("isLoadingVacancies: ", isLoadingVacancies);
+    // console.log("pending: ", pending);
+
+    return (
+        <button disabled={pending} className={styles.search__button} type="submit">
+            {pending || isLoadingVacancies ? <SpinnerIcon width={24} height={24} /> : "Поиск"}
+        </button>
+    );
+}
+
 function Search({ countVacancies }: { countVacancies: number }) {
     const dispatch = useAppDispatch();
     const [inpVal, setInpValue] = useState("");
+    const [count, setCount] = useState(0);
+    console.log("count: ", count);
     const isLoadingVacancies = useSelector(selectVacanciesIsLoading);
+
+    /* const { pending, data, method, action } = useFormStatus();
+    console.log("action: ", action);
+    console.log("method: ", method);
+    console.log("data: ", data);
+    console.log("pending: ", pending); */
 
     const searchParams = useSearchParams();
     const { replace } = useRouter();
 
     const jobCategory = searchParams.get("jobCategory");
-    const searchText = searchParams.get("text");
+    const searchTextParams = searchParams.get("text");
     const offset = searchParams.get("offset");
     const regionCode = searchParams.get("regionCode");
 
     useEffect(() => {
-        setInpValue(searchText || "");
-    }, [searchText]);
+        setInpValue(searchTextParams || "");
+    }, [searchTextParams]);
 
     const onFormSubmit = (e: React.FormEvent<YourFormElement>) => {
         const SearchParams = new URLSearchParams(searchParams);
@@ -43,6 +67,7 @@ function Search({ countVacancies }: { countVacancies: number }) {
         dispatch(vacanciesActions.startLoadingVacancies());
 
         const searchText = e.currentTarget.elements.text.value;
+
         setInpValue(searchText);
         if (jobCategory || regionCode || offset || searchText) {
             if (jobCategory) SearchParams.set("jobCategory", jobCategory);
@@ -54,6 +79,39 @@ function Search({ countVacancies }: { countVacancies: number }) {
             SearchParams.delete("text");
             replace(`?${SearchParams.toString()}`);
         }
+        replace(`?${SearchParams.toString()}`);
+    };
+
+    const getVacanciesSearch = (formData: FormData) => {
+        const SearchParams = new URLSearchParams(searchParams);
+        const searchText = formData.get("text") as string;
+        console.log("searchText: ", searchText);
+
+        if (!searchText && !count) {
+            SearchParams.delete("text");
+            replace(`?${SearchParams.toString()}`);
+            dispatch(vacanciesActions.startLoadingVacancies());
+            setCount(1);
+            return;
+        }
+
+        if (searchText === searchTextParams || !searchText) {
+            console.log("return: ");
+            return;
+        }
+        setCount(0);
+        dispatch(vacanciesActions.startLoadingVacancies());
+
+        //const searchText = e.currentTarget.elements.text.value;
+        setInpValue(searchText);
+
+        if (jobCategory || regionCode || offset || searchText) {
+            if (jobCategory) SearchParams.set("jobCategory", jobCategory);
+            if (regionCode) SearchParams.set("regionCode", regionCode);
+            if (offset) SearchParams.set("offset", offset || "0");
+            if (searchText) SearchParams.set("text", decodeURIComponent(searchText));
+        }
+
         replace(`?${SearchParams.toString()}`);
     };
 
@@ -69,7 +127,7 @@ function Search({ countVacancies }: { countVacancies: number }) {
         <>
             <div className={clsx(styles.search, styles.desktop)}>
                 <h1 className={styles.search__title}>Поиск по вакансиям</h1>
-                <form className={styles.search__form} /* action={getVacanciesSearchWith} */ onSubmit={onFormSubmit}>
+                <form className={styles.search__form} action={getVacanciesSearch} /* onSubmit={onFormSubmit} */>
                     <div className={styles.search__wrap}>
                         <SearchIcon className={styles.search__icon} />
                         <input
@@ -81,6 +139,7 @@ function Search({ countVacancies }: { countVacancies: number }) {
                             value={inpVal}
                         />
                         <p className={styles.search__count}>{plural(forms, countVacancies)}</p>
+                        {/*  <Submit /> */}
                         <button disabled={isLoadingVacancies} className={styles.search__button} type="submit">
                             {isLoadingVacancies ? <SpinnerIcon width={"24px"} height={24} /> : "Поиск"}
                         </button>

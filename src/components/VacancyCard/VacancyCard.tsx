@@ -1,7 +1,6 @@
 import { VacancyCardProps as VacancyCardProps } from "./VacancyCard.props";
 import styles from "./VacancyCard.module.scss";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
 
 export default function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory, idx }: VacancyCardProps) {
     // await new Promise((resolve) => setTimeout(resolve, 0));
@@ -25,12 +24,7 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
     const urlDecode = decodeURIComponent(url);
 
     return (
-        <motion.div
-            className={styles.vacancy}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ delay: idx * 0.1, duration: 0.5 }}>
+        <div className={styles.vacancy}>
             <div className={styles.vacancy__hr}></div>
             <Link className={styles.vacancy__link} href={urlDecode} target="_blank">
                 <h6 className={styles.vacancy__title}>{vacancyName.charAt(0).toUpperCase() + vacancyName.slice(1)}</h6>
@@ -68,6 +62,6 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
                         fill="#4C6888"></path>
                 </svg>
             </Link>
-        </motion.div>
+        </div>
     );
 }

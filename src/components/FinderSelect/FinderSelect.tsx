@@ -9,12 +9,6 @@ import { useSelector } from "react-redux";
 import { selectRegionsData } from "@/app/lib/store/features/regions/selectors/selectRegionsData";
 import { vacanciesActions } from "@/app/lib/store/features/vacancies/vacanciesSlice";
 
-interface PropsFinderSelect {
-    regions?: VacancyRegion[];
-}
-
-// const arrRegion = [{1	'Республика Адыгея (Адыгея)'}]
-
 const FinderSelect = () => {
     const [regionCodeStorage, setRegionCodeStorage] = useState("");
 
@@ -40,11 +34,15 @@ const FinderSelect = () => {
         return { value: item.code, label: item.name };
     });
 
+    /*  const getSelectVacancies = (formData: FormData) => {
+        console.log("formData: ", formData);
+    }; */
+
     function handleChange(value: string | null) {
         dispatch(vacanciesActions.startLoadingVacancies());
 
         if (!value) {
-            localStorage.setItem("regionCode", "");
+            // localStorage.setItem("regionCode", "");
         }
 
         let url = `${pathname}?`;
