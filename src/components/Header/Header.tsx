@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { HeaderProps } from "./Header.props";
 import Link from "next/link";
 import styles from "./Header.module.scss";
@@ -8,12 +8,21 @@ import { Modal } from "@mantine/core";
 import clsx from "clsx";
 import { useDisclosure } from "@mantine/hooks";
 import FinderSelect from "../FinderSelect/FinderSelect";
+import { Button } from "@mantine/core";
+import { useSearchParams } from "next/navigation";
+import { useSelector } from "react-redux";
+import { selectRegionsData } from "@/app/lib/store/features/regions/selectors/selectRegionsData";
+import { VacancyRegion } from "@/app/lib/types";
+import RegionSelect from "../RegionSelect/RegionSelect";
 
 const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
     const [showNavbar, setShowNavbar] = useState(false);
     const [showSidebar, setShowSidebar] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const [opened, { open, close }] = useDisclosure(false);
+    const regionCodeStorage = localStorage.getItem("regionCode") || "0000000000000";
+
+    const regionsData = useSelector(selectRegionsData);
 
     const controlNavbar = () => {
         if (window.scrollY > lastScrollY) {
@@ -45,6 +54,24 @@ const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
         }
     }, [showSidebar]);
 
+    const regionMock: VacancyRegion = {
+        code: "0000000000000",
+        name: "Вся Россия",
+        shortName: "",
+        text: "",
+        key: "",
+    };
+
+    const regionName = useMemo(() => {
+        if (regionsData) {
+            return (
+                [regionMock, ...regionsData]?.find((item) => {
+                    return item.code === regionCodeStorage;
+                })?.name || regionMock.name
+            );
+        }
+    }, [regionsData, regionCodeStorage]);
+
     return (
         <>
             <header className={clsx(className, styles.desktop)} {...props}>
@@ -53,7 +80,6 @@ const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                         <Link className={styles.header__logo} href={`/`}>
                             JOB
                         </Link>
-                        {/*  <FinderSelect regions={store.regionsList} /> */}
                         <div className={styles.header__search}>
                             <input type="text" placeholder="Поиск по вакансиям" />
                             <div className={styles.search__icon}></div>
@@ -61,7 +87,7 @@ const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                         <div className={styles.header__info}>
                             <div className={styles.info__cities}>
                                 <span onClick={open} className={styles["city-name"]}>
-                                    Санкт-Петербург
+                                    {regionName}
                                 </span>
                                 <div className={styles["city-logo"]}>
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -155,17 +181,54 @@ const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <Modal
-                centered
-                opened={opened}
-                onClose={close}
-                title="Authentication"
-                overlayProps={{
-                    backgroundOpacity: 0.55,
-                    blur: 3,
-                }}>
-                <FinderSelect /* regions={store.regions} */ />
-            </Modal>
+
+            <Modal.Root centered opened={opened} onClose={close}>
+                <Modal.Overlay />
+                <Modal.Content
+                    styles={{
+                        content: {
+                            maxWidth: "550px",
+                            padding: "60px",
+                            textAlign: "end",
+                            borderRadius: "16px",
+                        },
+                    }}>
+                    <Modal.CloseButton className={styles.closebutton} />
+                    <Modal.Header
+                        styles={{
+                            header: {
+                                justifyContent: "center",
+                            },
+                        }}>
+                        <Modal.Title
+                            styles={{
+                                title: {
+                                    color: "#002855",
+                                    fontSize: "36px",
+                                    fontWeight: "500",
+                                    lineHeight: "42px",
+                                    whiteSpace: "nowrap",
+                                },
+                            }}>
+                            Выберите город
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body
+                        styles={{
+                            body: {
+                                textAlign: "center",
+                                padding: 0,
+                            },
+                        }}>
+                        <div className={styles.modal__select}>
+                            <RegionSelect />
+                        </div>
+                        <Button onClick={close} classNames={styles} variant="filled">
+                            Сохранить
+                        </Button>
+                    </Modal.Body>
+                </Modal.Content>
+            </Modal.Root>
         </>
     );
 };

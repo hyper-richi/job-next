@@ -2,7 +2,7 @@
 
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RegionsSchema } from "./types/regions";
-import { VacancyRegion } from "../../types";
+import { VacancyRegion } from "@/app/lib/types";
 
 const initialState: RegionsSchema = {
     isLoading: false,
@@ -28,7 +28,5 @@ export const regionsSlice = createSlice({
     },
 });
 
-
 export const { actions: regionsActions } = regionsSlice;
 export const { reducer: regionsReducer } = regionsSlice;
-

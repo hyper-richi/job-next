@@ -7,9 +7,9 @@ import { useEffect, useState } from "react";
 import { plural } from "@/helpers/plural";
 import clsx from "clsx";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "@/app/lib/hooks";
-import { selectVacanciesIsLoading } from "@/app/lib/features/vacancies/selectors/selectVacanciesIsLoading";
-import { vacanciesActions } from "@/app/lib/features/vacancies/vacanciesSlice";
+import { useAppDispatch } from "@/app/lib/store/hooks";
+import { selectVacanciesIsLoading } from "@/app/lib/store/features/vacancies/selectors/selectVacanciesIsLoading";
+import { vacanciesActions } from "@/app/lib/store/features/vacancies/vacanciesSlice";
 
 interface FormElements extends HTMLFormControlsCollection {
     text: HTMLInputElement;

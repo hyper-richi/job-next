@@ -8,7 +8,7 @@ import styles from "./layout.module.scss";
 import "@mantine/core/styles.css";
 import "./globals.css";
 import { Provider } from "mobx-react";
-import StoreProvider from "./lib/StoreProvider";
+import StoreProvider from "./lib/store/StoreProvider";
 // import store from "../store/store";
 
 const GTEestiProText = localFont({

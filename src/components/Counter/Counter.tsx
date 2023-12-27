@@ -1,8 +1,8 @@
 "use client";
 
-import { increment, decrement } from "@/app/lib/features/counter/counterSlice";
-import { useAppSelector } from "@/app/lib/hooks";
-import { RootState } from "@/app/lib/store";
+import { decrement, increment } from "@/app/lib/store/features/counter/counterSlice";
+import { useAppSelector } from "@/app/lib/store/hooks";
+import { RootState } from "@/app/lib/store/store";
 import { useDispatch } from "react-redux";
 
 const Counter = () => {

@@ -5,6 +5,7 @@ import styles from "./Finder.module.scss";
 import React, { Suspense } from "react";
 import FinderSelect from "../FinderSelect/FinderSelect";
 import { VacancyCardAsync } from "../VacancyCard/VacancyCard.async";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Finder({ regions, results, regionCode, searchText, offset, jobCategory }: FinderProps) {
     return (
@@ -18,23 +19,27 @@ export default function Finder({ regions, results, regionCode, searchText, offse
             <div className={styles.content}>
                 <div className={styles.content__results}>
                     {/*   <VacancysSkeleton /> */}
+
                     <Suspense key={searchText} fallback={<VacancysSkeleton />}>
-                        {results?.vacancies ? (
-                            results.vacancies?.map((item, idx) => {
-                                return (
-                                    <VacancyCard
-                                        key={item.vacancy.id}
-                                        jobCategory={jobCategory}
-                                        searchText={searchText}
-                                        offset={offset}
-                                        regionCode={regionCode}
-                                        vacancy={item}
-                                    />
-                                );
-                            })
-                        ) : (
-                            <h4 className={styles.empty}>Ничего не найдено</h4>
-                        )}
+                        <AnimatePresence>
+                            {results?.vacancies ? (
+                                results.vacancies?.map((item, idx) => {
+                                    return (
+                                        <VacancyCard
+                                            idx={idx}
+                                            key={item.vacancy.id}
+                                            jobCategory={jobCategory}
+                                            searchText={searchText}
+                                            offset={offset}
+                                            regionCode={regionCode}
+                                            vacancy={item}
+                                        />
+                                    );
+                                })
+                            ) : (
+                                <h4 className={styles.empty}>Ничего не найдено</h4>
+                            )}
+                        </AnimatePresence>
                     </Suspense>
                 </div>
             </div>

@@ -3,7 +3,7 @@
 
 //https://opendata.trudvsem.ru/api/v1/vacancies/region/6100000000000?offset=1&limit=100&text=инженер
 // "use client";
-import { ResponseData, ResponseRegions, ResponseVacancy } from "./types";
+import { ResponseData, ResponseRegions, ResponseVacancy } from "../types";
 
 // "no-store" - SSR getServerSideProps рендер на сервере
 // "force-cache" - SSG getStaticProps статическая генерация страниц

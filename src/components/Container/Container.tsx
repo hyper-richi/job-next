@@ -1,15 +1,11 @@
 "use client";
-import React, { useEffect } from "react";
-import CustomPagination from "../CustomPagination/CustomPagination";
-import TitleCategory from "../TitleCategory/TitleCategory";
-import Search from "../Search/Search";
+import React from "react";
 import { ContainerProps } from "./Container.props";
 import Finder from "../Finder/Finder";
-
-import Counter from "../Counter/Counter";
-import { useAppDispatch } from "@/app/lib/hooks";
-import { regionsActions } from "@/app/lib/features/regions/regionsSlice";
-import { vacanciesActions } from "@/app/lib/features/vacancies/vacanciesSlice";
+import { useAppDispatch } from "@/app/lib/store/hooks";
+import { vacanciesActions } from "@/app/lib/store/features/vacancies/vacanciesSlice";
+import { regionsActions } from "@/app/lib/store/features/regions/regionsSlice";
+import { VacancyRegion } from "@/app/lib/types";
 
 const Container = ({
     statusUploadVacancies,
@@ -24,12 +20,12 @@ const Container = ({
     const dispatch = useAppDispatch();
 
     if (statusUploadVacancies === "200") {
-        //   console.log("statusUploadVacancies: ", statusUploadVacancies);
         dispatch(vacanciesActions.stopLoadingVacancies());
     }
 
     if (statusUploadRegions === "SUCCESS") {
         if (regions) {
+
             dispatch(regionsActions.setRegionsData(regions));
         }
         dispatch(regionsActions.stopLoading());

@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import styles from "./FinderSelect.module.scss";
+import React, { useEffect, useMemo, useState } from "react";
+import styles from "./RegionSelect.module.scss";
 import { Select } from "@mantine/core";
 import { VacancyRegion } from "@/app/lib/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -9,66 +9,60 @@ import { useSelector } from "react-redux";
 import { selectRegionsData } from "@/app/lib/store/features/regions/selectors/selectRegionsData";
 import { vacanciesActions } from "@/app/lib/store/features/vacancies/vacanciesSlice";
 
-interface PropsFinderSelect {
-    regions?: VacancyRegion[];
-}
 
-// const arrRegion = [{1	'Республика Адыгея (Адыгея)'}]
+const RegionSelect = () => {
+    const regionCodeStorage = localStorage.getItem("regionCode") || "0000000000000";
 
-const FinderSelect = () => {
-    const [regionCodeStorage, setRegionCodeStorage] = useState("");
-
+    const [regionCodeState, setRegionCodeStorage] = useState(regionCodeStorage);
     const [searchValue, setSearchValue] = useState("");
+    const { replace } = useRouter();
 
     const searchParams = useSearchParams();
-    const router = useRouter();
-    const pathname = usePathname();
-    const dispatch = useAppDispatch();
+    const SearchParams = new URLSearchParams(searchParams);
+
     const regionsData = useSelector(selectRegionsData);
 
-    const jobCategory = searchParams.get("jobCategory");
-    const searchText = searchParams.get("text");
-    const offset = searchParams.get("offset");
-    const regionCode = searchParams.get("regionCode");
+    // const regionCode = searchParams.get("regionCode");
 
     /*  useEffect(() => {
         const value = localStorage.getItem("regionCode") || "";
         setRegionCodeStorage(value);
     }, []); */
 
-    const arrRegionsName = regionsData?.map((item) => {
-        return { value: item.code, label: item.name };
-    });
+    const regionMock: VacancyRegion = {
+        code: "0000000000000",
+        name: "Вся Россия",
+        shortName: "",
+        text: "",
+        key: "",
+    };
+
+    const arrRegionsName = useMemo(() => {
+        if (regionsData) {
+            return [regionMock, ...regionsData]?.map((item) => {
+                return { value: item.code, label: item.name };
+            });
+        } else {
+            return [{ value: regionMock.code, label: regionMock.name }];
+        }
+    }, [regionsData]);
 
     function handleChange(value: string | null) {
-        dispatch(vacanciesActions.startLoadingVacancies());
-
         if (!value) {
-            localStorage.setItem("regionCode", "");
-        }
-
-        let url = `${pathname}?`;
-
-        if (jobCategory) {
-            url = url + `jobCategory=${jobCategory}&`;
+            localStorage.setItem("regionCode", "0000000000000");
         }
         if (value) {
-            url = url + `regionCode=${value}&`;
+            /// SearchParams.set("regionCode", value);
+            //  replace(`?${SearchParams.toString()}`);
+            localStorage.setItem("regionCode", value);
         }
-        if (offset) {
-            url = url + `offset=${offset}&`;
-        }
-        if (searchText) {
-            url = url + `text=${searchText}`;
-        }
-        router.push(url);
     }
 
     return (
         <div className={styles.filters__selects}>
             <Select
                 // disabled
-                value={regionCode}
+                value={regionCodeStorage}
                 onChange={(value) => handleChange(value)}
                 searchable
                 clearable
@@ -83,4 +77,4 @@ const FinderSelect = () => {
     );
 };
 
-export default FinderSelect;
+export default RegionSelect;
