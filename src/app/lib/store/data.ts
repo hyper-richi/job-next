@@ -3,7 +3,7 @@
 
 //https://opendata.trudvsem.ru/api/v1/vacancies/region/6100000000000?offset=1&limit=100&text=инженер
 // "use client";
-import { ResponseData, ResponseRegions, ResponseVacancy } from "../types";
+import { ResponseAdress, ResponseData, ResponseRegions, ResponseVacancy } from "../types";
 
 // "no-store" - SSR getServerSideProps рендер на сервере
 // "force-cache" - SSG getStaticProps статическая генерация страниц
@@ -108,17 +108,35 @@ export async function getVacancy(companyId: string, vacancyId: string): Promise<
         throw new Error("Failed to fetch revenue data.");
     }
 }
-// vacancies/region/6100000000000?industry=InformationTechnology&offset=0&limit=100
 
-/* export async function getDataJobCategory(jobCategory?: string, query?: string, offset?: string): Promise<ResponseData> {
+export async function getAdress(latitude: string, longitude: string): Promise<ResponseAdress> {
     try {
-        const url = `?industry=${jobCategory}&text=${query}&offset=${offset || "0"}&limit=100`;
-        const res = await fetch(process.env.API_BASE_URL + url, {
+        const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude},${longitude}&key=${"aa335a498cd141c2b240085fa3c2b025"}`;
+        const res = await fetch(url, {
             cache: "no-store",
-        });
-        return res.json();
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.status.code === 200) {
+                    return data;
+                } else {
+                    console.log("Reverse geolocation request failed.");
+                    throw new Error("Reverse geolocation request failed");
+                }
+            });
+        return res;
     } catch (error) {
-        console.error("Fetch Error:", error);
-        throw new Error("Failed to fetch revenue data.");
+        console.error("Reverse geolocation request failed.", error);
+        throw new Error("Reverse geolocation request failed.");
     }
-} */
+}
+/*  fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.status.code === 200) {
+                console.log("getAdress:", data);
+            } else {
+                console.log("Reverse geolocation request failed.");
+            }
+        })
+        .catch((error) => console.error(error)); */

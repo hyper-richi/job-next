@@ -16,10 +16,13 @@ import PointIcon from "../../../public/images/svg/pointIcon.svg";
 import VKIcon from "../../../public/images/svg/vkIcon.svg";
 import TelegrammIcon from "../../../public/images/svg/telegrammIcon.svg";
 
+//
+
 const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
+   // console.log("Header: ");
     const [showNavbar, setShowNavbar] = useState(false);
     const [showSidebar, setShowSidebar] = useState(true);
-    const [lastScrollY, setLastScrollY] = useState(0);
+    const [lastScrollY, setLastScrollY] = useState(0);// useRef
     const [opened, { open, close }] = useDisclosure(false);
     const regionCodeStorage = localStorage.getItem("regionCode") || "0000000000000";
 

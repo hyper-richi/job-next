@@ -83,6 +83,49 @@ interface Company {
     site: string;
     url: string;
 }
+// status: { code: 200, message: 'OK' }
+
+/* results: [
+    {
+      annotations: [Object],
+      bounds: [Object],
+      components: [Object],
+      confidence: 10,
+      formatted: 'Комсомольская улица 24, Лермонтов, Ставропольский край, Россия, 357340',
+      geometry: [Object]
+    }
+  ], */
+
+interface StatusAdressResonse {
+    code: number;
+    message: string;
+}
+
+interface Adress {
+    continent?: string;
+    country: string;
+    country_code: string;
+    county: string;
+    house_number: string;
+    postcode: string;
+    region: string;
+    road: string;
+    state: string;
+    town?: string;
+    city?: string;
+    village?: string;
+    city_district?: string;
+}
+
+interface ResultAdress {
+    components: Adress;
+    formatted: string;
+}
+
+interface ResponseAdress {
+    status: string;
+    results: ResultAdress[];
+}
 
 interface ResponseData {
     status: string;
@@ -94,6 +137,7 @@ interface ResponseVacancy {
     meta: Meta;
     results: Results;
 }
+
 // type ResultsEmptyObj = Record<Results, {}>;
 
 interface Components {
