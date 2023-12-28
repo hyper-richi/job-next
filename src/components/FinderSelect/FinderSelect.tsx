@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { selectRegionsData } from "@/app/lib/store/features/regions/selectors/selectRegionsData";
 import { vacanciesActions } from "@/app/lib/store/features/vacancies/vacanciesSlice";
 
-const FinderSelect = () => {
+const FinderSelect = ({ totalPages }: { totalPages: number }) => {
     const [regionCodeStorage, setRegionCodeStorage] = useState("");
 
     const [searchValue, setSearchValue] = useState("");
@@ -54,7 +54,7 @@ const FinderSelect = () => {
             url = url + `regionCode=${value}&`;
         }
         if (offset) {
-            url = url + `offset=${offset}&`;
+            url = url + `offset=${0}&`;
         }
         if (searchText) {
             url = url + `text=${searchText}`;

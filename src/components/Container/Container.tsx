@@ -16,6 +16,7 @@ const Container = ({
     regionCode,
     offset,
     searchText,
+    totalPages,
 }: ContainerProps) => {
     const dispatch = useAppDispatch();
 
@@ -25,7 +26,6 @@ const Container = ({
 
     if (statusUploadRegions === "SUCCESS") {
         if (regions) {
-
             dispatch(regionsActions.setRegionsData(regions));
         }
         dispatch(regionsActions.stopLoading());
@@ -40,6 +40,7 @@ const Container = ({
                 regionCode={regionCode}
                 offset={offset}
                 searchText={searchText}
+                totalPages={totalPages}
             />
         </>
     );

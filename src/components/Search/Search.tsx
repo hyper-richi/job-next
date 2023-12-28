@@ -38,8 +38,6 @@ function Submit() {
 function Search({ countVacancies }: { countVacancies: number }) {
     const dispatch = useAppDispatch();
     const [inpVal, setInpValue] = useState("");
-    const [count, setCount] = useState(0);
-    console.log("count: ", count);
     const isLoadingVacancies = useSelector(selectVacanciesIsLoading);
 
     /* const { pending, data, method, action } = useFormStatus();
@@ -60,38 +58,22 @@ function Search({ countVacancies }: { countVacancies: number }) {
         setInpValue(searchTextParams || "");
     }, [searchTextParams]);
 
-    const onFormSubmit = (e: React.FormEvent<YourFormElement>) => {
-        const SearchParams = new URLSearchParams(searchParams);
-        e.preventDefault();
-
-        dispatch(vacanciesActions.startLoadingVacancies());
-
-        const searchText = e.currentTarget.elements.text.value;
-
-        setInpValue(searchText);
-        if (jobCategory || regionCode || offset || searchText) {
-            if (jobCategory) SearchParams.set("jobCategory", jobCategory);
-            if (regionCode) SearchParams.set("regionCode", regionCode);
-            if (offset) SearchParams.set("offset", offset || "0");
-            if (searchText) SearchParams.set("text", decodeURIComponent(searchText));
-        }
-        if (!searchText) {
-            SearchParams.delete("text");
-            replace(`?${SearchParams.toString()}`);
-        }
-        replace(`?${SearchParams.toString()}`);
-    };
-
     const getVacanciesSearch = (formData: FormData) => {
         const SearchParams = new URLSearchParams(searchParams);
         const searchText = formData.get("text") as string;
-        console.log("searchText: ", searchText);
+        setInpValue(searchText);
 
-        if (!searchText && !count) {
+        if (jobCategory || regionCode || offset || searchText) {
+            if (jobCategory) SearchParams.set("jobCategory", jobCategory);
+            if (regionCode) SearchParams.set("regionCode", regionCode);
+            if (offset) SearchParams.set("offset", "0");
+            if (searchText) SearchParams.set("text", decodeURIComponent(searchText));
+        }
+
+        if (searchTextParams && !searchText) {
             SearchParams.delete("text");
             replace(`?${SearchParams.toString()}`);
             dispatch(vacanciesActions.startLoadingVacancies());
-            setCount(1);
             return;
         }
 
@@ -99,26 +81,14 @@ function Search({ countVacancies }: { countVacancies: number }) {
             console.log("return: ");
             return;
         }
-        setCount(0);
-        dispatch(vacanciesActions.startLoadingVacancies());
-
-        //const searchText = e.currentTarget.elements.text.value;
-        setInpValue(searchText);
-
-        if (jobCategory || regionCode || offset || searchText) {
-            if (jobCategory) SearchParams.set("jobCategory", jobCategory);
-            if (regionCode) SearchParams.set("regionCode", regionCode);
-            if (offset) SearchParams.set("offset", offset || "0");
-            if (searchText) SearchParams.set("text", decodeURIComponent(searchText));
-        }
 
         replace(`?${SearchParams.toString()}`);
+        dispatch(vacanciesActions.startLoadingVacancies());
     };
 
     /* const handleClick = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
         const { status } = await getVacancies({ jobCategory, offset, regionCode, searchText });
-        // setLikes(updatedLikes);
     }; */
 
     const forms = ["вакансия", "вакансии", "вакансий"];
