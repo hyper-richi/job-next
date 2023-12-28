@@ -124,17 +124,19 @@ function Search({ countVacancies }: { countVacancies: number }) {
                                 <path d="M6.663 11.994a5.33 5.33 0 115.33-5.33.667.667 0 01-1.332 0A3.997 3.997 0 109.49 9.49l.471-.471 4.743 4.743a.667.667 0 01-.942.943l-3.83-3.83a5.311 5.311 0 01-3.269 1.12z"></path>
                             </svg>
                         </div>
-                        {/* <form className={styles.search__form} onSubmit={onFormSubmit}>
+                        <form className={styles.search__form} action={getVacanciesSearch}>
                             <input
                                 onChange={(e) => setInpValue(e.target.value)}
                                 className={styles.search__input}
-                                // defaultValue={searchParams.get("text")?.toString() || ""}
                                 placeholder="Введите название должности"
                                 type="text"
                                 name="text"
                                 value={inpVal}
                             />
-                        </form> */}
+                            <button disabled={isLoadingVacancies} className={styles.search__button} type="submit">
+                                {isLoadingVacancies ? <SpinnerIcon width={"24px"} height={24} /> : "Поиск"}
+                            </button>
+                        </form>
                     </div>
                 </div>
                 <p className={styles.search__count}>Найдено: {plural(forms, countVacancies)}</p>

@@ -123,7 +123,7 @@
     padding: 0 16px;
 
     &__wrapper {
-        padding: 10px;
+        padding: 0px;
         background-color: #e5e9ee;
         border-radius: 10px;
     }
@@ -136,7 +136,7 @@
     &__icon {
         height: 16px;
         margin-right: 6px;
-        cursor: pointer;
+        padding: 0 5px;
     }
 
     input {
@@ -166,6 +166,22 @@
 
 .mobile {
     display: none;
+
+    .search__form {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+    .search__input {
+        &::placeholder {
+            font-size: 14px;
+        }
+    }
+
+    .search__button {
+        padding: 10px;
+    }
 }
 
 @media screen and (max-width: 800px) {

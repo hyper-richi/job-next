@@ -25,18 +25,9 @@ const FinderSelect = ({ totalPages }: { totalPages: number }) => {
     const offset = searchParams.get("offset");
     const regionCode = searchParams.get("regionCode");
 
-    /*  useEffect(() => {
-        const value = localStorage.getItem("regionCode") || "";
-        setRegionCodeStorage(value);
-    }, []); */
-
     const arrRegionsName = regionsData?.map((item) => {
         return { value: item.code, label: item.name };
     });
-
-    /*  const getSelectVacancies = (formData: FormData) => {
-        console.log("formData: ", formData);
-    }; */
 
     function handleChange(value: string | null) {
         dispatch(vacanciesActions.startLoadingVacancies());

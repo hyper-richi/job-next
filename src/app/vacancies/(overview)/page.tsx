@@ -30,7 +30,6 @@ export default async function Page({ params, searchParams }: Params) {
     const { data, code: statusUploadRegions } = await getRegions();
 
     const totalPages = meta.total / 100 > 100 ? 100 : Math.ceil(meta.total / 100);
-    console.log("totalPages: ", totalPages);
 
     return (
         <div className={styles.vacancies}>

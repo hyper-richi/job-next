@@ -20,6 +20,8 @@ export default async function Vacancy({ params }: Params) {
 
     const { results, meta } = await getVacancy(companyId, vacancyId);
     const vacancy = Object.keys(results).length ? results.vacancies[0].vacancy : null;
+    console.log("vacancy.address: ", vacancy?.addresses.address);
+    console.log("vacancy?.duty: ", vacancy?.duty);
 
     const lng = vacancy?.addresses?.address[0]?.lng;
     const lat = vacancy?.addresses?.address[0]?.lat;
@@ -39,8 +41,8 @@ export default async function Vacancy({ params }: Params) {
         },
     };
 
-    const duty = vacancy ? parse(vacancy?.duty) : null;
-    const qualification = vacancy?.requirement.qualification ? parse(vacancy.requirement.qualification) : null;
+    const duty = vacancy ? parse(vacancy?.duty || "") : null;
+    const qualification = vacancy?.requirement.qualification ? parse(vacancy.requirement.qualification || "") : null;
 
     const experience = function (experience: number) {
         switch (experience) {
