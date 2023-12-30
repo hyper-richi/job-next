@@ -10,7 +10,7 @@
 
 .header {
     display: grid;
-    grid-template-columns: 10fr 16fr 10fr;
+    grid-template-columns: 10fr 16fr;
     height: 72px;
     padding: 0 120px;
     align-items: center;
@@ -82,7 +82,6 @@
         padding-left: 12px;
         grid-column-gap: 12px;
         column-gap: 12px;
-        cursor: pointer;
         grid-template-columns: max-content 24px;
         margin-right: 6px;
     }
@@ -96,9 +95,11 @@
 }
 .city-logo {
     height: 24px;
+    cursor: pointer;
 }
 .city-name {
     font-weight: 500;
+    cursor: pointer;
 }
 
 .mobile {
@@ -124,8 +125,6 @@
             outline: inherit;
             display: flex;
             align-items: center;
-
-           
         }
     }
     &__sidebar {
@@ -148,17 +147,37 @@
         height: 100%;
         background-color: #fff;
     }
+
     &__nav {
         display: flex;
         flex-direction: column;
     }
 
-    &__item {
+    &__item__logo {
         display: flex;
         height: 66px;
         align-items: center;
         padding: 16px;
         border-bottom: 1px solid #e5e9ee;
+        color: #005bff;
+        gap: 12px;
+        cursor: pointer;
+    }
+
+    &__location {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__city__logo {
+        height: 24px;
+        position: relative;
+        bottom: 4px;
+        circle {
+            fill: #fff;
+        }
     }
 }
 
@@ -193,4 +212,31 @@
     .mobile {
         display: block !important;
     }
+}
+
+.mantine-Modal-content {
+    max-width: 550px;
+    padding: 60px;
+}
+.modal {
+    &__select {
+        margin-bottom: 32px;
+        margin-top: 32px;
+    }
+}
+.closebutton {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    &:focus-visible {
+        outline: none;
+    }
+}
+
+.root {
+    // padding: 18px 24px;
+    border-radius: 12px;
+    background-color: #005bff;
+    height: 56px;
 }

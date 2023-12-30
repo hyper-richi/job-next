@@ -1,0 +1,30 @@
+import { configureStore } from "@reduxjs/toolkit";
+import counterReducer from "./features/counter/counterSlice";
+import { regionsReducer } from "./features/regions/regionsSlice";
+import { vacanciesReducer } from "./features/vacancies/vacanciesSlice";
+
+export const makeStore = () => {
+    return configureStore({
+        reducer: {
+            counter: counterReducer,
+            regions: regionsReducer,
+            vacancies: vacanciesReducer,
+        },
+    });
+};
+
+/*
+
+export const store = configureStore({
+    reducer: {
+        counter: counterReducer
+    }
+})
+
+*/
+
+// Infer the type of makeStore
+export type AppStore = ReturnType<typeof makeStore>;
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];

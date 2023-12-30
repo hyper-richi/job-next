@@ -7,4 +7,5 @@ export interface VacancyCardProps extends DetailedHTMLProps<HTMLAttributes<HTMLD
     offset?: string;
     regionCode?: string;
     jobCategory?: string;
+    idx: number;
 }

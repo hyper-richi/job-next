@@ -1,12 +1,13 @@
-// "use client";
 import styles from "./page.module.scss";
 import Search from "@/components/Search/Search";
 import { Metadata } from "next";
-import { getRegions, getVacancies } from "../../lib/data";
+import { getRegions, getVacancies } from "../../lib/store/data";
 import Finder from "@/components/Finder/Finder";
 import CustomPagination from "@/components/CustomPagination/CustomPagination";
 import TitleCategory from "@/components/TitleCategory/TitleCategory";
 import Container from "@/components/Container/Container";
+import Counter from "@/components/Counter/Counter";
+import { VacancyRegion } from "@/app/lib/types";
 
 export const metadata: Metadata = {
     title: "Поиск по вакансиям",
@@ -25,8 +26,13 @@ export default async function Page({ params, searchParams }: Params) {
     const regionCode = searchParams?.regionCode || "";
     const jobCategory: string = params.jobCategory || "";
 
-    const { results, meta, status: statusUploadVacancies } = await getVacancies({ searchText, offset, regionCode, jobCategory });
-    const { data, code: statusUploadRegions } = await getRegions();
+    const {
+        results: vacancies,
+        meta,
+        status: statusUploadVacancies,
+    } = await getVacancies({ searchText, offset, regionCode, jobCategory });
+
+    const { data: regions, code: statusUploadRegions } = await getRegions();
 
     const totalPages = meta.total / 100 > 100 ? 100 : Math.ceil(meta.total / 100);
 
@@ -34,20 +40,13 @@ export default async function Page({ params, searchParams }: Params) {
         <div className={styles.vacancies}>
             <CustomPagination totalPages={totalPages} />
             <TitleCategory jobCategory={jobCategory || "/vacancies"} />
-            <Search countVacancies={meta.total} statusUploadVacancies={statusUploadVacancies}/>
-            {/* <Finder
-                regions={data.data}
-                results={results}
-                jobCategory={jobCategory}
-                regionCode={regionCode}
-                offset={offset}
-                searchText={searchText}
-            /> */}
+            {/*  <Counter /> */}
+            <Search countVacancies={meta.total || 0} />
             <Container
                 statusUploadRegions={statusUploadRegions}
                 statusUploadVacancies={statusUploadVacancies}
-                regions={data}
-                results={results}
+                regions={regions}
+                vacancies={vacancies}
                 totalPages={totalPages}
                 countVacancies={meta.total}
                 jobCategory={jobCategory}

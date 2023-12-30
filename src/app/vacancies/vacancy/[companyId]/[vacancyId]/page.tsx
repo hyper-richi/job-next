@@ -1,4 +1,4 @@
-import { getVacancy } from "@/app/lib/data";
+import { getAdress, getVacancy } from "@/app/lib/store/data";
 import parse, { DOMNode, HTMLReactParserOptions, Element, domToReact } from "html-react-parser";
 import styles from "./page.module.scss";
 import { notFound, useRouter } from "next/navigation";
@@ -8,6 +8,8 @@ import Link from "next/link";
 import VacancyShare from "@/components/VacancyShare/VacancyShare";
 import MapVacancy from "@/components/MapVacancy/MapVacancy";
 import ButtonBack from "@/components/ButtonBack/ButtonBack";
+import Adress from "@/components/Adress/Adress";
+import { ResponseAdress } from "@/app/lib/types";
 
 interface Params {
     searchParams?: { text?: string; offset?: string; jobCategory?: string };
@@ -21,9 +23,19 @@ export default async function Vacancy({ params }: Params) {
     const { results, meta } = await getVacancy(companyId, vacancyId);
     const vacancy = Object.keys(results).length ? results.vacancies[0].vacancy : null;
 
-    const lng = vacancy?.addresses?.address[0]?.lng;
-    const lat = vacancy?.addresses?.address[0]?.lat;
-    const location = vacancy?.addresses?.address[0]?.location; //.split(".")[0];
+    if (!vacancy) {
+        notFound();
+    }
+
+    const longitude = vacancy.addresses?.address[0]?.lng;
+    const latitude = vacancy.addresses?.address[0]?.lat;
+
+    let dataAdress: ResponseAdress | undefined;
+    if (longitude && latitude) {
+        dataAdress = await getAdress(latitude, longitude);
+    }
+
+    const location = vacancy.addresses?.address[0]?.location;
 
     const options = {
         replace(domNode: DOMNode) {
@@ -39,8 +51,8 @@ export default async function Vacancy({ params }: Params) {
         },
     };
 
-    const duty = vacancy ? parse(vacancy?.duty) : null;
-    const qualification = vacancy?.requirement.qualification ? parse(vacancy.requirement.qualification) : null;
+    const duty = vacancy ? parse(vacancy.duty || "") : null;
+    const qualification = vacancy.requirement.qualification ? parse(vacancy.requirement.qualification || "") : null;
 
     const experience = function (experience: number) {
         switch (experience) {
@@ -56,10 +68,6 @@ export default async function Vacancy({ params }: Params) {
                 return `${experience} лет`;
         }
     };
-
-    if (!vacancy) {
-        notFound();
-    }
 
     return (
         <div className={styles.container}>
@@ -86,6 +94,7 @@ export default async function Vacancy({ params }: Params) {
                     </div>
                     <h1 className={styles.vacancy__info__name}>
                         {vacancy["job-name"].charAt(0).toUpperCase() + vacancy["job-name"].slice(1)}
+                        {/* {function()} */}
                     </h1>
                     <p className={styles.vacancy__info__salary}>
                         {vacancy?.salary && vacancy?.salary !== "от 0"
@@ -97,9 +106,9 @@ export default async function Vacancy({ params }: Params) {
                             <CountVacancyIcon width="18" height="22" />
                             <p className={styles.workplaces}>Количество рабочих мест: {vacancy.work_places}</p>
                         </div>
-                        <p>Адресс: {location}</p>
+                        <Adress adress={dataAdress?.results} location={location} />
                     </div>
-                    <MapVacancy lng={lng || ""} lat={lat || ""} />
+                    <MapVacancy lng={longitude || ""} lat={latitude || ""} />
                     <div className={styles.vacancy__info__body}>
                         <div>
                             {duty}

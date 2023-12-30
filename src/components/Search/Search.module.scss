@@ -17,7 +17,7 @@
         width: 100%;
     }
 
-    &__block {
+    &__wrap {
         font-size: 1.125rem;
         line-height: 1.75rem;
         background-image: linear-gradient(90deg, rgba(255, 255, 255, 1) 98%, rgba(37, 99, 235, 1) 0%);
@@ -27,6 +27,7 @@
         align-items: center;
         height: 56px;
     }
+
     &__icon {
         margin: 1rem;
     }
@@ -36,7 +37,7 @@
         padding: 0;
         border: none;
         background-color: #fff;
-        color: var(--dark-space-100);
+        color: #001a34;
         font-family: GT Eesti Pro Text, sans-serif;
         font-size: 18px;
         font-weight: 300;
@@ -79,8 +80,8 @@
             background-color: #005bff;
         }
         &:disabled {
-            background-color: #ccc;
-            opacity: 0.5;
+            background-color: #005bff;
+            cursor: no-drop;
         }
     }
 }
@@ -122,7 +123,7 @@
     padding: 0 16px;
 
     &__wrapper {
-        padding: 10px;
+        padding: 0px;
         background-color: #e5e9ee;
         border-radius: 10px;
     }
@@ -135,7 +136,7 @@
     &__icon {
         height: 16px;
         margin-right: 6px;
-        cursor: pointer;
+        padding: 0 5px;
     }
 
     input {
@@ -165,6 +166,22 @@
 
 .mobile {
     display: none;
+
+    .search__form {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+    .search__input {
+        &::placeholder {
+            font-size: 14px;
+        }
+    }
+
+    .search__button {
+        padding: 10px;
+    }
 }
 
 @media screen and (max-width: 800px) {

@@ -6,9 +6,9 @@ export interface ContainerProps {
     jobCategory?: string;
     regionCode?: string;
     statusUploadVacancies: string;
-    statusUploadRegions: string;
-    results: Results;
-    regions?: VacancyRegion[];
+    statusUploadRegions?: string;
+    vacancies: Results;
+    regions: VacancyRegion[];
     totalPages: number;
     countVacancies: number;
 }

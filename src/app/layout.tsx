@@ -8,6 +8,8 @@ import styles from "./layout.module.scss";
 import "@mantine/core/styles.css";
 import "./globals.css";
 import { Provider } from "mobx-react";
+import StoreProvider from "./lib/store/StoreProvider";
+import { getRegions } from "./lib/store/data";
 // import store from "../store/store";
 
 const GTEestiProText = localFont({
@@ -70,7 +72,9 @@ export const metadata: Metadata = {
     Создавайте резюме и откликайтесь на вакансии. Набирайте сотрудников и публикуйте вакансии.`,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+    const { data: regions, code: statusUploadRegions } = await getRegions();
+
     return (
         <html lang="ru">
             <head>
@@ -79,11 +83,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
                 <MantineProvider>
-                    {/*   <StoreProvider {...pageProps}> */}
-                    <Header />
-                    <main className={styles.container}>{children}</main>
-                    <Footer />
-                    {/*  </StoreProvider> */}
+                    <StoreProvider>
+                        <Header regions={regions}/>
+                        <main className={styles.container}>{children}</main>
+                        <Footer />
+                    </StoreProvider>
                 </MantineProvider>
             </body>
         </html>

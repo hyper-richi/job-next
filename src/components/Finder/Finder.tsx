@@ -6,23 +6,23 @@ import React, { Suspense } from "react";
 import FinderSelect from "../FinderSelect/FinderSelect";
 import { VacancyCardAsync } from "../VacancyCard/VacancyCard.async";
 
-export default function Finder({ regions, results, regionCode, searchText, offset, jobCategory }: FinderProps) {
+export default function Finder({ vacancies, regions, totalPages, regionCode, searchText, offset, jobCategory }: FinderProps) {
     return (
         <div className={styles.finder}>
             <div className={styles.filters}>
                 <div className={styles.filters__header}>
                     <h6 className={styles.filters__title}>Фильтры</h6>
                 </div>
-                <FinderSelect /* regions={regions} */ />
+                <FinderSelect totalPages={totalPages} regions={regions} />
             </div>
             <div className={styles.content}>
                 <div className={styles.content__results}>
-                    {/*   <VacancysSkeleton /> */}
                     <Suspense key={searchText} fallback={<VacancysSkeleton />}>
-                        {results?.vacancies ? (
-                            results.vacancies?.map((item, idx) => {
+                        {vacancies?.vacancies ? (
+                            vacancies.vacancies?.map((item, idx) => {
                                 return (
                                     <VacancyCard
+                                        idx={idx}
                                         key={item.vacancy.id}
                                         jobCategory={jobCategory}
                                         searchText={searchText}
