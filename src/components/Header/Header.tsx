@@ -15,18 +15,18 @@ import RegionSelect from "../RegionSelect/RegionSelect";
 import PointIcon from "../../../public/images/svg/pointIcon.svg";
 import VKIcon from "../../../public/images/svg/vkIcon.svg";
 import TelegrammIcon from "../../../public/images/svg/telegrammIcon.svg";
+import RegionsModal from "./RegionsModal/RegionsModal";
+import { useSearchParams } from "next/navigation";
 
-//
-
-const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
-   // console.log("Header: ");
+const Header = ({ className, regions, ...props }: HeaderProps): JSX.Element => {
     const [showNavbar, setShowNavbar] = useState(false);
     const [showSidebar, setShowSidebar] = useState(true);
-    const [lastScrollY, setLastScrollY] = useState(0);// useRef
+    const [showRegionsModal, setShowRegionsModal] = useState(false);
+    const [lastScrollY, setLastScrollY] = useState(0);
     const [opened, { open, close }] = useDisclosure(false);
-    const regionCodeStorage = localStorage.getItem("regionCode") || "0000000000000";
 
-    const regionsData = useSelector(selectRegionsData);
+    const searchParams = useSearchParams();
+    const regionCode = searchParams.get("regionCode") || "all";
 
     const controlNavbar = () => {
         if (window.scrollY > lastScrollY) {
@@ -52,29 +52,21 @@ const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
         e.stopPropagation();
     };
 
-    const closeHandler = useCallback(() => {
+    const closeHandlerSidebar = useCallback(() => {
         if (!showSidebar) {
             setShowSidebar(true);
         }
     }, [showSidebar]);
 
-    const regionMock: VacancyRegion = {
-        code: "0000000000000",
-        name: "Вся Россия",
-        shortName: "",
-        text: "",
-        key: "",
-    };
+    const closeHandlerRegionsModal = useCallback(() => {
+        setShowRegionsModal((prev) => !prev);
+    }, []);
 
     const regionName = useMemo(() => {
-        if (regionsData) {
-            return (
-                [regionMock, ...regionsData]?.find((item) => {
-                    return item.code === regionCodeStorage;
-                })?.name || regionMock.name
-            );
-        }
-    }, [regionsData, regionCodeStorage]);
+        if (regions) {
+            return regions?.find((item) => item.code === regionCode)?.name || "Вся Россия";
+        } else return "Вся Россия";
+    }, [regions, regionCode]);
 
     return (
         <>
@@ -84,10 +76,6 @@ const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                         <Link className={styles.header__logo} href={`/`}>
                             JOB
                         </Link>
-                        <div className={styles.header__search}>
-                            <input type="text" placeholder="Поиск по вакансиям" />
-                            <div className={styles.search__icon}></div>
-                        </div>
                         <div className={styles.header__info}>
                             <div className={styles.info__cities} onClick={open}>
                                 <span className={styles["city-name"]}>{regionName}</span>
@@ -122,15 +110,15 @@ const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                     </Link>
                     <div></div>
                 </div>
-                <div className={clsx(styles.mobile__sidebar, showSidebar && styles.hidden)} onClick={closeHandler}>
+                <div className={clsx(styles.mobile__sidebar, showSidebar && styles.hidden)} onClick={closeHandlerSidebar}>
                     <div className={styles.sidebar__content} onClick={onContentClick}>
                         <div className={styles.sidebar__nav}>
-                            <div className={styles.sidebar__item__logo}>
+                            <div onClick={closeHandlerRegionsModal} className={styles.sidebar__item__logo}>
                                 <div className={styles.sidebar__city__logo}>
                                     <PointIcon />
                                 </div>
                                 <div className={styles.sidebar__location}>
-                                    <span>Краснодар</span>
+                                    <span>{regionName}</span>
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g clipPath="url(#location-right_svg__clip0)">
                                             <path fill="#fff" d="M0 16V0h16v16z"></path>
@@ -178,7 +166,7 @@ const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                                     whiteSpace: "nowrap",
                                 },
                             }}>
-                            Выберите город
+                            Выберите регион
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body
@@ -189,7 +177,7 @@ const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                             },
                         }}>
                         <div className={styles.modal__select}>
-                            <RegionSelect />
+                            <RegionSelect regions={regions} />
                         </div>
                         <Button onClick={close} classNames={styles} variant="filled">
                             Сохранить
@@ -197,6 +185,8 @@ const Header = ({ className, ...props }: HeaderProps): JSX.Element => {
                     </Modal.Body>
                 </Modal.Content>
             </Modal.Root>
+
+            <RegionsModal showRegionsModal={showRegionsModal} regions={regions} closeHandlerRegionsModal={closeHandlerRegionsModal} />
         </>
     );
 };

@@ -10,7 +10,7 @@
 
 .header {
     display: grid;
-    grid-template-columns: 10fr 16fr 10fr;
+    grid-template-columns: 10fr 16fr;
     height: 72px;
     padding: 0 120px;
     align-items: center;
@@ -147,6 +147,7 @@
         height: 100%;
         background-color: #fff;
     }
+
     &__nav {
         display: flex;
         flex-direction: column;
@@ -160,16 +161,18 @@
         border-bottom: 1px solid #e5e9ee;
         color: #005bff;
         gap: 12px;
+        cursor: pointer;
     }
+
     &__location {
         width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
+
     &__city__logo {
         height: 24px;
-        cursor: pointer;
         position: relative;
         bottom: 4px;
         circle {

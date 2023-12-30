@@ -14,6 +14,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useParams } from "next/navigation";
 import clsx from "clsx";
 import { CategoryVacancy, Mods } from "@/app/lib/types";
+import NavbarItem from "../NavbarItem/NavbarItem";
 
 export const category: CategoryVacancy[] = [
     {
@@ -80,39 +81,40 @@ export const category: CategoryVacancy[] = [
 
 type NavbarProps = {
     showNavbar: boolean;
+    regionCodeStorage?: string;
 };
 
 const Navbar = ({ showNavbar }: NavbarProps) => {
     const pathname = usePathname();
-    const { jobCategory } = useParams();
+    const searchParams = useSearchParams();
+    const regionCode = searchParams.get("regionCode") || "all";
+    // const regionCodeStorage = localStorage.getItem("regionCode") || "all";
 
     const mods: Mods = {
         [styles.hidden]: showNavbar,
     };
+
+    let url = `/vacancies?`;
+
+    if (regionCode) {
+        url = url + `regionCode=${regionCode}&`;
+    }
+
+    url = url + "offset=0";
+
+    const urlDecode = decodeURIComponent(url);
 
     return (
         <nav className={clsx(styles.navbar, mods)}>
             <div className={styles.wrapper}>
                 <Link
                     className={clsx(styles.navbar__links, pathname === "/vacancies" && styles["navbar__links--active"])}
-                    href={decodeURIComponent("/vacancies?offset=0")}>
+                    href={urlDecode}>
                     <SearchIcon />
-                    <span className={styles["links-name"]}>{"Поиск по вакансиям"}</span>
+                    <span className={styles["links-name"]}>{"Все вакансии"}</span>
                 </Link>
                 {category.map((item) => {
-                    const urlDecode = decodeURIComponent(`/vacancies/${item.jobCategory}?offset=0`);
-                    if (item.jobCategory === "/vacancies") {
-                        return null;
-                    }
-                    return (
-                        <Link
-                            key={item.jobCategory}
-                            className={clsx(styles.navbar__links, jobCategory === item.jobCategory && styles["navbar__links--active"])}
-                            href={urlDecode}>
-                            {item.icon}
-                            <span className={styles["links-name"]}>{item.name}</span>
-                        </Link>
-                    );
+                    return <NavbarItem key={item.jobCategory} categoryVacancy={item} />;
                 })}
             </div>
         </nav>

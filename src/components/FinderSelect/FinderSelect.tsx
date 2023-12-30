@@ -9,33 +9,27 @@ import { useSelector } from "react-redux";
 import { selectRegionsData } from "@/app/lib/store/features/regions/selectors/selectRegionsData";
 import { vacanciesActions } from "@/app/lib/store/features/vacancies/vacanciesSlice";
 
-const FinderSelect = ({ totalPages }: { totalPages: number }) => {
-    const [regionCodeStorage, setRegionCodeStorage] = useState("");
-
+const FinderSelect = ({ totalPages, regions }: { totalPages: number; regions: VacancyRegion[] }) => {
     const [searchValue, setSearchValue] = useState("");
 
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
     const dispatch = useAppDispatch();
-    const regionsData = useSelector(selectRegionsData);
 
     const jobCategory = searchParams.get("jobCategory");
     const searchText = searchParams.get("text");
     const offset = searchParams.get("offset");
     const regionCode = searchParams.get("regionCode");
+    const regionCodeStorage = localStorage.getItem("regionCode") || "all";
 
-    const arrRegionsName = regionsData?.map((item) => {
+    const arrRegions = regions?.map((item) => {
         return { value: item.code, label: item.name };
     });
 
-    function handleChange(value: string | null) {
+    function handleChange(value: string) {
         dispatch(vacanciesActions.startLoadingVacancies());
-
-        if (!value) {
-            // localStorage.setItem("regionCode", "");
-        }
-
+        localStorage.setItem("regionCode", value);
         let url = `${pathname}?`;
 
         if (jobCategory) {
@@ -57,15 +51,15 @@ const FinderSelect = ({ totalPages }: { totalPages: number }) => {
         <div className={styles.filters__selects}>
             <Select
                 // disabled
-                value={regionCode}
-                onChange={(value) => handleChange(value)}
+                value={regionCode || regionCodeStorage}
+                onChange={(value) => handleChange(value || "all")}
                 searchable
-                clearable
+                // clearable
                 searchValue={searchValue}
                 onSearchChange={setSearchValue}
-                data={arrRegionsName}
+                data={arrRegions}
                 placeholder="Локация"
-                nothingFoundMessage="Nothing found..."
+                nothingFoundMessage="Нет совпадений..."
                 comboboxProps={{ transitionProps: { transition: "pop", duration: 500 } }}
             />
         </div>

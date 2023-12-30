@@ -27,8 +27,6 @@ export default async function Vacancy({ params }: Params) {
         notFound();
     }
 
-    console.log("vacancy-address: ", vacancy?.addresses);
-
     const longitude = vacancy.addresses?.address[0]?.lng;
     const latitude = vacancy.addresses?.address[0]?.lat;
 

@@ -16,8 +16,16 @@ export const regionsSlice = createSlice({
     initialState,
     reducers: {
         setRegionsData: (state, action: PayloadAction<VacancyRegion[]>) => {
-            state.isLoading = false;
+            console.log("setRegionsData: ");
+            const regionMock: VacancyRegion = {
+                code: "all",
+                name: "Вся Россия",
+                shortName: "",
+                text: "",
+                key: "",
+            };
             state.data = action.payload;
+            state.isLoading = false;
         },
         startLoading: (state) => {
             state.isLoading = true;

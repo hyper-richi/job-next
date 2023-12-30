@@ -9,52 +9,28 @@ import { useSelector } from "react-redux";
 import { selectRegionsData } from "@/app/lib/store/features/regions/selectors/selectRegionsData";
 import { vacanciesActions } from "@/app/lib/store/features/vacancies/vacanciesSlice";
 
+const RegionSelect = ({ regions }: { regions: VacancyRegion[] }) => {
+    const regionCodeStorage = localStorage.getItem("regionCode") || "all";
+    const dispatch = useAppDispatch();
 
-const RegionSelect = () => {
-    const regionCodeStorage = localStorage.getItem("regionCode") || "0000000000000";
-
-    const [regionCodeState, setRegionCodeStorage] = useState(regionCodeStorage);
     const [searchValue, setSearchValue] = useState("");
     const { replace } = useRouter();
 
     const searchParams = useSearchParams();
     const SearchParams = new URLSearchParams(searchParams);
 
-    const regionsData = useSelector(selectRegionsData);
-
-    // const regionCode = searchParams.get("regionCode");
-
-    /*  useEffect(() => {
-        const value = localStorage.getItem("regionCode") || "";
-        setRegionCodeStorage(value);
-    }, []); */
-
-    const regionMock: VacancyRegion = {
-        code: "0000000000000",
-        name: "Вся Россия",
-        shortName: "",
-        text: "",
-        key: "",
-    };
-
-    const arrRegionsName = useMemo(() => {
-        if (regionsData) {
-            return [regionMock, ...regionsData]?.map((item) => {
-                return { value: item.code, label: item.name };
-            });
-        } else {
-            return [{ value: regionMock.code, label: regionMock.name }];
+    const arrRegions = useMemo(() => {
+        if (regions) {
+            return regions?.map((item) => ({ value: item.code, label: item.name }));
         }
-    }, [regionsData]);
+    }, [regions]);
 
     function handleChange(value: string | null) {
-        if (!value) {
-            localStorage.setItem("regionCode", "0000000000000");
-        }
         if (value) {
-            /// SearchParams.set("regionCode", value);
-            //  replace(`?${SearchParams.toString()}`);
+            SearchParams.set("regionCode", value);
+            replace(`?${SearchParams.toString()}`);
             localStorage.setItem("regionCode", value);
+            dispatch(vacanciesActions.startLoadingVacancies());
         }
     }
 
@@ -65,12 +41,12 @@ const RegionSelect = () => {
                 value={regionCodeStorage}
                 onChange={(value) => handleChange(value)}
                 searchable
-                clearable
+                // clearable
                 searchValue={searchValue}
                 onSearchChange={setSearchValue}
-                data={arrRegionsName}
+                data={arrRegions}
                 placeholder="Локация"
-                nothingFoundMessage="Nothing found..."
+                nothingFoundMessage="Нет совпадений..."
                 comboboxProps={{ transitionProps: { transition: "pop", duration: 500 } }}
             />
         </div>

@@ -40,12 +40,6 @@ function Search({ countVacancies }: { countVacancies: number }) {
     const [inpVal, setInpValue] = useState("");
     const isLoadingVacancies = useSelector(selectVacanciesIsLoading);
 
-    /* const { pending, data, method, action } = useFormStatus();
-    console.log("action: ", action);
-    console.log("method: ", method);
-    console.log("data: ", data);
-    console.log("pending: ", pending); */
-
     const searchParams = useSearchParams();
     const { replace } = useRouter();
 
@@ -73,7 +67,7 @@ function Search({ countVacancies }: { countVacancies: number }) {
         if (searchTextParams && !searchText) {
             SearchParams.delete("text");
             replace(`?${SearchParams.toString()}`);
-            dispatch(vacanciesActions.startLoadingVacancies());
+           // dispatch(vacanciesActions.startLoadingVacancies());
             return;
         }
 
@@ -83,7 +77,7 @@ function Search({ countVacancies }: { countVacancies: number }) {
         }
 
         replace(`?${SearchParams.toString()}`);
-        dispatch(vacanciesActions.startLoadingVacancies());
+       // dispatch(vacanciesActions.startLoadingVacancies());
     };
 
     /* const handleClick = async (e: { preventDefault: () => void }) => {
