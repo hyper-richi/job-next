@@ -7,7 +7,6 @@ import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import styles from "./layout.module.scss";
 import "@mantine/core/styles.css";
 import "./globals.css";
-import { Provider } from "mobx-react";
 import StoreProvider from "./lib/store/StoreProvider";
 import { getRegions } from "./lib/store/data";
 // import store from "../store/store";
@@ -86,7 +85,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                     <StoreProvider>
                         <Header regions={regions}/>
                         <main className={styles.container}>{children}</main>
-                        <Footer />
+                        <Footer regions={regions}/>
                     </StoreProvider>
                 </MantineProvider>
             </body>

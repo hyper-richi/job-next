@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./FinderSelect.module.scss";
 import { Select } from "@mantine/core";
 import { VacancyRegion } from "@/app/lib/types";

@@ -1,39 +1,27 @@
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Image from "next/image";
-import AcmeLogo from "@/components/acme-logo";
+import TelegramIcon from "../../public/images/svg/telegramIcon.svg";
+import styles from "./page.module.scss";
+import ListStack from "@/components/ListStack/ListStack";
 
 export default function Home() {
     return (
-        <div className="Home">
-            <div className="">
-                <AcmeLogo />
-            </div>
-            <div className="">
-                <div className="">
-                    <div className="" />
-                    <p className="">
-                        <strong>Welcome to Acme.</strong> This is the example for the
-                        <a href="https://nextjs.org/learn/" className="">
-                            Next.js Learn Course
-                        </a>
-                        , brought to you by Vercel.
-                    </p>
-                    <Link href="/" className="">
-                        <span>Log in</span> <ArrowRightIcon width={24} height={24} />
+        <>
+            <div className={styles.container}>
+                <div className="flex">
+                    <h1 className={styles.title}>Привет всем!</h1>
+                    <h2 className={styles.desc}>Я Эльдар и я Frontend-разработчик!</h2>
+                    <Link href="https://t.me/eldarDev" className="button button-primary">
+                        <TelegramIcon />
                     </Link>
                 </div>
-                <div className="">
-                    {/* Add Hero Images Here */}
-                    <Image
-                        src="/images/hero-mobile.png"
-                        width={560}
-                        height={620}
-                        className="block md:hidden"
-                        alt="Screenshot of the dashboard project showing mobile version"
-                    />
+            </div>
+            <div className={styles.container}>
+                <div className="flex">
+                    <h2 className={styles.stack}>Stack на проекте:</h2>
+                    <ListStack />
                 </div>
             </div>
-        </div>
+        </>
     );
 }

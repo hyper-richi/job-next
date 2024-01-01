@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import styles from "./RegionSelect.module.scss";
 import { Select } from "@mantine/core";
 import { VacancyRegion } from "@/app/lib/types";

@@ -9,8 +9,9 @@
 }
 
 .header {
-    display: grid;
-    grid-template-columns: 10fr 16fr;
+    display: flex;
+    justify-content: space-between;
+
     height: 72px;
     padding: 0 120px;
     align-items: center;
@@ -76,29 +77,22 @@
 
 .info {
     &__cities {
-        display: grid;
+        display: flex;
         align-items: center;
         justify-content: flex-end;
-        padding-left: 12px;
-        grid-column-gap: 12px;
-        column-gap: 12px;
-        grid-template-columns: max-content 24px;
-        margin-right: 6px;
+        gap: 10px;
+        cursor: pointer;
     }
     &__socials {
         display: grid;
         align-items: center;
         grid-column-gap: 16px;
         column-gap: 16px;
-        grid-template-columns: 7px 1fr 1fr;
+        grid-template-columns: 1px 1fr 1fr;
     }
 }
 .city-logo {
     height: 24px;
-    cursor: pointer;
-}
-.city-name {
-    font-weight: 500;
     cursor: pointer;
 }
 

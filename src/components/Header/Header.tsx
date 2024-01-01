@@ -8,15 +8,13 @@ import { Modal } from "@mantine/core";
 import clsx from "clsx";
 import { useDisclosure } from "@mantine/hooks";
 import { Button } from "@mantine/core";
-import { useSelector } from "react-redux";
-import { selectRegionsData } from "@/app/lib/store/features/regions/selectors/selectRegionsData";
-import { VacancyRegion } from "@/app/lib/types";
 import RegionSelect from "../RegionSelect/RegionSelect";
-import PointIcon from "../../../public/images/svg/pointIcon.svg";
 import VKIcon from "../../../public/images/svg/vkIcon.svg";
-import TelegrammIcon from "../../../public/images/svg/telegrammIcon.svg";
+import TelegramIcon from "../../../public/images/svg/telegramIcon.svg";
 import RegionsModal from "./RegionsModal/RegionsModal";
 import { useSearchParams } from "next/navigation";
+import RegionName from "../RegionName/RegionName";
+import PointIcon from "../../../public/images/svg/PointIcon";
 
 const Header = ({ className, regions, ...props }: HeaderProps): JSX.Element => {
     const [showNavbar, setShowNavbar] = useState(false);
@@ -78,9 +76,9 @@ const Header = ({ className, regions, ...props }: HeaderProps): JSX.Element => {
                         </Link>
                         <div className={styles.header__info}>
                             <div className={styles.info__cities} onClick={open}>
-                                <span className={styles["city-name"]}>{regionName}</span>
+                                <RegionName regions={regions} />
                                 <div className={styles["city-logo"]}>
-                                    <PointIcon />
+                                    <PointIcon style={{ width: 24, height: 24, fill: "#005bff" }} />
                                 </div>
                             </div>
                             <div className={styles.info__socials}>
@@ -88,7 +86,7 @@ const Header = ({ className, regions, ...props }: HeaderProps): JSX.Element => {
                                     <path fill="#fff" d="M0 0h1v46H0z"></path>
                                 </svg>
                                 <VKIcon />
-                                <TelegrammIcon />
+                                <TelegramIcon />
                             </div>
                         </div>
                     </div>
@@ -115,7 +113,7 @@ const Header = ({ className, regions, ...props }: HeaderProps): JSX.Element => {
                         <div className={styles.sidebar__nav}>
                             <div onClick={closeHandlerRegionsModal} className={styles.sidebar__item__logo}>
                                 <div className={styles.sidebar__city__logo}>
-                                    <PointIcon />
+                                    <PointIcon style={{ width: 24, height: 24, fill: "#005bff" }} />
                                 </div>
                                 <div className={styles.sidebar__location}>
                                     <span>{regionName}</span>

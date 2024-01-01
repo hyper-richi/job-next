@@ -43,22 +43,20 @@
     }
     &__links {
         display: grid;
-        align-items: center;
-        grid-auto-flow: column;
+        justify-content: space-around;
+        grid-column-gap: 16px;
+        column-gap: 16px;
+        grid-template-columns: 1fr min-content;
     }
 }
 .links {
     &__cities {
-        display: grid;
+        display: flex;
         align-items: center;
-        justify-content: flex-end;
         padding-left: 12px;
-        grid-column-gap: 12px;
-        column-gap: 12px;
-        cursor: pointer;
-        grid-template-columns: max-content 24px;
         margin-right: 6px;
         color: #fff;
+        gap: 10px;
     }
     &__socials {
         display: grid;
@@ -79,11 +77,7 @@
     .footer__contacts {
         display: flex;
         flex-direction: column;
-    }
-
-    .contacts__links {
-        width: 100%;
-        justify-content: space-between;
+        max-width: 600px;
     }
 
     .links__cities {

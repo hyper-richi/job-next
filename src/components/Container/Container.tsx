@@ -1,5 +1,4 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import { ContainerProps } from "./Container.props";
 import Finder from "../Finder/Finder";
 import { useAppDispatch } from "@/app/lib/store/hooks";
@@ -20,7 +19,6 @@ const Container = ({
     totalPages,
 }: ContainerProps) => {
     const dispatch = useAppDispatch();
-    console.log("Container: ");
 
     if (statusUploadVacancies === "200") {
         dispatch(vacanciesActions.stopLoadingVacancies());

@@ -20,14 +20,6 @@ const VacancyShare = ({ textURL }: VacancyShareProps) => {
         }, 1000);
     }, [textURL]);
 
-    /* useEffect(() => {
-        const timer = setTimeout(() => {
-            setCount((prevCount) => prevCount + 1);
-        }, 1000);
-
-        return () => clearTimeout(timer);
-    }, []); */
-
     function label(): ReactElement<any, any> {
         return (
             <div className={clsx(styles.tooltip)}>
