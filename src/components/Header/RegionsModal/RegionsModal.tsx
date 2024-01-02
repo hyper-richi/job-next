@@ -34,9 +34,6 @@ const RegionsModal = ({
     }, [regions]);
 
     function onChangeRegion(regionCode: string) {
-        /* if (!regionCode) {
-            localStorage.setItem("regionCode", "0000000000000");
-        } */
         SearchParams.set("regionCode", regionCode);
         replace(`?${SearchParams.toString()}`);
         localStorage.setItem("regionCode", regionCode);

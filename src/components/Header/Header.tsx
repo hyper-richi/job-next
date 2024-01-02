@@ -17,30 +17,10 @@ import RegionName from "../RegionName/RegionName";
 import PointIcon from "../../../public/images/svg/PointIcon";
 
 const Header = ({ className, regions, ...props }: HeaderProps): JSX.Element => {
-    const [showNavbar, setShowNavbar] = useState(false);
+    console.log("Header: ");
     const [showSidebar, setShowSidebar] = useState(true);
     const [showRegionsModal, setShowRegionsModal] = useState(false);
-    const [lastScrollY, setLastScrollY] = useState(0);
     const [opened, { open, close }] = useDisclosure(false);
-
-    const searchParams = useSearchParams();
-    const regionCode = searchParams.get("regionCode") || "all";
-
-    const controlNavbar = () => {
-        if (window.scrollY > lastScrollY) {
-            setShowNavbar(true);
-        } else {
-            setShowNavbar(false);
-        }
-        setLastScrollY(window.scrollY);
-    };
-
-    useEffect(() => {
-        window.addEventListener("scroll", controlNavbar);
-        return () => {
-            window.removeEventListener("scroll", controlNavbar);
-        };
-    }, [lastScrollY]);
 
     const onToggle = () => {
         setShowSidebar((prev) => !prev);
@@ -59,12 +39,6 @@ const Header = ({ className, regions, ...props }: HeaderProps): JSX.Element => {
     const closeHandlerRegionsModal = useCallback(() => {
         setShowRegionsModal((prev) => !prev);
     }, []);
-
-    const regionName = useMemo(() => {
-        if (regions) {
-            return regions?.find((item) => item.code === regionCode)?.name || "Вся Россия";
-        } else return "Вся Россия";
-    }, [regions, regionCode]);
 
     return (
         <>
@@ -91,7 +65,7 @@ const Header = ({ className, regions, ...props }: HeaderProps): JSX.Element => {
                         </div>
                     </div>
                 </div>
-                <Navbar showNavbar={showNavbar} />
+                <Navbar />
             </header>
 
             <div className={clsx(styles.mobile, styles.sticky)}>
@@ -116,7 +90,8 @@ const Header = ({ className, regions, ...props }: HeaderProps): JSX.Element => {
                                     <PointIcon style={{ width: 24, height: 24, fill: "#005bff" }} />
                                 </div>
                                 <div className={styles.sidebar__location}>
-                                    <span>{regionName}</span>
+                                    {/*   <span>{regionName}</span> */}
+                                    <RegionName regions={regions} />
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g clipPath="url(#location-right_svg__clip0)">
                                             <path fill="#fff" d="M0 16V0h16v16z"></path>
@@ -130,7 +105,7 @@ const Header = ({ className, regions, ...props }: HeaderProps): JSX.Element => {
                                     </svg>
                                 </div>
                             </div>
-                            <Navbar showNavbar={showNavbar} />
+                            <Navbar />
                         </div>
                     </div>
                 </div>

@@ -15,6 +15,7 @@ import { useParams } from "next/navigation";
 import clsx from "clsx";
 import { CategoryVacancy, Mods } from "@/app/lib/types";
 import NavbarItem from "../NavbarItem/NavbarItem";
+import { useEffect, useRef, useState } from "react";
 
 export const category: CategoryVacancy[] = [
     {
@@ -79,19 +80,33 @@ export const category: CategoryVacancy[] = [
     },
 ];
 
-type NavbarProps = {
-    showNavbar: boolean;
-    regionCodeStorage?: string;
-};
 
-const Navbar = ({ showNavbar }: NavbarProps) => {
+const Navbar = () => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const regionCode = searchParams.get("regionCode") || "all";
-    // const regionCodeStorage = localStorage.getItem("regionCode") || "all";
+
+    const [hidenNavbar, setHidenNavbar] = useState(false);
+    const lastScrollRef = useRef(0);
+
+    useEffect(() => {
+        window.addEventListener("scroll", controlNavbar);
+        return () => {
+            window.removeEventListener("scroll", controlNavbar);
+        };
+    }, []);
+
+    const controlNavbar = () => {
+        if (window.scrollY > lastScrollRef.current) {
+            setHidenNavbar(true);
+        } else {
+            setHidenNavbar(false);
+        }
+        lastScrollRef.current = window.scrollY;
+    };
 
     const mods: Mods = {
-        [styles.hidden]: showNavbar,
+        [styles.hidden]: hidenNavbar,
     };
 
     let url = `/vacancies?`;

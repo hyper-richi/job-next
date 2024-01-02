@@ -15,7 +15,7 @@ export const Footer = ({ regions }: { regions: VacancyRegion[] }): JSX.Element =
                 <h3 className={styles.footer__title}>Буду рад с вами сотрудничать!</h3>
                 <div className={styles.footer__contacts}>
                     <p className={styles.contacts__git}>
-                        © 1998—2023, «Eldar Developers». Все права защищены.
+                        © 1998—2024, «Kamalov Eldar». Все права защищены.
                         <a href="https://github.com" target="_blank">
                             {"github"}
                         </a>
