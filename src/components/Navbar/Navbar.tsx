@@ -15,7 +15,7 @@ import { useParams } from "next/navigation";
 import clsx from "clsx";
 import { CategoryVacancy, Mods } from "@/app/lib/types";
 import NavbarItem from "../NavbarItem/NavbarItem";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 
 export const category: CategoryVacancy[] = [
     {
@@ -80,11 +80,9 @@ export const category: CategoryVacancy[] = [
     },
 ];
 
-
-const Navbar = () => {
+const Navbar = ({ isMobile }: { isMobile?: boolean }) => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const regionCode = searchParams.get("regionCode") || "all";
 
     const [hidenNavbar, setHidenNavbar] = useState(false);
     const lastScrollRef = useRef(0);
@@ -111,11 +109,7 @@ const Navbar = () => {
 
     let url = `/vacancies?`;
 
-    if (regionCode) {
-        url = url + `regionCode=${regionCode}&`;
-    }
-
-    url = url + "offset=0";
+    url = url + `regionCode=all&offset=0`;
 
     const urlDecode = decodeURIComponent(url);
 
@@ -129,7 +123,11 @@ const Navbar = () => {
                     <span className={styles["links-name"]}>{"Все вакансии"}</span>
                 </Link>
                 {category.map((item) => {
-                    return <NavbarItem key={item.jobCategory} categoryVacancy={item} />;
+                    if (!isMobile) {
+                        return <NavbarItem key={item.jobCategory} categoryVacancy={item} />;
+                    } else {
+                        return <NavbarItem key={item.jobCategory} categoryVacancy={item} isMobile />;
+                    }
                 })}
             </div>
         </nav>

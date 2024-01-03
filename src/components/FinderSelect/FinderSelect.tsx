@@ -21,7 +21,7 @@ const FinderSelect = ({ totalPages, regions }: { totalPages: number; regions: Va
     const searchText = searchParams.get("text");
     const offset = searchParams.get("offset");
     const regionCode = searchParams.get("regionCode");
-    const regionCodeStorage = localStorage.getItem("regionCode") || "all";
+    const regionCodeStorage = localStorage.getItem("regionCode");
 
     const arrRegions = regions?.map((item) => {
         return { value: item.code, label: item.name };
@@ -44,7 +44,7 @@ const FinderSelect = ({ totalPages, regions }: { totalPages: number; regions: Va
         if (searchText) {
             url = url + `text=${searchText}`;
         }
-        router.push(url);
+        router.push(url, { scroll: false });
     }
 
     return (

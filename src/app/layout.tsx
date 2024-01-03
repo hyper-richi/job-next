@@ -9,7 +9,6 @@ import "@mantine/core/styles.css";
 import "./globals.css";
 import StoreProvider from "./lib/store/StoreProvider";
 import { getRegions } from "./lib/store/data";
-// import store from "../store/store";
 
 const GTEestiProText = localFont({
     src: [
@@ -31,6 +30,7 @@ const GTEestiProText = localFont({
     ],
     variable: "--gteestiprotext",
 });
+
 const GTEestiProDisplay = localFont({
     src: [
         {

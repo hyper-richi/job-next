@@ -19,6 +19,7 @@ const Container = ({
     totalPages,
 }: ContainerProps) => {
     const dispatch = useAppDispatch();
+    //  console.log("statusUploadVacancies: ", statusUploadVacancies);
 
     if (statusUploadVacancies === "200") {
         dispatch(vacanciesActions.stopLoadingVacancies());

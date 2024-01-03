@@ -10,7 +10,7 @@ import { selectRegionsData } from "@/app/lib/store/features/regions/selectors/se
 import { vacanciesActions } from "@/app/lib/store/features/vacancies/vacanciesSlice";
 
 const RegionSelect = ({ regions }: { regions: VacancyRegion[] }) => {
-    const regionCodeStorage = localStorage.getItem("regionCode") || "all";
+    const regionCodeStorage = localStorage.getItem("regionCode");
     const dispatch = useAppDispatch();
 
     const [searchValue, setSearchValue] = useState("");
@@ -18,6 +18,7 @@ const RegionSelect = ({ regions }: { regions: VacancyRegion[] }) => {
 
     const searchParams = useSearchParams();
     const SearchParams = new URLSearchParams(searchParams);
+    const regionCode = searchParams.get("regionCode");
 
     const arrRegions = useMemo(() => {
         if (regions) {
@@ -38,7 +39,7 @@ const RegionSelect = ({ regions }: { regions: VacancyRegion[] }) => {
         <div className={styles.filters__selects}>
             <Select
                 // disabled
-                value={regionCodeStorage}
+                value={regionCode || regionCodeStorage}
                 onChange={(value) => handleChange(value)}
                 searchable
                 // clearable

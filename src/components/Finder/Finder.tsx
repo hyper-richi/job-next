@@ -4,7 +4,6 @@ import { FinderProps } from "./Finder.props";
 import styles from "./Finder.module.scss";
 import React, { Suspense } from "react";
 import FinderSelect from "../FinderSelect/FinderSelect";
-import { VacancyCardAsync } from "../VacancyCard/VacancyCard.async";
 
 export default function Finder({ vacancies, regions, totalPages, regionCode, searchText, offset, jobCategory }: FinderProps) {
     return (

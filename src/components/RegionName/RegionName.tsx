@@ -22,4 +22,4 @@ const RegionName = ({ regions }: { regions: VacancyRegion[] }) => {
     return <span className={styles["city-name"]}>{regionName}</span>;
 };
 
-export default memo(RegionName);
+export default RegionName;

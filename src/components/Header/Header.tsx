@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { HeaderProps } from "./Header.props";
 import Link from "next/link";
 import styles from "./Header.module.scss";
@@ -16,8 +16,7 @@ import { useSearchParams } from "next/navigation";
 import RegionName from "../RegionName/RegionName";
 import PointIcon from "../../../public/images/svg/PointIcon";
 
-const Header = ({ className, regions, ...props }: HeaderProps): JSX.Element => {
-    console.log("Header: ");
+const Header = ({ regions }: HeaderProps): JSX.Element => {
     const [showSidebar, setShowSidebar] = useState(true);
     const [showRegionsModal, setShowRegionsModal] = useState(false);
     const [opened, { open, close }] = useDisclosure(false);
@@ -42,7 +41,7 @@ const Header = ({ className, regions, ...props }: HeaderProps): JSX.Element => {
 
     return (
         <>
-            <header className={clsx(className, styles.desktop)} {...props}>
+            <header className={clsx(styles.desktop)}>
                 <div className={styles.wrapper}>
                     <div className={styles.header}>
                         <Link className={styles.header__logo} href={`/`}>
@@ -90,7 +89,6 @@ const Header = ({ className, regions, ...props }: HeaderProps): JSX.Element => {
                                     <PointIcon style={{ width: 24, height: 24, fill: "#005bff" }} />
                                 </div>
                                 <div className={styles.sidebar__location}>
-                                    {/*   <span>{regionName}</span> */}
                                     <RegionName regions={regions} />
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g clipPath="url(#location-right_svg__clip0)">
@@ -105,7 +103,7 @@ const Header = ({ className, regions, ...props }: HeaderProps): JSX.Element => {
                                     </svg>
                                 </div>
                             </div>
-                            <Navbar />
+                            <Navbar isMobile />
                         </div>
                     </div>
                 </div>

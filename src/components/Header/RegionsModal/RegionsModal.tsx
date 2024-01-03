@@ -20,10 +20,12 @@ const RegionsModal = ({
     closeHandlerRegionsModal: () => void;
     regions: VacancyRegion[];
 }) => {
-    // const regionsData = useSelector(selectRegionsData);
     const searchParams = useSearchParams();
     const { replace } = useRouter();
-    const regionCode = searchParams.get("regionCode") || "all";
+    const regionCode = searchParams.get("regionCode");
+    const regionCodeStorage = localStorage.getItem("regionCode");
+
+    const region = regionCode || regionCodeStorage;
 
     const SearchParams = new URLSearchParams(searchParams);
 
@@ -59,10 +61,10 @@ const RegionsModal = ({
                         {arrRegions?.map((item) => (
                             <div
                                 key={item.value}
-                                className={clsx(styles.cities__item, regionCode === item.value && styles["cities__item--active"])}
+                                className={clsx(styles.cities__item, region === item.value && styles["cities__item--active"])}
                                 onClick={() => onChangeRegion(item.value)}>
                                 {item.label}
-                                {regionCode === item.value && <SelectedIcon />}
+                                {region === item.value && <SelectedIcon />}
                             </div>
                         ))}
                     </div>

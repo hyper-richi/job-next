@@ -1,61 +1,49 @@
 "use client";
 import styles from "./Search.module.scss";
-import SearchIcon from "../../../public/images/svg/searchIcon.svg";
-import SpinnerIcon from "../../../public/images/svg/spinnerIcon.svg";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { plural } from "@/app/lib/helpers/plural";
 import clsx from "clsx";
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "@/app/lib/store/hooks";
-import { selectVacanciesIsLoading } from "@/app/lib/store/features/vacancies/selectors/selectVacanciesIsLoading";
-import { vacanciesActions } from "@/app/lib/store/features/vacancies/vacanciesSlice";
 import { useFormStatus } from "react-dom";
+import SpinnerIcon from "../../../public/images/svg/spinnerIcon.svg";
+import SearchIcon from "../../../public/images/svg/searchIcon.svg";
 
-interface FormElements extends HTMLFormControlsCollection {
-    text: HTMLInputElement;
-}
-
-interface YourFormElement extends HTMLFormElement {
-    readonly elements: FormElements;
-}
-
-function Submit() {
-    const isLoadingVacancies = useSelector(selectVacanciesIsLoading);
-
+function SubmitButton() {
     const { pending } = useFormStatus();
-    // console.log("pending || isLoadingVacancies: ", pending || isLoadingVacancies);
-    // console.log("isLoadingVacancies: ", isLoadingVacancies);
-    // console.log("pending: ", pending);
 
     return (
         <button disabled={pending} className={styles.search__button} type="submit">
-            {pending || isLoadingVacancies ? <SpinnerIcon width={24} height={24} /> : "Поиск"}
+            {pending ? <SpinnerIcon width="24" height="24" /> : "Поиск"}
         </button>
     );
 }
 
-function Search({ countVacancies }: { countVacancies: number }) {
-    const dispatch = useAppDispatch();
+function Search({
+    countVacancies,
+    statusUploadVacancies,
+    statusUpload,
+}: {
+    countVacancies: number;
+    statusUploadVacancies: string;
+    statusUpload: { statusUpload: string };
+}) {
     const [inpVal, setInpValue] = useState("");
-    const isLoadingVacancies = useSelector(selectVacanciesIsLoading);
 
     const searchParams = useSearchParams();
     const { replace } = useRouter();
 
     const jobCategory = searchParams.get("jobCategory");
-    const searchTextParams = searchParams.get("text");
+    const searchTextParams = searchParams.get("text") || "";
     const offset = searchParams.get("offset");
     const regionCode = searchParams.get("regionCode");
 
     useEffect(() => {
-        setInpValue(searchTextParams || "");
+        setInpValue(searchTextParams);
     }, [searchTextParams]);
 
-    const getVacanciesSearch = (formData: FormData) => {
+    const handleFormAction = (formData: FormData) => {
         const SearchParams = new URLSearchParams(searchParams);
         const searchText = formData.get("text") as string;
-        setInpValue(searchText);
 
         if (jobCategory || regionCode || offset || searchText) {
             if (jobCategory) SearchParams.set("jobCategory", jobCategory);
@@ -67,7 +55,6 @@ function Search({ countVacancies }: { countVacancies: number }) {
         if (searchTextParams && !searchText) {
             SearchParams.delete("text");
             replace(`?${SearchParams.toString()}`);
-           // dispatch(vacanciesActions.startLoadingVacancies());
             return;
         }
 
@@ -75,15 +62,8 @@ function Search({ countVacancies }: { countVacancies: number }) {
             console.log("return: ");
             return;
         }
-
         replace(`?${SearchParams.toString()}`);
-       // dispatch(vacanciesActions.startLoadingVacancies());
     };
-
-    /* const handleClick = async (e: { preventDefault: () => void }) => {
-        e.preventDefault();
-        const { status } = await getVacancies({ jobCategory, offset, regionCode, searchText });
-    }; */
 
     const forms = ["вакансия", "вакансии", "вакансий"];
 
@@ -91,7 +71,7 @@ function Search({ countVacancies }: { countVacancies: number }) {
         <>
             <div className={clsx(styles.search, styles.desktop)}>
                 <h1 className={styles.search__title}>Поиск по вакансиям</h1>
-                <form className={styles.search__form} action={getVacanciesSearch} /* onSubmit={onFormSubmit} */>
+                <form className={styles.search__form} action={handleFormAction} /* onSubmit={onFormSubmit} */>
                     <div className={styles.search__wrap}>
                         <SearchIcon className={styles.search__icon} />
                         <input
@@ -103,10 +83,7 @@ function Search({ countVacancies }: { countVacancies: number }) {
                             value={inpVal}
                         />
                         <p className={styles.search__count}>{plural(forms, countVacancies)}</p>
-                        {/*  <Submit /> */}
-                        <button disabled={isLoadingVacancies} className={styles.search__button} type="submit">
-                            {isLoadingVacancies ? <SpinnerIcon width={"24px"} height={24} /> : "Поиск"}
-                        </button>
+                        <SubmitButton />
                     </div>
                 </form>
             </div>
@@ -118,7 +95,7 @@ function Search({ countVacancies }: { countVacancies: number }) {
                                 <path d="M6.663 11.994a5.33 5.33 0 115.33-5.33.667.667 0 01-1.332 0A3.997 3.997 0 109.49 9.49l.471-.471 4.743 4.743a.667.667 0 01-.942.943l-3.83-3.83a5.311 5.311 0 01-3.269 1.12z"></path>
                             </svg>
                         </div>
-                        <form className={styles.search__form} action={getVacanciesSearch}>
+                        <form className={styles.search__form} action={handleFormAction}>
                             <input
                                 onChange={(e) => setInpValue(e.target.value)}
                                 className={styles.search__input}
@@ -127,9 +104,7 @@ function Search({ countVacancies }: { countVacancies: number }) {
                                 name="text"
                                 value={inpVal}
                             />
-                            <button disabled={isLoadingVacancies} className={styles.search__button} type="submit">
-                                {isLoadingVacancies ? <SpinnerIcon width={"24px"} height={24} /> : "Поиск"}
-                            </button>
+                            <SubmitButton />
                         </form>
                     </div>
                 </div>

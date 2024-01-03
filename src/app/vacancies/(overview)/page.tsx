@@ -34,6 +34,8 @@ export default async function Page({ params, searchParams }: Params) {
 
     const { data: regions, code: statusUploadRegions } = await getRegions();
 
+    const statusUpload = { statusUpload: statusUploadVacancies };
+
     const totalPages = meta.total / 100 > 100 ? 100 : Math.ceil(meta.total / 100);
 
     return (
@@ -41,8 +43,8 @@ export default async function Page({ params, searchParams }: Params) {
             <CustomPagination totalPages={totalPages} />
             <TitleCategory jobCategory={jobCategory || "/vacancies"} />
             {/*  <Counter /> */}
-            <Search countVacancies={meta.total || 0} />
-            <Container
+            <Search countVacancies={meta.total || 0} statusUpload={statusUpload} statusUploadVacancies={statusUploadVacancies} />
+            {/*  <Container
                 statusUploadRegions={statusUploadRegions}
                 statusUploadVacancies={statusUploadVacancies}
                 regions={regions}
@@ -53,6 +55,15 @@ export default async function Page({ params, searchParams }: Params) {
                 regionCode={regionCode}
                 offset={offset}
                 searchText={searchText}
+            /> */}
+            <Finder
+                regions={regions}
+                vacancies={vacancies}
+                jobCategory={jobCategory}
+                regionCode={regionCode}
+                offset={offset}
+                searchText={searchText}
+                totalPages={totalPages}
             />
         </div>
     );
