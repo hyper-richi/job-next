@@ -7,8 +7,7 @@ import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import styles from "./layout.module.scss";
 import "@mantine/core/styles.css";
 import "./globals.css";
-import StoreProvider from "./lib/store/StoreProvider";
-import { getRegions } from "./lib/store/data";
+import { getRegions } from "./lib/data";
 
 const GTEestiProText = localFont({
     src: [
@@ -72,21 +71,18 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-    const { data: regions, code: statusUploadRegions } = await getRegions();
+    const { data: regions } = await getRegions();
 
     return (
         <html lang="ru">
             <head>
                 <ColorSchemeScript />
             </head>
-
             <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
                 <MantineProvider>
-                    <StoreProvider>
-                        <Header regions={regions}/>
+                        <Header regions={regions} />
                         <main className={styles.container}>{children}</main>
-                        <Footer regions={regions}/>
-                    </StoreProvider>
+                        <Footer regions={regions} />
                 </MantineProvider>
             </body>
         </html>

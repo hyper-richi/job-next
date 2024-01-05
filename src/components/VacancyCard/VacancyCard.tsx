@@ -18,15 +18,13 @@ export default async function VacancyCard({ regionCode, vacancy, offset, searchT
     }
 
     if (searchText) {
-        url = url + `text=${searchText}`;
+        url = url + `text=${encodeURIComponent(searchText)}`;
     }
-
-    const urlDecode = decodeURIComponent(url);
 
     return (
         <div className={styles.vacancy}>
             <div className={styles.vacancy__hr}></div>
-            <Link className={styles.vacancy__link} href={urlDecode} target="_blank">
+            <Link className={styles.vacancy__link} href={url} target="_blank">
                 <h6 className={styles.vacancy__title}>{vacancyName.charAt(0).toUpperCase() + vacancyName.slice(1)}</h6>
                 <div className={styles.vacancy__info}>
                     <div className={styles.vacancy__info__location}>

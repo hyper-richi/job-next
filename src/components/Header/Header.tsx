@@ -89,7 +89,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
                                     <PointIcon style={{ width: 24, height: 24, fill: "#005bff" }} />
                                 </div>
                                 <div className={styles.sidebar__location}>
-                                    <RegionName regions={regions} />
+                                    <RegionName /* regions={regions} */ />
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g clipPath="url(#location-right_svg__clip0)">
                                             <path fill="#fff" d="M0 16V0h16v16z"></path>

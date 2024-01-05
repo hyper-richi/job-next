@@ -3,19 +3,18 @@
 
 //https://opendata.trudvsem.ru/api/v1/vacancies/region/6100000000000?offset=1&limit=100&text=инженер
 // "use client";
-import { ResponseAdress, ResponseData, ResponseRegions, ResponseVacancy, VacancyRegion } from "../types";
+import { ResponseAdress, ResponseRegions, ResponseVacancy, IRegion, ResponseVacancies } from "./types";
 
 // "no-store" - SSR getServerSideProps рендер на сервере, Этот запрос должен повторяться при каждом запросе
 // "no-cache" ведет себя так же, как no-store в Next.js.
 // "force-cache" - SSG getStaticProps статическая генерация страниц,Этот запрос следует кэшировать до тех пор,
 // пока он не станет недействительным вручную.
 // next: { revalidate: 60 } - ISR getStaticProps and revalidate, Этот запрос должен быть кэширован со временем жизни 10 секунд.
-
-interface QureySearchParams {
-    jobCategory: string | null;
-    formData: FormData;
-    offset: string | null;
-    regionCode: string | null;
+interface QureyParams {
+    jobCategory?: string;
+    searchText?: string;
+    offset?: string;
+    regionCode?: string;
 }
 
 export async function getVacanciesSearch(
@@ -24,8 +23,6 @@ export async function getVacanciesSearch(
     regionCode: string | null,
     formData: FormData,
 ) {
-    // const { jobCategory, offset, formData, regionCode } = params;
-
     const text = formData?.get("text") || "";
 
     try {
@@ -47,25 +44,19 @@ export async function getVacanciesSearch(
         return res.json();
     } catch (error) {
         console.error("Fetch Error:", error);
-        throw new Error("Failed to fetch revenue data.");
+        throw new Error("Failed to fetch Vacancies data.");
     }
-
-    // mutate data
-    // revalidate cache
-}
-interface QureyParams {
-    jobCategory?: string;
-    searchText?: string;
-    offset?: string;
-    regionCode?: string;
 }
 
-export async function getVacancies(params: QureyParams): Promise<ResponseData> {
+export async function getVacancies(params: QureyParams): Promise<ResponseVacancies> {
     const { jobCategory, offset, searchText, regionCode } = params;
     try {
         let url = `?offset=${offset || "0"}&limit=100`;
 
-        if (regionCode !== "all") {
+        /*  if (regionCode === "all") {
+            // url = `/region/${regionCode}` + url;
+        } */
+        if (regionCode && regionCode !== "all") {
             url = `/region/${regionCode}` + url;
         }
         if (jobCategory) {
@@ -74,6 +65,8 @@ export async function getVacancies(params: QureyParams): Promise<ResponseData> {
         if (searchText) {
             url = url + `&text=${searchText}`;
         }
+        console.log("getVacancies-url: ", url);
+
         const res = await fetch(process.env.API_BASE_URL + url, {
             cache: "no-store",
         });
@@ -81,7 +74,7 @@ export async function getVacancies(params: QureyParams): Promise<ResponseData> {
         return res.json();
     } catch (error) {
         console.error("Fetch Error:", error);
-        throw new Error("Failed to fetch revenue data.");
+        throw new Error("Failed to fetch Vacancies data.");
     }
 }
 
@@ -89,8 +82,9 @@ export async function getRegions(): Promise<ResponseRegions> {
     try {
         const res = await fetch("https://trudvsem.ru/iblocks/flat_filter_prr_search_cv/ref/regions", {
             cache: "no-store",
+            mode: "no-cors",
         });
-        const regionMock: VacancyRegion = {
+        const regionMock: IRegion = {
             code: "all",
             name: "Вся Россия",
             shortName: "",
@@ -105,7 +99,7 @@ export async function getRegions(): Promise<ResponseRegions> {
         return resObj;
     } catch (error) {
         console.error("Fetch Error:", error);
-        throw new Error("Failed to fetch revenue data.");
+        throw new Error("Failed to fetch Regions data.");
     }
 }
 
@@ -119,7 +113,7 @@ export async function getVacancy(companyId: string, vacancyId: string): Promise<
         return res.json();
     } catch (error) {
         console.error("Fetch Error:", error);
-        throw new Error("Failed to fetch revenue data.");
+        throw new Error("Failed to fetch Vacancy data.");
     }
 }
 

@@ -20,12 +20,8 @@ function SubmitButton() {
 
 function Search({
     countVacancies,
-    statusUploadVacancies,
-    statusUpload,
 }: {
     countVacancies: number;
-    statusUploadVacancies: string;
-    statusUpload: { statusUpload: string };
 }) {
     const [inpVal, setInpValue] = useState("");
 
@@ -33,32 +29,35 @@ function Search({
     const { replace } = useRouter();
 
     const jobCategory = searchParams.get("jobCategory");
-    const searchTextParams = searchParams.get("text") || "";
+    const encodeSearchText = encodeURIComponent(useSearchParams().get("text") || "");
+
+    const decodeSearchText = decodeURIComponent(useSearchParams().get("text") || "");
+
     const offset = searchParams.get("offset");
     const regionCode = searchParams.get("regionCode");
 
     useEffect(() => {
-        setInpValue(searchTextParams);
-    }, [searchTextParams]);
+        setInpValue(decodeSearchText);
+    }, [decodeSearchText]);
 
     const handleFormAction = (formData: FormData) => {
         const SearchParams = new URLSearchParams(searchParams);
-        const searchText = formData.get("text") as string;
+        const searchTextForm = formData.get("text") as string;
 
-        if (jobCategory || regionCode || offset || searchText) {
+        if (jobCategory || regionCode || offset || searchTextForm) {
             if (jobCategory) SearchParams.set("jobCategory", jobCategory);
             if (regionCode) SearchParams.set("regionCode", regionCode);
             if (offset) SearchParams.set("offset", "0");
-            if (searchText) SearchParams.set("text", decodeURIComponent(searchText));
+            if (searchTextForm) SearchParams.set("text", searchTextForm);
         }
 
-        if (searchTextParams && !searchText) {
+        if (encodeSearchText && !searchTextForm) {
             SearchParams.delete("text");
             replace(`?${SearchParams.toString()}`);
             return;
         }
 
-        if (searchText === searchTextParams || !searchText) {
+        if (searchTextForm === encodeSearchText || !searchTextForm) {
             console.log("return: ");
             return;
         }

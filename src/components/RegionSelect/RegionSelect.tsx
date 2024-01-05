@@ -2,16 +2,11 @@
 import React, { useMemo, useState } from "react";
 import styles from "./RegionSelect.module.scss";
 import { Select } from "@mantine/core";
-import { VacancyRegion } from "@/app/lib/types";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useAppDispatch } from "@/app/lib/store/hooks";
-import { useSelector } from "react-redux";
-import { selectRegionsData } from "@/app/lib/store/features/regions/selectors/selectRegionsData";
-import { vacanciesActions } from "@/app/lib/store/features/vacancies/vacanciesSlice";
+import { IRegion } from "@/app/lib/types";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const RegionSelect = ({ regions }: { regions: VacancyRegion[] }) => {
-    const regionCodeStorage = localStorage.getItem("regionCode");
-    const dispatch = useAppDispatch();
+const RegionSelect = ({ regions }: { regions: IRegion[] }) => {
+    const regionCodeStorage = localStorage.getItem("regionCode") || "all";
 
     const [searchValue, setSearchValue] = useState("");
     const { replace } = useRouter();
@@ -31,18 +26,15 @@ const RegionSelect = ({ regions }: { regions: VacancyRegion[] }) => {
             SearchParams.set("regionCode", value);
             replace(`?${SearchParams.toString()}`);
             localStorage.setItem("regionCode", value);
-            dispatch(vacanciesActions.startLoadingVacancies());
         }
     }
 
     return (
         <div className={styles.filters__selects}>
             <Select
-                // disabled
-                value={regionCode || regionCodeStorage}
+                value={regionCodeStorage}
                 onChange={(value) => handleChange(value)}
                 searchable
-                // clearable
                 searchValue={searchValue}
                 onSearchChange={setSearchValue}
                 data={arrRegions}

@@ -1,3 +1,4 @@
+"use client";
 import { CategoryVacancy, Mods } from "@/app/lib/types";
 import styles from "./NavbarItem.module.scss";
 import clsx from "clsx";
@@ -7,10 +8,14 @@ import { useParams, usePathname, useSearchParams } from "next/navigation";
 import SpinnerIcon from "../../../public/images/svg/spinnerIcon.svg";
 
 const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVacancy; isMobile?: boolean }) => {
+    const [isLoading, setIsLoading] = useState(false);
+
     const { jobCategory } = useParams();
     const pathname = usePathname();
-    const regionCode = useSearchParams().get("regionCode");
-    const [isLoading, setIsLoading] = useState(false);
+
+    const encodeSearchText = encodeURIComponent(useSearchParams().get("text") || "");
+
+    const regionCodeStorage = localStorage.getItem("regionCode") || "all";
 
     useEffect(() => {
         setIsLoading(false);
@@ -20,13 +25,15 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
         return null;
     }
 
-    let url = `/vacancies/${categoryVacancy.jobCategory}?`;
+    let url = `/vacancies/${categoryVacancy.jobCategory}?offset=0&`;
 
-    if (regionCode) {
-        url = url + `regionCode=${regionCode}`;
+    if (regionCodeStorage) {
+        url = url + `regionCode=${regionCodeStorage}`;
     }
 
-    const urlDecode = decodeURIComponent(url + "&offset=0");
+    if (encodeSearchText) {
+        url = url + `&text=${encodeSearchText}`;
+    }
 
     const handleCklick = () => {
         setIsLoading(true);
@@ -41,7 +48,7 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
         <Link
             key={categoryVacancy.jobCategory}
             className={clsx(styles.navbar__links, jobCategory === categoryVacancy.jobCategory && styles["navbar__links--active"])}
-            href={urlDecode}
+            href={url}
             onClick={handleCklick}>
             <div className={clsx(isMobile ? styles.navbar__name__mobile : styles.navbar__name)}>
                 {categoryVacancy.icon}

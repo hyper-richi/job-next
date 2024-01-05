@@ -1,4 +1,4 @@
-import { getAdress, getVacancy } from "@/app/lib/store/data";
+import { getAdress, getVacancy } from "@/app/lib/data";
 import parse, { DOMNode, HTMLReactParserOptions, Element, domToReact } from "html-react-parser";
 import styles from "./page.module.scss";
 import { notFound, useRouter } from "next/navigation";

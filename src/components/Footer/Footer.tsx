@@ -4,11 +4,11 @@ import Link from "next/link";
 import VKIcon from "../../../public/images/svg/vkIcon.svg";
 import TelegramIcon from "../../../public/images/svg/telegramIcon.svg";
 // import PointIcon from "../../../public/images/svg/pointIcon.svg";
-import { VacancyRegion } from "@/app/lib/types";
+import { IRegion } from "@/app/lib/types";
 import RegionName from "../RegionName/RegionName";
 import PointIcon from "../../../public/images/svg/PointIcon";
 
-export const Footer = ({ regions }: { regions: VacancyRegion[] }): JSX.Element => {
+export const Footer = ({ regions }: { regions: IRegion[] }): JSX.Element => {
     return (
         <footer className={styles.footer}>
             <div className={styles.footer__container}>

@@ -15,7 +15,7 @@ import { useParams } from "next/navigation";
 import clsx from "clsx";
 import { CategoryVacancy, Mods } from "@/app/lib/types";
 import NavbarItem from "../NavbarItem/NavbarItem";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const category: CategoryVacancy[] = [
     {
@@ -82,7 +82,8 @@ export const category: CategoryVacancy[] = [
 
 const Navbar = ({ isMobile }: { isMobile?: boolean }) => {
     const pathname = usePathname();
-    const searchParams = useSearchParams();
+    const regionCodeStorage = localStorage.getItem("regionCode") || "all";
+    const encodeSearchText = encodeURIComponent(useSearchParams().get("text") || "");
 
     const [hidenNavbar, setHidenNavbar] = useState(false);
     const lastScrollRef = useRef(0);
@@ -107,18 +108,20 @@ const Navbar = ({ isMobile }: { isMobile?: boolean }) => {
         [styles.hidden]: hidenNavbar,
     };
 
-    let url = `/vacancies?`;
+    let url = `/vacancies?offset=0`;
 
-    url = url + `regionCode=all&offset=0`;
+    if (regionCodeStorage) {
+        url = url + `&regionCode=${regionCodeStorage}`;
+    }
 
-    const urlDecode = decodeURIComponent(url);
+    if (encodeSearchText) {
+        url = url + `&text=${encodeSearchText}`;
+    }
 
     return (
         <nav className={clsx(styles.navbar, mods)}>
             <div className={styles.wrapper}>
-                <Link
-                    className={clsx(styles.navbar__links, pathname === "/vacancies" && styles["navbar__links--active"])}
-                    href={urlDecode}>
+                <Link className={clsx(styles.navbar__links, pathname === "/vacancies" && styles["navbar__links--active"])} href={url}>
                     <SearchIcon />
                     <span className={styles["links-name"]}>{"Все вакансии"}</span>
                 </Link>

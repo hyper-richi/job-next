@@ -3,6 +3,7 @@ import Image from "next/image";
 import TelegramIcon from "../../public/images/svg/telegramIcon.svg";
 import styles from "./page.module.scss";
 import ListStack from "@/components/ListStack/ListStack";
+import HeroImage from "../../public/images/hero.svg";
 
 export default function Home() {
     return (
@@ -20,6 +21,9 @@ export default function Home() {
                 <div className="flex">
                     <h2 className={styles.stack}>Stack на проекте:</h2>
                     <ListStack />
+                </div>
+                <div className="flex-1">
+                    <HeroImage />
                 </div>
             </div>
         </>

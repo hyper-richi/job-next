@@ -1,12 +1,9 @@
 "use client";
-import { memo, useMemo } from "react";
+import { memo, useEffect, useMemo } from "react";
 import styles from "./RegionName.module.scss";
-import { VacancyRegion } from "@/app/lib/types";
-import { useSearchParams } from "next/navigation";
+import { IRegion } from "@/app/lib/types";
 
-const RegionName = ({ regions }: { regions: VacancyRegion[] }) => {
-    const searchParams = useSearchParams();
-    const regionCode = searchParams.get("regionCode");
+const RegionName = ({ regions }: { regions?: IRegion[] }) => {
     const regionCodeStorage = localStorage.getItem("regionCode");
 
     if (!regionCodeStorage) {
@@ -15,9 +12,9 @@ const RegionName = ({ regions }: { regions: VacancyRegion[] }) => {
 
     const regionName = useMemo(() => {
         if (regions) {
-            return regions?.find((item) => item.code === (regionCode || regionCodeStorage))?.name || "Вся Россия";
+            return regions?.find((item) => item.code === regionCodeStorage)?.name || "Вся Россия";
         } else return "Вся Россия";
-    }, [regions, regionCode, regionCodeStorage]);
+    }, [regions, regionCodeStorage]);
 
     return <span className={styles["city-name"]}>{regionName}</span>;
 };
