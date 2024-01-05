@@ -1,9 +1,6 @@
-import { FooterProps } from "./Footer.props";
 import styles from "./Footer.module.scss";
-import Link from "next/link";
 import VKIcon from "../../../public/images/svg/vkIcon.svg";
 import TelegramIcon from "../../../public/images/svg/telegramIcon.svg";
-// import PointIcon from "../../../public/images/svg/pointIcon.svg";
 import { IRegion } from "@/app/lib/types";
 import RegionName from "../RegionName/RegionName";
 import PointIcon from "../../../public/images/svg/PointIcon";

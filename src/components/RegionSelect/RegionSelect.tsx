@@ -13,7 +13,6 @@ const RegionSelect = ({ regions }: { regions: IRegion[] }) => {
 
     const searchParams = useSearchParams();
     const SearchParams = new URLSearchParams(searchParams);
-    const regionCode = searchParams.get("regionCode");
 
     const arrRegions = useMemo(() => {
         if (regions) {

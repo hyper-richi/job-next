@@ -4,17 +4,46 @@ import VSCodeIcon from "../../../public/images/svg/badges/visualstudiocode.svg";
 import MantineIcon from "../../../public/images/svg/badges/mantine.svg";
 import NextdotjsIcon from "../../../public/images/svg/badges/nextdotjs.svg";
 import TypescriptIcon from "../../../public/images/svg/badges/typescript.svg";
+import VercelIcon from "../../../public/images/svg/badges/vercel.svg";
+import SassIcon from "../../../public/images/svg/badges/sass.svg";
+import PrettierIcon from "../../../public/images/svg/badges/prettier.svg";
+import styles from "./ListStack.module.scss";
 
 const ListStack = () => {
     return (
-        <div>
-            <List spacing="xs" size="sm" center>
-                <List.Item icon={<NextdotjsIcon width={24} height={24} />}>Next JS</List.Item>
-                <List.Item icon={<MantineIcon width={24} height={24} color={"#339AF0"} />}>Mantine UI </List.Item>
-                <List.Item icon={<TypescriptIcon width={24} height={24} />}>Typescript</List.Item>
-                <List.Item icon={<VSCodeIcon width={24} height={24} />}>VSCode</List.Item>
-            </List>
-        </div>
+        <>
+            <div>
+                <List spacing="xs" size="sm">
+                    <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+                        Framework - Next JS <NextdotjsIcon width={24} height={24} />
+                    </List.Item>
+                    <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+                        Language - TypeScript <TypescriptIcon width={24} height={24} />
+                    </List.Item>
+                    <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+                        Deployment - Vercel <VercelIcon width={24} height={24} color={"#000000"} />
+                    </List.Item>
+                    <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+                        Styling - Sass <SassIcon width={24} height={24} color={"#CC6699"} />
+                    </List.Item>
+                    <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+                        Components - Mantine UI <MantineIcon width={24} height={24} />
+                    </List.Item>
+                    <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+                        Formatting - Prettier <PrettierIcon width={24} height={24} />
+                    </List.Item>
+
+                    <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+                        VSCode - <VSCodeIcon width={24} height={24} />
+                    </List.Item>
+                </List>
+            </div>
+            <ul>
+                <li className={styles.item}>
+                    - Framework - Next JS <NextdotjsIcon width={24} height={24} />
+                </li>
+            </ul>
+        </>
     );
 };
 
