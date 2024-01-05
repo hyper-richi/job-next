@@ -58,16 +58,15 @@ const GTEestiProDisplay = localFont({
 
 export const metadata: Metadata = {
     title: {
-        template: "%s | Работа в России, поиск персонала и публикация вакансий",
-        default: "Работа в России, поиск персонала и публикация вакансий",
+        template: "%s | Работа в России, поиск  вакансий",
+        default: "Работа в России, поиск  вакансий",
     },
     icons: {
         icon: [{ url: "/icon.svg" }, new URL("/icon.svg", "https://example.com")],
         shortcut: ["/icon.svg"],
         apple: [{ url: "/icon.svg" }, { url: "/icon.svg", sizes: "180x180", type: "image/svg" }],
     },
-    description: `Сервис, который помогает найти работу и подобрать персонал в России!
-    Создавайте резюме и откликайтесь на вакансии. Набирайте сотрудников и публикуйте вакансии.`,
+    description: `Сервис, который помогает найти работу в России! Создавайте резюме и откликайтесь на вакансии.`,
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -80,9 +79,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </head>
             <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
                 <MantineProvider>
-                        <Header regions={regions} />
-                        <main className={styles.container}>{children}</main>
-                        <Footer regions={regions} />
+                    <Header regions={regions} />
+                    <main className={styles.container}>{children}</main>
+                    <Footer regions={regions} />
                 </MantineProvider>
             </body>
         </html>

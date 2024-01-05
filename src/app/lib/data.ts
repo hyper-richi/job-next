@@ -65,7 +65,6 @@ export async function getVacancies(params: QureyParams): Promise<ResponseVacanci
         if (searchText) {
             url = url + `&text=${searchText}`;
         }
-        console.log("getVacancies-url: ", url);
 
         const res = await fetch(process.env.API_BASE_URL + url, {
             cache: "no-store",
@@ -86,7 +85,7 @@ export async function getRegions(): Promise<ResponseRegions> {
         });
         const regionMock: IRegion = {
             code: "all",
-            name: "Вся Россия",
+            name: "Россия",
             shortName: "",
             text: "",
             key: "",
