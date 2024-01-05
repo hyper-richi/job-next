@@ -3,22 +3,14 @@ import { memo, useEffect, useMemo, useState } from "react";
 import styles from "./RegionName.module.scss";
 import { IRegion } from "@/app/lib/types";
 
-const RegionName = ({ regions, regionCodeParams }: { regions?: IRegion[]; regionCodeParams: string | null }) => {
-    // console.log('regionCodeParams: ', regionCodeParams);
+const RegionName = ({ regions }: { regions?: IRegion[] }) => {
     const regionCodeStorage = localStorage.getItem("regionCode");
-    // const [regionCode, setRegionCode] = useState(regionCodeStorage);
-
-    console.log("regionCodeStorage: ", regionCodeStorage);
 
     useEffect(() => {
         if (!regionCodeStorage) {
             localStorage.setItem("regionCode", "all");
         }
     }, []);
-
-    /*  useEffect(() => {
-        setRegionCode(regionCodeStorage);
-    }, [regionCodeStorage]); */
 
     const regionName = useMemo(() => {
         if (regions) {
