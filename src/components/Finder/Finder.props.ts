@@ -1,4 +1,4 @@
-import { Results, VacancyRegion } from "@/app/lib/types";
+import { Results, IRegion } from "@/app/lib/types";
 
 export interface FinderProps {
     searchText?: string;
@@ -7,5 +7,5 @@ export interface FinderProps {
     regionCode?: string;
     totalPages: number;
     vacancies: Results;
-    regions: VacancyRegion[];
+    regions: IRegion[];
 }

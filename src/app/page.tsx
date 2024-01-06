@@ -1,39 +1,35 @@
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
-import Image from "next/image";
-import AcmeLogo from "@/components/acme-logo";
+import styles from './page.module.scss';
+import ListStack from '@/components/ListStack/ListStack';
+import HeroImagePng from '../../public/images/hero.png';
+import Image from 'next/image';
 
 export default function Home() {
-    return (
-        <div className="Home">
-            <div className="">
-                <AcmeLogo />
-            </div>
-            <div className="">
-                <div className="">
-                    <div className="" />
-                    <p className="">
-                        <strong>Welcome to Acme.</strong> This is the example for the
-                        <a href="https://nextjs.org/learn/" className="">
-                            Next.js Learn Course
-                        </a>
-                        , brought to you by Vercel.
-                    </p>
-                    <Link href="/" className="">
-                        <span>Log in</span> <ArrowRightIcon width={24} height={24} />
-                    </Link>
-                </div>
-                <div className="">
-                    {/* Add Hero Images Here */}
-                    <Image
-                        src="/images/hero-mobile.png"
-                        width={560}
-                        height={620}
-                        className="block md:hidden"
-                        alt="Screenshot of the dashboard project showing mobile version"
-                    />
-                </div>
-            </div>
+  return (
+    <>
+      <div className={styles.container}>
+        <div>
+          <h1 className={styles.title}>Найдите работу вашей мечты в любой точке России</h1>
+          <p>Свежие вакансии, ответы на отклики и доступ к резюме — всегда у вас под рукой.</p>
         </div>
-    );
+      </div>
+      <div className={styles.container}>
+        <div className={styles.stackList}>
+          <h2 className={styles.stack}>Stack на проекте:</h2>
+          <ListStack />
+        </div>
+        <div>
+          <Image
+            src={HeroImagePng}
+            style={{
+              maxWidth: '693px',
+              width: '100%',
+              maxHeight: '528px',
+              height: 'auto',
+            }}
+            alt='picture'
+          />
+        </div>
+      </div>
+    </>
+  );
 }

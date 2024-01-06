@@ -43,7 +43,7 @@ interface Vacancy {
     vacancy: {
         id: string;
         source: string;
-        region: Region;
+        region: IRegionName;
         company: Company;
         "creation-date": string;
         salary: string;
@@ -68,7 +68,7 @@ interface Vacancy {
     };
 }
 
-interface Region {
+interface IRegionName {
     region_code: string;
     name: string;
 }
@@ -127,7 +127,7 @@ interface ResponseAdress {
     results: ResultAdress[];
 }
 
-interface ResponseData {
+interface ResponseVacancies {
     status: string;
     meta: Meta;
     results: Results; // | {};
@@ -170,7 +170,7 @@ interface ResponseGeolocation {
 
 export type Mods = Record<string, boolean | string | undefined>;
 
-interface VacancyRegion {
+interface IRegion {
     code: string;
     name: string;
     shortName: string;
@@ -179,5 +179,5 @@ interface VacancyRegion {
 }
 interface ResponseRegions {
     code: string;
-    data: VacancyRegion[];
+    data: IRegion[];
 }

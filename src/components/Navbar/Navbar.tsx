@@ -11,10 +11,10 @@ import MedicineIcon from "../../../public/images/svg/medicineIcon.svg";
 import SearchIcon from "../../../public/images/svg/searchIcon.svg";
 import ConstructionIcon from "../../../public/images/svg/constructionIcon.svg";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useParams } from "next/navigation";
 import clsx from "clsx";
 import { CategoryVacancy, Mods } from "@/app/lib/types";
 import NavbarItem from "../NavbarItem/NavbarItem";
+import { useEffect, useRef, useState } from "react";
 
 export const category: CategoryVacancy[] = [
     {
@@ -79,42 +79,57 @@ export const category: CategoryVacancy[] = [
     },
 ];
 
-type NavbarProps = {
-    showNavbar: boolean;
-    regionCodeStorage?: string;
-};
-
-const Navbar = ({ showNavbar }: NavbarProps) => {
+const Navbar = ({ isMobile }: { isMobile?: boolean }) => {
     const pathname = usePathname();
-    const searchParams = useSearchParams();
-    const regionCode = searchParams.get("regionCode") || "all";
-    // const regionCodeStorage = localStorage.getItem("regionCode") || "all";
+    const regionCodeStorage = localStorage.getItem("regionCode") || "all";
+    const encodeSearchText = encodeURIComponent(useSearchParams().get("text") || "");
 
-    const mods: Mods = {
-        [styles.hidden]: showNavbar,
+    const [hidenNavbar, setHidenNavbar] = useState(false);
+    const lastScrollRef = useRef(0);
+
+    useEffect(() => {
+        window.addEventListener("scroll", controlNavbar);
+        return () => {
+            window.removeEventListener("scroll", controlNavbar);
+        };
+    }, []);
+
+    const controlNavbar = () => {
+        if (window.scrollY > lastScrollRef.current) {
+            setHidenNavbar(true);
+        } else {
+            setHidenNavbar(false);
+        }
+        lastScrollRef.current = window.scrollY;
     };
 
-    let url = `/vacancies?`;
+    const mods: Mods = {
+        [styles.hidden]: hidenNavbar,
+    };
 
-    if (regionCode) {
-        url = url + `regionCode=${regionCode}&`;
+    let url = `/vacancies?offset=0`;
+
+    if (regionCodeStorage) {
+        url = url + `&regionCode=${regionCodeStorage}`;
     }
 
-    url = url + "offset=0";
-
-    const urlDecode = decodeURIComponent(url);
+    if (encodeSearchText) {
+        url = url + `&text=${encodeSearchText}`;
+    }
 
     return (
         <nav className={clsx(styles.navbar, mods)}>
             <div className={styles.wrapper}>
-                <Link
-                    className={clsx(styles.navbar__links, pathname === "/vacancies" && styles["navbar__links--active"])}
-                    href={urlDecode}>
+                <Link className={clsx(styles.navbar__links, pathname === "/vacancies" && styles["navbar__links--active"])} href={url}>
                     <SearchIcon />
                     <span className={styles["links-name"]}>{"Все вакансии"}</span>
                 </Link>
                 {category.map((item) => {
-                    return <NavbarItem key={item.jobCategory} categoryVacancy={item} />;
+                    if (!isMobile) {
+                        return <NavbarItem key={item.jobCategory} categoryVacancy={item} />;
+                    } else {
+                        return <NavbarItem key={item.jobCategory} categoryVacancy={item} isMobile />;
+                    }
                 })}
             </div>
         </nav>
