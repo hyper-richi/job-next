@@ -22,7 +22,6 @@ export default async function Vacancy({ params }: Params) {
 
   const { results } = await getVacancy(companyId, vacancyId);
   const vacancy = Object.keys(results).length ? results.vacancies[0].vacancy : null;
-  console.log('vacancy-address: ', vacancy?.addresses.address);
 
   if (!vacancy) {
     notFound();
