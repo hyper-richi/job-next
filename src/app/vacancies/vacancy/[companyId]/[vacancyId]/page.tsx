@@ -9,6 +9,7 @@ import MapVacancy from '@/components/MapVacancy/MapVacancy';
 import ButtonBack from '@/components/ButtonBack/ButtonBack';
 import Adress from '@/components/Adress/Adress';
 import { ResponseAdress } from '@/app/lib/types';
+import PointIcon from '../../../../../../public/images/svg/PointIcon';
 
 interface Params {
   searchParams?: { text?: string; offset?: string; jobCategory?: string };
@@ -20,9 +21,8 @@ export default async function Vacancy({ params }: Params) {
   const vacancyId = params.vacancyId;
 
   const { results } = await getVacancy(companyId, vacancyId);
-  const vacancy = Object.keys(results).length
-    ? results.vacancies[0].vacancy
-    : null;
+  const vacancy = Object.keys(results).length ? results.vacancies[0].vacancy : null;
+  console.log('vacancy-address: ', vacancy?.addresses.address);
 
   if (!vacancy) {
     notFound();
@@ -32,6 +32,7 @@ export default async function Vacancy({ params }: Params) {
   const latitude = vacancy.addresses?.address[0]?.lat;
 
   let dataAdress: ResponseAdress | undefined;
+
   if (longitude && latitude) {
     dataAdress = await getAdress(latitude, longitude);
   }
@@ -53,9 +54,7 @@ export default async function Vacancy({ params }: Params) {
   };
 
   const duty = vacancy ? parse(vacancy.duty || '') : null;
-  const qualification = vacancy.requirement.qualification
-    ? parse(vacancy.requirement.qualification || '')
-    : null;
+  const qualification = vacancy.requirement.qualification ? parse(vacancy.requirement.qualification || '') : null;
 
   const experience = function (experience: number) {
     switch (experience) {
@@ -79,29 +78,14 @@ export default async function Vacancy({ params }: Params) {
           <ButtonBack />
           <div className={styles.vacancy__info__title}>
             <div className={styles.vacancy__info__title__city}>
-              <svg
-                width='18'
-                height='22'
-                viewBox='0 0 18 22'
-                fill='#002855'
-                xmlns='http://www.w3.org/2000/svg'
-                className={styles.vacancy__info__title__city__icon}
-              >
-                <path
-                  fillRule='evenodd'
-                  clipRule='evenodd'
-                  d='M12.764 16.834a1 1 0 00-1.414.024A59.4 59.4 0 019 19.143C4.142 14.64 2.5 12.043 2.5 9a6.5 6.5 0 0113 0c0 1.472-.36 2.76-1.179 4.149a1 1 0 001.723 1.015C17.042 12.471 17.5 10.834 17.5 9a8.5 8.5 0 00-17 0c0 3.904 2.065 7.003 7.827 12.24l.673.611.673-.611a67.185 67.185 0 003.116-2.992 1 1 0 00-.025-1.414zM9 13.5a4.5 4.5 0 110-9 4.5 4.5 0 010 9zm0-2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z'
-                ></path>
-              </svg>
+              <div className={styles.vacancy__info__title__city__icon}>
+                <PointIcon style={{ width: 24, height: 24, color: '#4c6888' }} />
+              </div>
               {vacancy.region.name}
             </div>
             <span>{vacancy.company.name}</span>
           </div>
-          <h1 className={styles.vacancy__info__name}>
-            {vacancy['job-name'].charAt(0).toUpperCase() +
-              vacancy['job-name'].slice(1)}
-            {/* {function()} */}
-          </h1>
+          <h1 className={styles.vacancy__info__name}>{vacancy['job-name'].charAt(0).toUpperCase() + vacancy['job-name'].slice(1)}</h1>
           <p className={styles.vacancy__info__salary}>
             {vacancy?.salary && vacancy?.salary !== 'от 0'
               ? `${vacancy.salary_min}-${vacancy.salary_max} ₽`
@@ -110,9 +94,7 @@ export default async function Vacancy({ params }: Params) {
           <div className={styles.vacancy__info__workplaces}>
             <div className={styles.vacancy__info__count}>
               <CountVacancyIcon width='18' height='22' />
-              <p className={styles.workplaces}>
-                Количество рабочих мест: {vacancy.work_places}
-              </p>
+              <p className={styles.workplaces}>Количество рабочих мест: {vacancy.work_places}</p>
             </div>
             <Adress adress={dataAdress?.results} location={location} />
           </div>
@@ -125,10 +107,7 @@ export default async function Vacancy({ params }: Params) {
               </p>
               <ul>
                 <li>Образование:{` ${vacancy.requirement.education}`};</li>
-                <li>
-                  Опыт работы:{` ${experience(vacancy.requirement.experience)}`}
-                  ;
-                </li>
+                <li>Опыт работы:{` ${experience(vacancy.requirement.experience)}`};</li>
               </ul>
               <p>
                 <strong>Тип занятости:</strong>

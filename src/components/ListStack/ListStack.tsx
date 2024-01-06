@@ -38,7 +38,6 @@ const ListStack = () => {
           <List.Item classNames={{ itemLabel: styles.itemLabel }}>
             Formatting - Prettier <PrettierIcon width={24} height={24} />
           </List.Item>
-
           <List.Item classNames={{ itemLabel: styles.itemLabel }}>
             VSCode - <VSCodeIcon width={24} height={24} />
           </List.Item>

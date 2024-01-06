@@ -61,7 +61,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
                 <RegionName regions={regions} />
                 <div className={styles['city-logo']}>
                   <PointIcon
-                    style={{ width: 24, height: 24, fill: '#005bff' }}
+                    style={{ width: 24, height: 24, color: '#ffffff' }}
                   />
                 </div>
               </div>
