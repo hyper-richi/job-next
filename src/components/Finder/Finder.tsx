@@ -5,7 +5,7 @@ import styles from "./Finder.module.scss";
 import React, { Suspense } from "react";
 import RegionSelect from "../RegionSelect/RegionSelect";
 
-export default function Finder({ vacancies, regions,  regionCode, searchText, offset, jobCategory }: FinderProps) {
+export default function Finder({ vacancies, /* regions, */  regionCode, searchText, offset, jobCategory }: FinderProps) {
     return (
         <div className={styles.finder}>
             <div className={styles.filters}>

@@ -17,7 +17,7 @@ interface Params {
   };
 }
 
-export default async function Page({ params, searchParams }: Params) {
+export default async function Page({ params /* searchParams */ }: Params) {
   //const searchText = searchParams?.text || '';
   //const offset = searchParams?.offset || '';
   //const regionCode = searchParams?.regionCode || '';
