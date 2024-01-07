@@ -212,21 +212,8 @@
     max-width: 550px;
     padding: 60px;
 }
-.modal {
-    &__select {
-        margin-bottom: 32px;
-        margin-top: 32px;
-    }
-}
-.closebutton {
-    position: absolute;
-    top: 0;
-    right: 0;
 
-    &:focus-visible {
-        outline: none;
-    }
-}
+
 
 .root {
     // padding: 18px 24px;
