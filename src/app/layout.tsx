@@ -9,6 +9,7 @@ import '@mantine/core/styles.css';
 import './globals.css';
 import { getRegions } from './lib/data';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const GTEestiProText = localFont({
   src: [
@@ -82,7 +83,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <MantineProvider>
           <Header regions={regions} />
           <main className={styles.container}>
-            {children} <Analytics />
+            {children}
+            <Analytics />
+            <SpeedInsights />
           </main>
           <Footer regions={regions} />
         </MantineProvider>
