@@ -5,7 +5,7 @@ import { IconArrowBarToRight, IconArrowBarToLeft, IconArrowLeft, IconArrowRight,
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styles from "./CustomPagination.module.scss";
 
-function CustomPagination({ totalPages }: { totalPages: number }) {
+function CustomPagination({ totalPages }: { totalPages?: number }) {
     const searchParams = useSearchParams();
     const offset = searchParams.get("offset");
 

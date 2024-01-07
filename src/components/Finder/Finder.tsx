@@ -12,7 +12,7 @@ export default function Finder({ vacancies, regions,  regionCode, searchText, of
                 <div className={styles.filters__header}>
                     <h6 className={styles.filters__title}>Фильтры</h6>
                 </div>
-                <RegionSelect regions={regions} />
+                <RegionSelect /* regions={regions} */ />
             </div>
             <div className={styles.content}>
                 <div className={styles.content__results}>

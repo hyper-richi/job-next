@@ -5,7 +5,7 @@ import { IRegion } from '@/app/lib/types';
 import RegionName from '../RegionName/RegionName';
 import PointIcon from '../../../public/images/svg/PointIcon';
 
-export const Footer = ({ regions }: { regions: IRegion[] }): JSX.Element => {
+export const Footer = ({ regions }: { regions?: IRegion[] }): JSX.Element => {
   return (
     <footer className={styles.footer}>
       <div className={styles.footer__container}>

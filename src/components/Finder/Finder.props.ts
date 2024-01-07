@@ -5,7 +5,7 @@ export interface FinderProps {
     offset?: string;
     jobCategory?: string;
     regionCode?: string;
-    totalPages: number;
-    vacancies: Results;
-    regions: IRegion[];
+    totalPages?: number;
+    vacancies?: Results;
+    regions?: IRegion[];
 }
