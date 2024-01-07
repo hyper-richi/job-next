@@ -3,19 +3,20 @@
 
 //https://opendata.trudvsem.ru/api/v1/vacancies/region/6100000000000?offset=1&limit=100&text=инженер
 // "use client";
-import { ResponseAdress,  ResponseVacancy } from './types';
+import { ResponseAdress, ResponseVacancies, ResponseVacancy } from './types';
 
 // "no-store" - SSR getServerSideProps рендер на сервере, Этот запрос должен повторяться при каждом запросе
 // "no-cache" ведет себя так же, как no-store в Next.js.
 // "force-cache" - SSG getStaticProps статическая генерация страниц,Этот запрос следует кэшировать до тех пор,
 // пока он не станет недействительным вручную.
 // next: { revalidate: 60 } - ISR getStaticProps and revalidate, Этот запрос должен быть кэширован со временем жизни 10 секунд.
-/* interface QureyParams {
+
+interface QureyParams {
   jobCategory?: string;
   searchText?: string;
   offset?: string;
   regionCode?: string;
-} */
+}
 
 /* export async function getVacanciesSearch(
   jobCategory: string | null,
@@ -48,7 +49,7 @@ import { ResponseAdress,  ResponseVacancy } from './types';
   }
 } */
 
-/* export async function getVacancies(params: QureyParams): Promise<ResponseVacancies> {
+export async function getVacancies(params: QureyParams): Promise<ResponseVacancies> {
   const { jobCategory, offset, searchText, regionCode } = params;
   try {
     let url = `?offset=${offset || '0'}&limit=100`;
@@ -72,7 +73,7 @@ import { ResponseAdress,  ResponseVacancy } from './types';
     console.error('Fetch Error:', error);
     throw new Error('Failed to fetch Vacancies data.');
   }
-} */
+}
 
 /* export async function getRegions(): Promise<ResponseRegions> {
   try {
