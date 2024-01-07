@@ -1,15 +1,13 @@
-// http://opendata.trudvsem.ru/api/v1/vacancies?industry=%industry%
-// https://job.ozon.ru/vacancy/?department=Ozon&speci
+import { ResponseAdress, ResponseVacancies, ResponseVacancy, ResponseRegions, IRegion } from './types';
 
+// http://opendata.trudvsem.ru/api/v1/vacancies?industry=%industry%
 //https://opendata.trudvsem.ru/api/v1/vacancies/region/6100000000000?offset=1&limit=100&text=инженер
-// "use client";
-import { ResponseAdress, ResponseVacancies, ResponseVacancy } from './types';
 
 // "no-store" - SSR getServerSideProps рендер на сервере, Этот запрос должен повторяться при каждом запросе
 // "no-cache" ведет себя так же, как no-store в Next.js.
 // "force-cache" - SSG getStaticProps статическая генерация страниц,Этот запрос следует кэшировать до тех пор,
 // пока он не станет недействительным вручную.
-// next: { revalidate: 60 } - ISR getStaticProps and revalidate, Этот запрос должен быть кэширован со временем жизни 10 секунд.
+// next: { revalidate: 60 } - ISR getStaticProps and revalidate, Этот запрос должен быть кэширован со временем жизни 60 секунд.
 
 interface QureyParams {
   jobCategory?: string;
@@ -17,37 +15,6 @@ interface QureyParams {
   offset?: string;
   regionCode?: string;
 }
-
-/* export async function getVacanciesSearch(
-  jobCategory: string | null,
-  offset: string | null,
-  regionCode: string | null,
-  formData: FormData
-) {
-  const text = formData?.get('text') || '';
-
-  try {
-    let url = `?offset=${offset || '0'}&limit=100`;
-
-    if (regionCode) {
-      url = `/region/${regionCode}` + url;
-    }
-    if (jobCategory) {
-      url = url + `&industry=${jobCategory}`;
-    }
-    if (text) {
-      url = url + `&text=${text}`;
-    }
-    const res = await fetch(process.env.API_BASE_URL + url, {
-      cache: 'no-store',
-    });
-
-    return res.json();
-  } catch (error) {
-    console.error('Fetch Error:', error);
-    throw new Error('Failed to fetch Vacancies data.');
-  }
-} */
 
 export async function getVacancies(params: QureyParams): Promise<ResponseVacancies> {
   const { jobCategory, offset, searchText, regionCode } = params;
@@ -75,11 +42,10 @@ export async function getVacancies(params: QureyParams): Promise<ResponseVacanci
   }
 }
 
-/* export async function getRegions(): Promise<ResponseRegions> {
+export async function getRegions(): Promise<ResponseRegions> {
   try {
     const res = await fetch('https://trudvsem.ru/iblocks/flat_filter_prr_search_cv/ref/regions', {
       cache: 'no-store',
-      mode: 'no-cors',
     });
     const regionMock: IRegion = {
       code: 'all',
@@ -98,7 +64,7 @@ export async function getVacancies(params: QureyParams): Promise<ResponseVacanci
     console.error('Fetch Error:', error);
     throw new Error('Failed to fetch Regions data.');
   }
-} */
+}
 
 export async function getVacancy(companyId: string, vacancyId: string): Promise<ResponseVacancy> {
   try {
