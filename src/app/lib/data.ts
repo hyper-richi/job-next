@@ -17,7 +17,7 @@ interface QureyParams {
   regionCode?: string;
 }
 
-export async function getVacanciesSearch(
+/* export async function getVacanciesSearch(
   jobCategory: string | null,
   offset: string | null,
   regionCode: string | null,
@@ -46,9 +46,9 @@ export async function getVacanciesSearch(
     console.error('Fetch Error:', error);
     throw new Error('Failed to fetch Vacancies data.');
   }
-}
+} */
 
-export async function getVacancies(params: QureyParams): Promise<ResponseVacancies> {
+/* export async function getVacancies(params: QureyParams): Promise<ResponseVacancies> {
   const { jobCategory, offset, searchText, regionCode } = params;
   try {
     let url = `?offset=${offset || '0'}&limit=100`;
@@ -72,9 +72,9 @@ export async function getVacancies(params: QureyParams): Promise<ResponseVacanci
     console.error('Fetch Error:', error);
     throw new Error('Failed to fetch Vacancies data.');
   }
-}
+} */
 
-export async function getRegions(): Promise<ResponseRegions> {
+/* export async function getRegions(): Promise<ResponseRegions> {
   try {
     const res = await fetch('https://trudvsem.ru/iblocks/flat_filter_prr_search_cv/ref/regions', {
       cache: 'no-store',
@@ -97,7 +97,7 @@ export async function getRegions(): Promise<ResponseRegions> {
     console.error('Fetch Error:', error);
     throw new Error('Failed to fetch Regions data.');
   }
-}
+} */
 
 export async function getVacancy(companyId: string, vacancyId: string): Promise<ResponseVacancy> {
   try {

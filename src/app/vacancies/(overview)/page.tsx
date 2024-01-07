@@ -1,7 +1,7 @@
 import styles from './page.module.scss';
 import Search from '@/components/Search/Search';
 import { Metadata } from 'next';
-import { getRegions, getVacancies } from '../../lib/data';
+// import { getRegions, getVacancies } from '../../lib/data';
 import Finder from '@/components/Finder/Finder';
 import CustomPagination from '@/components/CustomPagination/CustomPagination';
 import TitleCategory from '@/components/TitleCategory/TitleCategory';
@@ -18,9 +18,9 @@ interface Params {
 }
 
 export default async function Page({ params, searchParams }: Params) {
-  const searchText = searchParams?.text || '';
-  const offset = searchParams?.offset || '';
-  const regionCode = searchParams?.regionCode || '';
+  //const searchText = searchParams?.text || '';
+  //const offset = searchParams?.offset || '';
+  //const regionCode = searchParams?.regionCode || '';
   const jobCategory: string = params.jobCategory || '';
 
   /* const { results: vacancies, meta } = await getVacancies({

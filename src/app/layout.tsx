@@ -7,7 +7,7 @@ import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import styles from './layout.module.scss';
 import '@mantine/core/styles.css';
 import './globals.css';
-import { getRegions } from './lib/data';
+// import { getRegions } from './lib/data';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
