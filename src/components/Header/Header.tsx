@@ -11,38 +11,57 @@ import { useSearchParams } from 'next/navigation';
 import RegionName from '../RegionName/RegionName';
 import PointIcon from '../../../public/images/svg/PointIcon';
 import dynamic from 'next/dynamic';
+// import { useDisclosure } from '@mantine/hooks';
+// import { Drawer } from '@mantine/core';
 
-// import MobileRegionsModal from './MobileRegionsModal/MobileRegionsModal';
 const MobileRegionsModal = dynamic(() => import('../MobileRegionsModal/MobileRegionsModal'), {
   ssr: false,
 });
 
-//import DesktopRegionsModal from '../DesktopRegionsModal/DesktopRegionsModal';
 const DesktopRegionsModal = dynamic(() => import('../DesktopRegionsModal/DesktopRegionsModal'), {
   ssr: false,
 });
 
+const Sidebar = dynamic(() => import('../Sidebar/Sidebar'), {
+  ssr: false,
+});
+
 const Header = ({ regions }: HeaderProps): JSX.Element => {
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false);
   const [showMobileRegionsModal, setMobileShowRegionsModal] = useState(false);
   const [showDesktopRegionsModal, setDesktopShowRegionsModal] = useState(false);
+
+  // const [opened, { open, close }] = useDisclosure(false);
 
   const searchParams = useSearchParams();
   const regionCodeParams = searchParams.get('regionCode');
 
-  const onToggle = () => {
+  const onToggleSidebar = () => {
     setShowSidebar((prev) => !prev);
   };
 
-  const onContentClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
+  const onCloseSidebar = useCallback(() => {
+    /* window.setTimeout(function () {
 
-  const closeHandlerSidebar = useCallback(() => {
-    if (!showSidebar) {
-      setShowSidebar(true);
+    }, 1000); */
+    setShowSidebar(false);
+  }, []);
+
+  /* const onShowSidebar = useCallback(() => {
+    setShowSidebar(true);
+  }, []); */
+
+  /* const onContentClick = (e: React.MouseEvent) => {
+    console.log('onContentClick: ');
+    e.stopPropagation();
+  }; */
+
+  /*  const onCloseSidebar = useCallback(() => {
+      if (!hidenSidebar) {
+      setHidenSidebar(true);
     }
-  }, [showSidebar]);
+    setHidenSidebar((prev) => !prev);
+  }, []); */
 
   const onCloseMobileRegionsModal = useCallback(() => {
     setMobileShowRegionsModal((prev) => !prev);
@@ -88,7 +107,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
 
       <div className={clsx(styles.mobile, styles.sticky)}>
         <div className={styles.mobile__main}>
-          <button onClick={onToggle}>
+          <button /* onClick={onToggle} */ onClick={onToggleSidebar}>
             <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
               <path
                 d='M14.222 17c.295 0 .578.105.786.293a.952.952 0 01.325.707c0 .265-.117.52-.325.707a1.177 1.177 0 01-.786.293H3.112c-.296 0-.578-.105-.787-.293A.952.952 0 012 18c0-.265.117-.52.325-.707.209-.188.491-.293.786-.293h11.111zm6.667-6c.295 0 .577.105.786.293A.952.952 0 0122 12c0 .265-.117.52-.325.707a1.177 1.177 0 01-.786.293H3.11c-.295 0-.577-.105-.786-.293A.952.952 0 012 12c0-.265.117-.52.325-.707.209-.188.491-.293.786-.293H20.89zm0-6c.295 0 .577.105.786.293A.952.952 0 0122 6c0 .265-.117.52-.325.707a1.177 1.177 0 01-.786.293H3.11c-.295 0-.577-.105-.786-.293A.952.952 0 012 6c0-.265.117-.52.325-.707.209-.188.491-.293.786-.293H20.89z'
@@ -101,7 +120,8 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
           </Link>
           <div></div>
         </div>
-        <div className={clsx(styles.mobile__sidebar, showSidebar && styles.hidden)} onClick={closeHandlerSidebar}>
+
+        {/* <div className={clsx(styles.mobile__sidebar, hidenSidebar && styles.hidden)} onClick={onCloseSidebar}>
           <div className={styles.sidebar__content} onClick={onContentClick}>
             <div className={styles.sidebar__nav}>
               <div onClick={onCloseMobileRegionsModal} className={styles.sidebar__item__logo}>
@@ -126,8 +146,30 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
               <Navbar isMobile />
             </div>
           </div>
-        </div>
+        </div> */}
+
+        {showSidebar && (
+          <Sidebar
+            regions={regions}
+            showSidebar={showSidebar}
+            onCloseSidebar={onCloseSidebar}
+            // onContentClick={onContentClick}
+            onCloseMobileRegionsModal={onCloseMobileRegionsModal}
+          />
+        )}
       </div>
+
+      {/* {opened && (
+        <Drawer
+          className='Drawer'
+          keepMounted={true}
+          opened={opened}
+          onClose={close}
+          title='Authentication'
+          overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
+          transitionProps={{ duration: 150, timingFunction: 'linear' }}
+        ></Drawer>
+      )} */}
 
       {showDesktopRegionsModal && (
         <DesktopRegionsModal
@@ -136,6 +178,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
           onCloseDesktopRegionsModal={onCloseDesktopRegionsModal}
         />
       )}
+
       {showMobileRegionsModal && (
         <MobileRegionsModal
           showMobileRegionsModal={showMobileRegionsModal}

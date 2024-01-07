@@ -1,223 +1,161 @@
 .desktop {
-    display: contents;
+  display: contents;
 }
 
 .wrapper {
-    position: sticky;
-    z-index: 3;
-    top: 0;
+  position: sticky;
+  z-index: 3;
+  top: 0;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 
-    height: 72px;
-    padding: 0 120px;
-    align-items: center;
+  height: 72px;
+  padding: 0 120px;
+  align-items: center;
+  text-align: center;
+  background-color: rgb(37 99 235 /1);
+  color: #fff;
+
+  &__logo {
+    font-weight: 700;
     text-align: center;
-    background-color: rgb(37 99 235 /1);
-    color: #fff;
-
-    &__logo {
-        font-weight: 700;
-        text-align: center;
-        font-size: 24px;
-        height: 100%;
-        width: fit-content;
-        display: flex;
-        align-items: center;
-        &:active {
-            color: #ccdeff;
-        }
+    font-size: 24px;
+    height: 100%;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    &:active {
+      color: #ccdeff;
     }
+  }
 
-    &__search {
-        display: flex;
-        height: 36px;
-        align-items: center;
-        border: none;
-        background-color: var(--white);
-        border-radius: 8px;
-        cursor: text;
+  &__search {
+    display: flex;
+    height: 36px;
+    align-items: center;
+    border: none;
+    background-color: var(--white);
+    border-radius: 8px;
+    cursor: text;
 
-        input {
-            width: 100%;
-            border: none;
-            margin-left: 16px;
-            background-color: transparent;
-            color: #001a34;
-            font-size: 18px;
-            font-weight: 300;
-            letter-spacing: 0.4px;
-            line-height: 26px;
-            outline: none;
-            &::placeholder {
-                color: #8093aa;
-            }
-        }
+    input {
+      width: 100%;
+      border: none;
+      margin-left: 16px;
+      background-color: transparent;
+      color: #001a34;
+      font-size: 18px;
+      font-weight: 300;
+      letter-spacing: 0.4px;
+      line-height: 26px;
+      outline: none;
+      &::placeholder {
+        color: #8093aa;
+      }
     }
+  }
 
-    &__info {
-        display: grid;
-        justify-content: space-around;
-        grid-column-gap: 16px;
-        column-gap: 16px;
-        grid-template-columns: 1fr min-content;
-    }
+  &__info {
+    display: grid;
+    justify-content: space-around;
+    grid-column-gap: 16px;
+    column-gap: 16px;
+    grid-template-columns: 1fr min-content;
+  }
 }
 
 .search__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 16px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  cursor: pointer;
 }
 
 .info {
-    &__cities {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 10px;
-        cursor: pointer;
-    }
-    &__socials {
-        display: grid;
-        align-items: center;
-        grid-column-gap: 16px;
-        column-gap: 16px;
-        grid-template-columns: 1px 1fr 1fr;
-    }
+  &__cities {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    cursor: pointer;
+  }
+  &__socials {
+    display: grid;
+    align-items: center;
+    grid-column-gap: 16px;
+    column-gap: 16px;
+    grid-template-columns: 1px 1fr 1fr;
+  }
 }
 .city-logo {
-    height: 24px;
-    cursor: pointer;
+  height: 24px;
+  cursor: pointer;
 }
 
 .mobile {
-    height: 48px;
-    background-color: #005bff;
-    display: none;
+  height: 48px;
+  background-color: #005bff;
+  display: none;
 
-    &__main {
-        display: flex;
-        height: 100%;
-        align-items: center;
-        justify-content: space-between;
-        margin: 0 14px;
-        color: #fff;
+  &__main {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 14px;
+    color: #fff;
 
-        button {
-            background: none;
-            color: inherit;
-            border: none;
-            padding: 0;
-            font: inherit;
-            cursor: pointer;
-            outline: inherit;
-            display: flex;
-            align-items: center;
-        }
+    button {
+      background: none;
+      color: inherit;
+      border: none;
+      padding: 0;
+      font: inherit;
+      cursor: pointer;
+      outline: inherit;
+      display: flex;
+      align-items: center;
     }
-    &__sidebar {
-        position: fixed;
-        z-index: 10;
-        // left: 0;
-        //top: 0;
-        width: 100vw;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        opacity: 1;
-        transition: left 0.3s, visibility 0.3s, background-color 0.3s, opacity 0.3s;
-    }
-}
-
-.sidebar {
-    &__content {
-        overflow: auto;
-        max-width: 250px;
-        height: 100%;
-        background-color: #fff;
-    }
-
-    &__nav {
-        display: flex;
-        flex-direction: column;
-    }
-
-    &__item__logo {
-        display: flex;
-        height: 66px;
-        align-items: center;
-        padding: 16px;
-        border-bottom: 1px solid #e5e9ee;
-        color: #005bff;
-        gap: 12px;
-        cursor: pointer;
-    }
-
-    &__location {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    &__city__logo {
-        height: 24px;
-        position: relative;
-        bottom: 4px;
-        circle {
-            fill: #fff;
-        }
-    }
-}
-
-.hidden {
-    // left: -250px !important;
-    visibility: hidden;
-    background: none;
-    opacity: 0;
-    left: -100vw;
+  }
 }
 
 .sticky {
-    position: sticky;
-    z-index: 11;
-    top: 0;
+  position: sticky;
+  z-index: 11;
+  top: 0;
 }
 
 @media (max-width: 800px) {
-    .header {
-        display: grid;
-        grid-template-columns: 1fr 40px;
-        gap: 10px;
-        margin: 15px 15px 0;
-    }
+  .header {
+    display: grid;
+    grid-template-columns: 1fr 40px;
+    gap: 10px;
+    margin: 15px 15px 0;
+  }
 }
 
 @media screen and (max-width: 800px) {
-    .desktop {
-        display: none !important;
-    }
+  .desktop {
+    display: none !important;
+  }
 
-    .mobile {
-        display: block !important;
-    }
+  .mobile {
+    display: block !important;
+  }
 }
 
 .mantine-Modal-content {
-    max-width: 550px;
-    padding: 60px;
+  max-width: 550px;
+  padding: 60px;
 }
 
-
-
 .root {
-    // padding: 18px 24px;
-    border-radius: 12px;
-    background-color: #005bff;
-    height: 56px;
+  // padding: 18px 24px;
+  border-radius: 12px;
+  background-color: #005bff;
+  height: 56px;
 }

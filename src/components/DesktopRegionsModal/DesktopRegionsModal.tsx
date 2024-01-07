@@ -15,7 +15,13 @@ const DesktopRegionsModal = ({
   regions?: IRegion[];
 }) => {
   return (
-    <Modal.Root centered opened={showDesktopRegionsModal} onClose={() => onCloseDesktopRegionsModal()} className='DesktopRegionsModal'>
+    <Modal.Root
+      transitionProps={{ transition: 'fade', duration: 200 }}
+      centered
+      opened={showDesktopRegionsModal}
+      onClose={() => onCloseDesktopRegionsModal()}
+      className='DesktopRegionsModal'
+    >
       <Modal.Overlay />
       <Modal.Content
         styles={{
