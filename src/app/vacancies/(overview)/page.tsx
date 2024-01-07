@@ -30,7 +30,7 @@ export default async function Page({ params, searchParams }: Params) {
     jobCategory,
   }); */
 
-  const { data: regions } = await getRegions();
+ // const { data: regions } = await getRegions();
 
  // const totalPages = meta.total / 100 > 100 ? 100 : Math.ceil(meta.total / 100);
 

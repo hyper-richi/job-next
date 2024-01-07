@@ -21,7 +21,7 @@ export default async function Vacancy({ params }: Params) {
   const vacancyId = params.vacancyId;
 
   const { results } = await getVacancy(companyId, vacancyId);
-  const vacancy = Object.keys(results).length ? results.vacancies[0].vacancy : null;
+  const vacancy = Object.keys(results).length ? results?.vacancies[0].vacancy : null;
 
   if (!vacancy) {
     notFound();

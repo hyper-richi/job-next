@@ -104,7 +104,15 @@ export async function getVacancy(companyId: string, vacancyId: string): Promise<
     const res = await fetch(process.env.API_BASE_URL + url, {
       cache: 'no-store',
     });
-
+    const mockRes = {
+      status: 'string',
+      meta: {
+        total: 0,
+        limit: 0,
+      },
+      results: { vacancies: [] },
+    };
+    return mockRes;
     return res.json();
   } catch (error) {
     console.error('Fetch Error:', error);
@@ -127,6 +135,7 @@ export async function getAdress(latitude: string, longitude: string): Promise<Re
           throw new Error('Reverse geolocation request failed');
         }
       });
+
     return res;
   } catch (error) {
     console.error('Reverse geolocation request failed.', error);
