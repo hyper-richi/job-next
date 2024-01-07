@@ -26,6 +26,8 @@ export default function Home() {
               maxHeight: '528px',
               height: 'auto',
             }}
+            width={693}
+            height={528}
             alt='picture'
           />
         </div>

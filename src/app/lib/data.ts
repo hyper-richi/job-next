@@ -78,7 +78,6 @@ export async function getRegions(): Promise<ResponseRegions> {
   try {
     const res = await fetch('https://trudvsem.ru/iblocks/flat_filter_prr_search_cv/ref/regions', {
       cache: 'no-store',
-      mode: 'no-cors',
     });
     const regionMock: IRegion = {
       code: 'all',

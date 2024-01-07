@@ -5,7 +5,7 @@ import { Select } from "@mantine/core";
 import { IRegion } from "@/app/lib/types";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const RegionSelect = ({ regions }: { regions: IRegion[] }) => {
+const RegionSelect = ({ regions }: { regions?: IRegion[]  }) => {
     const regionCodeStorage = localStorage.getItem("regionCode") || "all";
 
     const [searchValue, setSearchValue] = useState("");
