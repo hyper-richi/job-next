@@ -80,6 +80,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <ColorSchemeScript />
         <meta name='yandex-verification' content='37cd4575dbeef4ce' />
+        <meta name='robots' content='all' />
       </head>
       <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
         <MantineProvider>
