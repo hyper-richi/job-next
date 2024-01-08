@@ -9,7 +9,7 @@ import './globals.css';
 import { getRegions } from './lib/data';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { WebVitals } from '../components/WebVitals/WebVitals';
+// import { WebVitals } from '../components/WebVitals/WebVitals';
 
 const GTEestiProText = localFont({
   src: [
@@ -87,7 +87,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             {children}
             <Analytics />
             <SpeedInsights />
-            <WebVitals />
+            {/*  <WebVitals /> */}
           </main>
           <Footer regions={regions} />
         </MantineProvider>
