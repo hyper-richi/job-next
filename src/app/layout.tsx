@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     shortcut: ['/icon.svg'],
     apple: [{ url: '/icon.svg' }, { url: '/icon.svg', sizes: '180x180', type: 'image/svg' }],
   },
-  description: `Сервис, который помогает найти работу в России! Создавайте резюме и откликайтесь на вакансии.`,
+  description: `Сайт, который помогает найти работу в России! Создавайте резюме и откликайтесь на вакансии.`,
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -79,9 +79,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang='ru'>
       <head>
         <ColorSchemeScript />
-        <meta name='yandex-verification' content='37cd4575dbeef4ce' />
         <meta name='robots' content='all' />
-        <meta name='google-site-verification' content='Fmfs9lisoiybKcCgXHwRUE1R9RU-Q3T-AYH4U3LssvU' />
       </head>
       <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
         <MantineProvider>
