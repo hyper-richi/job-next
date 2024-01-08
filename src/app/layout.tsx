@@ -1,4 +1,3 @@
-// "use client";
 import localFont from 'next/font/local';
 import type { Metadata } from 'next';
 import Header from '@/components/Header/Header';
@@ -8,9 +7,9 @@ import styles from './layout.module.scss';
 import '@mantine/core/styles.css';
 import './globals.css';
 import { getRegions } from './lib/data';
-import { Analytics } from '@vercel/analytics/react';
+// import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { WebVitals } from '../components/WebVitals/WebVitals';
+// import { WebVitals } from '../components/WebVitals/WebVitals';
 
 const GTEestiProText = localFont({
   src: [
@@ -86,9 +85,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Header regions={regions} />
           <main className={styles.container}>
             {children}
-            <Analytics />
+            {/* <Analytics /> */}
             <SpeedInsights />
-            <WebVitals />
+           {/*  <WebVitals /> */}
           </main>
           <Footer regions={regions} />
         </MantineProvider>
