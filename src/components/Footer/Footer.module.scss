@@ -1,86 +1,91 @@
 .footer {
-    background-color: #002855;
+  background-color: #002855;
 
-    &__container {
-        max-width: 1440px;
-        padding: 0 16px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+  &__container {
+    max-width: 1440px;
+    padding: 0 16px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    &__title {
-        max-width: 600px;
-        padding: 80px 0 60px;
-        color: #fff;
-        text-align: center;
-        font-size: 46px;
-        font-weight: 500;
-        letter-spacing: 0.8px;
-        line-height: 50px;
-    }
-    &__contacts {
-        display: grid;
-        width: 100%;
-        max-width: 1200px;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 27px;
-        grid-auto-flow: column;
-    }
+  &__title {
+    max-width: 600px;
+    padding: 80px 0 60px;
+    color: #fff;
+    text-align: center;
+    font-size: 46px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    line-height: 50px;
+  }
+  &__contacts {
+    display: grid;
+    width: 100%;
+    max-width: 1200px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 27px;
+    grid-auto-flow: column;
+  }
 }
 
 .contacts {
-    &__git {
-        font-size: 16px;
-        color: #4c6888;
-        a {
-            text-decoration: underline;
-            color: #5c96ff;
-            white-space: nowrap;
-        }
+  &__git {
+    font-size: 16px;
+    color: #4c6888;
+    a {
+      text-decoration: underline;
+      color: #5c96ff;
+      white-space: nowrap;
     }
-    &__links {
-        display: grid;
-        justify-content: space-around;
-        grid-column-gap: 16px;
-        column-gap: 16px;
-        grid-template-columns: 1fr min-content;
-    }
+  }
+  &__links {
+    display: grid;
+    justify-content: space-around;
+    grid-column-gap: 16px;
+    column-gap: 16px;
+    grid-template-columns: 1fr min-content;
+    width: 100%;
+  }
 }
 .links {
-    &__cities {
-        display: flex;
-        align-items: center;
-        padding-left: 12px;
-        margin-right: 6px;
-        color: #fff;
-        gap: 10px;
-    }
-    &__socials {
-        display: grid;
-        align-items: center;
-        grid-column-gap: 16px;
-        column-gap: 16px;
-        grid-template-columns: 7px 1fr 1fr;
-    }
+  &__cities {
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    margin-right: 6px;
+    color: #fff;
+    gap: 10px;
+  }
+  &__socials {
+    display: grid;
+    align-items: center;
+    grid-column-gap: 16px;
+    column-gap: 16px;
+    grid-template-columns: 7px 1fr 1fr;
+  }
 }
 .city-logo {
-    height: 24px;
+  height: 24px;
 }
 .city-name {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 @media (max-width: 800px) {
-    .footer__contacts {
-        display: flex;
-        flex-direction: column;
-        max-width: 600px;
-    }
+  .footer__contacts {
+    display: flex;
+    flex-direction: column-reverse;
+    max-width: 600px;
+    gap: 20px;
+  }
 
-    .links__cities {
-        padding: 0;
-    }
+  .links__cities {
+    padding: 0;
+  }
+  .contacts__git {
+    width: 100%;
+  }
 }

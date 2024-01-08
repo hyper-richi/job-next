@@ -31,6 +31,7 @@
         align-items: center;
         margin-right: 26px;
         gap: 10px;
+
         &__icon {
           display: flex;
           flex-direction: column;
@@ -42,6 +43,7 @@
         }
       }
     }
+
     &__name {
       margin: 0 0 16px;
       color: #002855;
@@ -72,9 +74,9 @@
       gap: 10px;
     }
     &__body {
-      //max-width: 700px;
       color: #4c6888;
       display: flex;
+      justify-content: space-between;
       gap: 20px;
 
       li,
@@ -119,8 +121,6 @@
     margin-bottom: 24px;
     padding: 14px 20px;
     border-radius: 12px;
-    padding: 14px 20px;
-    border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -163,6 +163,7 @@
   }
   .vacancy {
     flex-direction: column;
+    padding: 0;
 
     &__actions {
       display: flex;

@@ -17,9 +17,9 @@ interface Params {
 }
 
 export default async function Vacancy({ params }: Params) {
+  console.log('Vacancy: ');
   const companyId = params.companyId;
   const vacancyId = params.vacancyId;
-
   const { results } = await getVacancy(companyId, vacancyId);
   const vacancy = Object.keys(results).length ? results.vacancies[0].vacancy : null;
 
@@ -125,17 +125,17 @@ export default async function Vacancy({ params }: Params) {
               )}
             </div>
             <div className={styles.vacancy__actions__desktop}>
-              <button type='button' className={styles.vacancy__actions__apply}>
-                <Link href={vacancy.vac_url}>Откликнуться</Link>
-              </button>
+              <Link className={styles.vacancy__actions__apply} href={vacancy.vac_url}>
+                Откликнуться
+              </Link>
               <VacancyShare textURL={vacancy.vac_url} />
             </div>
           </div>
         </div>
         <div className={styles.vacancy__actions__mobile}>
-          <button type='button' className={styles.vacancy__actions__apply}>
-            <Link href={vacancy.vac_url}>Откликнуться</Link>
-          </button>
+          <Link className={styles.vacancy__actions__apply} href={vacancy.vac_url}>
+            Откликнуться
+          </Link>
           <VacancyShare textURL={vacancy.vac_url} />
         </div>
       </div>
