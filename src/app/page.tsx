@@ -1,6 +1,6 @@
 import styles from './page.module.scss';
 import ListStack from '@/components/ListStack/ListStack';
-import HeroImagePng from '../../public/images/hero.png';
+import HeroImageWebp from '../../public/images/hero.webp';
 import Image from 'next/image';
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
         </div>
         <div>
           <Image
-            src={HeroImagePng}
+            src={HeroImageWebp}
             style={{
               maxWidth: '693px',
               width: '100%',
@@ -27,6 +27,7 @@ export default function Home() {
               height: 'auto',
             }}
             alt='picture'
+            priority
           />
         </div>
       </div>
