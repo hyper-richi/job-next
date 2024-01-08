@@ -29,6 +29,7 @@ export default async function Page({ params, searchParams }: Params) {
     regionCode,
     jobCategory,
   });
+  const portionVacancies = vacancies?.vacancies.slice(0, 10);
 
   const { data: regions } = await getRegions();
 
@@ -41,7 +42,7 @@ export default async function Page({ params, searchParams }: Params) {
       <Search countVacancies={meta.total || 0} />
       <Finder
         regions={regions}
-        vacancies={vacancies}
+        vacancies={portionVacancies}
         jobCategory={jobCategory}
         regionCode={regionCode}
         offset={offset}
