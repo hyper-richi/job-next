@@ -6,6 +6,9 @@ import React, { Suspense } from 'react';
 import RegionSelect from '../RegionSelect/RegionSelect';
 
 export default function Finder({ vacancies, regions, regionCode, searchText, offset, jobCategory }: FinderProps) {
+  const portionVacancies = vacancies?.vacancies.slice(0, 10);
+  console.log('portionVacancies: ', portionVacancies);
+
   return (
     <div className={styles.finder}>
       <div className={styles.filters}>
@@ -18,7 +21,7 @@ export default function Finder({ vacancies, regions, regionCode, searchText, off
         <div className={styles.content__results}>
           <Suspense key={searchText} fallback={<VacancysSkeleton />}>
             {vacancies?.vacancies ? (
-              vacancies.vacancies?.map((item, idx) => {
+              portionVacancies?.map((item, idx) => {
                 return (
                   <VacancyCard
                     idx={idx}
