@@ -1,4 +1,4 @@
-import { Results, IRegion, Vacancy } from '@/app/lib/types';
+import { IRegion, Vacancy } from '@/app/lib/types';
 
 export interface FinderProps {
   searchText?: string;
