@@ -81,6 +81,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ColorSchemeScript />
         <meta name='yandex-verification' content='37cd4575dbeef4ce' />
         <meta name='robots' content='all' />
+        <meta name='google-site-verification' content='Fmfs9lisoiybKcCgXHwRUE1R9RU-Q3T-AYH4U3LssvU' />
       </head>
       <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
         <MantineProvider>
