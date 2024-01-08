@@ -19,7 +19,7 @@ interface QureyParams {
 export async function getVacancies(params: QureyParams): Promise<ResponseVacancies> {
   const { jobCategory, offset, searchText, regionCode } = params;
   try {
-    let url = `?offset=${offset || '0'}&limit=100`;
+    let url = `?offset=${offset || '0'}&limit=10`;
 
     if (regionCode && regionCode !== 'all') {
       url = `/region/${regionCode}` + url;
