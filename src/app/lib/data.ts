@@ -19,7 +19,7 @@ interface QureyParams {
 export async function getVacancies(params: QureyParams): Promise<ResponseVacancies> {
   const { jobCategory, offset, searchText, regionCode } = params;
   try {
-    let url = `?offset=${offset || '0'}&limit=10`;
+    let url = `?offset=${offset || '0'}&limit=100`;
 
     if (regionCode && regionCode !== 'all') {
       url = `/region/${regionCode}` + url;
@@ -31,9 +31,7 @@ export async function getVacancies(params: QureyParams): Promise<ResponseVacanci
       url = url + `&text=${searchText}`;
     }
 
-    const res = await fetch(process.env.API_BASE_URL + url, {
-      cache: 'no-store',
-    });
+    const res = await fetch(process.env.API_BASE_URL + url);
 
     return res.json();
   } catch (error) {

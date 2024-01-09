@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { Modal } from '@mantine/core';
 import SelectedIcon from '../../../public/images/svg/selectedIcon.svg';
@@ -20,8 +20,12 @@ const MobileRegionsModal = ({
 }) => {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
-  const regionCodeStorage = localStorage.getItem('regionCode');
+  const [regionCodeStorage, setRegionCodeStorage] = useState('');
 
+  useEffect(() => {
+    const regionCodeStorage = localStorage.getItem('regionCode') || 'all';
+    setRegionCodeStorage(regionCodeStorage);
+  }, []);
   const SearchParams = new URLSearchParams(searchParams);
 
   const arrRegions = useMemo(() => {

@@ -104,24 +104,9 @@ const Navbar = ({ isMobile }: { isMobile?: boolean }) => {
     [styles.hidden]: hidenNavbar,
   };
 
-  /* let url = `/vacancies?offset=0`;
-
-  if (regionCodeStorage) {
-    url = url + `&regionCode=${regionCodeStorage}`;
-  }
-
-  if (encodeSearchText) {
-    url = url + `&text=${encodeSearchText}`;
-  } */
-
   return (
     <nav className={clsx(styles.navbar, mods)}>
       <div className={styles.wrapper}>
-        {/*  <Link className={clsx(styles.navbar__links, pathname === "/vacancies" && styles["navbar__links--active"])} href={url}>
-                    <SearchIcon />
-                    <span className={styles["links-name"]}>{"Все вакансии"}</span>
-                    {isLoading && <SpinnerIcon className={clsx(mods)} width="24" height="24" />}
-                </Link> */}
         {category.map((item) => {
           if (!isMobile) {
             return <NavbarItem key={item.jobCategory} categoryVacancy={item} />;

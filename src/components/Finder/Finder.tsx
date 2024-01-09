@@ -17,25 +17,23 @@ export default function Finder({ vacancies, regions, regionCode, searchText, off
       <div className={styles.content}>
         <div className={styles.content__results}>
           <Suspense key={searchText} fallback={<VacancysSkeleton />}>
-            {
-              /* vacancies?.vacancies */ vacancies ? (
-                vacancies?.map((item, idx) => {
-                  return (
-                    <VacancyCard
-                      idx={idx}
-                      key={item.vacancy.id}
-                      jobCategory={jobCategory}
-                      searchText={searchText}
-                      offset={offset}
-                      regionCode={regionCode}
-                      vacancy={item}
-                    />
-                  );
-                })
-              ) : (
-                <h4 className={styles.empty}>Ничего не найдено</h4>
-              )
-            }
+            {vacancies?.vacancies ? (
+              vacancies?.vacancies?.map((item, idx) => {
+                return (
+                  <VacancyCard
+                    idx={idx}
+                    key={item.vacancy.id}
+                    jobCategory={jobCategory}
+                    searchText={searchText}
+                    offset={offset}
+                    regionCode={regionCode}
+                    vacancy={item}
+                  />
+                );
+              })
+            ) : (
+              <h4 className={styles.empty}>Ничего не найдено</h4>
+            )}
           </Suspense>
         </div>
       </div>

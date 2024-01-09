@@ -1,5 +1,5 @@
 'use client';
-import { CategoryVacancy, Mods } from '@/app/lib/types';
+ import { CategoryVacancy, Mods } from '@/app/lib/types';
 import styles from './NavbarItem.module.scss';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -14,7 +14,12 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
 
   const encodeSearchText = encodeURIComponent(useSearchParams().get('text') || '');
 
-  const regionCodeStorage = localStorage.getItem('regionCode') || 'all';
+  const [regionCodeStorage, setRegionCodeStorage] = useState('');
+
+  useEffect(() => {
+    const regionCodeStorage = localStorage.getItem('regionCode') || 'all';
+    setRegionCodeStorage(regionCodeStorage);
+  }, []);
 
   useEffect(() => {
     setIsLoading(false);

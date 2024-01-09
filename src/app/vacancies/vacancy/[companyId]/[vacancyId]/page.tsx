@@ -125,7 +125,7 @@ export default async function Vacancy({ params }: Params) {
               )}
             </div>
             <div className={styles.vacancy__actions__desktop}>
-              <Link className={styles.vacancy__actions__apply} href={vacancy.vac_url}>
+              <Link prefetch={false} className={styles.vacancy__actions__apply} href={vacancy.vac_url}>
                 Откликнуться
               </Link>
               <VacancyShare textURL={vacancy.vac_url} />
@@ -133,7 +133,7 @@ export default async function Vacancy({ params }: Params) {
           </div>
         </div>
         <div className={styles.vacancy__actions__mobile}>
-          <Link className={styles.vacancy__actions__apply} href={vacancy.vac_url}>
+          <Link prefetch={false} className={styles.vacancy__actions__apply} href={vacancy.vac_url}>
             Откликнуться
           </Link>
           <VacancyShare textURL={vacancy.vac_url} />
