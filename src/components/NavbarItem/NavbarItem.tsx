@@ -1,5 +1,5 @@
 'use client';
- import { CategoryVacancy, Mods } from '@/app/lib/types';
+import { CategoryVacancy, Mods } from '@/app/lib/types';
 import styles from './NavbarItem.module.scss';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -12,14 +12,17 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
   const { jobCategory } = useParams();
   const pathname = usePathname();
 
+  const searchParams = useSearchParams();
+  const regionCodeParams = searchParams.get('regionCode') || '';
+
   const encodeSearchText = encodeURIComponent(useSearchParams().get('text') || '');
 
-  const [regionCodeStorage, setRegionCodeStorage] = useState('');
+  /*  const [regionCodeStorage, setRegionCodeStorage] = useState('');
 
   useEffect(() => {
     const regionCodeStorage = localStorage.getItem('regionCode') || 'all';
     setRegionCodeStorage(regionCodeStorage);
-  }, []);
+  }, []); */
 
   useEffect(() => {
     setIsLoading(false);
@@ -28,18 +31,20 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
   let url = '';
 
   if (categoryVacancy.jobCategory === '/vacancies') {
-    url = `${categoryVacancy.jobCategory}?offset=0`;
+    url = `${categoryVacancy.jobCategory}?`;
   } else {
-    url = `/vacancies/${categoryVacancy.jobCategory}?offset=0`;
+    url = `/vacancies/${categoryVacancy.jobCategory}?`;
   }
 
-  if (regionCodeStorage) {
-    url = url + `&regionCode=${regionCodeStorage}`;
+  if (regionCodeParams) {
+    url = url + `regionCode=${regionCodeParams}`;
   }
 
   if (encodeSearchText) {
     url = url + `&text=${encodeSearchText}`;
   }
+
+  url = url + '&offset=0';
 
   const handleCklick = () => {
     setIsLoading(true);

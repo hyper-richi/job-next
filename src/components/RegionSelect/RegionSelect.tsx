@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styles from './RegionSelect.module.scss';
 import { Select } from '@mantine/core';
 import { IRegion } from '@/app/lib/types';
@@ -8,18 +8,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 const RegionSelect = ({ regions }: { regions?: IRegion[] }) => {
   const [searchValue, setSearchValue] = useState('');
 
-  const [regionCodeStorage, setRegionCodeStorage] = useState('');
-
-  useEffect(() => {
-    const regionCodeStorage = localStorage.getItem('regionCode') || 'all';
-    setRegionCodeStorage(regionCodeStorage);
-  }, []);
-
-
-  const { replace } = useRouter();
-
   const searchParams = useSearchParams();
   const SearchParams = new URLSearchParams(searchParams);
+
+  const regionCodeParams = searchParams.get('regionCode') || '';
+
+  const { replace } = useRouter();
 
   const arrRegions = useMemo(() => {
     if (regions) {
@@ -39,7 +33,7 @@ const RegionSelect = ({ regions }: { regions?: IRegion[] }) => {
   return (
     <div className={styles.filters__selects}>
       <Select
-        value={regionCodeStorage}
+        value={regionCodeParams}
         onChange={(value) => handleChange(value)}
         searchable
         searchValue={searchValue}

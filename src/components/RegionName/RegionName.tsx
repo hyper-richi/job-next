@@ -1,27 +1,35 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import styles from './RegionName.module.scss';
 import { IRegion } from '@/app/lib/types';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const RegionName = ({ regions }: { regions?: IRegion[] }) => {
-  const [regionCodeStorage, setRegionCodeStorage] = useState('');
+  const { replace } = useRouter();
+  const searchParams = useSearchParams();
+  const SearchParams = new URLSearchParams(searchParams);
+  const regionCodeParams = searchParams.get('regionCode') || '';
 
   useEffect(() => {
     const regionCodeStorage = localStorage.getItem('regionCode') || '';
-    setRegionCodeStorage(regionCodeStorage);
-  }, []);
 
-  useEffect(() => {
-    if (!regionCodeStorage) {
+    if (!regionCodeParams && !regionCodeStorage) {
       localStorage.setItem('regionCode', 'all');
+      SearchParams.set('regionCode', 'all');
+      replace(`?${SearchParams.toString()}`);
+    }
+
+    if (regionCodeStorage) {
+      SearchParams.set('regionCode', regionCodeStorage);
+      replace(`?${SearchParams.toString()}`);
     }
   }, []);
 
   const regionName = useMemo(() => {
     if (regions) {
-      return regions?.find((item) => item.code === regionCodeStorage)?.name || 'Россия';
+      return regions?.find((item) => item.code === regionCodeParams)?.name || 'Россия';
     } else return 'Россия';
-  }, [regions, regionCodeStorage]);
+  }, [regions, regionCodeParams]);
 
   return <span className={styles['city-name']}>{regionName}</span>;
 };
