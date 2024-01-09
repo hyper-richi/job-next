@@ -19,7 +19,7 @@ const RegionName = ({ regions }: { regions?: IRegion[] }) => {
       replace(`?${SearchParams.toString()}`);
     }
 
-    if (regionCodeStorage) {
+    if (regionCodeStorage && !regionCodeParams) {
       SearchParams.set('regionCode', regionCodeStorage);
       replace(`?${SearchParams.toString()}`);
     }
