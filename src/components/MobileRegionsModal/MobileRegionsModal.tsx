@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { Modal } from '@mantine/core';
 import SelectedIcon from '../../../public/images/svg/selectedIcon.svg';
@@ -19,13 +19,10 @@ const MobileRegionsModal = ({
   regions?: IRegion[];
 }) => {
   const searchParams = useSearchParams();
-  const { replace } = useRouter();
-  const [regionCodeStorage, setRegionCodeStorage] = useState('');
+  const regionCodeParams = searchParams.get('regionCode') || '';
 
-  useEffect(() => {
-    const regionCodeStorage = localStorage.getItem('regionCode') || 'all';
-    setRegionCodeStorage(regionCodeStorage);
-  }, []);
+  const { replace } = useRouter();
+
   const SearchParams = new URLSearchParams(searchParams);
 
   const arrRegions = useMemo(() => {
@@ -62,11 +59,11 @@ const MobileRegionsModal = ({
             {arrRegions?.map((item) => (
               <div
                 key={item.value}
-                className={clsx(styles.cities__item, regionCodeStorage === item.value && styles['cities__item--active'])}
+                className={clsx(styles.cities__item, regionCodeParams === item.value && styles['cities__item--active'])}
                 onClick={() => onChangeRegion(item.value)}
               >
                 {item.label}
-                {regionCodeStorage === item.value && <SelectedIcon />}
+                {regionCodeParams === item.value && <SelectedIcon />}
               </div>
             ))}
           </div>

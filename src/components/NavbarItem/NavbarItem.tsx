@@ -17,13 +17,6 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
 
   const encodeSearchText = encodeURIComponent(useSearchParams().get('text') || '');
 
-  /*  const [regionCodeStorage, setRegionCodeStorage] = useState('');
-
-  useEffect(() => {
-    const regionCodeStorage = localStorage.getItem('regionCode') || 'all';
-    setRegionCodeStorage(regionCodeStorage);
-  }, []); */
-
   useEffect(() => {
     setIsLoading(false);
   }, [pathname]);
