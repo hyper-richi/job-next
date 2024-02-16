@@ -2,15 +2,15 @@
 import React, { useCallback, useState } from 'react';
 import { HeaderProps } from './Header.props';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import styles from './Header.module.scss';
 import Navbar from '../Navbar/Navbar';
 import clsx from 'clsx';
 import VKIcon from '../../../public/images/svg/vkIcon.svg';
 import TelegramIcon from '../../../public/images/svg/telegramIcon.svg';
-import { useSearchParams } from 'next/navigation';
 import RegionName from '../RegionName/RegionName';
 import PointIcon from '../../../public/images/svg/PointIcon';
-import dynamic from 'next/dynamic';
 
 const MobileRegionsModal = dynamic(() => import('../MobileRegionsModal/MobileRegionsModal'), {
   ssr: false,

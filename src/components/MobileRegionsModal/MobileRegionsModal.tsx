@@ -7,7 +7,6 @@ import SelectedIcon from '../../../public/images/svg/selectedIcon.svg';
 import ArrowLeftIcon from '../../../public/images/svg/arrowLeftIcon.svg';
 import styles from './MobileRegionsModal.module.scss';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { IRegion } from '@/app/lib/types';
 
 const MobileRegionsModal = ({
   showMobileRegionsModal,

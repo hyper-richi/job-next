@@ -10,7 +10,6 @@ import MedicineIcon from '../../../public/images/svg/medicineIcon.svg';
 import SearchIcon from '../../../public/images/svg/searchIcon.svg';
 import ConstructionIcon from '../../../public/images/svg/constructionIcon.svg';
 import clsx from 'clsx';
-import { CategoryVacancy, Mods } from '@/app/lib/types';
 import NavbarItem from '../NavbarItem/NavbarItem';
 import { useEffect, useRef, useState } from 'react';
 
@@ -93,7 +92,9 @@ const Navbar = ({ isMobile }: { isMobile?: boolean }) => {
 
   const controlNavbar = () => {
     if (window.scrollY > lastScrollRef.current) {
-      setHidenNavbar(true);
+      if (window.scrollY > 150) {
+        setHidenNavbar(true);
+      }
     } else {
       setHidenNavbar(false);
     }

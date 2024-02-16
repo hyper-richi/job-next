@@ -1,5 +1,3 @@
-import { ResponseAdress, ResponseVacancies, ResponseVacancy, ResponseRegions, IRegion } from './types';
-
 // http://opendata.trudvsem.ru/api/v1/vacancies?industry=%industry%
 //https://opendata.trudvsem.ru/api/v1/vacancies/region/6100000000000?offset=1&limit=100&text=инженер
 
@@ -19,7 +17,7 @@ interface QureyParams {
 export async function getVacancies(params: QureyParams): Promise<ResponseVacancies> {
   const { jobCategory, offset, searchText, regionCode } = params;
   try {
-    let url = `?offset=${offset || '0'}&limit=100`;
+    let url = `?offset=${offset || '0'}`;
 
     if (regionCode && regionCode !== 'all') {
       url = `/region/${regionCode}` + url;

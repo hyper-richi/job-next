@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useMemo } from 'react';
 import styles from './RegionName.module.scss';
-import { IRegion } from '@/app/lib/types';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 const RegionName = ({ regions }: { regions?: IRegion[] }) => {
@@ -23,6 +22,7 @@ const RegionName = ({ regions }: { regions?: IRegion[] }) => {
       SearchParams.set('regionCode', regionCodeStorage);
       replace(`?${SearchParams.toString()}`);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const regionName = useMemo(() => {

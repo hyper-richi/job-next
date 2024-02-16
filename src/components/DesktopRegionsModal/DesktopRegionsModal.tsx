@@ -1,6 +1,5 @@
 'use client';
 
-import { IRegion } from '@/app/lib/types';
 import { Button, Modal } from '@mantine/core';
 import styles from './DesktopRegionsModal.module.scss';
 import RegionSelect from '../RegionSelect/RegionSelect';

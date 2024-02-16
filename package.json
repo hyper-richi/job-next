@@ -14,6 +14,7 @@
     "@mantine/hooks": "^7.3.2",
     "@pbe/react-yandex-maps": "^1.2.5",
     "@tabler/icons-react": "^2.44.0",
+    "@types/react-html-parser": "^2.0.6",
     "@typescript-eslint/eslint-plugin": "^6.17.0",
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.2",

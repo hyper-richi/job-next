@@ -1,3 +1,3 @@
-import Page from "../(overview)/page";
+import Page from "../(all-vacancies)/page";
 
 export default Page;

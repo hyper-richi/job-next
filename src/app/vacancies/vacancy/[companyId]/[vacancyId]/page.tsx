@@ -8,7 +8,6 @@ import VacancyShare from '@/components/VacancyShare/VacancyShare';
 import MapVacancy from '@/components/MapVacancy/MapVacancy';
 import ButtonBack from '@/components/ButtonBack/ButtonBack';
 import Adress from '@/components/Adress/Adress';
-import { ResponseAdress } from '@/app/lib/types';
 import PointIcon from '../../../../../../public/images/svg/PointIcon';
 
 interface Params {
@@ -17,7 +16,6 @@ interface Params {
 }
 
 export default async function Vacancy({ params }: Params) {
-  console.log('Vacancy: ');
   const companyId = params.companyId;
   const vacancyId = params.vacancyId;
   const { results } = await getVacancy(companyId, vacancyId);
@@ -52,7 +50,7 @@ export default async function Vacancy({ params }: Params) {
     },
   };
 
-  const duty = vacancy ? parse(vacancy.duty || '') : null;
+  const duty = vacancy.duty ? parse(vacancy.duty) : null;
   const qualification = vacancy.requirement.qualification ? parse(vacancy.requirement.qualification || '') : null;
 
   const experience = function (experience: number) {
@@ -60,7 +58,7 @@ export default async function Vacancy({ params }: Params) {
       case 0:
         return 'Без опыта';
       case 1:
-        return `${experience}  год`;
+        return `${experience} год`;
       case 2:
       case 3:
       case 4:
@@ -99,7 +97,7 @@ export default async function Vacancy({ params }: Params) {
           </div>
           <MapVacancy lng={longitude || ''} lat={latitude || ''} />
           <div className={styles.vacancy__info__body}>
-            <div>
+            <div className={styles.vacancy__duty}>
               {duty}
               <p>
                 <strong>Мы ожидаем: </strong>

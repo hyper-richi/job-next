@@ -1,4 +1,3 @@
-import { Vacancy } from "@/app/lib/types";
 import { DetailedHTMLProps, HTMLAttributes } from "react";
 
 export interface VacancyCardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

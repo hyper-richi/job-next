@@ -1,5 +1,4 @@
 'use client';
-import { CategoryVacancy, Mods } from '@/app/lib/types';
 import styles from './NavbarItem.module.scss';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -53,7 +52,17 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
   };
 
   return (
-    <Link key={categoryVacancy.jobCategory} className={clsx(styles.navbar__links, modsLink)} href={url} onClick={handleCklick}>
+    <Link
+      key={categoryVacancy.jobCategory}
+      className={clsx(styles.navbar__links, modsLink)}
+      href={url}
+      /* {
+      pathname: '/about',
+      query: { name: 'test' },
+      { pathname: url, query: { jobCategory: categoryVacancy.jobCategory, title: categoryVacancy.title } }
+    } */
+      onClick={handleCklick}
+    >
       <div className={clsx(isMobile ? styles.navbar__name__mobile : styles.navbar__name)}>
         {categoryVacancy.icon}
         <span className={styles['links-name']}>{categoryVacancy.name}</span>

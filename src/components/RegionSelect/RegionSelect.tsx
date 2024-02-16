@@ -2,7 +2,6 @@
 import React, { useMemo, useState } from 'react';
 import styles from './RegionSelect.module.scss';
 import { Select } from '@mantine/core';
-import { IRegion } from '@/app/lib/types';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 const RegionSelect = ({ regions }: { regions?: IRegion[] }) => {
