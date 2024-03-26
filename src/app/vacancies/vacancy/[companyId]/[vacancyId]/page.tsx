@@ -1,5 +1,5 @@
 import { getAdress, getVacancy } from '@/app/lib/data';
-import parse, { DOMNode, Element, domToReact } from 'html-react-parser';
+import parse /* { DOMNode, Element, domToReact } */ from 'html-react-parser';
 import styles from './page.module.scss';
 import { notFound } from 'next/navigation';
 import CountVacancyIcon from '../../../../../../public/images/svg/countVacancy.svg';
@@ -36,7 +36,7 @@ export default async function Vacancy({ params }: Params) {
 
   const location = vacancy.addresses?.address[0]?.location;
 
-  const options = {
+  /*   const options = {
     replace(domNode: DOMNode) {
       if (domNode instanceof Element && domNode.name === 'p') {
         return <li>{domToReact(domNode.children as DOMNode[], options)}</li>;
@@ -48,7 +48,7 @@ export default async function Vacancy({ params }: Params) {
         return <>{domToReact(domNode.children as DOMNode[], options)}</>;
       }
     },
-  };
+  }; */
 
   const duty = vacancy.duty ? parse(vacancy.duty) : null;
   const qualification = vacancy.requirement.qualification ? parse(vacancy.requirement.qualification || '') : null;
@@ -97,30 +97,35 @@ export default async function Vacancy({ params }: Params) {
           </div>
           <MapVacancy lng={longitude || ''} lat={latitude || ''} />
           <div className={styles.vacancy__info__body}>
-            <div className={styles.vacancy__duty}>
-              {duty}
+            <div>
               <p>
-                <strong>Мы ожидаем: </strong>
+                <strong>Вам предстоит: </strong>
               </p>
-              <ul>
-                <li>Образование:{` ${vacancy.requirement.education}`};</li>
-                <li>Опыт работы:{` ${experience(vacancy.requirement.experience)}`};</li>
-              </ul>
-              <p>
-                <strong>Тип занятости:</strong>
-              </p>
-              <ul>
-                <li>{vacancy.employment}</li>
-                <li>{vacancy.schedule}</li>
-              </ul>
-              {qualification && (
-                <>
-                  <p>
-                    <strong>Мы предлагаем:</strong>
-                  </p>
-                  <ul>{qualification}</ul>
-                </>
-              )}
+              <div className={styles.vacancy__duty}>{duty}</div>
+              <div>
+                <p>
+                  <strong>Мы ожидаем: </strong>
+                </p>
+                <ul>
+                  <li>Образование:{` ${vacancy.requirement.education}`};</li>
+                  <li>Опыт работы:{` ${experience(vacancy.requirement.experience)}`};</li>
+                </ul>
+                <p>
+                  <strong>Тип занятости:</strong>
+                </p>
+                <ul>
+                  <li>{vacancy.employment}</li>
+                  <li>{vacancy.schedule}</li>
+                </ul>
+                {qualification && (
+                  <>
+                    <p>
+                      <strong>Мы предлагаем:</strong>
+                    </p>
+                    <div>{qualification}</div>
+                  </>
+                )}
+              </div>
             </div>
             <div className={styles.vacancy__actions__desktop}>
               <Link prefetch={false} className={styles.vacancy__actions__apply} href={vacancy.vac_url}>

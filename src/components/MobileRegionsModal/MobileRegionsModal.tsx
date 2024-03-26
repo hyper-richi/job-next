@@ -50,10 +50,10 @@ const MobileRegionsModal = ({
       <Modal.Content>
         <Modal.Header>
           <ArrowLeftIcon style={{ cursor: 'pointer' }} onClick={() => onCloseMobileRegionsModal()} />
-          <Modal.Title className={styles.title}>Выберите регион MobileRegionsModal</Modal.Title>
+          <Modal.Title className={styles.title}>Выберите регион </Modal.Title>
           <Modal.CloseButton className={styles.closebutton} />
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className={styles.body}>
           <div className={styles.cities__list}>
             {arrRegions?.map((item) => (
               <div

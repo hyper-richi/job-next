@@ -16,6 +16,7 @@ const Sidebar = ({ regions, showSidebar, onCloseSidebar, onCloseMobileRegionsMod
     <div className={clsx(styles.mobile__sidebar, showSidebar ? styles.show : styles.hide)} onClick={onCloseSidebar}>
       <div className={styles.sidebar__content} onClick={onContentClick}>
         <div className={styles.sidebar__nav}>
+
           <div onClick={onCloseMobileRegionsModal} className={styles.sidebar__item__logo}>
             <div className={styles.sidebar__city__logo}>
               <PointIcon style={{ width: 24, height: 24, fill: '#005bff' }} />
@@ -35,6 +36,7 @@ const Sidebar = ({ regions, showSidebar, onCloseSidebar, onCloseMobileRegionsMod
               </svg>
             </div>
           </div>
+
           <Navbar isMobile />
         </div>
       </div>

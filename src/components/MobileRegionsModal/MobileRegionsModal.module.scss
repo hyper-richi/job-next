@@ -1,36 +1,40 @@
-.picker__header {
+.body {
+  padding: 0px;
 }
 .title {
-    display: flex;
-    width: 100%;
-    align-content: center;
-    justify-content: center;
-    color: #001a34;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    letter-spacing: 0.6px;
-    line-height: 20px;
+  display: flex;
+  width: 100%;
+  align-content: center;
+  justify-content: center;
+  color: #001a34;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.6px;
+  line-height: 20px;
 }
 .closebutton {
-    &:focus-visible {
-        outline: none;
-    }
+  &:focus-visible {
+    outline: none;
+  }
 }
 .cities__list {
-    display: flex;
-    overflow: auto;
-    height: 100%;
-    flex-direction: column;
+  display: flex;
+  overflow: auto;
+  height: 100%;
+  flex-direction: column;
 }
 .cities__item {
-    display: flex;
-    min-height: 45px;
-    justify-content: space-between;
-    padding: 10px 16px;
-    border-bottom: 1px solid #eaedef;
-    cursor: pointer;
-    &--active {
-        color: #005bff;
-    }
+  display: flex;
+  min-height: 45px;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid #eaedef;
+  cursor: pointer;
+  &--active {
+    color: #005bff;
+  }
+  &:hover {
+    color: #005bff;
+  }
 }

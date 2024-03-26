@@ -66,7 +66,7 @@ function Search({ countVacancies }: { countVacancies: number }) {
     <>
       <div className={clsx(styles.search, styles.desktop)}>
         <h1 className={styles.search__title}>Поиск по вакансиям</h1>
-        <form className={styles.search__form} action={handleFormAction} /* onSubmit={onFormSubmit} */>
+        <form className={styles.search__form} action={handleFormAction}>
           <div className={styles.search__wrap}>
             <SearchIcon className={styles.search__icon} />
             <input
