@@ -3,6 +3,7 @@ import React, { useMemo, useState } from 'react';
 import styles from './RegionSelect.module.scss';
 import { Select } from '@mantine/core';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { IRegion } from '../../..';
 
 const RegionSelect = ({ regions }: { regions?: IRegion[] }) => {
   const [searchValue, setSearchValue] = useState('');

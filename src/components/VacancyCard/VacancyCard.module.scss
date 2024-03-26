@@ -1,68 +1,69 @@
 .vacancy {
-    // border: 1px solid #d6dbe0;
+  // border: 1px solid #d6dbe0;
+  border-radius: 6px;
+  letter-spacing: 0.6px;
+
+  &__hr {
+    border-top: 1px solid #d6dbe0;
+    margin: 0 15px;
+  }
+  &__link {
+    padding: 20px 80px 18px 24px;
+    position: relative;
+    display: block;
     border-radius: 6px;
+    cursor: pointer;
+  }
+  &__title {
+    line-height: 1.75rem;
+    font-weight: 500;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #002855;
+  }
 
-    &__hr {
-        border-top: 1px solid #d6dbe0;
-        margin: 0 15px;
-    }
-    &__link {
-        padding: 20px 80px 18px 24px;
-        position: relative;
-        display: block;
-        border-radius: 6px;
-        cursor: pointer;
-    }
-    &__title {
-        line-height: 1.75rem;
-        font-weight: 500;
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-        color: #002855;
-    }
+  &__info {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    color: #4c6888;
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 0.4px;
+    line-height: 22px;
 
-    &__info {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 1rem;
-        color: #4c6888;
-        font-size: 16px;
-        font-weight: 300;
-        letter-spacing: 0.4px;
-        line-height: 22px;
-
-        &__location {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            left: 0;
-            position: relative;
-            top: -8px;
-            line-height: 5px;
-        }
+    &__location {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      left: 0;
+      position: relative;
+      top: -8px;
+      line-height: 5px;
     }
-    &__salary {
-        line-height: 22px;
-        font-weight: 500;
-        white-space: nowrap;
-    }
-    &__arrow {
-        position: absolute;
-        top: 50%;
-        right: 21px;
-        margin-top: -8px;
-    }
+  }
+  &__salary {
+    line-height: 22px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  &__arrow {
+    position: absolute;
+    top: 50%;
+    right: 21px;
+    margin-top: -8px;
+  }
 }
 .location__icon {
 }
 
 .vacancy:hover .vacancy__link {
-    background-color: #ccdeff;
+  background-color: #ccdeff;
 }
 .vacancy:hover .vacancy__hr {
-    opacity: 0;
+  opacity: 0;
 }
 .vacancy:hover + div .vacancy__hr {
-    opacity: 0;
+  opacity: 0;
 }

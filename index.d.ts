@@ -41,30 +41,30 @@ interface Results {
 
 interface Vacancy {
   vacancy: {
-      id: string;
-      source: string;
-      region: IRegionName;
-      company: Company;
-      "creation-date": string;
-      salary: string;
-      salary_min: number;
-      salary_max: number;
-      "job-name": string;
-      vac_url: string;
-      employment: string;
-      schedule: string;
-      duty: string;
-      category: Category;
-      requirement: Requirement;
-      addresses: Addresses;
-      social_protected: string;
-      contact_list: ContactList[];
-      contact_person: string;
-      work_places: number;
-      currency: string;
-      term?: {
-          text: string;
-      };
+    id: string;
+    source: string;
+    region: IRegionName;
+    company: Company;
+    'creation-date': string;
+    salary: string;
+    salary_min: number;
+    salary_max: number;
+    'job-name': string;
+    vac_url: string;
+    employment: string;
+    schedule: string;
+    duty: string;
+    category: Category;
+    requirement: Requirement;
+    addresses: Addresses;
+    social_protected: string;
+    contact_list: ContactList[];
+    contact_person: string;
+    work_places: number;
+    currency: string;
+    term?: {
+      text: string;
+    };
   };
 }
 
@@ -75,7 +75,7 @@ interface IRegionName {
 
 interface Company {
   companycode: string;
-  "hr-agency": boolean;
+  'hr-agency': boolean;
   inn: string;
   kpp: string;
   name: string;
@@ -126,7 +126,6 @@ interface ResponseVacancy {
   results: Results;
 }
 
-
 interface Components {
   city: string;
   city_district: string;
@@ -167,4 +166,31 @@ interface IRegion {
 interface ResponseRegions {
   code: string;
   data: IRegion[];
+}
+
+export interface User {
+  id: string;
+  username: string;
+  avatar?: string;
+  roles?: UserRole[];
+  features?: FeatureFlags;
+  jsonSettings?: JsonSettings;
+}
+
+export interface FormValues {
+  email: string;
+  name: string | null;
+  username: string ;
+  avatar: string ;
+  password: string;
+}
+
+export interface ImageFile {
+  bytes: number
+  fileName: string
+  format: string
+  height: number
+  id: number
+  url: string
+  width: number
 }

@@ -11,6 +11,7 @@ import VKIcon from '../../../public/images/svg/vkIcon.svg';
 import TelegramIcon from '../../../public/images/svg/telegramIcon.svg';
 import RegionName from '../RegionName/RegionName';
 import PointIcon from '../../../public/images/svg/PointIcon';
+import SignModal from '../SignModal/SignModal';
 
 const MobileRegionsModal = dynamic(() => import('../MobileRegionsModal/MobileRegionsModal'), {
   ssr: false,
@@ -28,6 +29,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMobileRegionsModal, setMobileShowRegionsModal] = useState(false);
   const [showDesktopRegionsModal, setDesktopShowRegionsModal] = useState(false);
+  const [showSignModal, setShowSignModal] = useState(false);
 
   const searchParams = useSearchParams();
   const regionCodeParams = searchParams.get('regionCode');
@@ -46,6 +48,10 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
 
   const onCloseDesktopRegionsModal = useCallback(() => {
     setDesktopShowRegionsModal((prev) => !prev);
+  }, []);
+
+  const onCloseSignModal = useCallback(() => {
+    setShowSignModal((prev) => !prev);
   }, []);
 
   let url = `/`;
@@ -76,6 +82,11 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
                 <VKIcon />
                 <TelegramIcon />
               </div>
+            </div>
+            <div>
+              <button type='button' onClick={onCloseSignModal}>
+                Sign
+              </button>
             </div>
           </div>
         </div>
@@ -115,6 +126,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
           onCloseDesktopRegionsModal={onCloseDesktopRegionsModal}
         />
       )}
+      {showSignModal && <SignModal showAuthModal={showSignModal} onCloseAuthModal={onCloseSignModal} />}
 
       {showMobileRegionsModal && (
         <MobileRegionsModal

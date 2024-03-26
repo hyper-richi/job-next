@@ -9,6 +9,7 @@ import MapVacancy from '@/components/MapVacancy/MapVacancy';
 import ButtonBack from '@/components/ButtonBack/ButtonBack';
 import Adress from '@/components/Adress/Adress';
 import PointIcon from '../../../../../../public/images/svg/PointIcon';
+import { ResponseAdress } from '../../../../../..';
 
 interface Params {
   searchParams?: { text?: string; offset?: string; jobCategory?: string };

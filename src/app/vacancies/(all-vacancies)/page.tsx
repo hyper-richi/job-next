@@ -1,7 +1,7 @@
 import styles from './page.module.scss';
 import Search from '@/components/Search/Search';
 import { Metadata } from 'next';
-import { getRegions, getVacancies } from '../../lib/data';
+import { getRegions, getUsers, getVacancies } from '../../lib/data';
 import Finder from '@/components/Finder/Finder';
 import CustomPagination from '@/components/CustomPagination/CustomPagination';
 import TitleCategory from '@/components/TitleCategory/TitleCategory';
@@ -31,6 +31,8 @@ export default async function Page({ params, searchParams }: Params) {
   });
 
   const { data: regions } = await getRegions();
+  const users = await getUsers();
+  console.log('users: ', users);
 
   const totalPages = meta.total / 100 > 100 ? 100 : Math.ceil(meta.total / 100);
 
