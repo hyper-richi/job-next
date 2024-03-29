@@ -12,6 +12,7 @@ import TelegramIcon from '../../../public/images/svg/telegramIcon.svg';
 import RegionName from '../RegionName/RegionName';
 import PointIcon from '../../../public/images/svg/PointIcon';
 import SignModal from '../SignModal/SignModal';
+import { useAppSelector } from '@/app/lib/store/hooks';
 
 const MobileRegionsModal = dynamic(() => import('../MobileRegionsModal/MobileRegionsModal'), {
   ssr: false,
@@ -31,8 +32,12 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   const [showDesktopRegionsModal, setDesktopShowRegionsModal] = useState(false);
   const [showSignModal, setShowSignModal] = useState(false);
 
+  const counterValue = useAppSelector((state) => state.counter.value);
+
   const searchParams = useSearchParams();
   const regionCodeParams = searchParams.get('regionCode');
+  const authData = useAppSelector((state) => state.user.authData);
+  console.log('authData: ', authData);
 
   const onToggleSidebar = () => {
     setShowSidebar((prev) => !prev);
@@ -66,7 +71,8 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
         <div className={styles.wrapper}>
           <div className={styles.header}>
             <Link prefetch={false} className={styles.header__logo} href={url}>
-              JOB
+              JOB/
+              {counterValue}
             </Link>
             <div className={styles.header__info}>
               <div className={styles.info__cities} onClick={onCloseDesktopRegionsModal}>
@@ -85,7 +91,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
             </div>
             <div>
               <button type='button' onClick={onCloseSignModal}>
-                Sign
+                Зайти
               </button>
             </div>
           </div>

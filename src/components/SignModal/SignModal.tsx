@@ -1,42 +1,46 @@
 // import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, Group, PasswordInput, TextInput, FileInput, Avatar, Pill, Badge } from '@mantine/core';
-import { useState } from 'react';
+'use client';
+import { Modal, Button, Group, PasswordInput, TextInput, Avatar, Stack, FileButton } from '@mantine/core';
+import { useCallback, useRef, useState } from 'react';
 import { useForm } from '@mantine/form';
 import { FormValues, ImageFile } from '../../..';
+import { IconPhoto, IconTrash } from '@tabler/icons-react';
+import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
+// import { loginFormActions } from '@/app/lib/store/features/auth/slice/loginFormSlice';
+import { loginByEmail } from '@/app/lib/store/features/auth/services/loginByEmail';
+// import { userActions } from '@/app/lib/store/features/user/slice/userSlice';
+import { loginFormActions } from '@/app/lib/store/features/auth/slice/loginFormSlice';
 
 function SignModal({ onCloseAuthModal, showAuthModal }: { showAuthModal: boolean; onCloseAuthModal: () => void }) {
   // const [opened, { open, close }] = useDisclosure(false);
 
-  const [profilePic, setProfilePic] = useState<ImageFile>();
-
+  const resetRef = useRef<() => void>(null);
+  const [profilePic, setProfilePic] = useState<ImageFile | null>(null);
   const [isLogin, setIsLogin] = useState(true);
+
+  const dispatch = useAppDispatch();
+
+  /* const email = useAppSelector((state) => state.loginForm.email);
+  const password = useAppSelector((state) => state.loginForm.password);
+  const isLoading = useAppSelector((state) => state.loginForm.isLoading);
+  const error = useAppSelector((state) => state.loginForm.error); */
 
   const form = useForm<FormValues>({
     initialValues: {
       email: '',
-      name: '',
       username: '',
-      avatar: '',
       password: '',
     },
 
     validate: {
-      email: (val: string) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
-      name: (value: string | null) => (value && value.length < 2 ? 'Too short name' : null),
-      username: (value: string | null) => (value && value.length < 2 ? 'Too short name' : null),
-      avatar: (value: string) => (value && value.length < 2 ? 'Avatar should include picture' : null),
-      password: (val: string) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      username: (value) => (value && value.length < 2 ? 'Too short name' : null),
+      password: (value) => (value.length <= 6 ? 'Password should include at least 6 characters' : null),
     },
   });
 
-  /* {
-          email: values.email,
-          name: values.name,
-          password: values.password,
-        } */
-
   const handleSubmit = async (values: FormValues) => {
-    if (values.name) {
+    if (values.username) {
       try {
         const res = await fetch('https://6ede402e6a352dfb.mokky.dev/register', {
           method: 'POST',
@@ -45,17 +49,21 @@ function SignModal({ onCloseAuthModal, showAuthModal }: { showAuthModal: boolean
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            fullName: values.name,
+            username: values.username,
             email: values.email,
             password: values.password,
-            username: values.username,
-            avatar: values.avatar,
+            avatar: {
+              url: profilePic?.url,
+              id_picture: profilePic?.id,
+            },
           }),
         });
 
         if (res.ok) {
-          const json = await res.json();
-          console.log('json', json);
+          const regData = await res.json();
+          localStorage.setItem('token', regData.token);
+          onCloseAuthModal();
+          console.log('regData', regData);
         }
         // form.reset();
       } catch (error) {
@@ -64,20 +72,22 @@ function SignModal({ onCloseAuthModal, showAuthModal }: { showAuthModal: boolean
       return;
     } else {
       try {
-        console.log(values);
-        form.reset();
-        /*
-      localStorage.setItem('token', data.token);
-      */
+        const loginData = { email: values.email, password: values.password };
+        const result = dispatch(loginByEmail(loginData));
+        // dispatch(userActions.incUser(loginData));
+        // console.log('result: ', result);
+        //dispatch(loginFormActions.setEmail(values.email));
+        //dispatch(loginFormActions.setPassword(values.password));
+        // form.reset();
       } catch (error) {
         console.log(error);
       }
     }
   };
 
-  async function uploadFile(file: File) {
+  async function uploadFile(file: File | null) {
     const formData = new FormData();
-    formData.append('file', file);
+    file && formData.append('file', file);
 
     const res = await fetch('https://6ede402e6a352dfb.mokky.dev/uploads', {
       method: 'POST',
@@ -92,10 +102,17 @@ function SignModal({ onCloseAuthModal, showAuthModal }: { showAuthModal: boolean
     }
   }
 
-  /* const handleChangeUpload = (payload: File | null) => {
-    console.log('payload: ', payload);
-    uploadFile(payload)
-  }; */
+  async function deleteFile() {
+    const res = await fetch(`https://6ede402e6a352dfb.mokky.dev/uploads/${profilePic?.id}`, {
+      method: 'DELETE',
+    });
+
+    if (res.ok) {
+      // const json = await res.json();
+      setProfilePic(null);
+      console.log('delete file:', res);
+    }
+  }
 
   return isLogin ? (
     <Modal opened={showAuthModal} onClose={onCloseAuthModal} title='Authentication'>
@@ -106,7 +123,8 @@ function SignModal({ onCloseAuthModal, showAuthModal }: { showAuthModal: boolean
           required
           {...form.getInputProps('email')}
           // value={form.values.email}
-          // onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
+          /*  onChange={onChangeEmail}
+          value={email} */
           error={form.errors.email && 'Invalid email'}
         />
         <PasswordInput
@@ -116,9 +134,11 @@ function SignModal({ onCloseAuthModal, showAuthModal }: { showAuthModal: boolean
           placeholder='Your password'
           required
           {...form.getInputProps('password')}
+          /*  onChange={onChangePassword}
+          value={password} */
           error={form.errors.password && 'Password should include at least 6 characters'}
         />
-        <Group mt='md' justify='space-between'>
+        <Group style={{ fontWeight: '400 !important' }} mt='md' justify='space-between'>
           <Button variant='default' onClick={() => setIsLogin((isLogin) => !isLogin)}>
             Registration account
           </Button>
@@ -129,46 +149,33 @@ function SignModal({ onCloseAuthModal, showAuthModal }: { showAuthModal: boolean
   ) : (
     <Modal opened={showAuthModal} onClose={onCloseAuthModal} title='Registration'>
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+        <Stack gap='xs'>
+          <Group justify='center'>
+            <Avatar m='sm' size='lg' src={profilePic?.url} alt='profile picture' style={{ width: '76px', height: ' 76px' }} />
+          </Group>
+          <Group justify='space-between'>
+            <FileButton resetRef={resetRef} onChange={uploadFile} accept='image/*'>
+              {(props) => (
+                <Button variant='default' {...props} leftSection={<IconPhoto size={18} />} style={{ lineHeight: '25px' }}>
+                  {profilePic ? 'Сменить' : 'Добавить фото'}
+                </Button>
+              )}
+            </FileButton>
+            <Button onClick={deleteFile} leftSection={<IconTrash size={18} />} variant='default' style={{ lineHeight: '25px' }}>
+              Удалить
+            </Button>
+          </Group>
+        </Stack>
+
         <TextInput
           mt='md'
-          label='Name'
-          placeholder='Name'
-          required
-          {...form.getInputProps('name')}
-          error={form.errors.name && 'Too short name'}
-        />
-        <TextInput
-          mt='md'
-          label='username'
-          placeholder='username'
+          label='Username'
+          placeholder='Username'
           required
           {...form.getInputProps('username')}
           error={form.errors.username && 'Too short username'}
         />
-        {profilePic && (
-          <Group mt='md' justify='space-between'>
-            <Avatar m='md' src={profilePic.url} alt='profile picture' />
-            {/*  <Chip defaultChecked>Avatar</Chip> */}
-            <Pill defaultChecked withRemoveButton>
-              Avatar
-            </Pill>
-            <Badge color='blue'>Avatar</Badge>
-            <TextInput required disabled {...form.getInputProps('avatar')} error={form.errors.email && 'Invalid avatar'} />
-          </Group>
-        )}
-        {!profilePic && (
-          <FileInput
-            onChange={(file) => file && uploadFile(file)}
-            label='Profile picture'
-            required
-            placeholder='Upload a profile picture'
-            clearable
-            //   accept="image/*"
-            accept='image/png,image/jpeg,image/webp'
-            // {...form.getInputProps('profilePicture')}
-            error={form.errors.profilePicture && 'Too short username'}
-          />
-        )}
+
         <TextInput
           label='email'
           placeholder='your@email.com'
@@ -194,4 +201,5 @@ function SignModal({ onCloseAuthModal, showAuthModal }: { showAuthModal: boolean
     </Modal>
   );
 }
+
 export default SignModal;

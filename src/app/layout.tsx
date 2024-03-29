@@ -6,9 +6,10 @@ import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import styles from './layout.module.scss';
 import '@mantine/core/styles.css';
 import './globals.css';
-import { getRegions } from './lib/data';
+import { getRegions } from './lib/api/data';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { StoreProvider } from './lib/provider/StoreProvider';
 
 const GTEestiProText = localFont({
   src: [
@@ -80,15 +81,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <meta name='robots' content='all' />
       </head>
       <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
-        <MantineProvider>
-          <Header regions={regions} />
-          <main className={styles.container}>
-            {children}
-            <Analytics />
-            <SpeedInsights />
-          </main>
-          <Footer regions={regions} />
-        </MantineProvider>
+        <StoreProvider>
+          <MantineProvider>
+            <Header regions={regions} />
+            <main className={styles.container}>
+              {children}
+              <Analytics />
+              <SpeedInsights />
+            </main>
+            <Footer regions={regions} />
+          </MantineProvider>
+        </StoreProvider>
       </body>
     </html>
   );

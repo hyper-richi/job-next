@@ -1,7 +1,8 @@
 // http://opendata.trudvsem.ru/api/v1/vacancies?industry=%industry%
 //https://opendata.trudvsem.ru/api/v1/vacancies/region/6100000000000?offset=1&limit=100&text=инженер
 
-import { ResponseVacancies, ResponseRegions, IRegion, ResponseVacancy, ResponseAdress, User } from '../../..';
+import { ResponseVacancies, ResponseRegions, IRegion, ResponseVacancy, ResponseAdress } from '../../../..';
+import { User } from '../store/features/user/types/userSchema';
 
 // "no-store" - SSR getServerSideProps рендер на сервере, Этот запрос должен повторяться при каждом запросе
 // "no-cache" ведет себя так же, как no-store в Next.js.
@@ -135,5 +136,3 @@ export async function getUsers(): Promise<User[]> {
     throw new Error('catch Request users failed.');
   }
 }
-
-

@@ -168,29 +168,25 @@ interface ResponseRegions {
   data: IRegion[];
 }
 
-export interface User {
-  id: string;
-  username: string;
-  avatar?: string;
-  roles?: UserRole[];
-  features?: FeatureFlags;
-  jsonSettings?: JsonSettings;
-}
-
 export interface FormValues {
   email: string;
-  name: string | null;
-  username: string ;
-  avatar: string ;
+  username: string | null;
+  // avatar: string | null;
   password: string;
 }
 
 export interface ImageFile {
-  bytes: number
-  fileName: string
-  format: string
-  height: number
-  id: number
-  url: string
-  width: number
+  bytes: number;
+  fileName: string;
+  format: string;
+  height: number;
+  id: number;
+  url: string;
+  width: number;
 }
+
+export interface LoginByEmailProps {
+  email: string;
+  password: string;
+}
+

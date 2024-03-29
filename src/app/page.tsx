@@ -3,6 +3,7 @@ import ListStack from '@/components/ListStack/ListStack';
 import HeroImageWebp from '../../public/images/hero.webp';
 import LighthouseWebp from '../../public/images/lighthouse.webp';
 import Image from 'next/image';
+import { Counter } from '@/components/Counter/Counter';
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
         </div>
       </div>
       <div className={styles.container}>
+        <Counter />
         <div className={styles.lighthouse}>
           <h2 className={styles.lighthouse__title}>Lighthouse</h2>
           <div>

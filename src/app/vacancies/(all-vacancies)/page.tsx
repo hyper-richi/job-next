@@ -1,7 +1,7 @@
 import styles from './page.module.scss';
 import Search from '@/components/Search/Search';
 import { Metadata } from 'next';
-import { getRegions, getUsers, getVacancies } from '../../lib/data';
+import { getRegions, getUsers, getVacancies } from '../../lib/api/data';
 import Finder from '@/components/Finder/Finder';
 import CustomPagination from '@/components/CustomPagination/CustomPagination';
 import TitleCategory from '@/components/TitleCategory/TitleCategory';
