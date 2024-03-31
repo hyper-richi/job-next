@@ -7,12 +7,11 @@ import dynamic from 'next/dynamic';
 import styles from './Header.module.scss';
 import Navbar from '../Navbar/Navbar';
 import clsx from 'clsx';
-import VKIcon from '../../../public/images/svg/vkIcon.svg';
-import TelegramIcon from '../../../public/images/svg/telegramIcon.svg';
 import RegionName from '../RegionName/RegionName';
 import PointIcon from '../../../public/images/svg/PointIcon';
 import SignModal from '../SignModal/SignModal';
-import { useAppSelector } from '@/app/lib/store/hooks';
+import { useDisclosure } from '@mantine/hooks';
+import AvatarMenu from '../AvatarMenu/AvatarMenu';
 
 const MobileRegionsModal = dynamic(() => import('../MobileRegionsModal/MobileRegionsModal'), {
   ssr: false,
@@ -30,14 +29,12 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMobileRegionsModal, setMobileShowRegionsModal] = useState(false);
   const [showDesktopRegionsModal, setDesktopShowRegionsModal] = useState(false);
-  const [showSignModal, setShowSignModal] = useState(false);
+  //const [showSignModal, setShowSignModal] = useState(false);
 
-  const counterValue = useAppSelector((state) => state.counter.value);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const searchParams = useSearchParams();
   const regionCodeParams = searchParams.get('regionCode');
-  const authData = useAppSelector((state) => state.user.authData);
-  console.log('authData: ', authData);
 
   const onToggleSidebar = () => {
     setShowSidebar((prev) => !prev);
@@ -55,10 +52,6 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
     setDesktopShowRegionsModal((prev) => !prev);
   }, []);
 
-  const onCloseSignModal = useCallback(() => {
-    setShowSignModal((prev) => !prev);
-  }, []);
-
   let url = `/`;
 
   if (regionCodeParams) {
@@ -72,7 +65,6 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
           <div className={styles.header}>
             <Link prefetch={false} className={styles.header__logo} href={url}>
               JOB/
-              {counterValue}
             </Link>
             <div className={styles.header__info}>
               <div className={styles.info__cities} onClick={onCloseDesktopRegionsModal}>
@@ -85,14 +77,8 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
                 <svg width='1' height='46' viewBox='0 0 1 46' fill='none' xmlns='http://www.w3.org/2000/svg'>
                   <path fill='#fff' d='M0 0h1v46H0z'></path>
                 </svg>
-                <VKIcon />
-                <TelegramIcon />
+                <AvatarMenu open={open} />
               </div>
-            </div>
-            <div>
-              <button type='button' onClick={onCloseSignModal}>
-                Зайти
-              </button>
             </div>
           </div>
         </div>
@@ -132,7 +118,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
           onCloseDesktopRegionsModal={onCloseDesktopRegionsModal}
         />
       )}
-      {showSignModal && <SignModal showAuthModal={showSignModal} onCloseAuthModal={onCloseSignModal} />}
+      <SignModal opened={opened} onClose={close} />
 
       {showMobileRegionsModal && (
         <MobileRegionsModal

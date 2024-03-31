@@ -2,7 +2,6 @@
 import { ReactNode, useRef } from 'react';
 import { Provider } from 'react-redux';
 import { AppStore, makeStore } from '../store/store';
-// import { setupListeners } from '@reduxjs/toolkit/query';
 
 interface Props {
   readonly children: ReactNode;
@@ -10,10 +9,8 @@ interface Props {
 
 export const StoreProvider = ({ children }: Props) => {
   const storeRef = useRef<AppStore | null>(null);
-  console.log('storeRef: ', storeRef.current);
 
   if (!storeRef.current) {
-    // Create the store instance the first time this renders
     storeRef.current = makeStore();
   }
 

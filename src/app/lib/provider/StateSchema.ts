@@ -1,9 +1,5 @@
-import { LoginFormSchema } from '../store/features/auth/types/loginFormSchema';
-import { CounterSchema } from '../store/features/counter/types/counterSchema';
-import { AuthUserSchema } from '../store/features/user/types/userSchema';
+import { AuthUserSchema } from '../store/features/auth/types/authUserChema';
 
 export interface StateSchema {
-  counter: CounterSchema;
-  user: AuthUserSchema;
-  loginForm: LoginFormSchema;
+  authUser: AuthUserSchema;
 }

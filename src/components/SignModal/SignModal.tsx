@@ -1,18 +1,14 @@
-// import { useDisclosure } from '@mantine/hooks';
 'use client';
 import { Modal, Button, Group, PasswordInput, TextInput, Avatar, Stack, FileButton } from '@mantine/core';
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from '@mantine/form';
 import { FormValues, ImageFile } from '../../..';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
-import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-// import { loginFormActions } from '@/app/lib/store/features/auth/slice/loginFormSlice';
-import { loginByEmail } from '@/app/lib/store/features/auth/services/loginByEmail';
-// import { userActions } from '@/app/lib/store/features/user/slice/userSlice';
-import { loginFormActions } from '@/app/lib/store/features/auth/slice/loginFormSlice';
+import { useAppDispatch } from '@/app/lib/store/hooks';
+import { loginUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 
-function SignModal({ onCloseAuthModal, showAuthModal }: { showAuthModal: boolean; onCloseAuthModal: () => void }) {
-  // const [opened, { open, close }] = useDisclosure(false);
+function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }) {
+  // @ts-ignore
 
   const resetRef = useRef<() => void>(null);
   const [profilePic, setProfilePic] = useState<ImageFile | null>(null);
@@ -62,10 +58,9 @@ function SignModal({ onCloseAuthModal, showAuthModal }: { showAuthModal: boolean
         if (res.ok) {
           const regData = await res.json();
           localStorage.setItem('token', regData.token);
-          onCloseAuthModal();
-          console.log('regData', regData);
+          form.reset();
+          onClose();
         }
-        // form.reset();
       } catch (error) {
         console.log(error);
       }
@@ -73,12 +68,9 @@ function SignModal({ onCloseAuthModal, showAuthModal }: { showAuthModal: boolean
     } else {
       try {
         const loginData = { email: values.email, password: values.password };
-        const result = dispatch(loginByEmail(loginData));
-        // dispatch(userActions.incUser(loginData));
-        // console.log('result: ', result);
-        //dispatch(loginFormActions.setEmail(values.email));
-        //dispatch(loginFormActions.setPassword(values.password));
-        // form.reset();
+        dispatch(loginUser(loginData));
+        form.reset();
+        onClose();
       } catch (error) {
         console.log(error);
       }
@@ -115,16 +107,13 @@ function SignModal({ onCloseAuthModal, showAuthModal }: { showAuthModal: boolean
   }
 
   return isLogin ? (
-    <Modal opened={showAuthModal} onClose={onCloseAuthModal} title='Authentication'>
+    <Modal className='Authentication' opened={opened} onClose={onClose} title='Authentication'>
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <TextInput
           label='email'
           placeholder='your@email.com'
           required
           {...form.getInputProps('email')}
-          // value={form.values.email}
-          /*  onChange={onChangeEmail}
-          value={email} */
           error={form.errors.email && 'Invalid email'}
         />
         <PasswordInput
@@ -134,8 +123,6 @@ function SignModal({ onCloseAuthModal, showAuthModal }: { showAuthModal: boolean
           placeholder='Your password'
           required
           {...form.getInputProps('password')}
-          /*  onChange={onChangePassword}
-          value={password} */
           error={form.errors.password && 'Password should include at least 6 characters'}
         />
         <Group style={{ fontWeight: '400 !important' }} mt='md' justify='space-between'>
@@ -147,7 +134,7 @@ function SignModal({ onCloseAuthModal, showAuthModal }: { showAuthModal: boolean
       </form>
     </Modal>
   ) : (
-    <Modal opened={showAuthModal} onClose={onCloseAuthModal} title='Registration'>
+    <Modal className='Registration' opened={opened} onClose={onClose} title='Registration'>
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <Stack gap='xs'>
           <Group justify='center'>

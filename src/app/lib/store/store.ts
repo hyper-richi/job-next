@@ -1,19 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { counterReducer } from './features/counter/counterSlice';
-import { StateSchema } from '../provider/StateSchema';
-import { loginFormReducer } from './features/auth/slice/loginFormSlice';
-import { userReducer } from './features/user/slice/userSlice';
+import { combineSlices, configureStore } from '@reduxjs/toolkit';
+import { authUserSlice } from './features/auth/slice/authUserSlice';
 
-// const rootReducer = combineSlices(counterSlice, quotesApiSlice);
+const rootReducer = combineSlices(authUserSlice);
 
 export const makeStore = () => {
-  return configureStore<StateSchema>({
-    reducer: {
-      counter: counterReducer,
-      user: userReducer,
-      loginForm: loginFormReducer,
-      // auth: authReducer,
-    },
+  return configureStore({
+    reducer: rootReducer,
   });
 };
 
