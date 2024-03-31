@@ -12,6 +12,7 @@ import ConstructionIcon from '../../../public/images/svg/constructionIcon.svg';
 import clsx from 'clsx';
 import NavbarItem from '../NavbarItem/NavbarItem';
 import { useEffect, useRef, useState } from 'react';
+import { CategoryVacancy, Mods } from '../../..';
 
 export const category: CategoryVacancy[] = [
   {

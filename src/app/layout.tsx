@@ -14,20 +14,20 @@ import { StoreProvider } from './lib/provider/StoreProvider';
 const GTEestiProText = localFont({
   src: [
     {
-      path: '../../public/fonts/GTEestiProText/gteestiprotext_regular.otf',
-      weight: '400',
-      style: 'regular',
+      path: '../../public/fonts/GTEestiProText/GT-Eesti-Pro-Text-Light.woff2',
+      weight: '300',
+      style: 'light',
     },
     {
-      path: '../../public/fonts/GTEestiProText/gteestiprotext_medium.otf',
-      weight: '500',
-      style: 'medium',
-    },
+      path: '../../public/fonts/GTEestiProText/GT-Eesti-Pro-Text-Regular.woff2',
+      weight: '400',
+      style: 'regular',
+    } /* ,
     {
       path: '../../public/fonts/GTEestiProText/gteestiprotext_bold.otf',
       weight: '700',
       style: 'text_bold',
-    },
+    }, */,
   ],
   variable: '--gteestiprotext',
 });
@@ -35,22 +35,22 @@ const GTEestiProText = localFont({
 const GTEestiProDisplay = localFont({
   src: [
     {
-      path: '../../public/fonts/GTEestiProDisplay/gteestiprodisplay_light.otf',
+      path: '../../public/fonts/GTEestiProDisplay/GTEestiProDisplay-Light.woff',
       weight: '300',
       style: 'light',
     },
     {
-      path: '../../public/fonts/GTEestiProDisplay/gteestiprodisplay_regular.otf',
+      path: '../../public/fonts/GTEestiProDisplay/GT-Eesti-Pro-Display-Regular.woff2',
       weight: '400',
       style: 'regular',
     },
     {
-      path: '../../public/fonts/GTEestiProDisplay/gteestiprodisplay_medium.otf',
+      path: '../../public/fonts/GTEestiProDisplay/GT-Eesti-Pro-Display-Medium.woff2',
       weight: '500',
       style: 'medium',
     },
     {
-      path: '../../public/fonts/GTEestiProDisplay/gteestiprodisplay_bold.otf',
+      path: '../../public/fonts/GTEestiProDisplay/GT-Eesti-Pro-Display-Bold.woff2',
       weight: '700',
       style: 'bold',
     },

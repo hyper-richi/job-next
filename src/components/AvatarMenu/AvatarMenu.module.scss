@@ -8,4 +8,19 @@
       background-color: #868e961a;
     }
   }
+
+  &__item {
+    svg {
+      margin-bottom: 3px;
+      width: 14px;
+      height: 14px;
+    }
+
+    & .mantine-Menu-itemLabel {
+      margin-top: 3px;
+    }
+    .mantine-Menu-itemLabel {
+      margin-top: 3px;
+    }
+  }
 }

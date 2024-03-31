@@ -5,6 +5,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import SpinnerIcon from '../../../public/images/svg/spinnerIcon.svg';
+import { CategoryVacancy, Mods } from '../../..';
 
 const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVacancy; isMobile?: boolean }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -52,21 +53,9 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
   };
 
   return (
-    <Link
-      key={categoryVacancy.jobCategory}
-      className={clsx(styles.navbar__links, modsLink)}
-      href={url}
-      /* {
-      pathname: '/about',
-      query: { name: 'test' },
-      { pathname: url, query: { jobCategory: categoryVacancy.jobCategory, title: categoryVacancy.title } }
-    } */
-      onClick={handleCklick}
-    >
-      <div className={clsx(isMobile ? styles.navbar__name__mobile : styles.navbar__name)}>
-        {categoryVacancy.icon}
-        <span className={styles['links-name']}>{categoryVacancy.name}</span>
-      </div>
+    <Link key={categoryVacancy.jobCategory} className={clsx(styles.navbar__links, modsLink)} href={url} onClick={handleCklick}>
+      <div className={clsx(isMobile ? styles.navbar__name__mobile : styles.navbar__name)}>{categoryVacancy.icon}</div>
+      <span className={styles['links-name']}>{categoryVacancy.name}</span>
       {isLoading && <SpinnerIcon className={clsx(modsIcon)} width='24' height='24' />}
     </Link>
   );

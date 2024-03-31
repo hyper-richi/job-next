@@ -16,11 +16,6 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
 
   const dispatch = useAppDispatch();
 
-  /* const email = useAppSelector((state) => state.loginForm.email);
-  const password = useAppSelector((state) => state.loginForm.password);
-  const isLoading = useAppSelector((state) => state.loginForm.isLoading);
-  const error = useAppSelector((state) => state.loginForm.error); */
-
   const form = useForm<FormValues>({
     initialValues: {
       email: '',

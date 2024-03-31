@@ -1,87 +1,77 @@
 .navbar__links {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 15px 18px;
-    color: #001a34;
-    height: 72px;
-    position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 18px;
+  color: #001a34;
+  height: 72px;
+  position: relative;
 
-    &:hover {
-        color: #005bff;
-    }
-    &--active {
-        color: #005bff;
-    }
-    &:active {
-        // background-color: #ccdeff;
-        color: #0243b5;
-    }
-
-    /*  &:last-child {
-        .navbar__name {
-            gap: 5px;
-        }
-    }
-    &:nth-child(8) {
-        .navbar__name {
-            gap: 5px;
-        }
-    } */
+  &:hover {
+    color: #005bff;
+  }
+  &--active {
+    color: #005bff;
+  }
+  &:active {
+    color: #0243b5;
+  }
 }
 
 .navbar__name {
-    display: flex;
-    gap: 2px;
-    height: 100%;
-    align-items: center;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 .navbar__name__mobile {
-    display: flex;
-    gap: 10px;
-    height: 100%;
-    align-items: center;
+  display: flex;
+  gap: 10px;
+  height: 100%;
+  align-items: center;
 }
 
 .navbar__icon__isMobile {
-    position: absolute;
-    top: 23px;
-    right: -10px;
-    color: #005bff;
+  position: absolute;
+  top: 23px;
+  right: -10px;
+  color: #005bff;
 }
 
 .navbar__icon {
-    color: #005bff;
+  color: #005bff;
 }
 
 .hidden {
-    top: -40px !important;
-    visibility: hidden;
+  top: -40px !important;
+  visibility: hidden;
 }
 
 @media (max-width: 800px) {
-    .navbar__links {
-        display: flex;
-        height: 66px;
-        align-items: center;
-        justify-content: space-between;
-        padding: 16px;
-        border-bottom: 1px solid #e5e9ee;
-        margin: 0;
-        width: 100%;
-    }
+  .navbar__links {
+    display: flex;
+    height: 66px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid #e5e9ee;
+    margin: 0;
+    width: 100%;
+  }
 
-    .hidden {
-        visibility: visible;
-    }
+  .hidden {
+    visibility: visible;
+  }
 
-    .wrapper {
-        flex-direction: column;
-    }
+  .wrapper {
+    flex-direction: column;
+  }
 }
 
 .links-name {
-    font-weight: 400;
-    font-size: 14px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
 }
