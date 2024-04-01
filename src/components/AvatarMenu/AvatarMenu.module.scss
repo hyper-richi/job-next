@@ -1,26 +1,22 @@
-.avatar {
-  border-radius: 12px;
+.menu {
   cursor: pointer;
-  padding: 5px;
-
-  &__picture {
-    &:hover {
-      background-color: #868e961a;
-    }
-  }
 
   &__item {
+    // border: 1px solid black;
+
     svg {
-      margin-bottom: 3px;
+      // margin-bottom: 3px;
+      // border: 1px solid black;
       width: 14px;
       height: 14px;
     }
 
-    & .mantine-Menu-itemLabel {
-      margin-top: 3px;
-    }
-    .mantine-Menu-itemLabel {
-      margin-top: 3px;
+    & :global(.mantine-Menu-itemLabel) {
+      display: flex;
     }
   }
+  &__label {
+    margin-top: 2px;
+  }
 }
+

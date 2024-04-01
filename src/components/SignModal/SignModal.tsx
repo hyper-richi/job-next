@@ -1,15 +1,15 @@
 'use client';
 import { Modal, Button, Group, PasswordInput, TextInput, Avatar, Stack, FileButton } from '@mantine/core';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useForm } from '@mantine/form';
 import { FormValues, ImageFile } from '../../..';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
 import { useAppDispatch } from '@/app/lib/store/hooks';
 import { loginUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
+import { fetchUploadFile } from '@/app/lib/store/features/auth/api/data';
+import { fetchDeleteFile } from '@/app/lib/store/features/auth/api/data';
 
 function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }) {
-  // @ts-ignore
-
   const resetRef = useRef<() => void>(null);
   const [profilePic, setProfilePic] = useState<ImageFile | null>(null);
   const [isLogin, setIsLogin] = useState(true);
@@ -72,34 +72,29 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
     }
   };
 
-  async function uploadFile(file: File | null) {
+  async function handleUploadImgAvatar(file: File | null) {
     const formData = new FormData();
-    file && formData.append('file', file);
-
-    const res = await fetch('https://6ede402e6a352dfb.mokky.dev/uploads', {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (res.ok) {
-      const json: ImageFile = await res.json();
-      setProfilePic(json);
-      form.setFieldValue('avatar', json.url);
-      console.log('upload file:', json);
+    if (file) {
+      formData.append('file', file);
+    }
+    const imageFile = await fetchUploadFile(formData);
+    if (imageFile) {
+      setProfilePic(imageFile);
     }
   }
 
-  async function deleteFile() {
-    const res = await fetch(`https://6ede402e6a352dfb.mokky.dev/uploads/${profilePic?.id}`, {
-      method: 'DELETE',
-    });
-
-    if (res.ok) {
-      // const json = await res.json();
+  const handleDeleteImgAvatar = useCallback(async () => {
+    if (profilePic?.id) {
+      const response = await fetchDeleteFile(profilePic?.id);
+      console.log('handleDeleteFile-response: ', response);
       setProfilePic(null);
-      console.log('delete file:', res);
+      /*  if (response.ok) {
+        console.log('delete file:', response);
+      } */
     }
-  }
+  }, [profilePic]);
+
+  // async function handleDeleteFile() {}
 
   return isLogin ? (
     <Modal className='Authentication' opened={opened} onClose={onClose} title='Authentication'>
@@ -136,14 +131,19 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
             <Avatar m='sm' size='lg' src={profilePic?.url} alt='profile picture' style={{ width: '76px', height: ' 76px' }} />
           </Group>
           <Group justify='space-between'>
-            <FileButton resetRef={resetRef} onChange={uploadFile} accept='image/*'>
+            <FileButton resetRef={resetRef} onChange={handleUploadImgAvatar} accept='image/*'>
               {(props) => (
                 <Button variant='default' {...props} leftSection={<IconPhoto size={18} />} style={{ lineHeight: '25px' }}>
                   {profilePic ? 'Сменить' : 'Добавить фото'}
                 </Button>
               )}
             </FileButton>
-            <Button onClick={deleteFile} leftSection={<IconTrash size={18} />} variant='default' style={{ lineHeight: '25px' }}>
+            <Button
+              onClick={handleDeleteImgAvatar}
+              leftSection={<IconTrash size={18} />}
+              variant='default'
+              style={{ lineHeight: '25px' }}
+            >
               Удалить
             </Button>
           </Group>
