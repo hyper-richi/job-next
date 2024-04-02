@@ -6,10 +6,12 @@ import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import styles from './layout.module.scss';
 import '@mantine/core/styles.css';
 import './globals.css';
+import '@mantine/notifications/styles.css';
 import { getRegions } from './lib/api/data';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { StoreProvider } from './lib/provider/StoreProvider';
+import { Notifications } from '@mantine/notifications';
 
 const GTEestiProText = localFont({
   src: [
@@ -83,6 +85,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
         <StoreProvider>
           <MantineProvider>
+            <Notifications />
             <Header regions={regions} />
             <main className={styles.container}>
               {children}

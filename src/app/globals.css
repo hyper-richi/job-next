@@ -13,42 +13,6 @@
   --green: #007b48;
   --green-light: #c8f8e4;
 }
-/*
- @font-face {
-  font-family: GT Eesti Pro Display;
-  font-weight: 700;
-  src: url('../../public/fonts/GTEestiProDisplay/GTEestiProDisplay-Light.woff') format('woff2');
-}
-/*
-@font-face {
-  font-family: GT Eesti Pro Display;
-  font-weight: regular;
-  src: url(../../public/fonts/GTEestiProDisplay/GT-Eesti-Pro-Display-Regular.woff2) format('woff2');
-}
-
-@font-face {
-  font-family: GT Eesti Pro Display;
-  font-weight: 500;
-  src: url(../../public/fonts/GTEestiProDisplay/GT-Eesti-Pro-Display-Medium.woff2) format('woff2');
-}
-
-@font-face {
-  font-family: GT Eesti Pro Text;
-  font-weight: 300;
-  src: url(../../public/fonts/GTEestiProText/GT-Eesti-Pro-Text-Light.woff2);
-}
-
-@font-face {
-  font-family: GT Eesti Pro Text;
-  font-weight: 400;
-  src: url(../../public/fonts/GTEestiProText/GT-Eesti-Pro-Text-Regular.woff2);
-}
-
-@font-face {
-  font-family: GT Eesti Pro Text;
-  font-weight: 700;
-  src: url('');
-} */
 
 * {
   box-sizing: border-box;

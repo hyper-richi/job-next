@@ -8,6 +8,9 @@ import { useAppDispatch } from '@/app/lib/store/hooks';
 import { loginUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import { fetchUploadFile } from '@/app/lib/store/features/auth/api/data';
 import { fetchDeleteFile } from '@/app/lib/store/features/auth/api/data';
+import { AxiosError, AxiosResponse } from 'axios';
+import { notifications } from '@mantine/notifications';
+import CustomNotification from '../CustomNotification/CustomNotification';
 
 function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }) {
   const resetRef = useRef<() => void>(null);
@@ -86,15 +89,35 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
   const handleDeleteImgAvatar = useCallback(async () => {
     if (profilePic?.id) {
       const response = await fetchDeleteFile(profilePic?.id);
-      console.log('handleDeleteFile-response: ', response);
-      setProfilePic(null);
-      /*  if (response.ok) {
-        console.log('delete file:', response);
-      } */
+      if (response instanceof AxiosError) {
+        console.log('AxiosError: ');
+        // ErrorHandler
+      } else {
+        setProfilePic(null);
+        CustomNotification({
+          title: 'Аватар',
+          message: 'Фотография аватара успешно удалена!',
+          color: 'green',
+        });
+      }
     }
   }, [profilePic]);
 
+  /*  */
+
   // async function handleDeleteFile() {}
+
+  /* function example(): {
+    payload: string;
+    status: number;
+  } {
+    return {
+      payload: 'ffff',
+      status: 200,
+    };
+  }
+  const response = example();
+  console.log('response: ', response); */
 
   return isLogin ? (
     <Modal className='Authentication' opened={opened} onClose={onClose} title='Authentication'>
@@ -157,7 +180,6 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
           {...form.getInputProps('username')}
           error={form.errors.username && 'Too short username'}
         />
-
         <TextInput
           label='email'
           placeholder='your@email.com'
@@ -177,7 +199,7 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
           <Button variant='default' onClick={() => setIsLogin((isLogin) => !isLogin)}>
             Login to account
           </Button>
-          <Button type='submit'>Sign in</Button>
+          <Button type='submit'>Создать</Button>
         </Group>
       </form>
     </Modal>
