@@ -1,14 +1,20 @@
-/* .root {
-  background-color: var(--notification-color, var(--mantine-primary-color-filled));
+.root {
+  // background-color: var(--notification-color, var(--mantine-primary-color-filled));
 
   &::before {
-    background-color: var(--mantine-color-white);
+    background-color: var(--notification-color);
   }
-} */
+}
 
 .description,
 .title {
   color: var(--mantine-color-gray-9);
+}
+
+.additionalMessage {
+  display: flex;
+  flex-direction: column;
+  gap: 10;
 }
 
 /* .closeButton {

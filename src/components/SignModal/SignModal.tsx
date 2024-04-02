@@ -9,7 +9,6 @@ import { loginUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import { fetchUploadFile } from '@/app/lib/store/features/auth/api/data';
 import { fetchDeleteFile } from '@/app/lib/store/features/auth/api/data';
 import { AxiosError, AxiosResponse } from 'axios';
-import { notifications } from '@mantine/notifications';
 import CustomNotification from '../CustomNotification/CustomNotification';
 
 function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }) {
@@ -90,14 +89,22 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
     if (profilePic?.id) {
       const response = await fetchDeleteFile(profilePic?.id);
       if (response instanceof AxiosError) {
-        console.log('AxiosError: ');
-        // ErrorHandler
+        console.log('response: ', response);
+        CustomNotification({
+          title: response.response?.status,
+          // message: response.response?.data.message,
+          message: response.message,
+          additionalMessage: (response.response as AxiosResponse).data.message,
+          color: 'green',
+          variant: 'error',
+        });
       } else {
         setProfilePic(null);
         CustomNotification({
           title: 'Аватар',
           message: 'Фотография аватара успешно удалена!',
           color: 'green',
+          variant: 'succes'
         });
       }
     }

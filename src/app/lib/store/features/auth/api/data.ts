@@ -54,9 +54,4 @@ export async function fetchDeleteFile(imageId: number) {
     .delete(`https://6ede402e6a352dfb.mokky.dev/uploads/${imageId}`)
     .then((response) => response as AxiosResponse)
     .catch((error: AxiosError) => error);
-
-  // return response;
-  /*  console.error('Error fetching delete file:', error);
-
-    throw new Error('Error fetching delete file'); */
 }
