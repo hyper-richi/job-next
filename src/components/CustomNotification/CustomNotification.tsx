@@ -11,7 +11,6 @@ export type Mods = Record<string, boolean | string | undefined>;
 
 function CustomNotification(props: CustomNotificationProps) {
   const { variant, additionalMessage, message } = props;
-  console.log('classes: ', classes);
 
   const mods = {
     red: variant === 'error',
@@ -31,7 +30,7 @@ function CustomNotification(props: CustomNotificationProps) {
     message: additionalMessage ? note : message,
     id: 'hello-there',
     withCloseButton: true,
-    autoClose: false,
+    autoClose: 5000,
     classNames: classes,
     loading: false,
   });

@@ -2,21 +2,29 @@
 import { Modal, Button, Group, PasswordInput, TextInput, Avatar, Stack, FileButton } from '@mantine/core';
 import { useCallback, useRef, useState } from 'react';
 import { useForm } from '@mantine/form';
-import { FormValues, ImageFile } from '../../..';
+import { FormValues } from '../../..';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
-import { useAppDispatch } from '@/app/lib/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { loginUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
-import { fetchUploadFile } from '@/app/lib/store/features/auth/api/data';
-import { fetchDeleteFile } from '@/app/lib/store/features/auth/api/data';
 import { AxiosError, AxiosResponse } from 'axios';
 import CustomNotification from '../CustomNotification/CustomNotification';
+import { ResponseError } from '@/app/lib/store/features/file/types/fileSchema';
+import { fetchDeleteFile } from '@/app/lib/store/features/file/api/data';
+import { selectFile, selectFileError, selectStatusUploadFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
+import SpinnerIcon from '../../../public/images/svg/spinnerIcon.svg';
+import CustomAvatar from '../CustomAvatar/CustomAvatar';
 
 function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }) {
   const resetRef = useRef<() => void>(null);
-  const [profilePic, setProfilePic] = useState<ImageFile | null>(null);
   const [isLogin, setIsLogin] = useState(true);
 
   const dispatch = useAppDispatch();
+  const file = useAppSelector(selectFile);
+  //console.log('file: ', file);
+  const fileError = useAppSelector(selectFileError);
+  //console.log('fileError: ', fileError);
+  const statusUploadFile = useAppSelector(selectStatusUploadFile);
+  // console.log('statusUploadFile: ', statusUploadFile);
 
   const form = useForm<FormValues>({
     initialValues: {
@@ -46,8 +54,8 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
             email: values.email,
             password: values.password,
             avatar: {
-              url: profilePic?.url,
-              id_picture: profilePic?.id,
+              url: file?.url,
+              id_picture: file?.id,
             },
           }),
         });
@@ -79,52 +87,44 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
     if (file) {
       formData.append('file', file);
     }
-    const imageFile = await fetchUploadFile(formData);
-    if (imageFile) {
-      setProfilePic(imageFile);
+
+    try {
+      await dispatch(uploadFile(formData)).unwrap();
+      CustomNotification({
+        title: 'Аватар',
+        message: 'Фотография аватара успешно добавлена!',
+        variant: 'succes',
+      });
+    } catch (rejectedError) {
+      const rejectValue = rejectedError as ResponseError;
+      CustomNotification({
+        title: rejectValue.code,
+        message: rejectValue.message,
+        additionalMessage: rejectValue.additionalMessage,
+        variant: 'error',
+      });
     }
   }
 
   const handleDeleteImgAvatar = useCallback(async () => {
-    if (profilePic?.id) {
-      const response = await fetchDeleteFile(profilePic?.id);
+    if (file?.id) {
+      const response = await fetchDeleteFile(file?.id);
       if (response instanceof AxiosError) {
-        console.log('response: ', response);
         CustomNotification({
           title: response.response?.status,
-          // message: response.response?.data.message,
           message: response.message,
           additionalMessage: (response.response as AxiosResponse).data.message,
-          color: 'green',
           variant: 'error',
         });
       } else {
-        setProfilePic(null);
         CustomNotification({
           title: 'Аватар',
           message: 'Фотография аватара успешно удалена!',
-          color: 'green',
-          variant: 'succes'
+          variant: 'succes',
         });
       }
     }
-  }, [profilePic]);
-
-  /*  */
-
-  // async function handleDeleteFile() {}
-
-  /* function example(): {
-    payload: string;
-    status: number;
-  } {
-    return {
-      payload: 'ffff',
-      status: 200,
-    };
-  }
-  const response = example();
-  console.log('response: ', response); */
+  }, [file]);
 
   return isLogin ? (
     <Modal className='Authentication' opened={opened} onClose={onClose} title='Authentication'>
@@ -157,14 +157,12 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
     <Modal className='Registration' opened={opened} onClose={onClose} title='Registration'>
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <Stack gap='xs'>
-          <Group justify='center'>
-            <Avatar m='sm' size='lg' src={profilePic?.url} alt='profile picture' style={{ width: '76px', height: ' 76px' }} />
-          </Group>
+          <CustomAvatar src={file?.url} spinner={statusUploadFile === 'loading'} />
           <Group justify='space-between'>
             <FileButton resetRef={resetRef} onChange={handleUploadImgAvatar} accept='image/*'>
               {(props) => (
                 <Button variant='default' {...props} leftSection={<IconPhoto size={18} />} style={{ lineHeight: '25px' }}>
-                  {profilePic ? 'Сменить' : 'Добавить фото'}
+                  {file ? 'Сменить' : 'Добавить фото'}
                 </Button>
               )}
             </FileButton>

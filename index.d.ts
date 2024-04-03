@@ -175,15 +175,7 @@ export interface FormValues {
   password: string;
 }
 
-export interface ImageFile {
-  bytes: number;
-  fileName: string;
-  format: string;
-  height: number;
-  id: number;
-  url: string;
-  width: number;
-}
+
 
 export interface LoginByEmailProps {
   email: string;

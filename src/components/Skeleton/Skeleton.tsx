@@ -8,12 +8,11 @@ interface SkeletonProps {
   width?: string | number;
   minWidth?: string | number;
   borderRadius: string;
-  paddingTop: string;
+  paddingTop?: string;
 }
 
 export const Skeleton = (props: SkeletonProps) => {
-  const { className, height, width, borderRadius, paddingTop, minWidth } =
-    props;
+  const { className, height, width, borderRadius, paddingTop = 0, minWidth } = props;
 
   const styles: CSSProperties = {
     width,

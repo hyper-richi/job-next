@@ -57,7 +57,7 @@ export const authUserSlice = createAppSlice({
           state.status = 'failed';
           state.error = action.error;
         },
-        fulfilled: (state, action) => {
+        fulfilled: (state) => {
           state.status = 'idle';
           state.authUser = null;
         },
