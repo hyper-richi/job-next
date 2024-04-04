@@ -74,7 +74,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { data: regions } = await getRegions();
+  // const { data: regions } = await getRegions();
 
   return (
     <html lang='ru'>
@@ -86,13 +86,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <StoreProvider>
           <MantineProvider>
             <Notifications limit={5} />
-            <Header regions={regions} />
+            <Header /* regions={regions} */ />
             <main className={styles.container}>
               {children}
               <Analytics />
               <SpeedInsights />
             </main>
-            <Footer regions={regions} />
+            <Footer /* regions={regions} */ />
           </MantineProvider>
         </StoreProvider>
       </body>

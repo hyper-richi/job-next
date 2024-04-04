@@ -18,4 +18,5 @@ export interface FileSchema {
   status: 'idle' | 'loading' | 'error';
   file: ImageFile | null;
   error: ResponseError | null;
+  uploadImg: string | null;
 }

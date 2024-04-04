@@ -1,6 +1,6 @@
 'use client';
 import { Modal, Button, Group, PasswordInput, TextInput, Stack, FileButton } from '@mantine/core';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FormValues } from '../../..';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
@@ -143,8 +143,12 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
     }
   }, [file]);
 
+  useEffect(() => {
+    return () => {};
+  }, []);
+
   return isLogin ? (
-    <Modal className='Authentication' opened={opened} onClose={onClose} title='Authentication'>
+    <Modal className='Authentication' opened={opened} onClose={onClose} title='Авторизация'>
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
         <PasswordInput
@@ -158,17 +162,19 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
         />
         <Group style={{ fontWeight: '400 !important' }} mt='md' justify='space-between'>
           <Button variant='default' onClick={() => setIsLogin((isLogin) => !isLogin)}>
-            Registration account
+            Регистрация
           </Button>
-          <Button type='submit'>Sign in</Button>
+          <Button style={{ background: '#005bff' }} type='submit'>
+            Войти
+          </Button>
         </Group>
       </form>
     </Modal>
   ) : (
-    <Modal className='Registration' opened={opened} onClose={onClose} title='Registration'>
+    <Modal className='Registration' opened={opened} onClose={onClose} title='Регистрация'>
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <Stack gap='xs'>
-          <CustomAvatar src={file?.url} spinner={statusUploadFile === 'loading'} />
+          <CustomAvatar />
           <Group justify='space-between'>
             <FileButton resetRef={resetRef} onChange={handleUploadImgAvatar} accept='image/*'>
               {(props) => (
@@ -189,8 +195,8 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
         </Stack>
         <TextInput
           mt='md'
-          label='Username'
-          placeholder='Username'
+          label='username'
+          placeholder='username'
           required
           {...form.getInputProps('username')}
           error={form.errors.username}
@@ -206,9 +212,11 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
         />
         <Group mt='md' justify='space-between'>
           <Button variant='default' onClick={() => setIsLogin((isLogin) => !isLogin)}>
-            Login to account
+            Авторизация
           </Button>
-          <Button type='submit'>Создать</Button>
+          <Button style={{ background: '#005bff' }} type='submit'>
+            Создать
+          </Button>
         </Group>
       </form>
     </Modal>

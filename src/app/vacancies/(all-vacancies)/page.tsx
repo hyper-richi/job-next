@@ -30,9 +30,8 @@ export default async function Page({ params, searchParams }: Params) {
     jobCategory,
   });
 
-  const { data: regions } = await getRegions();
+  // const { data: regions } = await getRegions();
   const users = await getUsers();
-  console.log('users: ', users);
 
   const totalPages = meta.total / 100 > 100 ? 100 : Math.ceil(meta.total / 100);
 
@@ -42,7 +41,7 @@ export default async function Page({ params, searchParams }: Params) {
       <TitleCategory jobCategory={jobCategory || '/vacancies'} />
       <Search countVacancies={meta.total || 0} />
       <Finder
-        regions={regions}
+        /*  regions={regions} */
         vacancies={vacancies}
         jobCategory={jobCategory}
         regionCode={regionCode}
