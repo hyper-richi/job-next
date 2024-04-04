@@ -1,7 +1,7 @@
 // http://opendata.trudvsem.ru/api/v1/vacancies?industry=%industry%
 //https://opendata.trudvsem.ru/api/v1/vacancies/region/6100000000000?offset=1&limit=100&text=инженер
 
-import { ResponseVacancies, ResponseRegions, IRegion, ResponseVacancy, ResponseAdress, ImageFile } from '../../../..';
+import { ResponseVacancies, ResponseRegions, IRegion, ResponseVacancy, ResponseAdress } from '../../../..';
 import { User } from '../store/features/auth/types/authUserChema';
 
 // "no-store" - SSR getServerSideProps рендер на сервере, Этот запрос должен повторяться при каждом запросе

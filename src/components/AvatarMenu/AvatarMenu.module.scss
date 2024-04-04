@@ -1,4 +1,4 @@
-.menu {
+.AvatarMenu {
   cursor: pointer;
 
   &__item {
@@ -14,9 +14,12 @@
     & :global(.mantine-Menu-itemLabel) {
       display: flex;
     }
+
+    /* & :global(.mantine-UnstyledButton-root) {
+      padding: 0 !important;
+    } */
   }
   &__label {
     margin-top: 2px;
   }
 }
-

@@ -8,11 +8,11 @@ import AvatarButton from '../AvatarButton/AvatarButton';
 import { deleteUser, logoutUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 
 function AvatarMenu({ open }: { open: () => void }) {
-  const { status, authUser } = useAppSelector((state) => state.authUser);
+  const { authUser } = useAppSelector((state) => state.authUser);
   const dispatch = useAppDispatch();
 
   return (
-    <div className={styles.menu}>
+    <div className={styles.AvatarMenu}>
       <Menu shadow='md' width={200} withArrow>
         <Menu.Target>
           <AvatarButton image={authUser?.avatar.url} name={authUser?.username} email={authUser?.email} />

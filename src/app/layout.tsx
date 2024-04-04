@@ -85,7 +85,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
         <StoreProvider>
           <MantineProvider>
-            <Notifications />
+            <Notifications limit={5} />
             <Header regions={regions} />
             <main className={styles.container}>
               {children}

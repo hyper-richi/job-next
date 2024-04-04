@@ -17,6 +17,10 @@ function CustomNotification(props: CustomNotificationProps) {
     green: variant === 'succes',
   };
 
+  function titleNotificationWithType() {
+    return variant === 'error' ? 'Ошибка' : 'Успешно';
+  }
+
   const note = (
     <div className={classes.additionalMessage}>
       <span>{`${message}`}</span>
@@ -26,13 +30,14 @@ function CustomNotification(props: CustomNotificationProps) {
 
   return notifications.show({
     ...props,
+    title: titleNotificationWithType(),
     color: clsx(mods),
     message: additionalMessage ? note : message,
-    id: 'hello-there',
     withCloseButton: true,
     autoClose: 5000,
     classNames: classes,
     loading: false,
+    limit: 5,
   });
 }
 

@@ -15,7 +15,7 @@ const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(
     <UnstyledButton
       ref={ref}
       style={{
-        padding: 'var(--mantine-spacing-md)',
+        padding: 0,
         color: 'var(--mantine-color-text)',
         borderRadius: 'var(--mantine-radius-sm)',
       }}
@@ -23,16 +23,17 @@ const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(
     >
       <Group wrap='nowrap' className={styles.group}>
         <Avatar size='md' radius='xl' className={styles.avatar__picture} src={image} alt='profile picture' />
-        <div style={{ flex: 1 }}>
-          <Text size='sm' fw={500} className={styles.avatar__name}>
-            {name}
-          </Text>
+        {image && (
+          <div style={{ flex: 1 }}>
+            <Text size='sm' fw={500} className={styles.avatar__name}>
+              {name}
+            </Text>
 
-          <Text c='dimmed' size='xs' className={styles.avatar__email}>
-            {email}
-          </Text>
-        </div>
-
+            <Text c='dimmed' size='xs' className={styles.avatar__email}>
+              {email}
+            </Text>
+          </div>
+        )}
         {image && <IconChevronRight size='1rem' className={styles.avatar__icon} />}
       </Group>
     </UnstyledButton>

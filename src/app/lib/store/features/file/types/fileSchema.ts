@@ -8,10 +8,6 @@ export interface ImageFile {
   width: number;
 }
 
-export interface FileUploadApiResponse {
-  data: ImageFile;
-}
-
 export interface ResponseError {
   message: string;
   additionalMessage: string;

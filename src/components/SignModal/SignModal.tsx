@@ -1,18 +1,17 @@
 'use client';
-import { Modal, Button, Group, PasswordInput, TextInput, Avatar, Stack, FileButton } from '@mantine/core';
+import { Modal, Button, Group, PasswordInput, TextInput, Stack, FileButton } from '@mantine/core';
 import { useCallback, useRef, useState } from 'react';
-import { useForm } from '@mantine/form';
 import { FormValues } from '../../..';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { loginUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
-import { AxiosError, AxiosResponse } from 'axios';
+import { loginUser, registrUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import { ResponseError } from '@/app/lib/store/features/file/types/fileSchema';
 import { fetchDeleteFile } from '@/app/lib/store/features/file/api/data';
-import { selectFile, selectFileError, selectStatusUploadFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
-import SpinnerIcon from '../../../public/images/svg/spinnerIcon.svg';
+import { selectFile, selectStatusUploadFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
 import CustomAvatar from '../CustomAvatar/CustomAvatar';
+import { RegistrData } from '@/app/lib/store/features/auth/types/authUserChema';
+import { useForm } from '@mantine/form';
 
 function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }) {
   const resetRef = useRef<() => void>(null);
@@ -20,11 +19,8 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
 
   const dispatch = useAppDispatch();
   const file = useAppSelector(selectFile);
-  //console.log('file: ', file);
-  const fileError = useAppSelector(selectFileError);
-  //console.log('fileError: ', fileError);
+  // const fileError = useAppSelector(selectFileError);
   const statusUploadFile = useAppSelector(selectStatusUploadFile);
-  // console.log('statusUploadFile: ', statusUploadFile);
 
   const form = useForm<FormValues>({
     initialValues: {
@@ -32,69 +28,88 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
       username: '',
       password: '',
     },
-
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      username: (value) => (value && value.length < 2 ? 'Too short name' : null),
-      password: (value) => (value.length <= 6 ? 'Password should include at least 6 characters' : null),
+      email: (value) =>
+        /^\S+@\S+$/.test(value)
+          ? value.length <= 25
+            ? null
+            : 'Длина ящика не более 25 символов'
+          : 'Минимальное наименование email n@m',
+      username: (value) =>
+        value && value.length < 2 ? 'Имя должно быть от 2' : value && value.length > 20 ? 'Имя должно быть  до 20 символов' : null,
+      password: (value) => {
+        return value.length < 5 ? 'Минимальный пароль 5 символов' : null;
+      },
     },
   });
 
   const handleSubmit = async (values: FormValues) => {
     if (values.username) {
+      // Registration
+      const registrData: RegistrData = {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+        avatar: {
+          url: file?.url,
+          id_picture: file?.id,
+        },
+      };
       try {
-        const res = await fetch('https://6ede402e6a352dfb.mokky.dev/register', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username: values.username,
-            email: values.email,
-            password: values.password,
-            avatar: {
-              url: file?.url,
-              id_picture: file?.id,
-            },
-          }),
-        });
-
-        if (res.ok) {
-          const regData = await res.json();
-          localStorage.setItem('token', regData.token);
-          form.reset();
-          onClose();
-        }
-      } catch (error) {
-        console.log(error);
-      }
-      return;
-    } else {
-      try {
-        const loginData = { email: values.email, password: values.password };
-        dispatch(loginUser(loginData));
+        const userData = await dispatch(registrUser(registrData)).unwrap();
+        localStorage.setItem('token', userData.token);
         form.reset();
         onClose();
-      } catch (error) {
-        console.log(error);
+        CustomNotification({
+          title: 'Пользователь',
+          message: 'Пользователь успешно создан!',
+          variant: 'succes',
+        });
+      } catch (rejectedError) {
+        const rejectValue = rejectedError as ResponseError;
+        CustomNotification({
+          title: rejectValue.code,
+          message: rejectValue.message,
+          additionalMessage: rejectValue.additionalMessage,
+          variant: 'error',
+        });
+      }
+    } else {
+      // Authentication
+      try {
+        const loginData = { email: values.email, password: values.password };
+        const userData = await dispatch(loginUser(loginData)).unwrap();
+        localStorage.setItem('token', userData.token);
+
+        CustomNotification({
+          title: 'Пользователь',
+          message: 'Поздравляю! Вы успешно авторизовались!',
+          variant: 'succes',
+        });
+        form.reset();
+        onClose();
+      } catch (rejectedError) {
+        const rejectValue = rejectedError as ResponseError;
+        CustomNotification({
+          message: rejectValue.message,
+          additionalMessage: rejectValue.additionalMessage,
+          variant: 'error',
+        });
       }
     }
   };
 
-  async function handleUploadImgAvatar(file: File | null) {
+  async function handleUploadImgAvatar(fileFormUpload: File | null) {
     const formData = new FormData();
-    if (file) {
-      formData.append('file', file);
+    if (fileFormUpload) {
+      formData.append('file', fileFormUpload);
+    }
+    if (file?.id) {
+      await fetchDeleteFile(file?.id);
     }
 
     try {
       await dispatch(uploadFile(formData)).unwrap();
-      CustomNotification({
-        title: 'Аватар',
-        message: 'Фотография аватара успешно добавлена!',
-        variant: 'succes',
-      });
     } catch (rejectedError) {
       const rejectValue = rejectedError as ResponseError;
       CustomNotification({
@@ -108,19 +123,21 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
 
   const handleDeleteImgAvatar = useCallback(async () => {
     if (file?.id) {
-      const response = await fetchDeleteFile(file?.id);
-      if (response instanceof AxiosError) {
-        CustomNotification({
-          title: response.response?.status,
-          message: response.message,
-          additionalMessage: (response.response as AxiosResponse).data.message,
-          variant: 'error',
-        });
-      } else {
+      try {
+        await fetchDeleteFile(file?.id);
         CustomNotification({
           title: 'Аватар',
           message: 'Фотография аватара успешно удалена!',
           variant: 'succes',
+        });
+      } catch (rejectedError) {
+        const rejectValue = rejectedError as ResponseError;
+
+        CustomNotification({
+          title: rejectValue.code,
+          message: rejectValue.message,
+          additionalMessage: rejectValue.additionalMessage,
+          variant: 'error',
         });
       }
     }
@@ -129,13 +146,7 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
   return isLogin ? (
     <Modal className='Authentication' opened={opened} onClose={onClose} title='Authentication'>
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-        <TextInput
-          label='email'
-          placeholder='your@email.com'
-          required
-          {...form.getInputProps('email')}
-          error={form.errors.email && 'Invalid email'}
-        />
+        <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
         <PasswordInput
           mt='md'
           withAsterisk
@@ -143,7 +154,7 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
           placeholder='Your password'
           required
           {...form.getInputProps('password')}
-          error={form.errors.password && 'Password should include at least 6 characters'}
+          error={form.errors.password}
         />
         <Group style={{ fontWeight: '400 !important' }} mt='md' justify='space-between'>
           <Button variant='default' onClick={() => setIsLogin((isLogin) => !isLogin)}>
@@ -176,29 +187,22 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
             </Button>
           </Group>
         </Stack>
-
         <TextInput
           mt='md'
           label='Username'
           placeholder='Username'
           required
           {...form.getInputProps('username')}
-          error={form.errors.username && 'Too short username'}
+          error={form.errors.username}
         />
-        <TextInput
-          label='email'
-          placeholder='your@email.com'
-          required
-          {...form.getInputProps('email')}
-          error={form.errors.email && 'Invalid email'}
-        />
+        <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
         <PasswordInput
           mt='md'
           label='password'
           placeholder='Your password'
           required
           {...form.getInputProps('password')}
-          error={form.errors.password && 'Password should include at least 6 characters'}
+          error={form.errors.password}
         />
         <Group mt='md' justify='space-between'>
           <Button variant='default' onClick={() => setIsLogin((isLogin) => !isLogin)}>

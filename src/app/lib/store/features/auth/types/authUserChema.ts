@@ -18,8 +18,18 @@ export interface LoginData {
   password: string;
 }
 
+export interface RegistrData {
+  username: string;
+  email: string;
+  password: string;
+  avatar: {
+    url: string | undefined;
+    id_picture: number | undefined;
+  };
+}
+
 export interface AuthUserSchema {
-  status: 'idle' | 'loading' | 'failed';
+  status: 'idle' | 'loading' | 'error';
   authUser: User | null;
   error: any | null;
 }
