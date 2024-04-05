@@ -1,7 +1,15 @@
 // http://opendata.trudvsem.ru/api/v1/vacancies?industry=%industry%
 //https://opendata.trudvsem.ru/api/v1/vacancies/region/6100000000000?offset=1&limit=100&text=инженер
 
-import { ResponseVacancies, ResponseRegions, IRegion, ResponseVacancy, ResponseAdress } from '../../../..';
+import {
+  ResponseVacancies,
+  ResponseRegions,
+  IRegion,
+  ResponseVacancy,
+  ResponseAdress,
+  ResponseTransform,
+  VacancyTransform,
+} from '../../../..';
 import { User } from '../store/features/auth/types/authUserChema';
 
 // "no-store" - SSR getServerSideProps рендер на сервере, Этот запрос должен повторяться при каждом запросе
@@ -17,7 +25,7 @@ interface QureyParams {
   regionCode?: string;
 }
 
-export async function getVacancies(params: QureyParams): Promise<ResponseVacancies> {
+export async function getVacancies(params: QureyParams): Promise<ResponseTransform> {
   const { jobCategory, offset, searchText, regionCode } = params;
   try {
     let url = `?offset=${offset || '0'}`;
@@ -34,12 +42,49 @@ export async function getVacancies(params: QureyParams): Promise<ResponseVacanci
 
     const res = await fetch(process.env.API_BASE_URL + url);
 
-    return res.json();
+    const resData = await res.json().then((data: ResponseVacancies) => {
+      const resTransform = {
+        status: data?.status || '',
+        meta: data?.meta || {
+          total: 0,
+          limit: 100,
+        },
+        results: {
+          vacancies: data?.results.vacancies.map(({ vacancy }) => {
+            const vacancyTransform: VacancyTransform = {
+              ...vacancy,
+              contact_list: [],
+              contact_person: '',
+            };
+            return vacancyTransform;
+          }),
+        },
+      };
+      return resTransform;
+    });
+
+    return resData;
   } catch (error) {
     console.error('Fetch Error:', error);
     throw new Error('Failed to fetch Vacancies data.');
   }
 }
+
+/* id: vacancy.id,
+              category: vacancy.category,
+              salary_min: vacancy.salary_min,
+              salary_max: vacancy.salary_max,
+              addresses: vacancy.addresses,
+              duty: vacancy.duty,
+              requirement: vacancy.requirement,
+              region: vacancy.region,
+              company: vacancy.company,
+              'job-name': vacancy['job-name'],
+              salary: vacancy.salary,
+              work_places: vacancy.work_places,
+              employment: vacancy.employment,
+              schedul: vacancy.schedule,
+              vac_url: vacancy.vac_url, */
 
 export async function getRegions(): Promise<ResponseRegions> {
   try {
@@ -136,5 +181,3 @@ export async function getUsers(): Promise<User[]> {
     throw new Error('catch Request users failed.');
   }
 }
-
-

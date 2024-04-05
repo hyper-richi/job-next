@@ -18,6 +18,7 @@ const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(
         padding: 0,
         color: 'var(--mantine-color-text)',
         borderRadius: 'var(--mantine-radius-sm)',
+        height: '100%'
       }}
       {...others}
     >

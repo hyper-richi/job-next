@@ -12,6 +12,7 @@ import PointIcon from '../../../public/images/svg/PointIcon';
 import SignModal from '../SignModal/SignModal';
 import { useDisclosure } from '@mantine/hooks';
 import AvatarMenu from '../AvatarMenu/AvatarMenu';
+import { IconStar } from '@tabler/icons-react';
 
 const MobileRegionsModal = dynamic(() => import('../MobileRegionsModal/MobileRegionsModal'), {
   ssr: false,
@@ -77,6 +78,9 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
                 <svg width='1' height='46' viewBox='0 0 1 46' fill='none' xmlns='http://www.w3.org/2000/svg'>
                   <path fill='#fff' d='M0 0h1v46H0z'></path>
                 </svg>
+                <Link prefetch={false} href={`/favorites`} className={styles.header__logo}>
+                  <IconStar className={styles.star__icon} />
+                </Link>
                 <AvatarMenu open={open} />
               </div>
             </div>

@@ -89,7 +89,7 @@
     align-items: center;
     grid-column-gap: 16px;
     column-gap: 16px;
-    grid-template-columns: 1px 1fr;
+    grid-template-columns: 1px 1fr 1fr;
   }
 }
 .city-logo {
@@ -159,4 +159,11 @@
   border-radius: 12px;
   background-color: #005bff;
   height: 56px;
+}
+
+.star__icon {
+  &:hover {
+    color: #fece3c;
+    cursor: pointer;
+  }
 }

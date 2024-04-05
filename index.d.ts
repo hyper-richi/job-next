@@ -58,8 +58,8 @@ interface Vacancy {
     requirement: Requirement;
     addresses: Addresses;
     social_protected: string;
-    contact_list: ContactList[];
-    contact_person: string;
+    // contact_list: ContactList[];
+    // contact_person: string;
     work_places: number;
     currency: string;
     term?: {
@@ -67,7 +67,42 @@ interface Vacancy {
     };
   };
 }
+interface VacancyTransform {
+  id: string;
+  source: string;
+  region: IRegionName;
+  company: Company;
+  'creation-date': string;
+  salary: string;
+  salary_min: number;
+  salary_max: number;
+  'job-name': string;
+  vac_url: string;
+  employment: string;
+  schedule: string;
+  duty: string;
+  category: Category;
+  requirement: Requirement;
+  addresses: Addresses;
+  social_protected: string;
+  contact_list: Array;
+  contact_person: string;
+  work_places: number;
+  currency: string;
+  term?: {
+    text: string;
+  };
+}
 
+interface ResultsTransform {
+  vacancies: VacancyTransform[];
+}
+
+interface ResponseTransform {
+  status: string;
+  meta: Meta;
+  results: ResultsTransform;
+}
 interface IRegionName {
   region_code: string;
   name: string;
@@ -175,12 +210,13 @@ export interface FormValues {
   password: string;
 }
 
-
-
 export interface LoginByEmailProps {
   email: string;
   password: string;
 }
 
-
-
+export interface ResponseError {
+  message: string;
+  additionalMessage: string;
+  code: string;
+}

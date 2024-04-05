@@ -1,11 +1,22 @@
+'use client';
+
 import { VacancyCardProps as VacancyCardProps } from './VacancyCard.props';
 import styles from './VacancyCard.module.scss';
 import Link from 'next/link';
 import PointIcon from '../../../public/images/svg/PointIcon';
+import { IconStar } from '@tabler/icons-react';
+// import { ActionIcon } from '@mantine/core';
+import { UnstyledButton } from '@mantine/core';
+import CustomNotification from '../CustomNotification/CustomNotification';
+import { ResponseError } from '../../..';
+import { addFavorites } from '@/app/lib/store/features/favorites/slice/favorites';
+import { useAppDispatch } from '@/app/lib/store/hooks';
 
 export default async function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
+  const dispatch = useAppDispatch();
+
   // await new Promise((resolve) => setTimeout(resolve, 0));
-  const { 'job-name': vacancyName, salary_min, salary_max, category, company, id: vacancyId } = vacancy.vacancy;
+  const { 'job-name': vacancyName, salary_min, salary_max, category, company, id: vacancyId } = vacancy;
 
   let url = `/vacancies/vacancy/${company.companycode}/${vacancyId}?`;
   if (jobCategory) {
@@ -22,16 +33,45 @@ export default async function VacancyCard({ regionCode, vacancy, offset, searchT
     url = url + `text=${encodeURIComponent(searchText)}`;
   }
 
+  async function handleClick(event: React.MouseEvent<HTMLElement>) {
+    event.stopPropagation();
+    try {
+      const favoritesResponse = await dispatch(addFavorites(vacancy)).unwrap();
+      console.log('favoritesResponse: ', favoritesResponse);
+
+      CustomNotification({
+        title: 'Вакансия',
+        message: 'Вакансия успешно добавлена в избранное!',
+        variant: 'succes',
+      });
+    } catch (rejectedError) {
+      const rejectValue = rejectedError as ResponseError;
+      CustomNotification({
+        message: rejectValue.message,
+        additionalMessage: rejectValue.additionalMessage,
+        variant: 'error',
+      });
+    }
+  }
+
   return (
     <div className={styles.vacancy}>
       <div className={styles.vacancy__hr}></div>
-      <Link prefetch={false} className={styles.vacancy__link} href={url} target='_blank'>
-        <h6 className={styles.vacancy__title}>{vacancyName.charAt(0).toUpperCase() + vacancyName.slice(1)}</h6>
+      <div className={styles.vacancy__link}>
+        <div className={styles.vacancy__head}>
+          <Link prefetch={false} className={styles.head__link} href={url} target='_blank'>
+            <h6 className={styles.vacancy__title}>{vacancyName.charAt(0).toUpperCase() + vacancyName.slice(1)}</h6>
+          </Link>
+          <UnstyledButton onClick={handleClick} className={styles.head__favorites}>
+            <IconStar className={styles.head__icon} />
+          </UnstyledButton>
+        </div>
+
         <div className={styles.vacancy__info}>
           <div className={styles.vacancy__info__location}>
             <PointIcon style={{ width: 24, height: 24, color: '#4c6888' }} />.
           </div>
-          <span className=''>{vacancy.vacancy.region?.name}</span>
+          <span>{vacancy.region?.name}</span>
           <span className={styles.vacancy__salary}>
             {salary_min}-{salary_max} ₽
           </span>
@@ -43,7 +83,7 @@ export default async function VacancyCard({ regionCode, vacancy, offset, searchT
             fill='#4C6888'
           ></path>
         </svg>
-      </Link>
+      </div>
     </div>
   );
 }

@@ -37,20 +37,6 @@ export default async function Vacancy({ params }: Params) {
 
   const location = vacancy.addresses?.address[0]?.location;
 
-  /*   const options = {
-    replace(domNode: DOMNode) {
-      if (domNode instanceof Element && domNode.name === 'p') {
-        return <li>{domToReact(domNode.children as DOMNode[], options)}</li>;
-      }
-      if (domNode instanceof Element && domNode.name === 'ul') {
-        return <>{domToReact(domNode.children as DOMNode[], options)}</>;
-      }
-      if (domNode instanceof Element && domNode.name === 'br') {
-        return <>{domToReact(domNode.children as DOMNode[], options)}</>;
-      }
-    },
-  }; */
-
   const duty = vacancy.duty ? parse(vacancy.duty) : null;
   const qualification = vacancy.requirement.qualification ? parse(vacancy.requirement.qualification || '') : null;
 

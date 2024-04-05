@@ -1,14 +1,13 @@
 'use client';
 import { Modal, Button, Group, PasswordInput, TextInput, Stack, FileButton } from '@mantine/core';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { FormValues } from '../../..';
+import { FormValues, ResponseError } from '../../..';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { loginUser, registrUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import CustomNotification from '../CustomNotification/CustomNotification';
-import { ResponseError } from '@/app/lib/store/features/file/types/fileSchema';
 import { fetchDeleteFile } from '@/app/lib/store/features/file/api/data';
-import { selectFile, selectStatusUploadFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
+import { selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
 import CustomAvatar from '../CustomAvatar/CustomAvatar';
 import { RegistrData } from '@/app/lib/store/features/auth/types/authUserChema';
 import { useForm } from '@mantine/form';
@@ -20,7 +19,7 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
   const dispatch = useAppDispatch();
   const file = useAppSelector(selectFile);
   // const fileError = useAppSelector(selectFileError);
-  const statusUploadFile = useAppSelector(selectStatusUploadFile);
+  //const statusUploadFile = useAppSelector(selectStatusUploadFile);
 
   const form = useForm<FormValues>({
     initialValues: {

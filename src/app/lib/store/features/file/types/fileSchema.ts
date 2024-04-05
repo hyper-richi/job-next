@@ -8,11 +8,7 @@ export interface ImageFile {
   width: number;
 }
 
-export interface ResponseError {
-  message: string;
-  additionalMessage: string;
-  code: string;
-}
+
 
 export interface FileSchema {
   status: 'idle' | 'loading' | 'error';

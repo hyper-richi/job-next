@@ -4,9 +4,9 @@ import { FinderProps } from './Finder.props';
 import styles from './Finder.module.scss';
 import React, { Suspense } from 'react';
 import RegionSelect from '../RegionSelect/RegionSelect';
+import { VacancyTransform } from '../../..';
 
 export default function Finder({ vacancies, regions, regionCode, searchText, offset, jobCategory }: FinderProps) {
-
   return (
     <div className={styles.finder}>
       <div className={styles.filters}>
@@ -19,11 +19,11 @@ export default function Finder({ vacancies, regions, regionCode, searchText, off
         <div className={styles.content__results}>
           <Suspense key={searchText} fallback={<VacancysSkeleton />}>
             {vacancies?.vacancies ? (
-              vacancies?.vacancies?.map((item: { vacancy: { id: React.Key | null | undefined; }; }, idx: number) => {
+              vacancies.vacancies?.map((item: VacancyTransform, idx: number) => {
                 return (
                   <VacancyCard
                     idx={idx}
-                    key={item.vacancy.id}
+                    key={item.id}
                     jobCategory={jobCategory}
                     searchText={searchText}
                     offset={offset}
