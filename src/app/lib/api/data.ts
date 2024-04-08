@@ -10,7 +10,7 @@ import {
   ResponseTransform,
   VacancyTransform,
 } from '../../../..';
-import { User } from '../store/features/auth/types/authUserChema';
+import { User } from '../store/features/auth/types/authUserSchema';
 
 // "no-store" - SSR getServerSideProps рендер на сервере, Этот запрос должен повторяться при каждом запросе
 // "no-cache" ведет себя так же, как no-store в Next.js.
@@ -28,7 +28,7 @@ interface QureyParams {
 export async function getVacancies(params: QureyParams): Promise<ResponseTransform> {
   const { jobCategory, offset, searchText, regionCode } = params;
   try {
-    let url = `?offset=${offset || '0'}`;
+    let url = `?limit=10&offset=${offset || '0'}`;
 
     if (regionCode && regionCode !== 'all') {
       url = `/region/${regionCode}` + url;
@@ -53,6 +53,7 @@ export async function getVacancies(params: QureyParams): Promise<ResponseTransfo
           vacancies: data?.results.vacancies.map(({ vacancy }) => {
             const vacancyTransform: VacancyTransform = {
               ...vacancy,
+              vacancyId: vacancy.id,
               contact_list: [],
               contact_person: '',
             };

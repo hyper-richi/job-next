@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { AuthApiResponse, LoginData } from '../types/authUserChema';
+import { AuthApiResponse, LoginData } from '../types/authUserSchema';
 
 export const fetchAuthUser = async (loginData: LoginData) => {
   const response = await axios.post<AuthApiResponse>('https://6ede402e6a352dfb.mokky.dev/auth', loginData, {
@@ -22,7 +22,6 @@ export const fetchDeleteUser = async (userId: string) => {
   }
 };
 
-
 /* export async function fetchDeleteFile(imageId: number) {
   try {
     const response = await axios.delete(`https://6ede402e6a352dfb.mokky.dev/uploads/${imageId}`);
@@ -35,5 +34,3 @@ export const fetchDeleteUser = async (userId: string) => {
     console.error('Error fetching upload file:', err.message);
   }
 } */
-
-

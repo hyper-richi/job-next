@@ -1,5 +1,6 @@
+import { ResponseError } from '../../../../../../..';
 import { createAppSlice } from '../../../createAppSlice';
-import { FileSchema, ImageFile, ResponseError } from '../types/fileSchema';
+import { FileSchema, ImageFile } from '../types/fileSchema';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 const initialState: FileSchema = {
@@ -92,15 +93,15 @@ export const fileSlice = createAppSlice({
         },
       }
     ),
-    deleteFile: create.asyncThunk<AxiosError | AxiosResponse, number>(
+    deleteFile: create.asyncThunk<AxiosError | void, number>(
       async (imageId, thunkApi) => {
         const { /* extra, dispatch, */ rejectWithValue } = thunkApi;
         try {
           const response = await axios.delete(`https://6ede402e6a352dfb.mokky.dev/uploads/${imageId}`);
-          if (!response.data) {
+          /* if (!response.data) {
             throw new Error('Ошибка при удалении файла');
-          }
-          return response;
+          } */
+          // return true;
         } catch (error) {
           const err = error as AxiosError;
           return rejectWithValue({
@@ -121,6 +122,7 @@ export const fileSlice = createAppSlice({
         fulfilled: (state) => {
           state.status = 'idle';
           state.file = null;
+          state.uploadImg = null;
         },
         // settled вызывается как за отклоненные, так и за выполненные действия
         settled: (state) => {

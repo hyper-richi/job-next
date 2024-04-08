@@ -13,6 +13,7 @@ import SignModal from '../SignModal/SignModal';
 import { useDisclosure } from '@mantine/hooks';
 import AvatarMenu from '../AvatarMenu/AvatarMenu';
 import { IconStar } from '@tabler/icons-react';
+import { useAppSelector } from '@/app/lib/store/hooks';
 
 const MobileRegionsModal = dynamic(() => import('../MobileRegionsModal/MobileRegionsModal'), {
   ssr: false,
@@ -30,12 +31,18 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMobileRegionsModal, setMobileShowRegionsModal] = useState(false);
   const [showDesktopRegionsModal, setDesktopShowRegionsModal] = useState(false);
-  //const [showSignModal, setShowSignModal] = useState(false);
+  const [showSignModal, setShowSignModal] = useState(false);
+  const { authUser } = useAppSelector((state) => state.authUser);
 
   const [opened, { open, close }] = useDisclosure(false);
 
   const searchParams = useSearchParams();
   const regionCodeParams = searchParams.get('regionCode');
+
+  const handleShowSignModal = () => {
+    setShowSignModal((showSignModal: boolean) => !showSignModal);
+    // open();
+  };
 
   const onToggleSidebar = () => {
     setShowSidebar((prev) => !prev);
@@ -81,12 +88,12 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
                 <Link prefetch={false} href={`/favorites`} className={styles.header__logo}>
                   <IconStar className={styles.star__icon} />
                 </Link>
-                <AvatarMenu open={open} />
+                <AvatarMenu openSignModal={open} />
               </div>
             </div>
           </div>
         </div>
-        <Navbar />
+        {authUser && <Navbar />}
       </header>
 
       <div className={clsx(styles.mobile, styles.sticky)}>
@@ -122,8 +129,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
           onCloseDesktopRegionsModal={onCloseDesktopRegionsModal}
         />
       )}
-      <SignModal opened={opened} onClose={close} />
-
+      <SignModal opened={opened} openModal={open} closeModal={close} />
       {showMobileRegionsModal && (
         <MobileRegionsModal
           showMobileRegionsModal={showMobileRegionsModal}

@@ -1,22 +1,26 @@
 'use client';
 
-import { VacancyCardProps as VacancyCardProps } from './VacancyCard.props';
+import { VacancyCardProps } from './VacancyCard.props';
 import styles from './VacancyCard.module.scss';
 import Link from 'next/link';
 import PointIcon from '../../../public/images/svg/PointIcon';
 import { IconStar } from '@tabler/icons-react';
-// import { ActionIcon } from '@mantine/core';
 import { UnstyledButton } from '@mantine/core';
 import CustomNotification from '../CustomNotification/CustomNotification';
-import { ResponseError } from '../../..';
-import { addFavorites } from '@/app/lib/store/features/favorites/slice/favorites';
-import { useAppDispatch } from '@/app/lib/store/hooks';
+import { ResponseError, VacancyTransform } from '../../..';
+import { addFavorites, selectFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
+import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
+import { selectAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
+import clsx from 'clsx';
 
-export default async function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
+export default function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
   const dispatch = useAppDispatch();
+  const authUser = useAppSelector(selectAuthUser);
+
+  const favoritesVacancies = useAppSelector(selectFavorites);
 
   // await new Promise((resolve) => setTimeout(resolve, 0));
-  const { 'job-name': vacancyName, salary_min, salary_max, category, company, id: vacancyId } = vacancy;
+  const { 'job-name': vacancyName, salary_min, salary_max, category, company, vacancyId } = vacancy;
 
   let url = `/vacancies/vacancy/${company.companycode}/${vacancyId}?`;
   if (jobCategory) {
@@ -33,17 +37,27 @@ export default async function VacancyCard({ regionCode, vacancy, offset, searchT
     url = url + `text=${encodeURIComponent(searchText)}`;
   }
 
+  const mods = {
+    [styles.isFavorites]: !!favoritesVacancies.find((item: VacancyTransform) => item.vacancyId === vacancy.vacancyId)?.vacancyId,
+  };
+
   async function handleClick(event: React.MouseEvent<HTMLElement>) {
     event.stopPropagation();
-    try {
-      const favoritesResponse = await dispatch(addFavorites(vacancy)).unwrap();
-      console.log('favoritesResponse: ', favoritesResponse);
 
-      CustomNotification({
-        title: 'Вакансия',
-        message: 'Вакансия успешно добавлена в избранное!',
-        variant: 'succes',
-      });
+    try {
+      if (authUser) {
+        const transformVacancy: VacancyTransform = {
+          ...vacancy,
+          userId: authUser?.id,
+        };
+        await dispatch(addFavorites(transformVacancy)).unwrap();
+
+        CustomNotification({
+          title: 'Вакансия',
+          message: 'Вакансия успешно добавлена в избранное!',
+          variant: 'succes',
+        });
+      }
     } catch (rejectedError) {
       const rejectValue = rejectedError as ResponseError;
       CustomNotification({
@@ -63,7 +77,7 @@ export default async function VacancyCard({ regionCode, vacancy, offset, searchT
             <h6 className={styles.vacancy__title}>{vacancyName.charAt(0).toUpperCase() + vacancyName.slice(1)}</h6>
           </Link>
           <UnstyledButton onClick={handleClick} className={styles.head__favorites}>
-            <IconStar className={styles.head__icon} />
+            <IconStar className={clsx(styles.head__icon, mods)} />
           </UnstyledButton>
         </div>
 

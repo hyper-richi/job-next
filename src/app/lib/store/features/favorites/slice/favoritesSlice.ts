@@ -1,26 +1,26 @@
-import { type PayloadAction } from '@reduxjs/toolkit';
-import { fetchAuthUser, fetchDeleteUser } from '../api/data';
-import { AuthApiResponse, AuthUserSchema, LoginData, RegistrData } from '../types/authUserSchema';
 import { createAppSlice } from '../../../createAppSlice';
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { FavoritesSchema } from '../types/favoritesSchema';
+import { ResponseError, VacancyTransform } from '../../../../../../..';
+import { AppState } from '../../../store';
 
-const initialState: AuthUserSchema = {
+const initialState: FavoritesSchema = {
   status: 'idle',
-  authUser: null,
+  favorites: [] as VacancyTransform[],
   error: null,
 };
 
-export const authUserSlice = createAppSlice({
-  name: 'authUser',
+export const favoritesSlice = createAppSlice({
+  name: 'favorites',
   initialState,
   reducers: (create) => ({
-    logoutUser: create.reducer((state) => {
-      state.authUser = null;
-    }),
-    registrUser: create.asyncThunk<AuthApiResponse, RegistrData>(
-      async (registrData, thunkApi) => {
+    getFavorites: create.asyncThunk<VacancyTransform[], void>(
+      async (_, thunkApi) => {
         try {
-          const res = await axios.post<AuthApiResponse>('https://6ede402e6a352dfb.mokky.dev/register', registrData);
+          const res = await axios.get<VacancyTransform[]>('https://6ede402e6a352dfb.mokky.dev/favoritesVacancies');
+          if (!res.data) {
+            throw new Error('Ошибка в обработке запроса, повторите попытку позже!');
+          }
           return res.data;
         } catch (error) {
           const err = error as AxiosError;
@@ -40,10 +40,11 @@ export const authUserSlice = createAppSlice({
           state.status = 'error';
           state.error = action.error;
         },
-        fulfilled: (state, action: PayloadAction<AuthApiResponse>) => {
+        fulfilled: (state, action) => {
           state.status = 'idle';
           state.error = null;
-          state.authUser = action.payload.data;
+          state.favorites = action.payload;
+          // state.favorites = action.payload.data;
         },
         // settled вызывается как за отклоненные, так и за выполненные действия
         settled: (state) => {
@@ -51,11 +52,16 @@ export const authUserSlice = createAppSlice({
         },
       }
     ),
-    loginUser: create.asyncThunk<AuthApiResponse, LoginData>(
-      async (loginData, thunkApi) => {
+    addFavorites: create.asyncThunk<VacancyTransform, VacancyTransform>(
+      async (vacancy, thunkApi) => {
+        const state = thunkApi.getState() as AppState;
+
         try {
-          const response = await fetchAuthUser(loginData);
-          return response;
+          const res = await axios.post<VacancyTransform>('https://6ede402e6a352dfb.mokky.dev/favoritesVacancies', vacancy);
+          if (!res.data) {
+            throw new Error('Ошибка в обработке запроса, повторите попытку позже!');
+          }
+          return res.data;
         } catch (error) {
           const err = error as AxiosError;
           return thunkApi.rejectWithValue({
@@ -74,10 +80,11 @@ export const authUserSlice = createAppSlice({
           state.status = 'error';
           state.error = action.error;
         },
-        fulfilled: (state, action: PayloadAction<AuthApiResponse>) => {
+        fulfilled: (state, action) => {
           state.status = 'idle';
           state.error = null;
-          state.authUser = action.payload.data;
+          state.favorites.push(action.payload);
+          // state.favorites = action.payload.data;
         },
         // settled вызывается как за отклоненные, так и за выполненные действия
         settled: (state) => {
@@ -85,11 +92,13 @@ export const authUserSlice = createAppSlice({
         },
       }
     ),
-    deleteUser: create.asyncThunk<void, string>(
-      async (userId, thunkApi) => {
+
+    deleteFavorites: create.asyncThunk<AxiosError | string, string>(
+      async (vacancyId, thunkApi) => {
         try {
-          const response = await fetchDeleteUser(userId);
-          return response;
+          const response = await axios.delete(`https://6ede402e6a352dfb.mokky.dev/favoritesVacancies/${vacancyId}`);
+
+          return vacancyId;
         } catch (error) {
           const err = error as AxiosError;
           return thunkApi.rejectWithValue({
@@ -102,14 +111,15 @@ export const authUserSlice = createAppSlice({
       {
         pending: (state) => {
           state.status = 'loading';
+          state.error = null;
         },
         rejected: (state, action) => {
           state.status = 'error';
-          state.error = action.error;
+          state.error = action.payload as ResponseError;
         },
-        fulfilled: (state) => {
+        fulfilled: (state, action) => {
           state.status = 'idle';
-          state.authUser = null;
+          state.favorites = [...state.favorites.filter((item) => item.id !== action.payload)];
         },
         // settled вызывается как за отклоненные, так и за выполненные действия
         settled: (state) => {
@@ -119,10 +129,10 @@ export const authUserSlice = createAppSlice({
     ),
   }),
   selectors: {
-    selectAuthUser: (state) => state.authUser,
-    selectStatusAuth: (state) => state.status,
+    selectFavorites: (state) => state.favorites,
+    selectStatusFavorites: (state) => state.status,
   },
 });
 
-export const { loginUser, logoutUser, deleteUser, registrUser } = authUserSlice.actions;
-export const { selectAuthUser, selectStatusAuth } = authUserSlice.selectors;
+export const { addFavorites, deleteFavorites, getFavorites } = favoritesSlice.actions;
+export const { selectFavorites, selectStatusFavorites } = favoritesSlice.selectors;

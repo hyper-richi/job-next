@@ -7,7 +7,7 @@ import styles from './AvatarMenu.module.scss';
 import AvatarButton from '../AvatarButton/AvatarButton';
 import { deleteUser, logoutUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 
-function AvatarMenu({ open }: { open: () => void }) {
+function AvatarMenu({ openSignModal }: { openSignModal: () => void }) {
   const { authUser } = useAppSelector((state) => state.authUser);
   const dispatch = useAppDispatch();
 
@@ -44,7 +44,7 @@ function AvatarMenu({ open }: { open: () => void }) {
           ) : (
             <Menu.Item
               className={styles.menu__item}
-              onClick={open}
+              onClick={openSignModal}
               leftSection={<IconLogin2 style={{ width: rem(14), height: rem(14) }} />}
             >
               <span className={styles.menu__label}>Войти</span>

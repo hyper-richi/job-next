@@ -1,20 +1,23 @@
 'use client';
 import { Modal, Button, Group, PasswordInput, TextInput, Stack, FileButton } from '@mantine/core';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { FormValues, ResponseError } from '../../..';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { loginUser, registrUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import { fetchDeleteFile } from '@/app/lib/store/features/file/api/data';
-import { selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
+import { deleteFile, selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
 import CustomAvatar from '../CustomAvatar/CustomAvatar';
-import { RegistrData } from '@/app/lib/store/features/auth/types/authUserChema';
+import { RegistrData } from '@/app/lib/store/features/auth/types/authUserSchema';
 import { useForm } from '@mantine/form';
+import AuthenticationForm from '../AuthenticationForm/AuthenticationForm';
 
-function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }) {
+function SignModal({ opened, openModal, closeModal }: { opened: boolean; openModal: () => void; closeModal: () => void }) {
   const resetRef = useRef<() => void>(null);
   const [isLogin, setIsLogin] = useState(true);
+
+  // const [opened, { open, close }] = useDisclosure(false);
 
   const dispatch = useAppDispatch();
   const file = useAppSelector(selectFile);
@@ -57,8 +60,10 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
       try {
         const userData = await dispatch(registrUser(registrData)).unwrap();
         localStorage.setItem('token', userData.token);
+
         form.reset();
-        onClose();
+        closeModal();
+
         CustomNotification({
           title: 'Пользователь',
           message: 'Пользователь успешно создан!',
@@ -85,8 +90,9 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
           message: 'Поздравляю! Вы успешно авторизовались!',
           variant: 'succes',
         });
+
         form.reset();
-        onClose();
+        closeModal();
       } catch (rejectedError) {
         const rejectValue = rejectedError as ResponseError;
         CustomNotification({
@@ -123,7 +129,7 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
   const handleDeleteImgAvatar = useCallback(async () => {
     if (file?.id) {
       try {
-        await fetchDeleteFile(file?.id);
+        const response = await dispatch(deleteFile(file?.id));
         CustomNotification({
           title: 'Аватар',
           message: 'Фотография аватара успешно удалена!',
@@ -142,13 +148,9 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
     }
   }, [file]);
 
-  useEffect(() => {
-    return () => {};
-  }, []);
-
   return isLogin ? (
-    <Modal className='Authentication' opened={opened} onClose={onClose} title='Авторизация'>
-      <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+    <Modal className='Authentication' opened={opened} onClose={closeModal} title='Авторизация'>
+      {/*  <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
         <PasswordInput
           mt='md'
@@ -167,10 +169,11 @@ function SignModal({ opened, onClose }: { opened: boolean; onClose: () => void }
             Войти
           </Button>
         </Group>
-      </form>
+      </form> */}
+      <AuthenticationForm closeModal={closeModal} setIsLogin={setIsLogin} />
     </Modal>
   ) : (
-    <Modal className='Registration' opened={opened} onClose={onClose} title='Регистрация'>
+    <Modal className='Registration' opened={opened} onClose={closeModal} title='Регистрация'>
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <Stack gap='xs'>
           <CustomAvatar />

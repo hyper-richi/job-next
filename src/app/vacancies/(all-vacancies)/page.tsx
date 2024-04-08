@@ -5,17 +5,13 @@ import { getVacancies } from '../../lib/api/data';
 import Finder from '@/components/Finder/Finder';
 import CustomPagination from '@/components/CustomPagination/CustomPagination';
 import TitleCategory from '@/components/TitleCategory/TitleCategory';
+import { Params } from '../../../..';
 
 export const metadata: Metadata = {
   title: 'Поиск по вакансиям',
 };
 
-interface Params {
-  searchParams?: { text?: string; offset: string; regionCode?: string };
-  params: {
-    jobCategory?: string;
-  };
-}
+
 
 export default async function Page({ params, searchParams }: Params) {
   const searchText = searchParams?.text || '';

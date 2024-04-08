@@ -68,6 +68,8 @@ interface Vacancy {
   };
 }
 interface VacancyTransform {
+  vacancyId: string;
+  userId?: string;
   id: string;
   source: string;
   region: IRegionName;
@@ -219,4 +221,11 @@ export interface ResponseError {
   message: string;
   additionalMessage: string;
   code: string;
+}
+
+export interface Params {
+  searchParams?: { text?: string; offset: string; regionCode?: string };
+  params: {
+    jobCategory?: string;
+  };
 }

@@ -1,12 +1,11 @@
-import { Vacancy, VacancyDev } from "../../../../../../..";
+import { VacancyTransform } from '../../../../../../..';
 
 export interface FavoritesApiResponse {
-  data: Vacancy[];
+  data: VacancyTransform[];
 }
-
 
 export interface FavoritesSchema {
   status: 'idle' | 'loading' | 'error';
-  favorites: VacancyDev[] | null;
+  favorites: VacancyTransform[];
   error: any | null;
 }

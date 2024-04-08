@@ -1,3 +1,5 @@
+import { ResponseError } from "../../../../../../..";
+
 export interface ImageFile {
   bytes: number;
   fileName: string;
