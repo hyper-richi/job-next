@@ -126,6 +126,11 @@
     }
   }
 
+  &__date {
+    display: flex;
+    justify-content: space-between;
+  }
+
   &__salary {
     line-height: 22px;
     font-weight: 500;

@@ -19,7 +19,8 @@ export default function FavoritesCard({ regionCode, vacancy, offset, searchText,
   // const favoritesVacancies = useAppSelector(selectFavorites);
 
   // await new Promise((resolve) => setTimeout(resolve, 0));
-  const { 'job-name': vacancyName, salary_min, salary_max, category, company, vacancyId, id } = vacancy;
+  const { 'job-name': vacancyName, salary_min, salary_max, category, company, vacancyId, id, date } = vacancy;
+  console.log('date: ', date);
 
   let url = `/vacancies/vacancy/${company.companycode}/${vacancyId}?`;
   if (jobCategory) {
@@ -85,6 +86,14 @@ export default function FavoritesCard({ regionCode, vacancy, offset, searchText,
           <UnstyledButton onClick={handleDeleteFavorites} className={styles.favorites__button}>
             <IconStar className={styles.favorites__icon} width={40} height={40} />
           </UnstyledButton>
+        </div>
+        <div className={styles.favorites__date}>
+          <span>Дата:</span>
+          <div className={styles.favorites__date}>
+            <span>{date?.day}.</span>
+            <span>{date?.month}.</span>
+            <span>{date?.year}</span>
+          </div>
         </div>
       </div>
     </div>

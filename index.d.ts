@@ -94,6 +94,13 @@ interface VacancyTransform {
   term?: {
     text: string;
   };
+  date: {
+    day: number;
+    hours: number;
+    minutes: number;
+    month: number;
+    year: number;
+  } | null;
 }
 
 interface ResultsTransform {

@@ -56,6 +56,7 @@ export async function getVacancies(params: QureyParams): Promise<ResponseTransfo
               vacancyId: vacancy.id,
               contact_list: [],
               contact_person: '',
+              date: null,
             };
             return vacancyTransform;
           }),

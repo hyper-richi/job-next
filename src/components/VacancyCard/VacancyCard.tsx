@@ -46,10 +46,21 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
 
     try {
       if (authUser) {
+        let currentDate = new Date();
+
+        const currentData = {
+          year: currentDate.getFullYear(),
+          month: currentDate.getMonth() + 1,
+          day: currentDate.getDate(),
+          hours: currentDate.getHours(),
+          minutes: currentDate.getMinutes(),
+        };
         const transformVacancy: VacancyTransform = {
           ...vacancy,
           userId: authUser?.id,
+          date: currentData,
         };
+
         await dispatch(addFavorites(transformVacancy)).unwrap();
 
         CustomNotification({
