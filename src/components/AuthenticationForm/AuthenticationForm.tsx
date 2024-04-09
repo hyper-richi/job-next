@@ -50,7 +50,7 @@ function AuthenticationForm({ closeModal, setIsLogin }: { closeModal?: () => voi
         },
       };
       try {
-        const userData = await dispatch(registrUser(registrData)).unwrap();
+        await dispatch(registrUser(registrData)).unwrap();
         form.reset();
         /*   if (handleRedirect) {
           handleRedirect();
@@ -76,7 +76,7 @@ function AuthenticationForm({ closeModal, setIsLogin }: { closeModal?: () => voi
       // Authentication
       try {
         const loginData = { email: values.email, password: values.password };
-        const userData = await dispatch(loginUser(loginData)).unwrap();
+        await dispatch(loginUser(loginData)).unwrap();
 
         CustomNotification({
           title: 'Пользователь',

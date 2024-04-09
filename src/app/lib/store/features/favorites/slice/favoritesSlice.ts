@@ -2,7 +2,6 @@ import { createAppSlice } from '../../../createAppSlice';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { FavoritesSchema } from '../types/favoritesSchema';
 import { ResponseError, VacancyTransform } from '../../../../../../..';
-import { AppState } from '../../../store';
 
 const initialState: FavoritesSchema = {
   status: 'idle',
@@ -54,7 +53,7 @@ export const favoritesSlice = createAppSlice({
     ),
     addFavorites: create.asyncThunk<VacancyTransform, VacancyTransform>(
       async (vacancy, thunkApi) => {
-        const state = thunkApi.getState() as AppState;
+        // const state = thunkApi.getState() as AppState;
 
         try {
           const res = await axios.post<VacancyTransform>('https://6ede402e6a352dfb.mokky.dev/favoritesVacancies', vacancy);
@@ -96,7 +95,7 @@ export const favoritesSlice = createAppSlice({
     deleteFavorites: create.asyncThunk<AxiosError | string, string>(
       async (vacancyId, thunkApi) => {
         try {
-          const response = await axios.delete(`https://6ede402e6a352dfb.mokky.dev/favoritesVacancies/${vacancyId}`);
+          await axios.delete(`https://6ede402e6a352dfb.mokky.dev/favoritesVacancies/${vacancyId}`);
 
           return vacancyId;
         } catch (error) {
@@ -119,7 +118,9 @@ export const favoritesSlice = createAppSlice({
         },
         fulfilled: (state, action) => {
           state.status = 'idle';
-          state.favorites = [...state.favorites.filter((item) => item.id !== action.payload)];
+         // state.favorites = [...state.favorites.filter((item) => item.id !== action.payload)];
+         // names.splice(2, 1); // начиная со второго элемента удаляем один элемент
+         state.favorites.splice(state.favorites.findIndex((favoriteVacancy) => favoriteVacancy.id === action.payload), 1);
         },
         // settled вызывается как за отклоненные, так и за выполненные действия
         settled: (state) => {
@@ -128,11 +129,11 @@ export const favoritesSlice = createAppSlice({
       }
     ),
   }),
-  selectors: {
-    selectFavorites: (state) => state.favorites,
+  /* selectors: {
+    selectFavorites: (state) => state.favorites.filter((item) => item.userId === state.authUser?.id),
     selectStatusFavorites: (state) => state.status,
-  },
+  }, */
 });
 
 export const { addFavorites, deleteFavorites, getFavorites } = favoritesSlice.actions;
-export const { selectFavorites, selectStatusFavorites } = favoritesSlice.selectors;
+// export const { selectFavorites, selectStatusFavorites } = favoritesSlice.selectors;

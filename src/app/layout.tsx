@@ -7,13 +7,10 @@ import styles from './layout.module.scss';
 import '@mantine/core/styles.css';
 import './globals.css';
 import '@mantine/notifications/styles.css';
-// import { getRegions } from './lib/api/data';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { StoreProvider } from './lib/provider/StoreProvider';
 import { Notifications } from '@mantine/notifications';
-import { useAppDispatch } from './lib/store/hooks';
-import { getFavorites } from './lib/store/features/favorites/slice/favoritesSlice';
 
 const GTEestiProText = localFont({
   src: [
@@ -76,8 +73,8 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  console.log('RootLayout: ');
   // const { data: regions } = await getRegions();
-
   return (
     <html lang='ru'>
       <head>

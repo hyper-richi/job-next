@@ -8,7 +8,7 @@ import { IconStar } from '@tabler/icons-react';
 import { UnstyledButton } from '@mantine/core';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import { ResponseError } from '../../..';
-import { deleteFavorites, selectFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
+import { deleteFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { selectAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 
@@ -19,7 +19,7 @@ export default function FavoritesCard({ regionCode, vacancy, offset, searchText,
   // const favoritesVacancies = useAppSelector(selectFavorites);
 
   // await new Promise((resolve) => setTimeout(resolve, 0));
-  const { 'job-name': vacancyName, salary_min, salary_max, category, company, vacancyId, id, date } = vacancy;
+  const { 'job-name': vacancyName, salary_min, salary_max, company, vacancyId, id, date } = vacancy;
 
   let url = `/vacancies/vacancy/${company.companycode}/${vacancyId}?`;
   if (jobCategory) {
@@ -76,10 +76,10 @@ export default function FavoritesCard({ regionCode, vacancy, offset, searchText,
           <span className={styles.favorites__salary}>
             {salary_min}-{salary_max} ₽
           </span>
-         {/*  <span className={styles.favorites__info__specialisation}>{category.specialisation}</span> */}
+          {/*  <span className={styles.favorites__info__specialisation}>{category.specialisation}</span> */}
         </div>
         <div className={styles.favorites__controls}>
-          <Link prefetch={false} className={styles.favorites__apply} href={vacancy.vac_url}>
+          <Link prefetch={false} className={styles.favorites__apply} href={vacancy.vac_url} target='_blank'>
             Откликнуться
           </Link>
           <UnstyledButton onClick={handleDeleteFavorites} className={styles.favorites__button}>

@@ -12,38 +12,36 @@ import styles from './ListStack.module.scss';
 
 const ListStack = () => {
   return (
-    <>
-      <div>
-        <List spacing='xs' size='sm'>
-          <List.Item classNames={{ itemLabel: styles.itemLabel }}>
-            Framework - Next JS <NextdotjsIcon width={24} height={24} />
-          </List.Item>
-          <List.Item classNames={{ itemLabel: styles.itemLabel }}>
-            Language - TypeScript <TypescriptIcon width={24} height={24} />
-          </List.Item>
-          <List.Item classNames={{ itemLabel: styles.itemLabel }}>
-            Deployment - Vercel
-            <VercelIcon width={24} height={24} color={'#000000'} />
-          </List.Item>
-          <List.Item classNames={{ itemLabel: styles.itemLabel }}>
-            Styling - Sass <SassIcon width={24} height={24} color={'#CC6699'} />
-          </List.Item>
-          <List.Item classNames={{ itemLabel: styles.itemLabel }}>
-            Components - Mantine UI <MantineIcon width={24} height={24} />
-          </List.Item>
-          <List.Item classNames={{ itemLabel: styles.itemLabel }}>
-            Linting - ESLint
-            <ESLintIcon width={24} height={24} color={'#4B32C3'} />
-          </List.Item>
-          <List.Item classNames={{ itemLabel: styles.itemLabel }}>
-            Formatting - Prettier <PrettierIcon width={24} height={24} />
-          </List.Item>
-          <List.Item classNames={{ itemLabel: styles.itemLabel }}>
-            VSCode - <VSCodeIcon width={24} height={24} />
-          </List.Item>
-        </List>
-      </div>
-    </>
+    <div>
+      <List spacing='xs' size='sm'>
+        <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+          Framework - Next JS <NextdotjsIcon width={24} height={24} />
+        </List.Item>
+        <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+          Language - TypeScript <TypescriptIcon width={24} height={24} />
+        </List.Item>
+        <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+          Deployment - Vercel
+          <VercelIcon width={24} height={24} color={'#000000'} />
+        </List.Item>
+        <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+          Styling - Sass <SassIcon width={24} height={24} color={'#CC6699'} />
+        </List.Item>
+        <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+          Components - Mantine UI <MantineIcon width={24} height={24} />
+        </List.Item>
+        <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+          Linting - ESLint
+          <ESLintIcon width={24} height={24} color={'#4B32C3'} />
+        </List.Item>
+        <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+          Formatting - Prettier <PrettierIcon width={24} height={24} />
+        </List.Item>
+        <List.Item classNames={{ itemLabel: styles.itemLabel }}>
+          VSCode - <VSCodeIcon width={24} height={24} />
+        </List.Item>
+      </List>
+    </div>
   );
 };
 

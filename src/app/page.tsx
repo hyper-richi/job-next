@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 export default function Home() {
   return (
-    <>
+    <div>
       <div className={styles.container}>
         <div>
           <h1 className={styles.title}>Найдите работу вашей мечты в любой точке России</h1>
@@ -50,6 +50,6 @@ export default function Home() {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }

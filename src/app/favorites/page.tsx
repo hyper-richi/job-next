@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import styles from './page.module.scss';
-import { getFavorites, selectFavorites, selectStatusFavorites } from '../lib/store/features/favorites/slice/favoritesSlice';
-import { useAppDispatch, useAppSelector } from '../lib/store/hooks';
+import { useAppSelector } from '../lib/store/hooks';
 import { Params, VacancyTransform } from '../../..';
 import { selectAuthUser } from '../lib/store/features/auth/slice/authUserSlice';
-import { redirect } from 'next/navigation';
+// import { redirect } from 'next/navigation';
 import FavoritesCard from '@/components/FavoritesCard/FavoritesCard';
+import { selectFavorites } from '../lib/store/features/favorites/selectors/selectFavorites/selectFavorites';
 
 export default function Favorites({ params, searchParams }: Params) {
   const authUser = useAppSelector(selectAuthUser);
@@ -19,25 +19,18 @@ export default function Favorites({ params, searchParams }: Params) {
     }
   }, []); */
 
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    console.log('useEffect: ');
-    dispatch(getFavorites());
-  }, [dispatch]);
-
   const searchText = searchParams?.text || '';
   const offset = searchParams?.offset || '';
   const regionCode = searchParams?.regionCode || '';
   const jobCategory: string = params.jobCategory || '';
 
-  const filterFavoritesVacancies = useMemo(
+  /* const filterFavoritesVacancies = useMemo(
     () => favoritesVacancies.filter((item) => item.userId === authUser?.id),
     [authUser?.id, favoritesVacancies]
-  );
+  ); */
 
   return (
-    <>
+    <div>
       <div className={styles.container}>
         <div>
           <h2 className={styles.title}>Избранные вакансии</h2>
@@ -46,8 +39,8 @@ export default function Favorites({ params, searchParams }: Params) {
       <div className={styles.container}>
         <div className={styles.content}>
           {/*    <Suspense key={searchText} fallback={<VacancysSkeleton />}> */}
-          {filterFavoritesVacancies.length ? (
-            filterFavoritesVacancies?.map((item: VacancyTransform, idx: number) => {
+          {favoritesVacancies.length ? (
+            favoritesVacancies?.map((item: VacancyTransform, idx: number) => {
               return (
                 <FavoritesCard
                   idx={idx}
@@ -66,6 +59,6 @@ export default function Favorites({ params, searchParams }: Params) {
           {/*   </Suspense> */}
         </div>
       </div>
-    </>
+    </div>
   );
 }

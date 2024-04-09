@@ -8,10 +8,12 @@ import { IconStar } from '@tabler/icons-react';
 import { UnstyledButton } from '@mantine/core';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import { ResponseError, VacancyTransform } from '../../..';
-import { addFavorites, selectFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
+import { addFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { selectAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import clsx from 'clsx';
+import { useMemo } from 'react';
+import { selectFavorites } from '@/app/lib/store/features/favorites/selectors/selectFavorites/selectFavorites';
 
 export default function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
   const dispatch = useAppDispatch();
@@ -36,9 +38,12 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
     url = url + `text=${encodeURIComponent(searchText)}`;
   }
 
-  const mods = {
-    [styles.isFavorites]: !!favoritesVacancies.find((item: VacancyTransform) => item.vacancyId === vacancy.vacancyId)?.vacancyId,
-  };
+  const mods = useMemo(
+    () => ({
+      [styles.isFavorites]: !!favoritesVacancies.find((item: VacancyTransform) => item.vacancyId === vacancy.vacancyId)?.vacancyId,
+    }),
+    [authUser?.id, favoritesVacancies.length]
+  );
 
   async function handleClick(event: React.MouseEvent<HTMLElement>) {
     event.stopPropagation();

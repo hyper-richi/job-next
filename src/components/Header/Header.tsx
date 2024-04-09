@@ -15,6 +15,7 @@ import AvatarMenu from '../AvatarMenu/AvatarMenu';
 import { IconStar } from '@tabler/icons-react';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { initAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
+import { getFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 
 const MobileRegionsModal = dynamic(() => import('../MobileRegionsModal/MobileRegionsModal'), {
   ssr: false,
@@ -32,13 +33,15 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMobileRegionsModal, setMobileShowRegionsModal] = useState(false);
   const [showDesktopRegionsModal, setDesktopShowRegionsModal] = useState(false);
-  const [showSignModal, setShowSignModal] = useState(false);
+  // const [showSignModal, setShowSignModal] = useState(false);
   const { authUser } = useAppSelector((state) => state.authUser);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    console.log('Header-useEffect: ');
     dispatch(initAuthUser());
-  }, [dispatch]);
+    dispatch(getFavorites());
+  }, []);
 
   const [opened, { open, close }] = useDisclosure(false);
 

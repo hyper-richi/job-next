@@ -94,20 +94,31 @@ export const authUserSlice = createAppSlice({
     initAuthUser: create.asyncThunk<User, void>(
       async (_, thunkApi) => {
         const token = sessionStorage.getItem('token');
-        try {
+        return await axios
+          .get<User>('https://6ede402e6a352dfb.mokky.dev/auth_me', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((res) => {
+            return res.data;
+          })
+          .catch((error) => {
+            return thunkApi.rejectWithValue(`Ошибка авторизации: ${error} `);
+            //return error;
+          });
+        // console.log('res: ', res);
+        //return res.data;
+        /*  try {
           const res = await axios.get<User>('https://6ede402e6a352dfb.mokky.dev/auth_me', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-          /*  if (res.data.data) {
-            thunkApi.dispatch(setAuthUser(res.data.data));
-          } */
           return res.data;
         } catch (e) {
-          console.log(e);
           return thunkApi.rejectWithValue('Ошибка авторизации');
-        }
+        } */
       },
       {
         pending: (state) => {

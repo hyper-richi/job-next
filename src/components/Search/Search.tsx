@@ -63,7 +63,7 @@ function Search({ countVacancies }: { countVacancies: number }) {
   const forms = ['вакансия', 'вакансии', 'вакансий'];
 
   return (
-    <>
+    <div>
       <div className={clsx(styles.search, styles.desktop)}>
         <h1 className={styles.search__title}>Поиск по вакансиям</h1>
         <form className={styles.search__form} action={handleFormAction}>
@@ -105,7 +105,7 @@ function Search({ countVacancies }: { countVacancies: number }) {
         </div>
         <p className={styles.search__count}>Найдено: {plural(forms, countVacancies)}</p>
       </div>
-    </>
+    </div>
   );
 }
 

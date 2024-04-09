@@ -105,17 +105,17 @@ export default async function Vacancy({ params }: Params) {
                   <li>{vacancy.schedule}</li>
                 </ul>
                 {qualification && (
-                  <>
+                  <div>
                     <p>
                       <strong>Мы предлагаем:</strong>
                     </p>
                     <div>{qualification}</div>
-                  </>
+                  </div>
                 )}
               </div>
             </div>
             <div className={styles.vacancy__actions__desktop}>
-              <Link prefetch={false} className={styles.vacancy__actions__apply} href={vacancy.vac_url}>
+              <Link prefetch={false} className={styles.vacancy__actions__apply} href={vacancy.vac_url} target='_blank'>
                 Откликнуться
               </Link>
               <VacancyShare textURL={vacancy.vac_url} />
@@ -123,7 +123,7 @@ export default async function Vacancy({ params }: Params) {
           </div>
         </div>
         <div className={styles.vacancy__actions__mobile}>
-          <Link prefetch={false} className={styles.vacancy__actions__apply} href={vacancy.vac_url}>
+          <Link prefetch={false} className={styles.vacancy__actions__apply} href={vacancy.vac_url} target='_blank'>
             Откликнуться
           </Link>
           <VacancyShare textURL={vacancy.vac_url} />
