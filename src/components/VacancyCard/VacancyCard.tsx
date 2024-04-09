@@ -19,7 +19,6 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
 
   const favoritesVacancies = useAppSelector(selectFavorites);
 
-  // await new Promise((resolve) => setTimeout(resolve, 0));
   const { 'job-name': vacancyName, salary_min, salary_max, category, company, vacancyId } = vacancy;
 
   let url = `/vacancies/vacancy/${company.companycode}/${vacancyId}?`;

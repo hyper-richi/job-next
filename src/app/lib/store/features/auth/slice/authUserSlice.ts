@@ -1,6 +1,6 @@
 import { type PayloadAction } from '@reduxjs/toolkit';
 import { fetchAuthUser, fetchDeleteUser } from '../api/data';
-import { AuthApiResponse, AuthUserSchema, LoginData, RegistrData } from '../types/authUserSchema';
+import { AuthApiResponse, AuthUserSchema, LoginData, RegistrData, User } from '../types/authUserSchema';
 import { createAppSlice } from '../../../createAppSlice';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
@@ -14,8 +14,12 @@ export const authUserSlice = createAppSlice({
   name: 'authUser',
   initialState,
   reducers: (create) => ({
+    setAuthUser: create.reducer((state, action: PayloadAction<User>) => {
+      state.authUser = action.payload;
+    }),
     logoutUser: create.reducer((state) => {
       state.authUser = null;
+      sessionStorage.removeItem('token');
     }),
     registrUser: create.asyncThunk<AuthApiResponse, RegistrData>(
       async (registrData, thunkApi) => {
@@ -44,6 +48,7 @@ export const authUserSlice = createAppSlice({
           state.status = 'idle';
           state.error = null;
           state.authUser = action.payload.data;
+          sessionStorage.setItem('token', action.payload.token);
         },
         // settled вызывается как за отклоненные, так и за выполненные действия
         settled: (state) => {
@@ -78,6 +83,43 @@ export const authUserSlice = createAppSlice({
           state.status = 'idle';
           state.error = null;
           state.authUser = action.payload.data;
+          sessionStorage.setItem('token', action.payload.token);
+        },
+        // settled вызывается как за отклоненные, так и за выполненные действия
+        settled: (state) => {
+          state.status = 'idle';
+        },
+      }
+    ),
+    initAuthUser: create.asyncThunk<User, void>(
+      async (_, thunkApi) => {
+        const token = sessionStorage.getItem('token');
+        try {
+          const res = await axios.get<User>('https://6ede402e6a352dfb.mokky.dev/auth_me', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          /*  if (res.data.data) {
+            thunkApi.dispatch(setAuthUser(res.data.data));
+          } */
+          return res.data;
+        } catch (e) {
+          console.log(e);
+          return thunkApi.rejectWithValue('Ошибка авторизации');
+        }
+      },
+      {
+        pending: (state) => {
+          state.status = 'loading';
+        },
+        rejected: (state, action) => {
+          state.status = 'error';
+          state.error = action.error;
+        },
+        fulfilled: (state, action: PayloadAction<User>) => {
+          state.status = 'idle';
+          state.authUser = action.payload;
         },
         // settled вызывается как за отклоненные, так и за выполненные действия
         settled: (state) => {
@@ -124,5 +166,5 @@ export const authUserSlice = createAppSlice({
   },
 });
 
-export const { loginUser, logoutUser, deleteUser, registrUser } = authUserSlice.actions;
+export const { loginUser, logoutUser, deleteUser, registrUser, setAuthUser, initAuthUser } = authUserSlice.actions;
 export const { selectAuthUser, selectStatusAuth } = authUserSlice.selectors;

@@ -51,7 +51,6 @@ function AuthenticationForm({ closeModal, setIsLogin }: { closeModal?: () => voi
       };
       try {
         const userData = await dispatch(registrUser(registrData)).unwrap();
-        localStorage.setItem('token', userData.token);
         form.reset();
         /*   if (handleRedirect) {
           handleRedirect();
@@ -78,7 +77,6 @@ function AuthenticationForm({ closeModal, setIsLogin }: { closeModal?: () => voi
       try {
         const loginData = { email: values.email, password: values.password };
         const userData = await dispatch(loginUser(loginData)).unwrap();
-        localStorage.setItem('token', userData.token);
 
         CustomNotification({
           title: 'Пользователь',

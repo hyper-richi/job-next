@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { HeaderProps } from './Header.props';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -13,7 +13,8 @@ import SignModal from '../SignModal/SignModal';
 import { useDisclosure } from '@mantine/hooks';
 import AvatarMenu from '../AvatarMenu/AvatarMenu';
 import { IconStar } from '@tabler/icons-react';
-import { useAppSelector } from '@/app/lib/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
+import { initAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 
 const MobileRegionsModal = dynamic(() => import('../MobileRegionsModal/MobileRegionsModal'), {
   ssr: false,
@@ -33,16 +34,21 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   const [showDesktopRegionsModal, setDesktopShowRegionsModal] = useState(false);
   const [showSignModal, setShowSignModal] = useState(false);
   const { authUser } = useAppSelector((state) => state.authUser);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(initAuthUser());
+  }, [dispatch]);
 
   const [opened, { open, close }] = useDisclosure(false);
 
   const searchParams = useSearchParams();
   const regionCodeParams = searchParams.get('regionCode');
 
-  const handleShowSignModal = () => {
+  /*  const handleShowSignModal = () => {
     setShowSignModal((showSignModal: boolean) => !showSignModal);
     // open();
-  };
+  }; */
 
   const onToggleSidebar = () => {
     setShowSidebar((prev) => !prev);

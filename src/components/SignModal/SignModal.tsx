@@ -58,8 +58,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
         },
       };
       try {
-        const userData = await dispatch(registrUser(registrData)).unwrap();
-        localStorage.setItem('token', userData.token);
+        await dispatch(registrUser(registrData)).unwrap();
 
         form.reset();
         closeModal();
@@ -83,7 +82,6 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
       try {
         const loginData = { email: values.email, password: values.password };
         const userData = await dispatch(loginUser(loginData)).unwrap();
-        localStorage.setItem('token', userData.token);
 
         CustomNotification({
           title: 'Пользователь',

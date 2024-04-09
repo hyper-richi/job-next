@@ -2,6 +2,7 @@
 import { useEffect, useMemo } from 'react';
 import styles from './RegionName.module.scss';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { IRegion } from '../../..';
 
 const RegionName = ({ regions }: { regions?: IRegion[] }) => {
   const { replace } = useRouter();
