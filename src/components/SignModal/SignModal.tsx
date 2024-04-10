@@ -6,7 +6,6 @@ import { IconPhoto, IconTrash } from '@tabler/icons-react';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { loginUser, registrUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import CustomNotification from '../CustomNotification/CustomNotification';
-import { fetchDeleteFile } from '@/app/lib/store/features/file/api/data';
 import { deleteFile, selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
 import CustomAvatar from '../CustomAvatar/CustomAvatar';
 import { RegistrData } from '@/app/lib/store/features/auth/types/authUserSchema';
@@ -47,6 +46,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
 
   const handleSubmit = async (values: FormValues) => {
     if (values.username) {
+      console.log('values.username: ', values.username);
       // Registration
       const registrData: RegistrData = {
         username: values.username,
@@ -108,7 +108,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
       formData.append('file', fileFormUpload);
     }
     if (file?.id) {
-      await fetchDeleteFile(file?.id);
+      await dispatch(deleteFile(file?.id));
     }
 
     try {

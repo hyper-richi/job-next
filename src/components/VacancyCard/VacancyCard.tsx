@@ -8,22 +8,23 @@ import { IconStar } from '@tabler/icons-react';
 import { UnstyledButton } from '@mantine/core';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import { ResponseError, VacancyTransform } from '../../..';
-import { addFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
+import { addFavorites, selectFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { selectAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import clsx from 'clsx';
 import { useMemo } from 'react';
-import { selectFavorites } from '@/app/lib/store/features/favorites/selectors/selectFavorites/selectFavorites';
+// import { selectFavorites } from '@/app/lib/store/features/favorites/selectors/selectFavorites/selectFavorites';
 
 export default function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector(selectAuthUser);
 
   const favoritesVacancies = useAppSelector(selectFavorites);
+  // console.log('VacancyCard-favoritesVacancies: ', favoritesVacancies);
 
-  const { 'job-name': vacancyName, salary_min, salary_max, category, company, vacancyId } = vacancy;
+  const { 'job-name': vacancyName, salary_min, salary_max, category, company, id: vacancy_id } = vacancy;
 
-  let url = `/vacancies/vacancy/${company.companycode}/${vacancyId}?`;
+  let url = `/vacancies/vacancy/${company.companycode}/${vacancy_id}?`;
   if (jobCategory) {
     url = url + `jobCategory=${jobCategory}&`;
   }
@@ -31,16 +32,16 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
     url = url + `regionCode=${regionCode}&`;
   }
   if (offset) {
-    url = url + `offset=${offset}&`;
+    url = url + `offset=${offset}`;
   }
 
   if (searchText) {
-    url = url + `text=${encodeURIComponent(searchText)}`;
+    url = url + `&text=${encodeURIComponent(searchText)}`;
   }
 
   const mods = useMemo(
     () => ({
-      [styles.isFavorites]: !!favoritesVacancies.find((item: VacancyTransform) => item.vacancyId === vacancy.vacancyId)?.vacancyId,
+      [styles.isFavorites]: !!favoritesVacancies.find((item: VacancyTransform) => item.vacancy_id === vacancy.vacancy_id)?.vacancy_id,
     }),
     [authUser?.id, favoritesVacancies.length]
   );
@@ -61,7 +62,7 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
         };
         const transformVacancy: VacancyTransform = {
           ...vacancy,
-          userId: authUser?.id,
+          user_id: authUser?.id,
           date: currentData,
         };
 

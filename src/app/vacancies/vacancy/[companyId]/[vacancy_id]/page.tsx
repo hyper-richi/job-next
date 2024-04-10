@@ -13,13 +13,13 @@ import { ResponseAdress } from '../../../../../..';
 
 interface Params {
   searchParams?: { text?: string; offset?: string; jobCategory?: string };
-  params: { companyId: string; vacancyId: string };
+  params: { companyId: string; vacancy_id: string };
 }
 
 export default async function Vacancy({ params }: Params) {
   const companyId = params.companyId;
-  const vacancyId = params.vacancyId;
-  const { results } = await getVacancy(companyId, vacancyId);
+  const vacancy_id = params.vacancy_id;
+  const { results } = await getVacancy(companyId, vacancy_id);
   const vacancy = Object.keys(results).length ? results.vacancies[0].vacancy : null;
 
   if (!vacancy) {

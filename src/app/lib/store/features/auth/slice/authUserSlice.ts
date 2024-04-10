@@ -1,8 +1,8 @@
 import { type PayloadAction } from '@reduxjs/toolkit';
-import { fetchAuthUser, fetchDeleteUser } from '../api/data';
 import { AuthApiResponse, AuthUserSchema, LoginData, RegistrData, User } from '../types/authUserSchema';
 import { createAppSlice } from '../../../createAppSlice';
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { ResponseError } from '../../../../../../..';
 
 const initialState: AuthUserSchema = {
   status: 'idle',
@@ -59,8 +59,8 @@ export const authUserSlice = createAppSlice({
     loginUser: create.asyncThunk<AuthApiResponse, LoginData>(
       async (loginData, thunkApi) => {
         try {
-          const response = await fetchAuthUser(loginData);
-          return response;
+          const res = await axios.post<AuthApiResponse>('https://6ede402e6a352dfb.mokky.dev/auth', loginData);
+          return res.data;
         } catch (error) {
           const err = error as AxiosError;
           return thunkApi.rejectWithValue({
@@ -107,18 +107,6 @@ export const authUserSlice = createAppSlice({
             return thunkApi.rejectWithValue(`Ошибка авторизации: ${error} `);
             //return error;
           });
-        // console.log('res: ', res);
-        //return res.data;
-        /*  try {
-          const res = await axios.get<User>('https://6ede402e6a352dfb.mokky.dev/auth_me', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          return res.data;
-        } catch (e) {
-          return thunkApi.rejectWithValue('Ошибка авторизации');
-        } */
       },
       {
         pending: (state) => {
@@ -138,18 +126,17 @@ export const authUserSlice = createAppSlice({
         },
       }
     ),
-    deleteUser: create.asyncThunk<void, string>(
-      async (userId, thunkApi) => {
+    deleteUser: create.asyncThunk<AxiosError | void, string>(
+      async (user_id, thunkApi) => {
         try {
-          const response = await fetchDeleteUser(userId);
-          return response;
+          await axios.delete(`https://6ede402e6a352dfb.mokky.dev/users/${user_id}`);
         } catch (error) {
           const err = error as AxiosError;
           return thunkApi.rejectWithValue({
-            message: 'Ошибка в обработке запроса: ' + err.message,
+            message: 'Ошибка при удалении файла: ' + err.message,
             additionalMessage: (err.response as AxiosResponse)?.data.message,
             code: err.status || (err.response as AxiosResponse)?.data.statusCode,
-          });
+          } as ResponseError);
         }
       },
       {
@@ -158,7 +145,7 @@ export const authUserSlice = createAppSlice({
         },
         rejected: (state, action) => {
           state.status = 'error';
-          state.error = action.error;
+          state.error = action.payload as ResponseError;
         },
         fulfilled: (state) => {
           state.status = 'idle';

@@ -13,10 +13,10 @@ export const favoritesSlice = createAppSlice({
   name: 'favorites',
   initialState,
   reducers: (create) => ({
-    getFavorites: create.asyncThunk<VacancyTransform[], void>(
-      async (_, thunkApi) => {
+    getFavorites: create.asyncThunk<VacancyTransform[], string>(
+      async (user_id, thunkApi) => {
         try {
-          const res = await axios.get<VacancyTransform[]>('https://6ede402e6a352dfb.mokky.dev/favoritesVacancies');
+          const res = await axios.get<VacancyTransform[]>(`https://6ede402e6a352dfb.mokky.dev/favoritesVacancies?user_id=${user_id}`);
           if (!res.data) {
             throw new Error('Ошибка в обработке запроса, повторите попытку позже!');
           }
@@ -53,8 +53,6 @@ export const favoritesSlice = createAppSlice({
     ),
     addFavorites: create.asyncThunk<VacancyTransform, VacancyTransform>(
       async (vacancy, thunkApi) => {
-        // const state = thunkApi.getState() as AppState;
-
         try {
           const res = await axios.post<VacancyTransform>('https://6ede402e6a352dfb.mokky.dev/favoritesVacancies', vacancy);
           if (!res.data) {
@@ -91,13 +89,12 @@ export const favoritesSlice = createAppSlice({
         },
       }
     ),
-
     deleteFavorites: create.asyncThunk<AxiosError | string, string>(
-      async (vacancyId, thunkApi) => {
+      async (vacancy_id, thunkApi) => {
         try {
-          await axios.delete(`https://6ede402e6a352dfb.mokky.dev/favoritesVacancies/${vacancyId}`);
+          await axios.delete(`https://6ede402e6a352dfb.mokky.dev/favoritesVacancies/${vacancy_id}`);
 
-          return vacancyId;
+          return vacancy_id;
         } catch (error) {
           const err = error as AxiosError;
           return thunkApi.rejectWithValue({
@@ -118,9 +115,12 @@ export const favoritesSlice = createAppSlice({
         },
         fulfilled: (state, action) => {
           state.status = 'idle';
-         // state.favorites = [...state.favorites.filter((item) => item.id !== action.payload)];
-         // names.splice(2, 1); // начиная со второго элемента удаляем один элемент
-         state.favorites.splice(state.favorites.findIndex((favoriteVacancy) => favoriteVacancy.id === action.payload), 1);
+          // state.favorites = [...state.favorites.filter((item) => item.id !== action.payload)];
+          // names.splice(2, 1); // начиная со второго элемента удаляем один элемент
+          state.favorites.splice(
+            state.favorites.findIndex((favoriteVacancy) => favoriteVacancy.id === action.payload),
+            1
+          );
         },
         // settled вызывается как за отклоненные, так и за выполненные действия
         settled: (state) => {
@@ -129,11 +129,10 @@ export const favoritesSlice = createAppSlice({
       }
     ),
   }),
-  /* selectors: {
-    selectFavorites: (state) => state.favorites.filter((item) => item.userId === state.authUser?.id),
-    selectStatusFavorites: (state) => state.status,
-  }, */
+  selectors: {
+    selectFavorites: (state) => state.favorites,
+  },
 });
 
 export const { addFavorites, deleteFavorites, getFavorites } = favoritesSlice.actions;
-// export const { selectFavorites, selectStatusFavorites } = favoritesSlice.selectors;
+export const { selectFavorites } = favoritesSlice.selectors;

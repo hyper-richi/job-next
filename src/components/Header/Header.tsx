@@ -40,8 +40,10 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   useEffect(() => {
     console.log('Header-useEffect: ');
     dispatch(initAuthUser());
-    dispatch(getFavorites());
-  }, []);
+    if (authUser) {
+      dispatch(getFavorites(authUser?.id));
+    }
+  }, [authUser?.id]);
 
   const [opened, { open, close }] = useDisclosure(false);
 

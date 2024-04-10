@@ -68,8 +68,8 @@ interface Vacancy {
   };
 }
 interface VacancyTransform {
-  vacancyId: string;
-  userId?: string;
+  vacancy_id: string;
+  user_id?: string;
   id: string;
   source: string;
   region: IRegionName;

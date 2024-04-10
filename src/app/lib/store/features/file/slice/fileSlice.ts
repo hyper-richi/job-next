@@ -97,11 +97,7 @@ export const fileSlice = createAppSlice({
       async (imageId, thunkApi) => {
         const { /* extra, dispatch, */ rejectWithValue } = thunkApi;
         try {
-          const response = await axios.delete(`https://6ede402e6a352dfb.mokky.dev/uploads/${imageId}`);
-          /* if (!response.data) {
-            throw new Error('Ошибка при удалении файла');
-          } */
-          // return true;
+          await axios.delete(`https://6ede402e6a352dfb.mokky.dev/uploads/${imageId}`);
         } catch (error) {
           const err = error as AxiosError;
           return rejectWithValue({

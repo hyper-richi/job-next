@@ -53,7 +53,7 @@ export async function getVacancies(params: QureyParams): Promise<ResponseTransfo
           vacancies: data?.results.vacancies.map(({ vacancy }) => {
             const vacancyTransform: VacancyTransform = {
               ...vacancy,
-              vacancyId: vacancy.id,
+              vacancy_id: vacancy.id,
               contact_list: [],
               contact_person: '',
               date: null,
@@ -112,9 +112,9 @@ export async function getRegions(): Promise<ResponseRegions> {
   }
 }
 
-export async function getVacancy(companyId: string, vacancyId: string): Promise<ResponseVacancy> {
+export async function getVacancy(companyId: string, vacancy_id: string): Promise<ResponseVacancy> {
   try {
-    const url = `/vacancy/${companyId}/${vacancyId}`;
+    const url = `/vacancy/${companyId}/${vacancy_id}`;
     const res = await fetch(process.env.API_BASE_URL + url, {
       cache: 'no-store',
     });
