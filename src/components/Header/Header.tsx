@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { HeaderProps } from './Header.props';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import styles from './Header.module.scss';
 import Navbar from '../Navbar/Navbar';
@@ -16,6 +16,7 @@ import { IconStar } from '@tabler/icons-react';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { initAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import { getFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
+import { UnstyledButton } from '@mantine/core';
 
 const MobileRegionsModal = dynamic(() => import('../MobileRegionsModal/MobileRegionsModal'), {
   ssr: false,
@@ -30,6 +31,9 @@ const Sidebar = dynamic(() => import('../Sidebar/Sidebar'), {
 });
 
 const Header = ({ regions }: HeaderProps): JSX.Element => {
+  const router = useRouter();
+  const pathname = usePathname();
+  console.log('pathname: ', pathname);
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMobileRegionsModal, setMobileShowRegionsModal] = useState(false);
   const [showDesktopRegionsModal, setDesktopShowRegionsModal] = useState(false);
@@ -71,6 +75,14 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
     setDesktopShowRegionsModal((prev) => !prev);
   }, []);
 
+  const handleFavoritesClick = () => {
+    if (authUser) {
+      router.push('/favorites');
+    } else {
+      open();
+    }
+  };
+
   let url = `/`;
 
   if (regionCodeParams) {
@@ -92,19 +104,20 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
                   <PointIcon style={{ width: 24, height: 24, color: '#ffffff' }} />
                 </div>
               </div>
-              <div className={styles.info__socials}>
+              <div className={styles.info__avatar}>
                 <svg width='1' height='46' viewBox='0 0 1 46' fill='none' xmlns='http://www.w3.org/2000/svg'>
                   <path fill='#fff' d='M0 0h1v46H0z'></path>
                 </svg>
-                <Link prefetch={false} href={`/favorites`} className={styles.header__logo}>
+                <UnstyledButton onClick={handleFavoritesClick} className={styles.header__favorites}>
                   <IconStar className={styles.star__icon} />
-                </Link>
+                </UnstyledButton>
+                {/* <Link prefetch={false} href={authUser ? `/favorites` : '/'} className={styles.header__favorites}></Link> */}
                 <AvatarMenu openSignModal={open} />
               </div>
             </div>
           </div>
         </div>
-        {authUser && <Navbar />}
+        {authUser && !(pathname === '/login') && <Navbar />}
       </header>
 
       <div className={clsx(styles.mobile, styles.sticky)}>

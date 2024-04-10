@@ -1,24 +1,22 @@
 'use client';
 
+import { useLayoutEffect } from 'react';
 import styles from './page.module.scss';
 import { useAppSelector } from '../lib/store/hooks';
 import { Params, VacancyTransform } from '../../..';
 import { selectAuthUser } from '../lib/store/features/auth/slice/authUserSlice';
-// import { redirect } from 'next/navigation';
 import FavoritesCard from '@/components/FavoritesCard/FavoritesCard';
 import { selectFavorites } from '../lib/store/features/favorites/slice/favoritesSlice';
-// import { selectFavorites } from '../lib/store/features/favorites/selectors/selectFavorites/selectFavorites';
+import { redirect } from 'next/navigation';
 
 export default function Favorites({ params, searchParams }: Params) {
   const authUser = useAppSelector(selectAuthUser);
   const favoritesVacancies = useAppSelector(selectFavorites);
- // console.log('favoritesVacancies: ', favoritesVacancies);
-  // const StatusFavorites = useAppSelector(selectStatusFavorites);
-  /* useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (!authUser) {
       redirect('/login');
     }
-  }, []); */
+  }, []);
 
   const searchText = searchParams?.text || '';
   const offset = searchParams?.offset || '';
@@ -29,6 +27,10 @@ export default function Favorites({ params, searchParams }: Params) {
     () => favoritesVacancies.filter((item) => item.user_id === authUser?.id),
     [authUser?.id, favoritesVacancies]
   ); */
+
+  if (!authUser) {
+    return null;
+  }
 
   return (
     <div>

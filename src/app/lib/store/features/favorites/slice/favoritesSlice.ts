@@ -13,6 +13,9 @@ export const favoritesSlice = createAppSlice({
   name: 'favorites',
   initialState,
   reducers: (create) => ({
+    clearFavorites: create.reducer((state) => {
+      state.favorites = [];
+    }),
     getFavorites: create.asyncThunk<VacancyTransform[], string>(
       async (user_id, thunkApi) => {
         try {
@@ -134,5 +137,5 @@ export const favoritesSlice = createAppSlice({
   },
 });
 
-export const { addFavorites, deleteFavorites, getFavorites } = favoritesSlice.actions;
+export const { addFavorites, deleteFavorites, getFavorites, clearFavorites } = favoritesSlice.actions;
 export const { selectFavorites } = favoritesSlice.selectors;

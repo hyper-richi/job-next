@@ -4,7 +4,7 @@ import { useCallback, useRef, useState } from 'react';
 import { FormValues, ResponseError } from '../../..';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { loginUser, registrUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
+import { loginUser, registerUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import { deleteFile, selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
 import CustomAvatar from '../CustomAvatar/CustomAvatar';
@@ -58,7 +58,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
         },
       };
       try {
-        await dispatch(registrUser(registrData)).unwrap();
+        await dispatch(registerUser(registrData)).unwrap();
 
         form.reset();
         closeModal();
@@ -81,7 +81,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
       // Authentication
       try {
         const loginData = { email: values.email, password: values.password };
-        const userData = await dispatch(loginUser(loginData)).unwrap();
+        await dispatch(loginUser(loginData)).unwrap();
 
         CustomNotification({
           title: 'Пользователь',
@@ -127,7 +127,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
   const handleDeleteImgAvatar = useCallback(async () => {
     if (file?.id) {
       try {
-        const response = await dispatch(deleteFile(file?.id));
+        await dispatch(deleteFile(file?.id));
         CustomNotification({
           title: 'Аватар',
           message: 'Фотография аватара успешно удалена!',

@@ -6,10 +6,19 @@ import { IconSettings, IconPhoto, IconMessageCircle, IconTrash, IconLogin2, Icon
 import styles from './AvatarMenu.module.scss';
 import AvatarButton from '../AvatarButton/AvatarButton';
 import { deleteUser, logoutUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
+import { clearFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
+import { useRouter } from 'next/navigation';
 
 function AvatarMenu({ openSignModal }: { openSignModal: () => void }) {
   const { authUser } = useAppSelector((state) => state.authUser);
   const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    dispatch(clearFavorites());
+    router.push('/');
+  };
 
   return (
     <div className={styles.AvatarMenu}>
@@ -37,7 +46,7 @@ function AvatarMenu({ openSignModal }: { openSignModal: () => void }) {
             <Menu.Item
               className={styles.menu__item}
               leftSection={<IconLogout2 style={{ width: rem(14), height: rem(14) }} />}
-              onClick={() => dispatch(logoutUser())}
+              onClick={handleLogout}
             >
               <span className={styles.menu__label}>Выйти</span>
             </Menu.Item>

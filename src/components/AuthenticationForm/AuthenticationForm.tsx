@@ -1,17 +1,15 @@
 'use client';
 import { Button, Group, PasswordInput, TextInput } from '@mantine/core';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { FormValues, ResponseError } from '../../..';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { loginUser, registrUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
+import { loginUser, registerUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import { selectFile } from '@/app/lib/store/features/file/slice/fileSlice';
 import { RegistrData } from '@/app/lib/store/features/auth/types/authUserSchema';
 import { useForm } from '@mantine/form';
-import { useRouter } from 'next/navigation';
 
 function AuthenticationForm({ closeModal, setIsLogin }: { closeModal?: () => void; setIsLogin?: Dispatch<SetStateAction<boolean>> }) {
-  const router = useRouter();
 
   const dispatch = useAppDispatch();
   const file = useAppSelector(selectFile);
@@ -50,11 +48,9 @@ function AuthenticationForm({ closeModal, setIsLogin }: { closeModal?: () => voi
         },
       };
       try {
-        await dispatch(registrUser(registrData)).unwrap();
+        await dispatch(registerUser(registrData)).unwrap();
         form.reset();
-        /*   if (handleRedirect) {
-          handleRedirect();
-        } */
+
         if (closeModal) {
           closeModal();
         }
@@ -84,7 +80,6 @@ function AuthenticationForm({ closeModal, setIsLogin }: { closeModal?: () => voi
           variant: 'succes',
         });
         form.reset();
-        // router.push('/');
 
         if (closeModal) {
           closeModal();

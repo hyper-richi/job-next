@@ -21,8 +21,9 @@ export const authUserSlice = createAppSlice({
       state.authUser = null;
       sessionStorage.removeItem('token');
     }),
-    registrUser: create.asyncThunk<AuthApiResponse, RegistrData>(
+    registerUser: create.asyncThunk<AuthApiResponse, RegistrData>(
       async (registrData, thunkApi) => {
+        // const { dispatch, getState, fulfillWithValue } = thunkApi;
         try {
           const res = await axios.post<AuthApiResponse>('https://6ede402e6a352dfb.mokky.dev/register', registrData);
           return res.data;
@@ -164,5 +165,5 @@ export const authUserSlice = createAppSlice({
   },
 });
 
-export const { loginUser, logoutUser, deleteUser, registrUser, setAuthUser, initAuthUser } = authUserSlice.actions;
+export const { loginUser, logoutUser, deleteUser, registerUser, setAuthUser, initAuthUser } = authUserSlice.actions;
 export const { selectAuthUser, selectStatusAuth } = authUserSlice.selectors;
