@@ -8,7 +8,26 @@
   }
 }
 
-.modal__select {
-  margin-bottom: 32px;
-  margin-top: 32px;
+.modal {
+  &__title {
+    color: rgb(0, 40, 85);
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 42px;
+    white-space: nowrap;
+  }
+  &__select {
+    margin-bottom: 32px;
+    margin-top: 32px;
+  }
+
+  &__container {
+    max-width: 550px;
+    padding: 60px;
+    text-align: end;
+    border-radius: 16px;
+    padding: 36px;
+    box-sizing: border-box;
+    background-color: #fff;
+  }
 }

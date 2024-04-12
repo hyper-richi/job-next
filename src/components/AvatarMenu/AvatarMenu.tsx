@@ -22,7 +22,7 @@ function AvatarMenu({ openSignModal }: { openSignModal: () => void }) {
 
   return (
     <div className={styles.AvatarMenu}>
-      <Menu shadow='md' width={200} withArrow>
+      <Menu shadow='md' width={200} withArrow trigger='hover' openDelay={100} closeDelay={400}>
         <Menu.Target>
           <AvatarButton image={authUser?.avatar.url} name={authUser?.username} email={authUser?.email} />
         </Menu.Target>

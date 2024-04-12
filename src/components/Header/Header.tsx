@@ -9,7 +9,7 @@ import Navbar from '../Navbar/Navbar';
 import clsx from 'clsx';
 import RegionName from '../RegionName/RegionName';
 import PointIcon from '../../../public/images/svg/PointIcon';
-import SignModal from '../SignModal/SignModal';
+import SignModal from '../ModalSignin/ModalSignin';
 import { useDisclosure } from '@mantine/hooks';
 import AvatarMenu from '../AvatarMenu/AvatarMenu';
 import { IconStar } from '@tabler/icons-react';
@@ -17,8 +17,9 @@ import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { initAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import { getFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { UnstyledButton } from '@mantine/core';
+import { AnimatedModal } from '../AnimatedModal';
 
-const MobileRegionsModal = dynamic(() => import('../MobileRegionsModal/MobileRegionsModal'), {
+const MobileRegionsModal = dynamic(() => import('../ModalMobileRegions/ModalMobileRegions'), {
   ssr: false,
 });
 
@@ -33,7 +34,6 @@ const Sidebar = dynamic(() => import('../Sidebar/Sidebar'), {
 const Header = ({ regions }: HeaderProps): JSX.Element => {
   const router = useRouter();
   const pathname = usePathname();
-  console.log('pathname: ', pathname);
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMobileRegionsModal, setMobileShowRegionsModal] = useState(false);
   const [showDesktopRegionsModal, setDesktopShowRegionsModal] = useState(false);
@@ -111,7 +111,6 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
                 <UnstyledButton onClick={handleFavoritesClick} className={styles.header__favorites}>
                   <IconStar className={styles.star__icon} />
                 </UnstyledButton>
-                {/* <Link prefetch={false} href={authUser ? `/favorites` : '/'} className={styles.header__favorites}></Link> */}
                 <AvatarMenu openSignModal={open} />
               </div>
             </div>
@@ -146,14 +145,12 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
         )}
       </div>
 
-      {showDesktopRegionsModal && (
-        <DesktopRegionsModal
-          showDesktopRegionsModal={showDesktopRegionsModal}
-          regions={regions}
-          onCloseDesktopRegionsModal={onCloseDesktopRegionsModal}
-        />
-      )}
+      <AnimatedModal opened={showDesktopRegionsModal} onClose={onCloseDesktopRegionsModal}>
+        <DesktopRegionsModal regions={regions} onClose={onCloseDesktopRegionsModal} />
+      </AnimatedModal>
+
       <SignModal opened={opened} openModal={open} closeModal={close} />
+
       {showMobileRegionsModal && (
         <MobileRegionsModal
           showMobileRegionsModal={showMobileRegionsModal}
