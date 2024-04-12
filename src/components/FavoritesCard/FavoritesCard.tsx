@@ -12,6 +12,8 @@ import { deleteFavorites } from '@/app/lib/store/features/favorites/slice/favori
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { selectAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 
+
+
 export default function FavoritesCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector(selectAuthUser);
@@ -60,7 +62,7 @@ export default function FavoritesCard({ regionCode, vacancy, offset, searchText,
   }
 
   return (
-    <div className={styles.favorites}>
+    <div className={styles.favorites} ref={vacancy.nodeRef}>
       <div className={styles.favorites__link}>
         <div className={styles.favorites__head}>
           <Link prefetch={false} className={styles.favorites__title__link} href={url} target='_blank'>

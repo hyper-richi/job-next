@@ -101,6 +101,7 @@ interface VacancyTransform {
     month: number;
     year: number;
   } | null;
+  nodeRef?: RefObject<unknown>;
 }
 
 interface ResultsTransform {

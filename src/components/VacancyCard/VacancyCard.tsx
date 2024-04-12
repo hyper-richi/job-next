@@ -1,5 +1,6 @@
 'use client';
 
+import { createRef, useMemo } from 'react';
 import { VacancyCardProps } from './VacancyCard.props';
 import styles from './VacancyCard.module.scss';
 import Link from 'next/link';
@@ -12,7 +13,6 @@ import { addFavorites, selectFavorites } from '@/app/lib/store/features/favorite
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { selectAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import clsx from 'clsx';
-import { useMemo } from 'react';
 // import { selectFavorites } from '@/app/lib/store/features/favorites/selectors/selectFavorites/selectFavorites';
 
 export default function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
@@ -64,6 +64,7 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
           ...vacancy,
           user_id: authUser?.id,
           date: currentData,
+         // nodeRef: createRef(null),
         };
 
         await dispatch(addFavorites(transformVacancy)).unwrap();
