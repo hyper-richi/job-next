@@ -51,6 +51,8 @@
       top: -8px;
       line-height: 5px;
     }
+
+    
   }
   &__salary {
     line-height: 22px;
@@ -81,6 +83,7 @@
   }
   &__icon {
     color: #fece3c82;
+
     &:hover {
       cursor: pointer;
       color: #fece3c;
@@ -94,6 +97,25 @@
     display: flex;
     align-items: flex-start;
     z-index: 2;
+  }
+}
+
+.animation__icon {
+  transform: scale(1);
+  animation: pulse-black 0.2s;
+}
+
+@keyframes pulse-black {
+  0% {
+    transform: scale(1.05);
+  }
+
+  70% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1.3);
   }
 }
 

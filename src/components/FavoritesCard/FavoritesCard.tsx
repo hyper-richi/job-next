@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo, useState } from 'react';
 import { VacancyCardProps } from './FavoritesCard.props';
 import styles from './FavoritesCard.module.scss';
 import Link from 'next/link';
@@ -11,12 +12,12 @@ import { ResponseError } from '../../..';
 import { deleteFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { selectAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
-
-
+import clsx from 'clsx';
 
 export default function FavoritesCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector(selectAuthUser);
+  const [isClick, setisClick] = useState(false);
 
   // const favoritesVacancies = useAppSelector(selectFavorites);
 
@@ -38,9 +39,16 @@ export default function FavoritesCard({ regionCode, vacancy, offset, searchText,
     url = url + `text=${encodeURIComponent(searchText)}`;
   }
 
+  const mods = useMemo(
+    () => ({
+      [styles.animation__icon]: isClick,
+    }),
+    [isClick]
+  );
+
   async function handleDeleteFavorites(event: React.MouseEvent<HTMLElement>) {
     event.stopPropagation();
-
+    setisClick(true);
     try {
       if (authUser) {
         await dispatch(deleteFavorites(id)).unwrap();
@@ -71,21 +79,23 @@ export default function FavoritesCard({ regionCode, vacancy, offset, searchText,
         </div>
 
         <div className={styles.favorites__info}>
-          <div className={styles.favorites__info__location}>
-            <PointIcon style={{ width: 24, height: 24, color: '#4c6888' }} />.
+          <div className={styles.favorites__location}>
+            <div className={styles.favorites__info__location}>
+              <PointIcon style={{ width: 24, height: 24, color: '#4c6888' }} />.
+            </div>
+            <span className={styles.favorites__info__region}>{vacancy.region?.name}</span>
           </div>
-          <span>{vacancy.region?.name}</span>
           <span className={styles.favorites__salary}>
             {salary_min}-{salary_max} ₽
           </span>
-          {/*  <span className={styles.favorites__info__specialisation}>{category.specialisation}</span> */}
         </div>
         <div className={styles.favorites__controls}>
           <Link prefetch={false} className={styles.favorites__apply} href={vacancy.vac_url} target='_blank'>
             Откликнуться
           </Link>
           <UnstyledButton onClick={handleDeleteFavorites} className={styles.favorites__button}>
-            <IconStar className={styles.favorites__icon} width={40} height={40} />
+            <IconStar className={clsx(styles.favorites__icon, mods)} width={40} height={40} />
+            {/* <IconStarFilled style={{ color: 'fece3c' }} width={40} height={40} /> */}
           </UnstyledButton>
         </div>
         <div className={styles.favorites__date}>

@@ -1,6 +1,6 @@
 'use client';
 
-import { createRef, useMemo } from 'react';
+import { createRef, useMemo, useState } from 'react';
 import { VacancyCardProps } from './VacancyCard.props';
 import styles from './VacancyCard.module.scss';
 import Link from 'next/link';
@@ -18,6 +18,8 @@ import clsx from 'clsx';
 export default function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector(selectAuthUser);
+
+  const [isClick, setisClick] = useState(false);
 
   const favoritesVacancies = useAppSelector(selectFavorites);
   // console.log('VacancyCard-favoritesVacancies: ', favoritesVacancies);
@@ -42,13 +44,14 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
   const mods = useMemo(
     () => ({
       [styles.isFavorites]: !!favoritesVacancies.find((item: VacancyTransform) => item.vacancy_id === vacancy.vacancy_id)?.vacancy_id,
+      [styles.animation__icon]: isClick,
     }),
-    [authUser?.id, favoritesVacancies.length]
+    [authUser?.id, favoritesVacancies.length, isClick]
   );
 
   async function handleClick(event: React.MouseEvent<HTMLElement>) {
     event.stopPropagation();
-
+    setisClick(true);
     try {
       if (authUser) {
         let currentDate = new Date();
@@ -64,7 +67,7 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
           ...vacancy,
           user_id: authUser?.id,
           date: currentData,
-         // nodeRef: createRef(null),
+          // nodeRef: createRef(null),
         };
 
         await dispatch(addFavorites(transformVacancy)).unwrap();

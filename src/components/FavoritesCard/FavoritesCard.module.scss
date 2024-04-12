@@ -55,8 +55,8 @@
   }
 
   &__icon {
-    color: #fece3c82;
-    fill: #fece3c82;
+    color: #fece3c;
+    fill: #fece3c;
     &:hover {
       cursor: pointer;
       color: #fece3c;
@@ -104,6 +104,11 @@
     }
   }
 
+  &__location {
+    display: flex;
+    gap: 15px;
+  }
+
   &__info {
     display: flex;
     align-items: center;
@@ -123,6 +128,14 @@
       position: relative;
       top: -8px;
       line-height: 5px;
+    }
+
+    &__region {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 26px;
     }
   }
 
@@ -144,7 +157,21 @@
   }
 }
 
-.isFavorites {
-  fill: #fece3c;
+.animation__icon {
+  transform: scale(1);
+  animation: pulse-black 0.2s;
 }
 
+@keyframes pulse-black {
+  0% {
+    transform: scale(1.05);
+  }
+
+  70% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1.3);
+  }
+}

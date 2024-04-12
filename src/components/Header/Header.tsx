@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { HeaderProps } from './Header.props';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -41,7 +41,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   const { authUser } = useAppSelector((state) => state.authUser);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     console.log('Header-useEffect: ');
     dispatch(initAuthUser());
     if (authUser) {
