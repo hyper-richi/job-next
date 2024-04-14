@@ -1,18 +1,26 @@
 'use client';
-import { Button, Group, PasswordInput, TextInput } from '@mantine/core';
+import { Button, Group } from '@mantine/core';
 import { Dispatch, SetStateAction } from 'react';
 import { FormValues, ResponseError } from '../../..';
-import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { loginUser, registerUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import CustomNotification from '../CustomNotification/CustomNotification';
-import { selectFile } from '@/app/lib/store/features/file/slice/fileSlice';
-import { RegistrData } from '@/app/lib/store/features/auth/types/authUserSchema';
 import { useForm } from '@mantine/form';
+import { useFormState } from 'react-dom';
+// import { useSession, signIn, signOut } from 'next-auth/react';
+import { login, logout } from '@/lib/actions';
+import { useSession } from 'next-auth/react';
 
-function AuthenticationForm({ closeModal, setIsLogin }: { closeModal?: () => void; setIsLogin?: Dispatch<SetStateAction<boolean>> }) {
+export default function AuthenticationForm({
+  closeModal,
+  setIsLogin,
+}: {
+  closeModal?: () => void;
+  setIsLogin?: Dispatch<SetStateAction<boolean>>;
+}) {
+  // const dispatch = useAppDispatch();
+  // const file = useAppSelector(selectFile);
+  const { data: session } = useSession();
 
-  const dispatch = useAppDispatch();
-  const file = useAppSelector(selectFile);
+  const [formState, formAction] = useFormState(login, undefined);
 
   const form = useForm<FormValues>({
     initialValues: {
@@ -34,11 +42,12 @@ function AuthenticationForm({ closeModal, setIsLogin }: { closeModal?: () => voi
       },
     },
   });
+  const loginData = { email: form.values.email, password: form.values.password };
 
   const handleSubmit = async (values: FormValues) => {
     if (values.username) {
       // Registration
-      const registrData: RegistrData = {
+      /* const registrData: RegistrData = {
         username: values.username,
         email: values.email,
         password: values.password,
@@ -46,9 +55,9 @@ function AuthenticationForm({ closeModal, setIsLogin }: { closeModal?: () => voi
           url: file?.url,
           id_picture: file?.id,
         },
-      };
+      }; */
       try {
-        await dispatch(registerUser(registrData)).unwrap();
+        // await dispatch(registerUser(registrData)).unwrap();
         form.reset();
 
         if (closeModal) {
@@ -72,9 +81,10 @@ function AuthenticationForm({ closeModal, setIsLogin }: { closeModal?: () => voi
       // Authentication
       try {
         const loginData = { email: values.email, password: values.password };
-        await dispatch(loginUser(loginData)).unwrap();
+        console.log('handleSubmit-loginData: ', loginData);
+        // await dispatch(loginUser(loginData)).unwrap();
 
-        CustomNotification({
+        /*  CustomNotification({
           title: 'Пользователь',
           message: 'Поздравляю! Вы успешно авторизовались!',
           variant: 'succes',
@@ -83,7 +93,7 @@ function AuthenticationForm({ closeModal, setIsLogin }: { closeModal?: () => voi
 
         if (closeModal) {
           closeModal();
-        }
+        } */
       } catch (rejectedError) {
         const rejectValue = rejectedError as ResponseError;
         CustomNotification({
@@ -102,8 +112,8 @@ function AuthenticationForm({ closeModal, setIsLogin }: { closeModal?: () => voi
   };
 
   return (
-    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-      <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
+    <form action={formAction} /* onSubmit={form.onSubmit((values) => handleSubmit(values))} */>
+      {/* <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
       <PasswordInput
         mt='md'
         withAsterisk
@@ -112,17 +122,31 @@ function AuthenticationForm({ closeModal, setIsLogin }: { closeModal?: () => voi
         required
         {...form.getInputProps('password')}
         error={form.errors.password}
-      />
+      /> */}
+      <input required name='email' placeholder='email' />
+      <input required name='password' type='password' placeholder='password' />
+
+      <p>email:{session && session?.user?.email}</p>
+      <p>username:{session && session?.user.username}</p>
       <Group style={{ fontWeight: '400 !important' }} mt='md' justify='space-between'>
-        <Button variant='default' onClick={toogleForm}>
+        {/*  <Button variant='default' onClick={toogleForm}>
           Регистрация
-        </Button>
-        <Button style={{ background: '#005bff' }} type='submit'>
+        </Button> */}
+        <Button style={{ background: '#005bff' }} type='submit' /* onClick={() => signIn('credentials', loginData)} */>
           Войти
+        </Button>
+        <Button style={{ background: '#005bff' }} onClick={() => logout()}>
+          Выйти
         </Button>
       </Group>
     </form>
   );
 }
 
-export default AuthenticationForm;
+/* function LoginButton() {
+  return (
+    <button type='submit' className='mt-4 w-full'>
+      Войти
+    </button>
+  );
+} */

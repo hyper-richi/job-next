@@ -8,10 +8,8 @@ import TitleCategory from '@/components/TitleCategory/TitleCategory';
 import { Params } from '../../../..';
 
 export const metadata: Metadata = {
-  title: 'Поиск по вакансиям',
+  title: 'Поиск по вакансиям | Все вакансии',
 };
-
-
 
 export default async function Page({ params, searchParams }: Params) {
   const searchText = searchParams?.text || '';

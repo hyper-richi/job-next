@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ANIMATION_TIME } from '../../../../components/AnimatedModal/Modal/Modal';
+import { ANIMATION_TIME } from '../../../../components/AnimatedModal/Layout';
 
 export const useMount = ({ opened }: { opened: boolean }) => {
   const [mounted, setMounted] = useState(false);

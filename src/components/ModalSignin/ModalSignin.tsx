@@ -4,17 +4,21 @@ import { useCallback, useRef, useState } from 'react';
 import { FormValues, ResponseError } from '../../..';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { loginUser, registerUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
+import { registerUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import { deleteFile, selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
 import CustomAvatar from '../CustomAvatar/CustomAvatar';
 import { RegistrData } from '@/app/lib/store/features/auth/types/authUserSchema';
 import { useForm } from '@mantine/form';
-import AuthenticationForm from '../AuthenticationForm/AuthenticationForm';
+// import AuthenticationForm from '../AuthenticationForm/AuthenticationForm';
+// import { useFormState, useFormStatus } from 'react-dom';
+// import { authenticate } from '@/app/lib/actions';
 
 function SignModal({ opened, openModal, closeModal }: { opened: boolean; openModal: () => void; closeModal: () => void }) {
   const resetRef = useRef<() => void>(null);
   const [isLogin, setIsLogin] = useState(true);
+
+  // const [errorMessage, dispatch: ] = useFormState(authenticate, undefined);
 
   // const [opened, { open, close }] = useDisclosure(false);
 
@@ -46,7 +50,6 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
 
   const handleSubmit = async (values: FormValues) => {
     if (values.username) {
-      console.log('values.username: ', values.username);
       // Registration
       const registrData: RegistrData = {
         username: values.username,
@@ -80,17 +83,16 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
     } else {
       // Authentication
       try {
-        const loginData = { email: values.email, password: values.password };
-        await dispatch(loginUser(loginData)).unwrap();
-
-        CustomNotification({
+        /* const loginData = { email: values.email, password: values.password };
+        console.log('authData: ', authData); */
+        // await dispatch(loginUser(loginData)).unwrap();
+        /*   CustomNotification({
           title: 'Пользователь',
           message: 'Поздравляю! Вы успешно авторизовались!',
           variant: 'succes',
-        });
-
-        form.reset();
-        closeModal();
+        }); */
+        /* form.reset();
+        closeModal(); */
       } catch (rejectedError) {
         const rejectValue = rejectedError as ResponseError;
         CustomNotification({
@@ -168,7 +170,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
           </Button>
         </Group>
       </form> */}
-      <AuthenticationForm closeModal={closeModal} setIsLogin={setIsLogin} />
+      {/* <AuthenticationForm closeModal={closeModal} setIsLogin={setIsLogin} /> */}
     </Modal>
   ) : (
     <Modal className='Registration' opened={opened} onClose={closeModal} title='Регистрация'>

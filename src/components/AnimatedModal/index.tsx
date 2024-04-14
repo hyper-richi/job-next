@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 
 import { Portal } from '../Portal/Portal';
-import { Modal } from './Modal/Modal';
-import { useMount } from '@/app/lib/hooks/useMount/useMount';
+import { Modal } from './Layout';
+import { useMount } from '@/app/lib/hooks/useMounted/useMount';
 
 interface AnimatedModalProps {
   opened: boolean;

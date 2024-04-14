@@ -10,7 +10,7 @@ import {
   ResponseTransform,
   VacancyTransform,
 } from '../../../..';
-import { User } from '../store/features/auth/types/authUserSchema';
+import { AuthApiResponse, LoginData, User } from '../store/features/auth/types/authUserSchema';
 
 // "no-store" - SSR getServerSideProps рендер на сервере, Этот запрос должен повторяться при каждом запросе
 // "no-cache" ведет себя так же, как no-store в Next.js.
@@ -71,22 +71,6 @@ export async function getVacancies(params: QureyParams): Promise<ResponseTransfo
     throw new Error('Failed to fetch Vacancies data.');
   }
 }
-
-/* id: vacancy.id,
-              category: vacancy.category,
-              salary_min: vacancy.salary_min,
-              salary_max: vacancy.salary_max,
-              addresses: vacancy.addresses,
-              duty: vacancy.duty,
-              requirement: vacancy.requirement,
-              region: vacancy.region,
-              company: vacancy.company,
-              'job-name': vacancy['job-name'],
-              salary: vacancy.salary,
-              work_places: vacancy.work_places,
-              employment: vacancy.employment,
-              schedul: vacancy.schedule,
-              vac_url: vacancy.vac_url, */
 
 export async function getRegions(): Promise<ResponseRegions> {
   try {
@@ -183,3 +167,37 @@ export async function getUsers(): Promise<User[]> {
     throw new Error('catch Request users failed.');
   }
 }
+
+export async function authUser(loginData: LoginData): Promise<AuthApiResponse | undefined> {
+  try {
+    const res = await fetch(process.env.MOKKY_JOB_URL + '/auth', {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginData),
+      cache: 'no-store',
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fetch user.');
+  }
+}
+
+/* id: vacancy.id,
+              category: vacancy.category,
+              salary_min: vacancy.salary_min,
+              salary_max: vacancy.salary_max,
+              addresses: vacancy.addresses,
+              duty: vacancy.duty,
+              requirement: vacancy.requirement,
+              region: vacancy.region,
+              company: vacancy.company,
+              'job-name': vacancy['job-name'],
+              salary: vacancy.salary,
+              work_places: vacancy.work_places,
+              employment: vacancy.employment,
+              schedul: vacancy.schedule,
+              vac_url: vacancy.vac_url, */

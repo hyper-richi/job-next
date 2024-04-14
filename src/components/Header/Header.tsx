@@ -40,14 +40,17 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   // const [showSignModal, setShowSignModal] = useState(false);
   const { authUser } = useAppSelector((state) => state.authUser);
   const dispatch = useAppDispatch();
+  // const token = sessionStorage.getItem('token');
 
   useLayoutEffect(() => {
     console.log('Header-useEffect: ');
-    dispatch(initAuthUser());
+    /* if (token) {
+       dispatch(initAuthUser());
+    } */
     if (authUser) {
       dispatch(getFavorites(authUser?.id));
     }
-  }, [authUser?.id]);
+  }, [authUser?.id, 'token']);
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -83,21 +86,37 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
     }
   };
 
-  let url = `/`;
+  /* let url = `/`;
 
   if (regionCodeParams) {
     url = url + `?regionCode=${regionCodeParams}`;
-  }
+  } */
 
   return (
     <>
       <header className={clsx(styles.desktop)}>
         <div className={styles.wrapper}>
           <div className={styles.header}>
-            <Link prefetch={false} className={styles.header__logo} href={url}>
+            <Link prefetch={false} className={styles.header__logo} href={'/'}>
               JOB/
             </Link>
             <div className={styles.header__info}>
+              <div className={styles.info__cities}>
+                <Link prefetch={false} href={'/protected'}>
+                  protected
+                </Link>
+                <Link prefetch={false} href={'/login'}>
+                  login
+                </Link>
+
+                <Link prefetch={false} href={'/favorites'}>
+                  favorites
+                </Link>
+                <svg width='1' height='46' viewBox='0 0 1 46' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                  <path fill='#fff' d='M0 0h1v46H0z'></path>
+                </svg>
+              </div>
+
               <div className={styles.info__cities} onClick={onCloseDesktopRegionsModal}>
                 <RegionName regions={regions} />
                 <div className={styles['city-logo']}>

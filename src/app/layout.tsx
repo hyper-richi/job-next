@@ -10,6 +10,7 @@ import '@mantine/notifications/styles.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { StoreProvider } from './lib/provider/StoreProvider';
+import AuthProvider from './lib/provider/AuthProvider/AuthProvider';
 import { Notifications } from '@mantine/notifications';
 
 const GTEestiProText = localFont({
@@ -59,21 +60,58 @@ const GTEestiProDisplay = localFont({
   variable: '--gteestiprodisplay',
 });
 
-export const metadata: Metadata = {
+/* export const metadata: Metadata = {
   title: {
-    template: '%s | Работа в России, поиск  вакансий',
-    default: 'Работа в России, поиск  вакансий',
+    template: '%s | Лучшая Работа, поиск  вакансий',
+    default: 'Лучшая Работа, найди работу мечты',
   },
   icons: {
-    icon: [{ url: '/icon.svg' }, new URL('/icon.svg', 'https://example.com')],
+    icon: [{ url: '/icon.svg' }], // new URL('/icon.svg', 'https://example.com')
     shortcut: ['/icon.svg'],
     apple: [{ url: '/icon.svg' }, { url: '/icon.svg', sizes: '180x180', type: 'image/svg' }],
   },
-  description: `Сайт, который помогает найти работу в России! Создавайте резюме и откликайтесь на вакансии.`,
-};
+  description: `Сайт, который помогает найти работу мечты! Создавайте резюме и откликайтесь на вакансии.`,
+  metadataBase: new URL('https://job-next.vercel.app'),
+  keywords: ['работа', 'работа мечты', 'лучшая работа', 'самая лучшая работа в моей жизни'],
+  robots: {
+    index: false,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: false,
+      noimageindex: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    title: 'Лучшая работа',
+    description: 'Лучшая Работа, найди работу мечты',
+    url: 'https://job-next.vercel.app',
+    siteName: 'работа мечты',
+   // authors: ['Seb', 'Josh'],
+    images: [
+      {
+        url: 'https://job-next.vercel.app/opengraph-image-min.jpg', // Must be an absolute URL
+        width: 800,
+        height: 600,
+      },
+      {
+        url: 'https://job-next.vercel.app/opengraph-image.jpg', // Must be an absolute URL
+        width: 1800,
+        height: 1600,
+        alt: 'Камалов Эльдар',
+      },
+    ],
+    locale: 'ru_RU',
+    type: 'website',
+  },
+}; */
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  console.log('RootLayout: ');
+  // console.log('RootLayout: ');
   // const { data: regions } = await getRegions();
   return (
     <html lang='ru'>
@@ -86,11 +124,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <MantineProvider>
             <Notifications limit={5} />
             <Header /* regions={regions} */ />
-            <main className={styles.container}>
-              {children}
-              <Analytics />
-              <SpeedInsights />
-            </main>
+            <AuthProvider>
+              <main className={styles.container}>
+                {children}
+                <Analytics />
+                <SpeedInsights />
+              </main>
+            </AuthProvider>
             <Footer /* regions={regions} */ />
           </MantineProvider>
         </StoreProvider>

@@ -1,8 +1,9 @@
 'use client';
+
 import AuthenticationForm from '@/components/AuthenticationForm/AuthenticationForm';
 import { Anchor, Paper, Title, Text, Container } from '@mantine/core';
 
-function Login() {
+export default function Login() {
   return (
     <Container size={420} my={40}>
       <Title style={{ textAlign: 'center' }} order={2} textWrap='wrap'>
@@ -10,7 +11,7 @@ function Login() {
       </Title>
       <Text c='dimmed' size='sm' mt={5}>
         Do not have an account yet?{' '}
-        <Anchor<'a'> href='#' size='sm' /* onClick={(event) => event.preventDefault()} */>
+        <Anchor<'a'> href='#' size='sm' onClick={(event) => event.preventDefault()}>
           Create account
         </Anchor>
       </Text>
@@ -21,5 +22,3 @@ function Login() {
     </Container>
   );
 }
-
-export default Login;

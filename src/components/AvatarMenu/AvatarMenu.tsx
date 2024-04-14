@@ -6,18 +6,22 @@ import { IconSettings, IconPhoto, IconMessageCircle, IconTrash, IconLogin2, Icon
 import styles from './AvatarMenu.module.scss';
 import AvatarButton from '../AvatarButton/AvatarButton';
 import { deleteUser, logoutUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
-import { clearFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
+// import { clearFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { useRouter } from 'next/navigation';
+import { signOut } from "next-auth/react";
 
 function AvatarMenu({ openSignModal }: { openSignModal: () => void }) {
   const { authUser } = useAppSelector((state) => state.authUser);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const handleLogout = () => {
-    dispatch(logoutUser());
-    dispatch(clearFavorites());
-    router.push('/');
+  const handleLogout = async () => {
+    // dispatch(logoutUser());
+    // dispatch(clearFavorites());
+    const authData = await signOut();
+    console.log('authData: ', authData);
+
+    // router.push('/');
   };
 
   return (
