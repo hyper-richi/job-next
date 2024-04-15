@@ -2,6 +2,7 @@
 
 import { AuthError } from 'next-auth';
 import { signIn, signOut } from '../auth';
+import { redirect } from 'next/navigation';
 
 const defaultValues = {
   email: '',
@@ -42,5 +43,5 @@ export async function login(prevState: any, formData: FormData) {
 }
 
 export async function logout() {
-  await signOut();
+  await signOut({ redirectTo: '/' });
 }

@@ -1,4 +1,3 @@
-import { logout } from '@/lib/actions';
 import type { NextAuthConfig } from 'next-auth';
 
 export const authConfig = {
@@ -6,26 +5,12 @@ export const authConfig = {
     strategy: 'jwt',
   },
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      const paths = ['/protected', '/favorites'];
-      const isProtected = paths.some((path) => {
-        return nextUrl.pathname.startsWith(path);
-      });
-      console.log('nextUrl.origin: ', nextUrl.origin);
-
-      if (isProtected && !isLoggedIn) {
-        console.log('isProtected && !isLoggedIn: ', isProtected && !isLoggedIn);
-        const redirectUrl = new URL('/api/auth/signin', nextUrl.origin);
-        redirectUrl.searchParams.append('callbackUrl', nextUrl.href);
-        // return Response.redirect(redirectUrl);
-      }
-
-      return true;
+    authorized({ auth }) {
       const isAuthenticated = !!auth?.user;
 
       return isAuthenticated;
     },
+
     async jwt({ token, account, user }) {
       if (account && account.type === 'credentials') {
         token.user = user;
@@ -38,4 +23,9 @@ export const authConfig = {
     },
   },
   providers: [],
+  pages: {
+    error: '/error',
+    signIn: '/login',
+    signOut: '/',
+  },
 } satisfies NextAuthConfig;

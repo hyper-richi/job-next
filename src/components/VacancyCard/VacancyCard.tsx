@@ -22,7 +22,6 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
   const [isClick, setisClick] = useState(false);
 
   const favoritesVacancies = useAppSelector(selectFavorites);
-  // console.log('VacancyCard-favoritesVacancies: ', favoritesVacancies);
 
   const { 'job-name': vacancyName, salary_min, salary_max, category, company, id: vacancy_id } = vacancy;
 

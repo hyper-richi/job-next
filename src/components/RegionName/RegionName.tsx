@@ -13,17 +13,17 @@ const RegionName = ({ regions }: { regions?: IRegion[] }) => {
   useEffect(() => {
     const regionCodeStorage = localStorage.getItem('regionCode') || '';
 
-    if (!regionCodeParams && !regionCodeStorage) {
+    /*  if (!regionCodeParams && !regionCodeStorage) {
       localStorage.setItem('regionCode', 'all');
       SearchParams.set('regionCode', 'all');
       replace(`?${SearchParams.toString()}`);
-    }
+    } */
 
-    if (regionCodeStorage && !regionCodeParams) {
+    /* if (regionCodeStorage && !regionCodeParams) {
       SearchParams.set('regionCode', regionCodeStorage);
       replace(`?${SearchParams.toString()}`);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    } */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const regionName = useMemo(() => {

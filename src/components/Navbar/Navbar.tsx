@@ -78,8 +78,6 @@ export const category: CategoryVacancy[] = [
 ];
 
 const Navbar = ({ isMobile }: { isMobile?: boolean }) => {
-  // const regionCodeStorage = localStorage.getItem('regionCode') || 'all';
-  // const encodeSearchText = encodeURIComponent(useSearchParams().get('text') || '');
 
   const [hidenNavbar, setHidenNavbar] = useState(false);
   const lastScrollRef = useRef(0);

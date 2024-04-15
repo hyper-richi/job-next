@@ -19,8 +19,7 @@ export default function Favorites({ params, searchParams }: Params) {
 
   /* const authUser = useAppSelector(selectAuthUser);
   const statusAuth = useAppSelector(selectStatusAuth); */
-  /* const session = await auth();
-  console.log('session: ', session); */
+  
   /* const favoritesVacancies = useAppSelector(selectFavorites);
   const token = sessionStorage.getItem('token'); */
 

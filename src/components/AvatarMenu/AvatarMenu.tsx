@@ -19,7 +19,6 @@ function AvatarMenu({ openSignModal }: { openSignModal: () => void }) {
     // dispatch(logoutUser());
     // dispatch(clearFavorites());
     const authData = await signOut();
-    console.log('authData: ', authData);
 
     // router.push('/');
   };

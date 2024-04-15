@@ -44,9 +44,5 @@ export const {
       },
     }),
   ],
-  pages: {
-    error: '/error',
-    signIn: '/',
-    signOut: '/',
-  },
+  
 });

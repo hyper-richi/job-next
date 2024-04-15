@@ -54,7 +54,6 @@ function Search({ countVacancies }: { countVacancies: number }) {
     }
 
     if (searchTextForm === encodeSearchText || !searchTextForm) {
-      console.log('return: ');
       return;
     }
     replace(`?${SearchParams.toString()}`);

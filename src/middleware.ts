@@ -1,21 +1,30 @@
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
-import { DEFAULT_REDIRECT, PUBLIC_ROUTES, ROOT } from '@/lib/routes';
 
 const { auth } = NextAuth(authConfig);
 
+const pathsProtected = ['/protected', '/favorites'];
+
 export default auth((req) => {
   const { nextUrl } = req;
+  const isAuthorized = !!req.auth;
 
-  /* const isAuthenticated = !!req.auth;
-  console.log('isAuthenticated: ', isAuthenticated);
-  const isPublicRoute = PUBLIC_ROUTES.includes(nextUrl.pathname);
-  console.log('nextUrl: ', nextUrl);
-  console.log('isPublicRoute: ', isPublicRoute); */
+  const isProtected = pathsProtected.some((path) => {
+    return nextUrl.pathname.startsWith(path);
+  });
 
-  // if (isPublicRoute && isAuthenticated) return Response.redirect(new URL(DEFAULT_REDIRECT, nextUrl));
+  if (!isAuthorized && isProtected) {
+    let callbackUrl = nextUrl.pathname;
 
-  // if (!isAuthenticated && !isPublicRoute) return Response.redirect(new URL(ROOT, nextUrl));
+    if (nextUrl.search) {
+      callbackUrl += nextUrl.search;
+    }
+
+    const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+
+    return Response.redirect(new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl));
+  }
+  return null;
 });
 
 export const config = {

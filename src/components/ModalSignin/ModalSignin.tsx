@@ -84,7 +84,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
       // Authentication
       try {
         /* const loginData = { email: values.email, password: values.password };
-        console.log('authData: ', authData); */
+         */
         // await dispatch(loginUser(loginData)).unwrap();
         /*   CustomNotification({
           title: 'Пользователь',
