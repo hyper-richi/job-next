@@ -39,7 +39,9 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
   url = url + '&offset=0';
 
   const handleCklick = () => {
-    setIsLoading(true);
+    if (pathname !== `/vacancies/${categoryVacancy.jobCategory}`) {
+      setIsLoading(true);
+    }
   };
 
   const modsIcon: Mods = {
@@ -52,17 +54,7 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
   };
 
   return (
-    <Link
-      key={categoryVacancy.jobCategory}
-      className={clsx(styles.navbar__links, modsLink)}
-      href={url}
-      /* {
-      pathname: '/about',
-      query: { name: 'test' },
-      { pathname: url, query: { jobCategory: categoryVacancy.jobCategory, title: categoryVacancy.title } }
-    } */
-      onClick={handleCklick}
-    >
+    <Link key={categoryVacancy.jobCategory} className={clsx(styles.navbar__links, modsLink)} href={url} onClick={handleCklick}>
       <div className={clsx(isMobile ? styles.navbar__name__mobile : styles.navbar__name)}>
         {categoryVacancy.icon}
         <span className={styles['links-name']}>{categoryVacancy.name}</span>
