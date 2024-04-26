@@ -1,5 +1,5 @@
 'use client';
-import { Button, Group } from '@mantine/core';
+import { Button, Group, PasswordInput, TextInput } from '@mantine/core';
 import { Dispatch, SetStateAction } from 'react';
 import { FormValues, ResponseError } from '../../..';
 import CustomNotification from '../CustomNotification/CustomNotification';
@@ -8,6 +8,8 @@ import { useFormState } from 'react-dom';
 // import { useSession, signIn, signOut } from 'next-auth/react';
 import { login, logout } from '@/lib/actions';
 import { useSession } from 'next-auth/react';
+import { signIn } from '@/auth';
+import { useSearchParams } from 'next/navigation';
 
 export default function AuthenticationForm({
   closeModal,
@@ -18,9 +20,12 @@ export default function AuthenticationForm({
 }) {
   // const dispatch = useAppDispatch();
   // const file = useAppSelector(selectFile);
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl');
   const { data: session } = useSession();
 
   const [formState, formAction] = useFormState(login, undefined);
+  console.log('formState: ', formState);
 
   const form = useForm<FormValues>({
     initialValues: {
@@ -81,8 +86,8 @@ export default function AuthenticationForm({
       // Authentication
       try {
         const loginData = { email: values.email, password: values.password };
-        console.log('handleSubmit-loginData: ', loginData);
         // await dispatch(loginUser(loginData)).unwrap();
+        await signIn('credentials', { ...loginData, redirectTo: callbackUrl || '/vacancies' });
 
         /*  CustomNotification({
           title: 'Пользователь',
@@ -112,8 +117,11 @@ export default function AuthenticationForm({
   };
 
   return (
-    <form action={formAction} /* onSubmit={form.onSubmit((values) => handleSubmit(values))} */>
-      {/* <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
+    <form
+      action={() => formAction({ loginData, callbackUrl })}
+      /* onSubmit={form.onSubmit((values) => handleSubmit(values)) }*/
+    >
+      <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
       <PasswordInput
         mt='md'
         withAsterisk
@@ -122,9 +130,9 @@ export default function AuthenticationForm({
         required
         {...form.getInputProps('password')}
         error={form.errors.password}
-      /> */}
-      <input required name='email' placeholder='email' />
-      <input required name='password' type='password' placeholder='password' />
+      />
+      {/* <input required name='email' placeholder='email' />
+      <input required name='password' type='password' placeholder='password' /> */}
 
       <p>email:{session && session?.user?.email}</p>
       <p>username:{session && session?.user.username}</p>

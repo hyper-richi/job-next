@@ -33,16 +33,16 @@ export const {
       async authorize(credentials) {
         try {
           const authData = await authUser(credentials.email as string, credentials.password as string);
+          console.log('authData: ', authData);
           if (authData) {
             return authData.data;
           } else return null;
         } catch (err) {
           console.log('err: Invalid credentials', err);
-          // throw new Error(err);
+          throw new Error('Error', err as Error);
           return null;
         }
       },
     }),
   ],
-  
 });

@@ -3,15 +3,17 @@
 import { AuthError } from 'next-auth';
 import { signIn, signOut } from '../auth';
 import { redirect } from 'next/navigation';
+import { LoginData } from '@/app/lib/store/features/auth/types/authUserSchema';
 
 const defaultValues = {
   email: '',
   password: '',
 };
 
-export async function login(prevState: any, formData: FormData) {
+export async function login(prevState: any, payload: any) {
   try {
-    await signIn('credentials', formData);
+    //await signIn('credentials', formData);
+    await signIn('credentials', { ...payload.loginData, redirectTo: payload.callbackUrl || '/vacancies' });
 
     return {
       message: 'success',

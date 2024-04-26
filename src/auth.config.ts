@@ -24,7 +24,6 @@ export const authConfig = {
   },
   providers: [],
   pages: {
-    error: '/error',
     signIn: '/login',
     signOut: '/',
   },
