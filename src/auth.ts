@@ -12,7 +12,7 @@ async function authUser(email: string, password: string) {
   });
 }
 
-/* class CustomAuthorizeError extends CredentialsSignin {
+class CustomAuthorizeError extends CredentialsSignin {
   message: string;
   statusCode: number;
   error: string;
@@ -25,7 +25,7 @@ async function authUser(email: string, password: string) {
     this.statusCode = statusCode;
     this.error = error;
   }
-} */
+}
 
 export const {
   auth,
@@ -44,18 +44,16 @@ export const {
       async authorize(credentials) {
         try {
           const res = await authUser(credentials.email as string, credentials.password as string);
-          console.log('res: ', res);
           return res.data.data;
         } catch (error) {
-          console.log('catch');
           //@ts-ignore
           const message = error?.response?.data.message;
           //@ts-ignore
           const statusCode = error?.response?.data.statusCode;
           //@ts-ignore
           const errorMes = error?.response?.data.error;
-          // throw new CustomAuthorizeError(message, statusCode, errorMes);
-          return null;
+          throw new CustomAuthorizeError(message, statusCode, errorMes);
+          //return null;
         }
       },
     }),

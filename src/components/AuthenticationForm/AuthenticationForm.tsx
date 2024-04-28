@@ -19,7 +19,7 @@ type StatusForm = 'idle' | 'success' | 'error';
 
 type SignUpFormInitialStateT = {
   error: boolean;
-  status?: 'idle';
+  message: string;
   validatedErrors?: InputErrorsT;
   credentials?: {
     message: string;
@@ -31,7 +31,6 @@ type SignUpFormInitialStateT = {
 type SignUpFormErrorStateT = {
   error: boolean;
   message: string;
-  // status?: 'error';
   validatedErrors?: InputErrorsT;
   credentials?: {
     message: string;
@@ -49,16 +48,8 @@ export type SignUpFormStateT = SignUpFormInitialStateT | SignUpFormErrorStateT;
 
 const initialState: SignUpFormInitialStateT = {
   error: false,
+  message: '',
   // status: 'idle',
-  validatedErrors: {
-    email: [''],
-    password: [''],
-  },
-  credentials: {
-    message: '',
-    statusCode: 0,
-    error: '',
-  },
 };
 
 export default function AuthenticationForm({
@@ -72,7 +63,7 @@ export default function AuthenticationForm({
   // const file = useAppSelector(selectFile);
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
 
   const [formState, formAction] = useFormState<SignUpFormStateT, Payload>(login, initialState);
   console.log('formState: ', formState);
@@ -99,21 +90,22 @@ export default function AuthenticationForm({
   });
   const loginData = { email: form.values.email, password: form.values.password };
   useEffect(() => {
-   // form.setFieldError('email', formState.validatedErrors?.email);
+    form.setFieldError('email', formState.validatedErrors?.email);
   }, [formState.validatedErrors?.email]);
 
   useEffect(() => {
-   // form.setFieldError('password', formState.validatedErrors?.password);
+    form.setFieldError('password', formState.validatedErrors?.password);
   }, [formState.validatedErrors?.password]);
 
   useEffect(() => {
-    /* if (!formState.error && formState.status === '') {
+    if (formState.error) {
       CustomNotification({
         title: 'Пользователь',
-        message: 'Поздравляю! Вы успешно авторизовались!',
-        variant: 'succes',
+        message: formState.credentials?.message ?? formState.message,
+        variant: 'error',
+        statusCode: formState.credentials?.statusCode,
       });
-    } */
+    }
   }, [formState.credentials]);
 
   /* const handleSubmit = async ( values?: FormValues,  formData?: FormData) => {
@@ -142,7 +134,7 @@ export default function AuthenticationForm({
         // CustomNotification({
         //  title: 'Пользователь',
         //  message: 'Пользователь успешно создан!',
-        //  variant: 'succes',
+        //  variant: 'success',
         //});
       } catch (rejectedError) {
         const rejectValue = rejectedError as ResponseError;
@@ -163,7 +155,7 @@ export default function AuthenticationForm({
         CustomNotification({
           title: 'Пользователь',
           message: 'Поздравляю! Вы успешно авторизовались!',
-          variant: 'succes',
+          variant: 'success',
         });
         // form.reset();
         //
@@ -199,8 +191,8 @@ export default function AuthenticationForm({
         {...form.getInputProps('password')}
         error={form.errors.password}
       />
-      {/* <p>email:{session && session?.user?.email}</p>
-      <p>username:{session && session?.user.username}</p> */}
+      <p>email:{session && session?.user?.email}</p>
+      <p>username:{session && session?.user.username}</p>
       <Group style={{ fontWeight: '400 !important' }} mt='md' justify='space-between'>
         {/*  <Button variant='default' onClick={toogleForm}>
           Регистрация

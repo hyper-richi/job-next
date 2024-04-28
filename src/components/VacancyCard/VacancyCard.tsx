@@ -13,11 +13,13 @@ import { addFavorites, selectFavorites } from '@/app/lib/store/features/favorite
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { selectAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 import clsx from 'clsx';
+import { useSession } from 'next-auth/react';
 // import { selectFavorites } from '@/app/lib/store/features/favorites/selectors/selectFavorites/selectFavorites';
 
 export default function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector(selectAuthUser);
+  const { data: session } = useSession();
 
   const [isClick, setisClick] = useState(false);
 
@@ -51,10 +53,10 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
   async function handleClick(event: React.MouseEvent<HTMLElement>) {
     event.stopPropagation();
     setisClick(true);
-    try {
-      if (authUser) {
-        let currentDate = new Date();
 
+    try {
+      if (session?.user) {
+        let currentDate = new Date();
         const currentData = {
           year: currentDate.getFullYear(),
           month: currentDate.getMonth() + 1,
@@ -74,10 +76,11 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
         CustomNotification({
           title: 'Вакансия',
           message: 'Вакансия успешно добавлена в избранное!',
-          variant: 'succes',
+          variant: 'success',
         });
       }
     } catch (rejectedError) {
+      console.log('catch: ');
       const rejectValue = rejectedError as ResponseError;
       CustomNotification({
         message: rejectValue.message,

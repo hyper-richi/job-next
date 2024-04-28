@@ -56,7 +56,7 @@ export default function FavoritesCard({ regionCode, vacancy, offset, searchText,
         CustomNotification({
           title: 'Вакансия',
           message: 'Вакансия успешно удалена из избранного!',
-          variant: 'succes',
+          variant: 'success',
         });
       }
     } catch (rejectedError) {

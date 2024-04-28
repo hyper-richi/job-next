@@ -69,7 +69,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
         CustomNotification({
           title: 'Пользователь',
           message: 'Пользователь успешно создан!',
-          variant: 'succes',
+          variant: 'success',
         });
       } catch (rejectedError) {
         const rejectValue = rejectedError as ResponseError;
@@ -89,7 +89,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
         /*   CustomNotification({
           title: 'Пользователь',
           message: 'Поздравляю! Вы успешно авторизовались!',
-          variant: 'succes',
+          variant: 'success',
         }); */
         /* form.reset();
         closeModal(); */
@@ -133,7 +133,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
         CustomNotification({
           title: 'Аватар',
           message: 'Фотография аватара успешно удалена!',
-          variant: 'succes',
+          variant: 'success',
         });
       } catch (rejectedError) {
         const rejectValue = rejectedError as ResponseError;

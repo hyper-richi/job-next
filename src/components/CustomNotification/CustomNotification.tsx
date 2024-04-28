@@ -3,18 +3,19 @@ import classes from './CustomNotification.module.scss';
 import clsx from 'clsx';
 
 interface CustomNotificationProps extends NotificationData {
-  variant?: 'error' | 'succes';
+  variant?: 'error' | 'success';
   additionalMessage?: string;
+  statusCode?: number;
 }
 
 export type Mods = Record<string, boolean | string | undefined>;
 
 function CustomNotification(props: CustomNotificationProps) {
-  const { variant, additionalMessage, message } = props;
+  const { variant, additionalMessage, message, statusCode } = props;
 
   const mods = {
     red: variant === 'error',
-    green: variant === 'succes',
+    green: variant === 'success',
   };
 
   function titleNotificationWithType() {
@@ -23,8 +24,9 @@ function CustomNotification(props: CustomNotificationProps) {
 
   const note = (
     <div className={classes.additionalMessage}>
-      <span>{`${message}`}</span>
-      <span>{`${additionalMessage}`}</span>
+      <span>{message}</span>
+      {additionalMessage && <span>{additionalMessage}</span>}
+      {statusCode && <span>Status Code: {statusCode}</span>}
     </div>
   );
 
@@ -32,9 +34,9 @@ function CustomNotification(props: CustomNotificationProps) {
     ...props,
     title: titleNotificationWithType(),
     color: clsx(mods),
-    message: additionalMessage ? note : message,
+    message: note,
     withCloseButton: true,
-    autoClose: 5000,
+    autoClose: false, //5000,
     classNames: classes,
     loading: false,
     limit: 5,

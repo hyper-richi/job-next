@@ -4,6 +4,17 @@
   &::before {
     background-color: var(--notification-color);
   }
+
+  &[data-variant='error'] {
+    outline: #ff5656;
+    outline-width: 0.9px;
+    outline-style: solid;
+  }
+  &[data-variant='success'] {
+    outline: #7ef693;
+    outline-width: 0.9px;
+    outline-style: solid;
+  }
 }
 
 .description,
@@ -16,11 +27,3 @@
   flex-direction: column;
   gap: 10;
 }
-
-/* .closeButton {
-  color: var(--mantine-color-white);
-
-  @mixin hover {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-} */
