@@ -15,11 +15,11 @@ const cardAnimation = {
 };
 
 export default function Favorites({ params, searchParams }: Params) {
-  const { data: session } = useSession();
+ // const { data: session } = useSession();
 
   /* const authUser = useAppSelector(selectAuthUser);
   const statusAuth = useAppSelector(selectStatusAuth); */
-  
+
   /* const favoritesVacancies = useAppSelector(selectFavorites);
   const token = sessionStorage.getItem('token'); */
 

@@ -3,18 +3,29 @@ import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
 import { AuthApiResponse } from './app/lib/store/features/auth/types/authUserSchema';
 import axios, { AxiosError } from 'axios';
+import { CredentialsSignin } from 'next-auth';
 
-async function authUser(email: string, password: string): Promise<AuthApiResponse | undefined> {
-  try {
-    const dataLogin = { email, password };
-    const res = await axios.post<AuthApiResponse>('https://6ede402e6a352dfb.mokky.dev/auth', dataLogin);
-    return res.data;
-  } catch (error) {
-    const err = error as AxiosError;
-    console.error('Failed to fetch user:', err);
-    throw new Error('Failed to fetch user.');
-  }
+async function authUser(email: string, password: string) {
+  const dataLogin = { email, password };
+  return await axios.post<AuthApiResponse>('https://6ede402e6a352dfb.mokky.dev/auth', dataLogin).then((data) => {
+    return data;
+  });
 }
+
+/* class CustomAuthorizeError extends CredentialsSignin {
+  message: string;
+  statusCode: number;
+  error: string;
+
+  constructor(message: string, statusCode: number, error: string) {
+    super(); //   в производных классах super() необходимо
+    // вызывать, прежде чем использовать 'this'. Если этого не сделать, произойдет ошибка ReferenceError.
+
+    this.message = message;
+    this.statusCode = statusCode;
+    this.error = error;
+  }
+} */
 
 export const {
   auth,
@@ -32,14 +43,18 @@ export const {
       },
       async authorize(credentials) {
         try {
-          const authData = await authUser(credentials.email as string, credentials.password as string);
-          console.log('authData: ', authData);
-          if (authData) {
-            return authData.data;
-          } else return null;
-        } catch (err) {
-          console.log('err: Invalid credentials', err);
-          throw new Error('Error', err as Error);
+          const res = await authUser(credentials.email as string, credentials.password as string);
+          console.log('res: ', res);
+          return res.data.data;
+        } catch (error) {
+          console.log('catch');
+          //@ts-ignore
+          const message = error?.response?.data.message;
+          //@ts-ignore
+          const statusCode = error?.response?.data.statusCode;
+          //@ts-ignore
+          const errorMes = error?.response?.data.error;
+          // throw new CustomAuthorizeError(message, statusCode, errorMes);
           return null;
         }
       },

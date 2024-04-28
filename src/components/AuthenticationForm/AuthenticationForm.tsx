@@ -1,15 +1,65 @@
 'use client';
 import { Button, Group, PasswordInput, TextInput } from '@mantine/core';
-import { Dispatch, SetStateAction } from 'react';
-import { FormValues, ResponseError } from '../../..';
-import CustomNotification from '../CustomNotification/CustomNotification';
+import { Dispatch, SetStateAction, useEffect } from 'react';
+import { FormValues } from '../../..';
 import { useForm } from '@mantine/form';
 import { useFormState } from 'react-dom';
-// import { useSession, signIn, signOut } from 'next-auth/react';
 import { login, logout } from '@/lib/actions';
 import { useSession } from 'next-auth/react';
-import { signIn } from '@/auth';
 import { useSearchParams } from 'next/navigation';
+import { LoginData } from '@/app/lib/store/features/auth/types/authUserSchema';
+import CustomNotification from '../CustomNotification/CustomNotification';
+
+export interface Payload {
+  loginData: LoginData;
+  callbackUrl: string | null;
+}
+
+type StatusForm = 'idle' | 'success' | 'error';
+
+type SignUpFormInitialStateT = {
+  error: boolean;
+  status?: 'idle';
+  validatedErrors?: InputErrorsT;
+  credentials?: {
+    message: string;
+    statusCode: number;
+    error: string;
+  };
+};
+
+type SignUpFormErrorStateT = {
+  error: boolean;
+  message: string;
+  // status?: 'error';
+  validatedErrors?: InputErrorsT;
+  credentials?: {
+    message: string;
+    statusCode: number;
+    error: string;
+  };
+};
+
+export type InputErrorsT = {
+  email?: string[];
+  password?: string[];
+};
+
+export type SignUpFormStateT = SignUpFormInitialStateT | SignUpFormErrorStateT;
+
+const initialState: SignUpFormInitialStateT = {
+  error: false,
+  // status: 'idle',
+  validatedErrors: {
+    email: [''],
+    password: [''],
+  },
+  credentials: {
+    message: '',
+    statusCode: 0,
+    error: '',
+  },
+};
 
 export default function AuthenticationForm({
   closeModal,
@@ -22,9 +72,9 @@ export default function AuthenticationForm({
   // const file = useAppSelector(selectFile);
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
-  const [formState, formAction] = useFormState(login, undefined);
+  const [formState, formAction] = useFormState<SignUpFormStateT, Payload>(login, initialState);
   console.log('formState: ', formState);
 
   const form = useForm<FormValues>({
@@ -41,38 +91,59 @@ export default function AuthenticationForm({
             : 'Длина ящика не более 25 символов'
           : 'Минимальное наименование email n@m',
       username: (value) =>
-        value && value.length < 2 ? 'Имя должно быть от 2' : value && value.length > 20 ? 'Имя должно быть  до 20 символов' : null,
+        value && value.length < 2 ? 'Имя должно быть от 2' : value && value.length > 20 ? 'Имя должно быть до 20 символов' : null,
       password: (value) => {
         return value.length < 5 ? 'Минимальный пароль 5 символов' : null;
       },
     },
   });
   const loginData = { email: form.values.email, password: form.values.password };
+  useEffect(() => {
+   // form.setFieldError('email', formState.validatedErrors?.email);
+  }, [formState.validatedErrors?.email]);
 
-  const handleSubmit = async (values: FormValues) => {
+  useEffect(() => {
+   // form.setFieldError('password', formState.validatedErrors?.password);
+  }, [formState.validatedErrors?.password]);
+
+  useEffect(() => {
+    /* if (!formState.error && formState.status === '') {
+      CustomNotification({
+        title: 'Пользователь',
+        message: 'Поздравляю! Вы успешно авторизовались!',
+        variant: 'succes',
+      });
+    } */
+  }, [formState.credentials]);
+
+  /* const handleSubmit = async ( values?: FormValues,  formData?: FormData) => {
+    console.log('formData: ', formData);
+    // const values = form.onSubmit((values) => values as FormValues);
+    const values = form.values;
+    console.log('values: ', values);
+    console.log('formData: ', formData);
     if (values.username) {
       // Registration
-      /* const registrData: RegistrData = {
-        username: values.username,
-        email: values.email,
-        password: values.password,
-        avatar: {
-          url: file?.url,
-          id_picture: file?.id,
-        },
-      }; */
+      // const registrData: RegistrData = {
+      //  username: values.username,
+      //  email: values.email,
+      //  password: values.password,
+      //  avatar: {
+      //    url: file?.url,
+      //    id_picture: file?.id,
+      //  },
+      //};
       try {
         // await dispatch(registerUser(registrData)).unwrap();
-        form.reset();
-
-        if (closeModal) {
-          closeModal();
-        }
-        CustomNotification({
-          title: 'Пользователь',
-          message: 'Пользователь успешно создан!',
-          variant: 'succes',
-        });
+        // form.reset();
+        //  if (closeModal) {
+        //  closeModal();
+        //}
+        // CustomNotification({
+        //  title: 'Пользователь',
+        //  message: 'Пользователь успешно создан!',
+        //  variant: 'succes',
+        //});
       } catch (rejectedError) {
         const rejectValue = rejectedError as ResponseError;
         CustomNotification({
@@ -87,18 +158,18 @@ export default function AuthenticationForm({
       try {
         const loginData = { email: values.email, password: values.password };
         // await dispatch(loginUser(loginData)).unwrap();
-        await signIn('credentials', { ...loginData, redirectTo: callbackUrl || '/vacancies' });
+        await signIn('credentials', { ...loginData, redirect: false, redirectTo: callbackUrl || '/vacancies' });
 
-        /*  CustomNotification({
+        CustomNotification({
           title: 'Пользователь',
           message: 'Поздравляю! Вы успешно авторизовались!',
           variant: 'succes',
         });
-        form.reset();
-
-        if (closeModal) {
-          closeModal();
-        } */
+        // form.reset();
+        //
+        //if (closeModal) {
+        //  closeModal();
+        //}
       } catch (rejectedError) {
         const rejectValue = rejectedError as ResponseError;
         CustomNotification({
@@ -108,7 +179,7 @@ export default function AuthenticationForm({
         });
       }
     }
-  };
+  }; */
 
   const toogleForm = () => {
     if (setIsLogin) {
@@ -117,10 +188,7 @@ export default function AuthenticationForm({
   };
 
   return (
-    <form
-      action={() => formAction({ loginData, callbackUrl })}
-      /* onSubmit={form.onSubmit((values) => handleSubmit(values)) }*/
-    >
+    <form action={() => formAction({ loginData, callbackUrl })}>
       <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
       <PasswordInput
         mt='md'
@@ -131,11 +199,8 @@ export default function AuthenticationForm({
         {...form.getInputProps('password')}
         error={form.errors.password}
       />
-      {/* <input required name='email' placeholder='email' />
-      <input required name='password' type='password' placeholder='password' /> */}
-
-      <p>email:{session && session?.user?.email}</p>
-      <p>username:{session && session?.user.username}</p>
+      {/* <p>email:{session && session?.user?.email}</p>
+      <p>username:{session && session?.user.username}</p> */}
       <Group style={{ fontWeight: '400 !important' }} mt='md' justify='space-between'>
         {/*  <Button variant='default' onClick={toogleForm}>
           Регистрация

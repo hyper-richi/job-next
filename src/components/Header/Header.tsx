@@ -48,7 +48,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
        dispatch(initAuthUser());
     } */
     if (authUser) {
-      dispatch(getFavorites(authUser?.id));
+     // dispatch(getFavorites(authUser?.id));
     }
   }, [authUser?.id, 'token']);
 
