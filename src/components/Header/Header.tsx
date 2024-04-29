@@ -18,6 +18,7 @@ import { initAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice'
 import { getFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { UnstyledButton } from '@mantine/core';
 import { AnimatedModal } from '../AnimatedModal';
+import { useSession } from 'next-auth/react';
 
 const MobileRegionsModal = dynamic(() => import('../ModalMobileRegions/ModalMobileRegions'), {
   ssr: false,
@@ -37,6 +38,9 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMobileRegionsModal, setMobileShowRegionsModal] = useState(false);
   const [showDesktopRegionsModal, setDesktopShowRegionsModal] = useState(false);
+  const { data: session } = useSession();
+  const [opened, { open, close }] = useDisclosure(false);
+
   // const [showSignModal, setShowSignModal] = useState(false);
   const { authUser } = useAppSelector((state) => state.authUser);
   const dispatch = useAppDispatch();
@@ -48,11 +52,9 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
        dispatch(initAuthUser());
     } */
     if (authUser) {
-     // dispatch(getFavorites(authUser?.id));
+      // dispatch(getFavorites(authUser?.id));
     }
   }, [authUser?.id, 'token']);
-
-  const [opened, { open, close }] = useDisclosure(false);
 
   const searchParams = useSearchParams();
   const regionCodeParams = searchParams.get('regionCode');
@@ -102,13 +104,9 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
             </Link>
             <div className={styles.header__info}>
               <div className={styles.info__cities}>
-                <Link prefetch={false} href={'/protected'}>
-                  protected
-                </Link>
                 <Link prefetch={false} href={'/login'}>
                   login
                 </Link>
-
                 <Link prefetch={false} href={'/favorites'}>
                   favorites
                 </Link>
@@ -135,7 +133,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
             </div>
           </div>
         </div>
-        {authUser && !(pathname === '/login') && <Navbar />}
+        {session?.user && pathname === '/vacancies' && <Navbar />}
       </header>
 
       <div className={clsx(styles.mobile, styles.sticky)}>

@@ -3,7 +3,7 @@ import { authConfig } from './auth.config';
 
 const { auth } = NextAuth(authConfig);
 
-const pathsProtected = ['/protected', '/favorites'];
+const pathsProtected = ['/profile', '/favorites'];
 
 export default auth((req) => {
   const { nextUrl } = req;

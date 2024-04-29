@@ -57,7 +57,7 @@ export default function AuthenticationForm({
   setIsLogin,
 }: {
   closeModal?: () => void;
-  setIsLogin?: Dispatch<SetStateAction<boolean>>;
+  setIsLogin: Dispatch<SetStateAction<boolean>>;
 }) {
   // const dispatch = useAppDispatch();
   // const file = useAppSelector(selectFile);
@@ -108,71 +108,6 @@ export default function AuthenticationForm({
     }
   }, [formState.credentials]);
 
-  /* const handleSubmit = async ( values?: FormValues,  formData?: FormData) => {
-    console.log('formData: ', formData);
-    // const values = form.onSubmit((values) => values as FormValues);
-    const values = form.values;
-    console.log('values: ', values);
-    console.log('formData: ', formData);
-    if (values.username) {
-      // Registration
-      // const registrData: RegistrData = {
-      //  username: values.username,
-      //  email: values.email,
-      //  password: values.password,
-      //  avatar: {
-      //    url: file?.url,
-      //    id_picture: file?.id,
-      //  },
-      //};
-      try {
-        // await dispatch(registerUser(registrData)).unwrap();
-        // form.reset();
-        //  if (closeModal) {
-        //  closeModal();
-        //}
-        // CustomNotification({
-        //  title: 'Пользователь',
-        //  message: 'Пользователь успешно создан!',
-        //  variant: 'success',
-        //});
-      } catch (rejectedError) {
-        const rejectValue = rejectedError as ResponseError;
-        CustomNotification({
-          title: rejectValue.code,
-          message: rejectValue.message,
-          additionalMessage: rejectValue.additionalMessage,
-          variant: 'error',
-        });
-      }
-    } else {
-      // Authentication
-      try {
-        const loginData = { email: values.email, password: values.password };
-        // await dispatch(loginUser(loginData)).unwrap();
-        await signIn('credentials', { ...loginData, redirect: false, redirectTo: callbackUrl || '/vacancies' });
-
-        CustomNotification({
-          title: 'Пользователь',
-          message: 'Поздравляю! Вы успешно авторизовались!',
-          variant: 'success',
-        });
-        // form.reset();
-        //
-        //if (closeModal) {
-        //  closeModal();
-        //}
-      } catch (rejectedError) {
-        const rejectValue = rejectedError as ResponseError;
-        CustomNotification({
-          message: rejectValue.message,
-          additionalMessage: rejectValue.additionalMessage,
-          variant: 'error',
-        });
-      }
-    }
-  }; */
-
   const toogleForm = () => {
     if (setIsLogin) {
       setIsLogin((isLogin: boolean) => !isLogin);
@@ -194,9 +129,9 @@ export default function AuthenticationForm({
       <p>email:{session && session?.user?.email}</p>
       <p>username:{session && session?.user.username}</p>
       <Group style={{ fontWeight: '400 !important' }} mt='md' justify='space-between'>
-        {/*  <Button variant='default' onClick={toogleForm}>
+        <Button variant='default' onClick={toogleForm}>
           Регистрация
-        </Button> */}
+        </Button>
         <Button style={{ background: '#005bff' }} type='submit' /* onClick={() => signIn('credentials', loginData)} */>
           Войти
         </Button>

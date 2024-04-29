@@ -1,0 +1,52 @@
+.container {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 4rem;
+  // display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.card {
+  &__header {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__title {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  &__email {
+    color: #757575;
+    margin-bottom: 0.25rem;
+  }
+}
+
+.avatar {
+  width: 150px;
+  height: 100%;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+
+.col-sm-3 {
+  flex: 0 0 auto;
+  width: 25%;
+}
+
+.col-sm-9 {
+  flex: 0 0 auto;
+  width: 75%;
+}

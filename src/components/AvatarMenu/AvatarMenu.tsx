@@ -2,18 +2,19 @@
 
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { Menu, rem } from '@mantine/core';
-import { IconSettings, IconPhoto, IconMessageCircle, IconTrash, IconLogin2, IconLogout2 } from '@tabler/icons-react';
+import { IconSettings, IconPhoto, IconMessageCircle, IconTrash, IconLogin2, IconLogout2, IconUserCircle } from '@tabler/icons-react';
 import styles from './AvatarMenu.module.scss';
 import AvatarButton from '../AvatarButton/AvatarButton';
 import { deleteUser, logoutUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
 // import { clearFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { useRouter } from 'next/navigation';
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from 'next-auth/react';
 
 function AvatarMenu({ openSignModal }: { openSignModal: () => void }) {
-  const { authUser } = useAppSelector((state) => state.authUser);
+  // const { authUser } = useAppSelector((state) => state.authUser);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { data: session } = useSession();
 
   const handleLogout = async () => {
     // dispatch(logoutUser());
@@ -27,12 +28,17 @@ function AvatarMenu({ openSignModal }: { openSignModal: () => void }) {
     <div className={styles.AvatarMenu}>
       <Menu shadow='md' width={200} withArrow trigger='hover' openDelay={100} closeDelay={400}>
         <Menu.Target>
-          <AvatarButton image={authUser?.avatar.url} name={authUser?.username} email={authUser?.email} />
+          <AvatarButton imageSrc={session?.user?.avatar.url} name={session?.user.username} email={session?.user.email} />
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Label>Application</Menu.Label>
-          <Menu.Item className={styles.menu__item} disabled leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
-            <span className={styles.menu__label}>Settings</span>
+          <Menu.Item
+            className={styles.menu__item}
+            leftSection={<IconUserCircle style={{ width: rem(14), height: rem(14) }} />}
+            component='a'
+            href='/profile'
+          >
+            <span className={styles.menu__label}>Profile</span>
           </Menu.Item>
           <Menu.Item
             className={styles.menu__item}
@@ -45,7 +51,7 @@ function AvatarMenu({ openSignModal }: { openSignModal: () => void }) {
             <span className={styles.menu__label}>Gallery</span>
           </Menu.Item>
           <Menu.Divider />
-          {authUser ? (
+          {session?.user ? (
             <Menu.Item
               className={styles.menu__item}
               leftSection={<IconLogout2 style={{ width: rem(14), height: rem(14) }} />}
@@ -62,9 +68,9 @@ function AvatarMenu({ openSignModal }: { openSignModal: () => void }) {
               <span className={styles.menu__label}>Войти</span>
             </Menu.Item>
           )}
-          {authUser && (
+          {session?.user && (
             <Menu.Item
-              onClick={() => dispatch(deleteUser(authUser?.id))}
+              onClick={() => dispatch(deleteUser(session?.user?.id))}
               className={styles.menu__item}
               color='red'
               leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}

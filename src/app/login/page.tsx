@@ -1,9 +1,13 @@
 'use client';
 
 import AuthenticationForm from '@/components/AuthenticationForm/AuthenticationForm';
+import RegistrationForm from '@/components/RegistrationForm/RegistrationForm';
 import { Anchor, Paper, Title, Text, Container } from '@mantine/core';
+import { useState } from 'react';
 
 export default function Login() {
+  const [isLogin, setIsLogin] = useState(true);
+
   return (
     <Container size={420} my={40}>
       <Title style={{ textAlign: 'center' }} order={2} textWrap='wrap'>
@@ -17,7 +21,7 @@ export default function Login() {
       </Text>
 
       <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
-        <AuthenticationForm />
+        {isLogin ? <AuthenticationForm setIsLogin={setIsLogin} /> : <RegistrationForm setIsLogin={setIsLogin} />}
       </Paper>
     </Container>
   );

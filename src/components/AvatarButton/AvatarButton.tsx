@@ -4,27 +4,27 @@ import { Group, Avatar, Text, UnstyledButton } from '@mantine/core';
 import styles from './AvatarButton.module.scss';
 
 interface AvatarButtonProps extends React.ComponentPropsWithoutRef<'button'> {
-  image?: string;
+  imageSrc?: string;
   name?: string;
   email?: string;
   icon?: React.ReactNode;
 }
 
 const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(
-  ({ image, name, email, icon, ...others }: AvatarButtonProps, ref) => (
+  ({ imageSrc, name, email, icon, ...others }: AvatarButtonProps, ref) => (
     <UnstyledButton
       ref={ref}
       style={{
         padding: 0,
         color: 'var(--mantine-color-text)',
         borderRadius: 'var(--mantine-radius-sm)',
-        height: '100%'
+        height: '100%',
       }}
       {...others}
     >
       <Group wrap='nowrap' className={styles.group}>
-        <Avatar size='md' radius='xl' className={styles.avatar__picture} src={image} alt='profile picture' />
-        {image && (
+        <Avatar size='md' radius='xl' className={styles.avatar__picture} src={imageSrc} alt='profile picture' />
+        {imageSrc && (
           <div style={{ flex: 1 }}>
             <Text size='sm' fw={500} className={styles.avatar__name}>
               {name}
@@ -35,7 +35,7 @@ const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(
             </Text>
           </div>
         )}
-        {image && <IconChevronRight size='1rem' className={styles.avatar__icon} />}
+        {imageSrc && <IconChevronRight size='1rem' className={styles.avatar__icon} />}
       </Group>
     </UnstyledButton>
   )

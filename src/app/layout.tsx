@@ -122,15 +122,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <StoreProvider>
           <MantineProvider>
             <Notifications limit={5} />
-            <Header /* regions={regions} */ />
             <AuthProvider>
+              <Header /* regions={regions} */ />
               <main className={styles.container}>
                 {children}
                 <Analytics />
                 <SpeedInsights />
               </main>
+              <Footer /* regions={regions} */ />
             </AuthProvider>
-            <Footer /* regions={regions} */ />
           </MantineProvider>
         </StoreProvider>
       </body>

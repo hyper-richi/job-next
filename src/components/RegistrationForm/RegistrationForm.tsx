@@ -1,30 +1,78 @@
 'use client';
-import { Modal, Button, Group, PasswordInput, TextInput, Stack, FileButton } from '@mantine/core';
-import { useCallback, useRef, useState } from 'react';
+import { Button, FileButton, Group, PasswordInput, Stack, TextInput } from '@mantine/core';
+import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import { FormValues, ResponseError } from '../../..';
-import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { registerUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
-import CustomNotification from '../CustomNotification/CustomNotification';
-import { deleteFile, selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
-import { RegistrData } from '@/app/lib/store/features/auth/types/authUserSchema';
 import { useForm } from '@mantine/form';
-import AuthenticationForm from '../AuthenticationForm/AuthenticationForm';
-import RegistrationForm from '../RegistrationForm/RegistrationForm';
-// import { useFormState, useFormStatus } from 'react-dom';
-// import { authenticate } from '@/app/lib/actions';
+import { useFormState } from 'react-dom';
+import { login, logout } from '@/lib/actions';
+import { useSession } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
+import { LoginData } from '@/app/lib/store/features/auth/types/authUserSchema';
+import CustomNotification from '../CustomNotification/CustomNotification';
+import CustomAvatar from '../CustomAvatar/CustomAvatar';
+import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
+import { deleteFile, selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
+import { IconPhoto, IconTrash } from '@tabler/icons-react';
 
-function SignModal({ opened, openModal, closeModal }: { opened: boolean; openModal: () => void; closeModal: () => void }) {
-  const resetRef = useRef<() => void>(null);
-  const [isLogin, setIsLogin] = useState(true);
+export interface Payload {
+  loginData: LoginData;
+  callbackUrl: string | null;
+}
 
-  // const [errorMessage, dispatch: ] = useFormState(authenticate, undefined);
+type SignInFormInitialState = {
+  error: boolean;
+  message: string;
+  validatedErrors?: InputErrors;
+  credentials?: {
+    message: string;
+    statusCode: number;
+    error: string;
+  };
+};
 
-  // const [opened, { open, close }] = useDisclosure(false);
+type SignInFormErrorState = {
+  error: boolean;
+  message: string;
+  validatedErrors?: InputErrors;
+  credentials?: {
+    message: string;
+    statusCode: number;
+    error: string;
+  };
+};
+
+export type InputErrors = {
+  email?: string[];
+  password?: string[];
+};
+
+export type SignInFormState = SignInFormInitialState | SignInFormErrorState;
+
+const initialState: SignInFormInitialState = {
+  error: false,
+  message: '',
+  // status: 'idle',
+};
+
+export default function RegistrationForm({
+  closeModal,
+  setIsLogin,
+}: {
+  closeModal?: () => void;
+  setIsLogin: Dispatch<SetStateAction<boolean>>;
+}) {
+  // const [isLogin, setIsLogin] = useState(true);
 
   const dispatch = useAppDispatch();
   const file = useAppSelector(selectFile);
-  // const fileError = useAppSelector(selectFileError);
-  //const statusUploadFile = useAppSelector(selectStatusUploadFile);
+  const resetRef = useRef<() => void>(null);
+
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl');
+  const { data: session } = useSession();
+
+  const [formState, formAction] = useFormState<SignInFormState, Payload>(login, initialState);
+  console.log('formState: ', formState);
 
   const form = useForm<FormValues>({
     initialValues: {
@@ -40,68 +88,31 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
             : 'Длина ящика не более 25 символов'
           : 'Минимальное наименование email n@m',
       username: (value) =>
-        value && value.length < 2 ? 'Имя должно быть от 2' : value && value.length > 20 ? 'Имя должно быть  до 20 символов' : null,
+        value && value.length < 2 ? 'Имя должно быть от 2' : value && value.length > 20 ? 'Имя должно быть до 20 символов' : null,
       password: (value) => {
         return value.length < 5 ? 'Минимальный пароль 5 символов' : null;
       },
     },
   });
+  const loginData = { email: form.values.email, password: form.values.password };
+  useEffect(() => {
+    form.setFieldError('email', formState.validatedErrors?.email);
+  }, [formState.validatedErrors?.email]);
 
-  const handleSubmit = async (values: FormValues) => {
-    if (values.username) {
-      // Registration
-      const registrData: RegistrData = {
-        username: values.username,
-        email: values.email,
-        password: values.password,
-        avatar: {
-          url: file?.url,
-          id_picture: file?.id,
-        },
-      };
-      try {
-        await dispatch(registerUser(registrData)).unwrap();
+  useEffect(() => {
+    form.setFieldError('password', formState.validatedErrors?.password);
+  }, [formState.validatedErrors?.password]);
 
-        form.reset();
-        closeModal();
-
-        CustomNotification({
-          title: 'Пользователь',
-          message: 'Пользователь успешно создан!',
-          variant: 'success',
-        });
-      } catch (rejectedError) {
-        const rejectValue = rejectedError as ResponseError;
-        CustomNotification({
-          title: rejectValue.code,
-          message: rejectValue.message,
-          additionalMessage: rejectValue.additionalMessage,
-          variant: 'error',
-        });
-      }
-    } else {
-      // Authentication
-      try {
-        /* const loginData = { email: values.email, password: values.password };
-         */
-        // await dispatch(loginUser(loginData)).unwrap();
-        /*   CustomNotification({
-          title: 'Пользователь',
-          message: 'Поздравляю! Вы успешно авторизовались!',
-          variant: 'success',
-        }); */
-        /* form.reset();
-        closeModal(); */
-      } catch (rejectedError) {
-        const rejectValue = rejectedError as ResponseError;
-        CustomNotification({
-          message: rejectValue.message,
-          additionalMessage: rejectValue.additionalMessage,
-          variant: 'error',
-        });
-      }
+  useEffect(() => {
+    if (formState.error) {
+      CustomNotification({
+        title: 'Пользователь',
+        message: formState.credentials?.message ?? formState.message,
+        variant: 'error',
+        statusCode: formState.credentials?.statusCode,
+      });
     }
-  };
+  }, [formState.credentials]);
 
   async function handleUploadImgAvatar(fileFormUpload: File | null) {
     const formData = new FormData();
@@ -147,14 +158,15 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
     }
   }, [file]);
 
-  return isLogin ? (
-    <Modal className='Authentication' opened={opened} onClose={closeModal} title='Авторизация'>
-      <AuthenticationForm closeModal={closeModal} setIsLogin={setIsLogin} />
-    </Modal>
-  ) : (
-    <Modal className='Registration' opened={opened} onClose={closeModal} title='Регистрация'>
-      <RegistrationForm closeModal={closeModal} setIsLogin={setIsLogin} />
-      {/* <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+  const toogleForm = () => {
+    if (setIsLogin) {
+      setIsLogin((isLogin: boolean) => !isLogin);
+    }
+  };
+
+  return (
+    <>
+      <form action={() => formAction({ loginData, callbackUrl })}>
         <Stack gap='xs'>
           <CustomAvatar />
           <Group justify='space-between'>
@@ -200,9 +212,15 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
             Создать
           </Button>
         </Group>
-      </form> */}
-    </Modal>
+      </form>
+    </>
   );
 }
 
-export default SignModal;
+/* function LoginButton() {
+  return (
+    <button type='submit' className='mt-4 w-full'>
+      Войти
+    </button>
+  );
+} */
