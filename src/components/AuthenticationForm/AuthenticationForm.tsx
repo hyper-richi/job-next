@@ -4,10 +4,10 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 import { FormValues } from '../../..';
 import { useForm } from '@mantine/form';
 import { useFormState } from 'react-dom';
-import { login, logout } from '@/lib/actions';
+import { login, logout } from '@/app/lib/actions';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
-import { LoginData } from '@/app/lib/store/features/auth/types/authUserSchema';
+import { LoginData } from '@/app/lib/store/features/user/types/userSchema';
 import CustomNotification from '../CustomNotification/CustomNotification';
 
 export interface Payload {
@@ -66,7 +66,6 @@ export default function AuthenticationForm({
   const { data: session } = useSession();
 
   const [formState, formAction] = useFormState<SignUpFormStateT, Payload>(login, initialState);
-  console.log('formState: ', formState);
 
   const form = useForm<FormValues>({
     initialValues: {
@@ -142,11 +141,3 @@ export default function AuthenticationForm({
     </form>
   );
 }
-
-/* function LoginButton() {
-  return (
-    <button type='submit' className='mt-4 w-full'>
-      Войти
-    </button>
-  );
-} */

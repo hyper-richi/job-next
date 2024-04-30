@@ -5,7 +5,7 @@ import { Menu, rem } from '@mantine/core';
 import { IconSettings, IconPhoto, IconMessageCircle, IconTrash, IconLogin2, IconLogout2, IconUserCircle } from '@tabler/icons-react';
 import styles from './AvatarMenu.module.scss';
 import AvatarButton from '../AvatarButton/AvatarButton';
-import { deleteUser, logoutUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
+import { deleteUser } from '@/app/lib/store/features/user/slice/userSlice';
 // import { clearFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';

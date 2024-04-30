@@ -3,15 +3,15 @@ import type { Metadata } from 'next';
 import Header from '@/components/Header/Header';
 import { Footer } from '@/components/Footer/Footer';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
-import styles from './layout.module.scss';
-import '@mantine/core/styles.css';
-import './globals.css';
-import '@mantine/notifications/styles.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { StoreProvider } from './lib/provider/StoreProvider';
 import AuthProvider from './lib/provider/AuthProvider/AuthProvider';
 import { Notifications } from '@mantine/notifications';
+import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
+import styles from './layout.module.scss';
+import './globals.scss';
 
 const GTEestiProText = localFont({
   src: [

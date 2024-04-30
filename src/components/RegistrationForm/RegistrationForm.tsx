@@ -4,10 +4,10 @@ import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } fr
 import { FormValues, ResponseError } from '../../..';
 import { useForm } from '@mantine/form';
 import { useFormState } from 'react-dom';
-import { login, logout } from '@/lib/actions';
+import { login, logout } from '@/app/lib/actions';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
-import { LoginData } from '@/app/lib/store/features/auth/types/authUserSchema';
+import { LoginData } from '@/app/lib/store/features/user/types/userSchema';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import CustomAvatar from '../CustomAvatar/CustomAvatar';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
@@ -72,7 +72,6 @@ export default function RegistrationForm({
   const { data: session } = useSession();
 
   const [formState, formAction] = useFormState<SignInFormState, Payload>(login, initialState);
-  console.log('formState: ', formState);
 
   const form = useForm<FormValues>({
     initialValues: {
@@ -216,11 +215,3 @@ export default function RegistrationForm({
     </>
   );
 }
-
-/* function LoginButton() {
-  return (
-    <button type='submit' className='mt-4 w-full'>
-      Войти
-    </button>
-  );
-} */

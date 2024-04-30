@@ -1,0 +1,56 @@
+.social {
+  padding: 1rem;
+  margin: 0;
+  & :global(.mantine-List-itemIcon) {
+    display: flex;
+  }
+  & :global(.mantine-List-itemLabel) {
+    width: 100%;
+    display: flex;
+  }
+
+  & :global(.mantine-List-itemWrapper) {
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+.input {
+  & :global(.mantine-Input-input) {
+    line-height: 0;
+    height: 28px;
+    min-height: 28px;
+  }
+}
+
+.save__button {
+  border: none;
+  span {
+    background-color: #f1f3f5;
+  }
+  svg {
+    color: #333333;
+  }
+  &:hover {
+    svg {
+      color: #349234;
+    }
+  }
+}
+
+.notif {
+  color: #757575;
+  // margin-top: 16px;
+  width: 100%;
+  display: block;
+  height: 28px;
+  min-height: 28px;
+  line-height: 28px;
+  text-align: end;
+  padding: 0 24px 0 12px;
+  &:hover {
+    outline: 1px solid #228be6;
+    background-color: #f1f3f5;
+    border-radius: 4px;
+  }
+}

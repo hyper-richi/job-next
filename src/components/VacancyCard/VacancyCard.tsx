@@ -11,14 +11,14 @@ import CustomNotification from '../CustomNotification/CustomNotification';
 import { ResponseError, VacancyTransform } from '../../..';
 import { addFavorites, selectFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { selectAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
+import { selectUser } from '@/app/lib/store/features/user/slice/userSlice';
 import clsx from 'clsx';
 import { useSession } from 'next-auth/react';
 // import { selectFavorites } from '@/app/lib/store/features/favorites/selectors/selectFavorites/selectFavorites';
 
 export default function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
   const dispatch = useAppDispatch();
-  const authUser = useAppSelector(selectAuthUser);
+  const authUser = useAppSelector(selectUser);
   const { data: session } = useSession();
 
   const [isClick, setisClick] = useState(false);

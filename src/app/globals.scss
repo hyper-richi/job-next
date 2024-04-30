@@ -26,6 +26,15 @@ body {
   height: auto !important;
   min-width: 350px;
   font-family: 'GT Eesti Pro Display', sans-serif;
+
+  svg {
+    transition: color 200ms ease-in;
+  }
+
+  div,
+  p {
+    transition: all 200ms ease-out;
+  }
 }
 
 a {

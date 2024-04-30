@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useCallback,  useLayoutEffect, useState } from 'react';
 import { HeaderProps } from './Header.props';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -14,8 +14,6 @@ import { useDisclosure } from '@mantine/hooks';
 import AvatarMenu from '../AvatarMenu/AvatarMenu';
 import { IconStar } from '@tabler/icons-react';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { initAuthUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
-import { getFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { UnstyledButton } from '@mantine/core';
 import { AnimatedModal } from '../AnimatedModal';
 import { useSession } from 'next-auth/react';
@@ -42,19 +40,19 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   const [opened, { open, close }] = useDisclosure(false);
 
   // const [showSignModal, setShowSignModal] = useState(false);
-  const { authUser } = useAppSelector((state) => state.authUser);
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   // const token = sessionStorage.getItem('token');
 
   useLayoutEffect(() => {
     console.log('Header-useEffect: ');
     /* if (token) {
-       dispatch(initAuthUser());
+       dispatch(inituser());
     } */
-    if (authUser) {
-      // dispatch(getFavorites(authUser?.id));
+    if (user) {
+      // dispatch(getFavorites(user?.id));
     }
-  }, [authUser?.id, 'token']);
+  }, [user?.id, 'token']);
 
   const searchParams = useSearchParams();
   const regionCodeParams = searchParams.get('regionCode');
@@ -81,7 +79,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   }, []);
 
   const handleFavoritesClick = () => {
-    if (authUser) {
+    if (user) {
       router.push('/favorites');
     } else {
       open();

@@ -3,10 +3,10 @@ import { Modal, Button, Group, PasswordInput, TextInput, Stack, FileButton } fro
 import { useCallback, useRef, useState } from 'react';
 import { FormValues, ResponseError } from '../../..';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { registerUser } from '@/app/lib/store/features/auth/slice/authUserSlice';
+import { registerUser } from '@/app/lib/store/features/user/slice/userSlice';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import { deleteFile, selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
-import { RegistrData } from '@/app/lib/store/features/auth/types/authUserSchema';
+import { RegisterData } from '@/app/lib/store/features/user/types/userSchema';
 import { useForm } from '@mantine/form';
 import AuthenticationForm from '../AuthenticationForm/AuthenticationForm';
 import RegistrationForm from '../RegistrationForm/RegistrationForm';
@@ -50,7 +50,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
   const handleSubmit = async (values: FormValues) => {
     if (values.username) {
       // Registration
-      const registrData: RegistrData = {
+      const registrData: RegisterData = {
         username: values.username,
         email: values.email,
         password: values.password,

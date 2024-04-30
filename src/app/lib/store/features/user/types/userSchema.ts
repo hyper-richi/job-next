@@ -2,6 +2,10 @@ export interface User {
   id: string;
   username: string;
   email: string;
+  github?: string;
+  twitter?: string;
+  instagram?: string;
+  website?: string;
   avatar: {
     url: string;
     id_picture: string;
@@ -9,7 +13,7 @@ export interface User {
 }
 
 export interface AuthApiResponse {
-  data: User;
+  user: User;
   token: string;
 }
 
@@ -18,7 +22,7 @@ export interface LoginData {
   password: string;
 }
 
-export interface RegistrData {
+export interface RegisterData {
   username: string;
   email: string;
   password: string;
@@ -28,8 +32,16 @@ export interface RegistrData {
   };
 }
 
-export interface AuthUserSchema {
-  status: 'idle' | 'loading' | 'error';
-  authUser: User | null;
+export interface DataUserUpdate extends Partial<RegisterData> {
+  userId: string;
+  github?: string;
+  twitter?: string;
+  instagram?: string;
+  website?: string;
+}
+
+export interface UserSchema {
+  status: 'none' | 'loading' | 'error';
+  user: User | null;
   error: any | null;
 }

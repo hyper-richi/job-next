@@ -1,6 +1,6 @@
 'use server';
 import { AuthError } from 'next-auth';
-import { signIn, signOut } from '../auth';
+import { signIn, signOut } from '../../auth';
 import { loginSchema } from './login.schema';
 import { Payload, SignUpFormStateT } from '@/components/AuthenticationForm/AuthenticationForm';
 
