@@ -8,10 +8,13 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { StoreProvider } from './lib/provider/StoreProvider';
 import AuthProvider from './lib/provider/AuthProvider/AuthProvider';
 import { Notifications } from '@mantine/notifications';
+
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import styles from './layout.module.scss';
 import './globals.scss';
+import { auth } from '@/auth';
+import { SessionProvider } from 'next-auth/react';
 
 const GTEestiProText = localFont({
   src: [
@@ -112,6 +115,7 @@ const GTEestiProDisplay = localFont({
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // const { data: regions } = await getRegions();
+  const session = await auth();
   return (
     <html lang='ru'>
       <head>
@@ -122,15 +126,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <StoreProvider>
           <MantineProvider>
             <Notifications limit={5} />
-            <AuthProvider>
+            <SessionProvider session={session}>
               <Header /* regions={regions} */ />
-              <main className={styles.container}>
-                {children}
-                <Analytics />
-                <SpeedInsights />
-              </main>
-              <Footer /* regions={regions} */ />
-            </AuthProvider>
+            </SessionProvider>
+            <main className={styles.container}>
+              <SessionProvider session={session}>{children}</SessionProvider>
+              <Analytics />
+              <SpeedInsights />
+            </main>
+            <Footer /* regions={regions} */ />
           </MantineProvider>
         </StoreProvider>
       </body>

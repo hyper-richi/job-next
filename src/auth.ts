@@ -1,16 +1,9 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
-import { AuthApiResponse } from './app/lib/store/features/auth/types/authUserSchema';
-import axios, { AxiosError } from 'axios';
 import { CredentialsSignin } from 'next-auth';
-
-async function authUser(email: string, password: string) {
-  const dataLogin = { email, password };
-  return await axios.post<AuthApiResponse>('https://6ede402e6a352dfb.mokky.dev/auth', dataLogin).then((data) => {
-    return data;
-  });
-}
+import { authUser } from './app/lib/api/data';
+import { User } from './app/lib/store/features/user/types/userSchema';
 
 class CustomAuthorizeError extends CredentialsSignin {
   message: string;
@@ -42,9 +35,14 @@ export const {
         password: { label: 'password', type: 'password' },
       },
       async authorize(credentials) {
+        const loginData = {
+          email: credentials.email as string,
+          password: credentials.password as string,
+        };
         try {
-          const res = await authUser(credentials.email as string, credentials.password as string);
-          return res.data.data;
+          const res = await authUser(loginData);
+          // const userData = { ...res.data, token: res.token };
+          return res.data;
         } catch (error) {
           //@ts-ignore
           const message = error?.response?.data.message;

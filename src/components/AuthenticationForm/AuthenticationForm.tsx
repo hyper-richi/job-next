@@ -59,11 +59,12 @@ export default function AuthenticationForm({
   closeModal?: () => void;
   setIsLogin: Dispatch<SetStateAction<boolean>>;
 }) {
+
   // const dispatch = useAppDispatch();
   // const file = useAppSelector(selectFile);
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
   const [formState, formAction] = useFormState<SignUpFormStateT, Payload>(login, initialState);
 
@@ -125,8 +126,8 @@ export default function AuthenticationForm({
         {...form.getInputProps('password')}
         error={form.errors.password}
       />
-      <p>email:{session && session?.user?.email}</p>
-      <p>username:{session && session?.user.username}</p>
+      {/*  <p>email:{session && session?.user?.email}</p>
+      <p>username:{session && session?.user.username}</p> */}
       <Group style={{ fontWeight: '400 !important' }} mt='md' justify='space-between'>
         <Button variant='default' onClick={toogleForm}>
           Регистрация

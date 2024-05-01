@@ -1,4 +1,4 @@
-import type { NextAuthConfig } from 'next-auth';
+import type { NextAuthConfig, Session } from 'next-auth';
 
 export const authConfig = {
   session: {
@@ -17,8 +17,9 @@ export const authConfig = {
       }
       return token;
     },
-    async session({ session, token }: any) {
+    async session({ session, token }: { session: Session; token: any }) {
       session.user = token.user;
+      // session.authToken = token.user.token;
       return session;
     },
   },

@@ -15,7 +15,7 @@ const cardAnimation = {
 };
 
 export default function Favorites({ params, searchParams }: Params) {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
   /* const authUser = useAppSelector(selectAuthUser);
   const statusAuth = useAppSelector(selectStatusAuth); */
@@ -71,8 +71,8 @@ export default function Favorites({ params, searchParams }: Params) {
           ) : (
             <h4 className={styles.empty}>
               Нет избранных вакансий
-              {!session && <p>Not logged in!</p>}
-              {session && <p>Logged in!</p>}
+              {/*  {!session && <p>Not logged in!</p>}
+              {session && <p>Logged in!</p>} */}
             </h4>
           )}
         </TransitionGroup>

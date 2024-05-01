@@ -28,7 +28,7 @@ function AvatarMenu({ openSignModal }: { openSignModal: () => void }) {
     <div className={styles.AvatarMenu}>
       <Menu shadow='md' width={200} withArrow trigger='hover' openDelay={100} closeDelay={400}>
         <Menu.Target>
-          <AvatarButton imageSrc={session?.user?.avatar.url} name={session?.user.username} email={session?.user.email} />
+          <AvatarButton imageSrc={session?.user?.avatar?.url} name={session?.user.username} email={session?.user.email} />
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Label>Application</Menu.Label>

@@ -118,7 +118,6 @@ export const favoritesSlice = createAppSlice({
         },
         fulfilled: (state, action) => {
           state.status = 'idle';
-          // state.favorites = [...state.favorites.filter((item) => item.id !== action.payload)];
           // names.splice(2, 1); // начиная со второго элемента удаляем один элемент
           state.favorites.splice(
             state.favorites.findIndex((favoriteVacancy) => favoriteVacancy.id === action.payload),

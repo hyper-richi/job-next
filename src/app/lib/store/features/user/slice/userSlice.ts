@@ -6,6 +6,7 @@ import { ResponseError } from '../../../../../../..';
 
 const initialState: UserSchema = {
   status: 'none',
+  token: null,
   user: null,
   error: null,
 };
@@ -15,7 +16,9 @@ export const userSlice = createAppSlice({
   initialState,
   reducers: (create) => ({
     setAuthUser: create.reducer((state, action: PayloadAction<User>) => {
+      console.log('action: ', action.payload);
       state.user = action.payload;
+      // state.token = action.payload.token;
     }),
     registerUser: create.asyncThunk<AuthApiResponse, RegisterData>(
       async (registrData, thunkApi) => {
@@ -41,10 +44,10 @@ export const userSlice = createAppSlice({
           state.status = 'error';
           state.error = action.error;
         },
-        fulfilled: (state, action: PayloadAction<AuthApiResponse>) => {
+        fulfilled: (state, action) => {
           state.status = 'none';
           state.error = null;
-          state.user = action.payload.user;
+          state.user = action.payload.data;
           sessionStorage.setItem('token', action.payload.token);
         },
         // settled вызывается как за отклоненные, так и за выполненные действия

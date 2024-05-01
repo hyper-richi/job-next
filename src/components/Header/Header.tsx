@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback,  useLayoutEffect, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { HeaderProps } from './Header.props';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -45,7 +45,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   // const token = sessionStorage.getItem('token');
 
   useLayoutEffect(() => {
-    console.log('Header-useEffect: ');
+    // console.log('Header-useEffect: ');
     /* if (token) {
        dispatch(inituser());
     } */

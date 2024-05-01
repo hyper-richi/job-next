@@ -7,12 +7,13 @@ interface SkeletonProps {
   height?: string | number;
   width?: string | number;
   minWidth?: string | number;
-  borderRadius: string;
+  borderRadius?: string;
   paddingTop?: string;
+  margin?: string;
 }
 
 export const Skeleton = (props: SkeletonProps) => {
-  const { className, height, width, borderRadius, paddingTop = 0, minWidth } = props;
+  const { className, height, width, borderRadius = 0, paddingTop = 0, minWidth, margin = '0 0 0 0' } = props;
 
   const styles: CSSProperties = {
     width,
@@ -20,6 +21,7 @@ export const Skeleton = (props: SkeletonProps) => {
     borderRadius,
     paddingTop,
     minWidth,
+    margin,
   };
 
   return <div className={clsx(stls.skeleton, [className])} style={styles} />;

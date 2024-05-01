@@ -13,7 +13,7 @@ export interface User {
 }
 
 export interface AuthApiResponse {
-  user: User;
+  data: User;
   token: string;
 }
 
@@ -43,5 +43,6 @@ export interface DataUserUpdate extends Partial<RegisterData> {
 export interface UserSchema {
   status: 'none' | 'loading' | 'error';
   user: User | null;
+  token: string | null;
   error: any | null;
 }
