@@ -32,8 +32,9 @@ body {
   }
 
   div,
-  p {
-    transition: all 200ms ease-out;
+  p,
+  span {
+    transition: all 300ms ease-out;
   }
 }
 

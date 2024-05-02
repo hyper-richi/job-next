@@ -16,8 +16,9 @@ export const userSlice = createAppSlice({
   initialState,
   reducers: (create) => ({
     setAuthUser: create.reducer((state, action: PayloadAction<User>) => {
-      console.log('action: ', action.payload);
-      state.user = action.payload;
+      if (!state.user) {
+        state.user = action.payload;
+      }
       // state.token = action.payload.token;
     }),
     registerUser: create.asyncThunk<AuthApiResponse, RegisterData>(
@@ -58,10 +59,10 @@ export const userSlice = createAppSlice({
     ),
     updateUser: create.asyncThunk<User, DataUserUpdate>(
       async ({ userId, ...data }, thunkApi) => {
-        console.log('data: ', data);
         // const { dispatch, getState, fulfillWithValue } = thunkApi;
         try {
           const res = await axios.patch<User>('https://6ede402e6a352dfb.mokky.dev/users/' + userId, { ...data });
+          // throw new Error('Custom Error');
           return res.data;
         } catch (error) {
           const err = error as AxiosError;
@@ -77,14 +78,14 @@ export const userSlice = createAppSlice({
           state.status = 'loading';
           state.error = null;
         },
-        rejected: (state, action) => {
-          state.status = 'error';
-          state.error = action.error;
-        },
         fulfilled: (state, action) => {
           state.status = 'none';
           state.error = null;
           state.user = action.payload;
+        },
+        rejected: (state, action) => {
+          state.status = 'error';
+          state.error = action.error;
         },
         // settled вызывается как за отклоненные, так и за выполненные действия
         settled: (state) => {

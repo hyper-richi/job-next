@@ -3,7 +3,6 @@ import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
 import { CredentialsSignin } from 'next-auth';
 import { authUser } from './app/lib/api/data';
-import { User } from './app/lib/store/features/user/types/userSchema';
 
 class CustomAuthorizeError extends CredentialsSignin {
   message: string;
@@ -25,6 +24,7 @@ export const {
   signIn,
   signOut,
   handlers: { GET, POST },
+  unstable_update,
 } = NextAuth({
   ...authConfig,
   providers: [
@@ -44,13 +44,16 @@ export const {
           // const userData = { ...res.data, token: res.token };
           return res.data;
         } catch (error) {
+          console.log('error: ', error);
           //@ts-ignore
-          const message = error?.response?.data.message;
+          const message = error?.response?.data?.message || error.response?.statusText;
           //@ts-ignore
-          const statusCode = error?.response?.data.statusCode;
+          const statusCode = error?.response?.data.statusCode || error.response?.status;
           //@ts-ignore
-          const errorMes = error?.response?.data.error;
+          const errorMes = error?.response?.data.error || error.code;
           throw new CustomAuthorizeError(message, statusCode, errorMes);
+          //@ts-ignore
+
           //return null;
         }
       },

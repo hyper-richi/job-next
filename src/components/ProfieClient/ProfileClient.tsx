@@ -1,5 +1,5 @@
 'use client';
-import React, { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
+import React, { ReactNode, RefCallback, RefObject, createRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Avatar, Card, Divider, Grid, List, ThemeIcon, rem } from '@mantine/core';
 import { IconBrandGithubFilled, IconBrandInstagram, IconBrandTwitterFilled, IconWorld } from '@tabler/icons-react';
 import styles from './ProfileClient.module.scss';
@@ -8,14 +8,22 @@ import { useSession } from 'next-auth/react';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { selectUser, setAuthUser } from '@/app/lib/store/features/user/slice/userSlice';
 import { Skeleton } from '../Skeleton/Skeleton';
-import ProfileClientSkeleton from './ProfileClientSkeleton';
-
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import animationStyles from './animation.module.scss';
 interface SocialList {
   icon: ReactNode;
   placeholder: string;
   nameInput: NameInput;
+  nodeRef: RefObject<HTMLLIElement>;
 }
 export type NameInput = 'website' | 'github' | 'twitter' | 'instagram';
+
+const itemAnimation = {
+  enter: animationStyles.itemEnter,
+  enterActive: animationStyles.itemEnterActive,
+  exit: animationStyles.itemDelete,
+  exitActive: animationStyles.itemDeleteActive,
+};
 
 const SOCIAL_LIST: SocialList[] = [
   {
@@ -26,6 +34,7 @@ const SOCIAL_LIST: SocialList[] = [
     ),
     placeholder: 'www.website.com',
     nameInput: 'website',
+    nodeRef: createRef(),
   },
   {
     icon: (
@@ -35,6 +44,7 @@ const SOCIAL_LIST: SocialList[] = [
     ),
     placeholder: 'github',
     nameInput: 'github',
+    nodeRef: createRef(),
   },
   {
     icon: (
@@ -44,6 +54,7 @@ const SOCIAL_LIST: SocialList[] = [
     ),
     placeholder: 'twitter',
     nameInput: 'twitter',
+    nodeRef: createRef(),
   },
   {
     icon: (
@@ -53,24 +64,28 @@ const SOCIAL_LIST: SocialList[] = [
     ),
     placeholder: 'instagram',
     nameInput: 'instagram',
+    nodeRef: createRef(),
   },
 ];
 
 const ProfileClient = () => {
-  // console.log('ProfileClient: ');
-  const { data: session } = useSession();
+  console.log('ProfileClient: ');
+  const { data: session, update } = useSession();
   const dispatch = useAppDispatch();
+  const authUserSelect = useAppSelector(selectUser);
+  const nodeRef = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    /*  console.log('authUserSelect: ', authUserSelect);
+    console.log('session: ', session); */
     if (session) {
       dispatch(setAuthUser(session?.user));
     }
   }, []);
 
-  const authUser = session?.user; // authUserSelect;
-  /*  const authUserSelect = useAppSelector(selectUser);
-
-
+  const authUser = authUserSelect; // session?.user; // authUserSelect;
+  console.log('authUserSelect: ', authUserSelect);
+  /*
   if (!authUserSelect) {
     return <ProfileClientSkeleton />;
   } */
@@ -125,15 +140,22 @@ const ProfileClient = () => {
           <Card shadow='sm' padding='lg' radius='md' withBorder>
             <Card.Section>
               <List spacing='xs' size='sm' center>
-                {SOCIAL_LIST.map((item) => (
-                  <SocialItem
-                    key={item.placeholder}
-                    nameInput={item.nameInput}
-                    icon={item.icon}
-                    placeholder={item.placeholder}
-                    authUser={authUser}
-                  />
-                ))}
+                {/*    <TransitionGroup className={styles.content}> */}
+                {SOCIAL_LIST.map(
+                  (item) =>
+                    /*  <CSSTransition key={item.placeholder} nodeRef={item.nodeRef} timeout={300} classNames={itemAnimation}> */
+                    authUser ? (
+                      <SocialItem
+                        key={item.placeholder}
+                        nameInput={item.nameInput}
+                        icon={item.icon}
+                        placeholder={item.placeholder}
+                        authUser={authUser}
+                      />
+                    ) : null
+                  /*   </CSSTransition> */
+                )}
+                {/*      </TransitionGroup> */}
               </List>
             </Card.Section>
           </Card>
@@ -143,4 +165,4 @@ const ProfileClient = () => {
   );
 };
 
-export default ProfileClient;
+export default React.memo(ProfileClient);

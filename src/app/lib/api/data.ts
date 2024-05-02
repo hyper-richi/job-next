@@ -151,6 +151,7 @@ export async function authUser(loginData: LoginData) {
   return await axios.post<AuthApiResponse>(process.env.MOKKY_JOB_URL + '/auth', loginData).then((data) => {
     return data.data;
   });
+  // .catch((error) => console.log('error', error));
 }
 
 /* id: vacancy.id,

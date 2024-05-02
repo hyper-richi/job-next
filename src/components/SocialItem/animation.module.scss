@@ -1,0 +1,14 @@
+.contentEnter {
+  opacity: 0;
+}
+.contentEnterActive {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.contentExit {
+  opacity: 1;
+}
+.contentExitActive {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}

@@ -36,7 +36,7 @@ function CustomNotification(props: CustomNotificationProps) {
     color: clsx(mods),
     message: note,
     withCloseButton: true,
-    autoClose: false, //5000,
+    autoClose: 5000,
     classNames: classes,
     loading: false,
     limit: 5,

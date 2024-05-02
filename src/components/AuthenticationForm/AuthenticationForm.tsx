@@ -59,7 +59,6 @@ export default function AuthenticationForm({
   closeModal?: () => void;
   setIsLogin: Dispatch<SetStateAction<boolean>>;
 }) {
-
   // const dispatch = useAppDispatch();
   // const file = useAppSelector(selectFile);
   const searchParams = useSearchParams();
@@ -104,6 +103,7 @@ export default function AuthenticationForm({
         message: formState.credentials?.message ?? formState.message,
         variant: 'error',
         statusCode: formState.credentials?.statusCode,
+        additionalMessage: formState.credentials?.error,
       });
     }
   }, [formState.credentials]);
