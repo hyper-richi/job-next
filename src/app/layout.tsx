@@ -6,10 +6,9 @@ import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import styles from './layout.module.scss';
 import '@mantine/core/styles.css';
 import './globals.css';
-// import { getRegions } from './lib/data';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { getRegions } from './api/route';
+import { handler } from './api/route';
 
 const GTEestiProText = localFont({
   src: [
@@ -72,7 +71,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { data: regions } = await getRegions();
+  const { data: regions } = await handler();
 
   return (
     <html lang='ru'>
