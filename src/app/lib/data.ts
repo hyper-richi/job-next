@@ -1,5 +1,9 @@
 // http://opendata.trudvsem.ru/api/v1/vacancies?industry=%industry%
 //https://opendata.trudvsem.ru/api/v1/vacancies/region/6100000000000?offset=1&limit=100&text=инженер
+//'https://trudvsem.ru/iblocks/flat_filter_prr_search_cv/ref/regions'
+//'https://trudvsem.ru/iblocks/flat_filter_prr_search_vacancies/ref/regions'
+
+//import axios from 'axios';
 
 // "no-store" - SSR getServerSideProps рендер на сервере, Этот запрос должен повторяться при каждом запросе
 // "no-cache" ведет себя так же, как no-store в Next.js.
@@ -29,36 +33,12 @@ export async function getVacancies(params: QureyParams): Promise<ResponseVacanci
       url = url + `&text=${searchText}`;
     }
 
-    const res = await fetch(process.env.API_BASE_URL + url);
+    const res = await fetch(`http://opendata.trudvsem.ru/api/v1/vacancies` + url);
 
     return res.json();
   } catch (error) {
     console.error('Fetch Error:', error);
     throw new Error('Failed to fetch Vacancies data.');
-  }
-}
-
-export async function getRegions(): Promise<ResponseRegions> {
-  try {
-    const res = await fetch('https://trudvsem.ru/iblocks/flat_filter_prr_search_cv/ref/regions', {
-      cache: 'no-store',
-    });
-    const regionMock: IRegion = {
-      code: 'all',
-      name: 'Россия',
-      shortName: '',
-      text: '',
-      key: '',
-    };
-    const { data, code }: ResponseRegions = await res.json();
-    const resObj: ResponseRegions = {
-      data: [regionMock, ...data],
-      code,
-    };
-    return resObj;
-  } catch (error) {
-    console.error('Fetch Error:', error);
-    throw new Error('Failed to fetch Regions data.');
   }
 }
 

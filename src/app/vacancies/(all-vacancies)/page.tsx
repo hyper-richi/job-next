@@ -1,10 +1,11 @@
 import styles from './page.module.scss';
 import Search from '@/components/Search/Search';
 import { Metadata } from 'next';
-import { getRegions, getVacancies } from '../../lib/data';
+import { getVacancies } from '../../lib/data';
 import Finder from '@/components/Finder/Finder';
 import CustomPagination from '@/components/CustomPagination/CustomPagination';
 import TitleCategory from '@/components/TitleCategory/TitleCategory';
+import { getRegions } from '@/app/api/route';
 
 export const metadata: Metadata = {
   title: 'Поиск по вакансиям',
