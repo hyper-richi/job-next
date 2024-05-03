@@ -1,8 +1,8 @@
 'use client';
-import React, { useCallback, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { HeaderProps } from './Header.props';
 import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import styles from './Header.module.scss';
 import Navbar from '../Navbar/Navbar';
@@ -33,34 +33,20 @@ const Sidebar = dynamic(() => import('../Sidebar/Sidebar'), {
 const Header = ({ regions }: HeaderProps): JSX.Element => {
   const router = useRouter();
   const pathname = usePathname();
+  const { jobCategory } = useParams<{ jobCategory: string }>();
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMobileRegionsModal, setMobileShowRegionsModal] = useState(false);
   const [showDesktopRegionsModal, setDesktopShowRegionsModal] = useState(false);
   const { data: session } = useSession();
   const [opened, { open, close }] = useDisclosure(false);
 
-  // const [showSignModal, setShowSignModal] = useState(false);
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  // const token = sessionStorage.getItem('token');
-
-  useLayoutEffect(() => {
-    // console.log('Header-useEffect: ');
-    /* if (token) {
-       dispatch(inituser());
-    } */
-    if (user) {
-      // dispatch(getFavorites(user?.id));
-    }
-  }, [user?.id, 'token']);
 
   const searchParams = useSearchParams();
   const regionCodeParams = searchParams.get('regionCode');
 
-  /*  const handleShowSignModal = () => {
-    setShowSignModal((showSignModal: boolean) => !showSignModal);
-    // open();
-  }; */
+  
 
   const onToggleSidebar = () => {
     setShowSidebar((prev) => !prev);
@@ -86,6 +72,13 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
     }
   };
 
+  const isAuthRoute = useMemo(() => {
+    if (jobCategory) {
+      return pathname === `/vacancies/${jobCategory}`;
+    }
+    return pathname === `/vacancies`;
+  }, [pathname, jobCategory]);
+
   /* let url = `/`;
 
   if (regionCodeParams) {
@@ -107,6 +100,9 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
                 </Link>
                 <Link prefetch={false} href={'/favorites'}>
                   favorites
+                </Link>
+                <Link prefetch={false} href={'/vacancies'}>
+                  vacancies
                 </Link>
                 <svg width='1' height='46' viewBox='0 0 1 46' fill='none' xmlns='http://www.w3.org/2000/svg'>
                   <path fill='#fff' d='M0 0h1v46H0z'></path>
@@ -131,7 +127,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
             </div>
           </div>
         </div>
-        {session?.user && pathname === '/vacancies' && <Navbar />}
+        {session?.user && isAuthRoute && <Navbar />}
       </header>
 
       <div className={clsx(styles.mobile, styles.sticky)}>

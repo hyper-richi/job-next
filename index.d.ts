@@ -113,6 +113,11 @@ interface ResponseTransform {
   meta: Meta;
   results: ResultsTransform;
 }
+interface ResponseVacancies {
+  status: string;
+  meta: Meta;
+  results: Results;
+}
 interface IRegionName {
   region_code: string;
   name: string;
@@ -160,11 +165,6 @@ interface ResponseAdress {
   results: ResultAdress[];
 }
 
-interface ResponseVacancies {
-  status: string;
-  meta: Meta;
-  results: Results;
-}
 interface ResponseVacancy {
   status: string;
   meta: Meta;

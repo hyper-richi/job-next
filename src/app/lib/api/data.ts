@@ -26,7 +26,7 @@ interface QureyParams {
   regionCode?: string;
 }
 
-export async function getVacancies(params: QureyParams): Promise<ResponseTransform> {
+export async function getVacancies(params: QureyParams) {
   const { jobCategory, offset, searchText, regionCode } = params;
   try {
     let url = `?limit=10&offset=${offset || '0'}`;
@@ -41,35 +41,38 @@ export async function getVacancies(params: QureyParams): Promise<ResponseTransfo
       url = url + `&text=${searchText}`;
     }
 
-    const res = await fetch(process.env.API_BASE_URL + url);
+    const res = await axios.get(process.env.API_BASE_URL + url, {
+      transformResponse: (data) => {
+        const dataParse: ResponseVacancies = JSON.parse(data);
+        const resTransform = {
+          status: dataParse?.status || '',
+          meta: dataParse?.meta || {
+            total: 0,
+            limit: 100,
+          },
+          results: {
+            vacancies: dataParse?.results.vacancies.map(({ vacancy }) => {
+              const vacancyTransform: VacancyTransform = {
+                ...vacancy,
+                vacancy_id: vacancy.id,
+                contact_list: [],
+                contact_person: '',
+                date: null,
+              };
+              return vacancyTransform;
+            }),
+          },
+        };
 
-    const resData = await res.json().then((data: ResponseVacancies) => {
-      const resTransform = {
-        status: data?.status || '',
-        meta: data?.meta || {
-          total: 0,
-          limit: 100,
-        },
-        results: {
-          vacancies: data?.results.vacancies.map(({ vacancy }) => {
-            const vacancyTransform: VacancyTransform = {
-              ...vacancy,
-              vacancy_id: vacancy.id,
-              contact_list: [],
-              contact_person: '',
-              date: null,
-            };
-            return vacancyTransform;
-          }),
-        },
-      };
-      return resTransform;
+        return resTransform;
+      },
+      responseType: 'json',
     });
 
-    return resData;
+    return res.data;
   } catch (error) {
     console.error('Fetch Error:', error);
-    throw new Error('Failed to fetch Vacancies data.');
+    throw new Error('Failed to fetch Vacancies data');
   }
 }
 
@@ -135,7 +138,7 @@ export async function getAdress(latitude: string, longitude: string): Promise<Re
 
 export async function getUsers(): Promise<User[]> {
   try {
-    const resp = await fetch(process.env.MOKKY_JOB_URL + '/users1', {
+    const resp = await fetch(process.env.MOKKY_JOB_URL + '/users', {
       cache: 'no-store',
     })
       .then((response) => response.json())

@@ -1,28 +1,13 @@
 'use client';
-import React, { ReactNode, RefCallback, RefObject, createRef, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { ActionIcon, Avatar, Card, Divider, Grid, Input, List, ThemeIcon, rem } from '@mantine/core';
-import {
-  IconBrandGithubFilled,
-  IconBrandInstagram,
-  IconBrandTwitterFilled,
-  IconCheck,
-  IconDeviceFloppy,
-  IconExclamationCircle,
-  IconWorld,
-} from '@tabler/icons-react';
+import React, { ReactNode, useLayoutEffect } from 'react';
+import { Avatar, Card, Divider, Grid, List, ThemeIcon, rem } from '@mantine/core';
+import { IconBrandGithubFilled, IconBrandInstagram, IconBrandTwitterFilled, IconWorld } from '@tabler/icons-react';
 import styles from './ProfileClient.module.scss';
 import SocialItem from '@/components/SocialItem/SocialItem';
 import { useSession } from 'next-auth/react';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { selectStatusUser, selectUser, setAuthUser, updateUser } from '@/app/lib/store/features/user/slice/userSlice';
+import { selectUser, setAuthUser } from '@/app/lib/store/features/user/slice/userSlice';
 import { Skeleton } from '../Skeleton/Skeleton';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import animationStyles from './animation.module.scss';
-import { ListTransGroupExample } from '../ListTransGroupExample/ListTransGroupExample';
-import { DataUserUpdate } from '@/app/lib/store/features/user/types/userSchema';
-import { useDisclosure, useClickOutside, useFocusTrap, useMergedRef } from '@mantine/hooks';
-import { ResponseError } from '../../..';
-import CustomNotification from '../CustomNotification/CustomNotification';
 interface SocialList {
   icon: ReactNode;
   placeholder: string;
@@ -43,7 +28,7 @@ const SOCIAL_LIST: SocialList[] = [
   {
     icon: (
       <ThemeIcon color='#333333' size={28} radius='xl'>
-        <IconBrandGithubFilled style={{ width: rem(20), height: rem(20) }} color='#fff' />
+        <IconBrandGithubFilled viewBox='2 2 20 20' style={{ width: rem(20), height: rem(20) }} color='#fff' />
       </ThemeIcon>
     ),
     placeholder: 'github',
@@ -52,7 +37,7 @@ const SOCIAL_LIST: SocialList[] = [
   {
     icon: (
       <ThemeIcon color='#fff' radius='xl'>
-        <IconBrandTwitterFilled size={28} style={{ color: '#55acee' }} />
+        <IconBrandTwitterFilled viewBox='2 2 20 20' size={28} style={{ color: '#55acee' }} />
       </ThemeIcon>
     ),
     placeholder: 'twitter',
@@ -61,7 +46,7 @@ const SOCIAL_LIST: SocialList[] = [
   {
     icon: (
       <ThemeIcon color='#fff' radius='xl'>
-        <IconBrandInstagram size={28} style={{ color: '#ac2bac' }} />
+        <IconBrandInstagram viewBox='2 2 20 20' size={28} style={{ color: '#ac2bac' }} />
       </ThemeIcon>
     ),
     placeholder: 'instagram',

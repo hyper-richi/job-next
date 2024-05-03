@@ -30,7 +30,7 @@ const nextConfig = {
     defaultLocale: 'ru',
     localeDetection: false,
   },
-  reactStrictMode: false,
+  //reactStrictMode: false,
 };
 
 module.exports = nextConfig;
