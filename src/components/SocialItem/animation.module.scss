@@ -1,14 +1,18 @@
-.contentEnter {
+.switchEnter {
   opacity: 0;
 }
-.contentEnterActive {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}
-.contentExit {
+.switchExit {
   opacity: 1;
 }
-.contentExitActive {
+.switchEnterActive {
+  opacity: 1;
+}
+.switchExitActive {
   opacity: 0;
-  transition: opacity 500ms ease-in;
+}
+.switchEnterActive {
+  transition: opacity 100ms;
+}
+.switchExitActive {
+  transition: opacity 400ms;
 }

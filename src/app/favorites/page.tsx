@@ -55,7 +55,8 @@ export default function Favorites({ params, searchParams }: Params) {
           {'transformVacancies.length' ? (
             [].map((item: VacancyTransform, idx: number) => {
               return (
-                <CSSTransition key={item.id} nodeRef={item.nodeRef} timeout={300} classNames={cardAnimation}>
+                <CSSTransition key={item.id} nodeRef={item.nodeRef} timeout={300}
+                classNames={cardAnimation}>
                   <FavoritesCard
                     idx={idx}
                     key={item.id}

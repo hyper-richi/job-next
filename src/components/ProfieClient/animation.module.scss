@@ -1,16 +1,14 @@
-.fade-enter {
+.cardEnter {
   opacity: 0;
 }
-.fade-exit {
+.cardEnterActive {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+.cardDelete {
   opacity: 1;
 }
-.fade-enter-active {
-  opacity: 1;
-}
-.fade-exit-active {
+.cardDeleteActive {
   opacity: 0;
-}
-.fade-enter-active,
-.fade-exit-active {
-  transition: opacity 500ms;
+  transition: opacity 300ms ease-in;
 }

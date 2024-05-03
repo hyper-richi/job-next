@@ -5,11 +5,8 @@
 
   & :global(.mantine-List-itemIcon) {
     display: flex;
-    // outline: 1px solid black;
   }
-  & :global(.mantine-ThemeIcon-root) {
-    height: inherit;
-  }
+
 
   & :global(.mantine-List-itemLabel) {
     width: 100%;
@@ -23,9 +20,11 @@
     justify-content: space-between;
     width: 100%;
     align-items: flex-start;
-
-    // outline: 1px solid black;
   }
+}
+
+.wrap__animation {
+  width: 100%;
 }
 
 .input {
@@ -38,29 +37,25 @@
     min-height: 28px;
     border-radius: 4px;
     text-align: end;
-    //padding-inline-end: 23px;
     padding-inline-end: 0;
     padding-right: 23px;
     font-family: inherit;
     color: inherit;
     line-height: 28px;
     background-color: #f1f3f5;
+
+    &:focus {
+      outline: 1px solid #228be6;
+    }
   }
   & :global(.mantine-Input-section) {
     right: 0px;
     width: 22px;
   }
-  &:hover {
-    outline: 1px solid #228be6;
-    background-color: #f1f3f5;
-    /* .save__button {
-      opacity: 1;
-    } */
-  }
+
 }
 
 .save__button {
-  // opacity: 0;
   border: none;
   transition: all 300ms ease-out;
   span {
@@ -77,22 +72,17 @@
 }
 
 .notif {
-  // margin-top: 16px;
   width: 100%;
   display: block;
   height: 28px;
-  min-height: 28px;
   line-height: 28px;
   text-align: end;
-  padding: 0 24px 0 12px;
+  padding: 0 23px 0 12px;
   border-radius: 4px;
-  // transition: 0.3s;
-  // transition: all 300ms ease-out;
   outline: transparent solid 1px;
 
   &:hover {
-    outline: 1px solid #228be6;
+    // outline: 1px solid #228be6;
     background-color: #f1f3f5;
-    // transition: all 300ms ease-out;
   }
 }
