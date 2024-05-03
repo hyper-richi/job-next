@@ -8,7 +8,7 @@ import '@mantine/core/styles.css';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { handler } from './api/route';
+import { get } from './api/regions';
 
 const GTEestiProText = localFont({
   src: [
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { data: regions } = await handler();
+  const { data: regions } = await get();
 
   return (
     <html lang='ru'>

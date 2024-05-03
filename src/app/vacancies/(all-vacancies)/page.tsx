@@ -5,7 +5,7 @@ import { getVacancies } from '../../lib/data';
 import Finder from '@/components/Finder/Finder';
 import CustomPagination from '@/components/CustomPagination/CustomPagination';
 import TitleCategory from '@/components/TitleCategory/TitleCategory';
-import { handler } from '@/app/api/route';
+import { get } from '@/app/api/regions';
 
 export const metadata: Metadata = {
   title: 'Поиск по вакансиям',
@@ -31,7 +31,7 @@ export default async function Page({ params, searchParams }: Params) {
     jobCategory,
   });
 
-  const { data: regions } = await handler();
+  const { data: regions } = await get();
 
   const totalPages = meta.total / 100 > 100 ? 100 : Math.ceil(meta.total / 100);
 
