@@ -1,12 +1,9 @@
 'use client';
-import React, { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
-import { Avatar, Card, Divider, Grid, List, ThemeIcon, rem } from '@mantine/core';
+import React, { ReactNode } from 'react';
+import { Card, Divider, Grid, List, ThemeIcon, rem } from '@mantine/core';
 import { IconBrandGithubFilled, IconBrandInstagram, IconBrandTwitterFilled, IconWorld } from '@tabler/icons-react';
 import styles from './ProfileClient.module.scss';
 import SocialItem from '@/components/SocialItem/SocialItem';
-import { useSession } from 'next-auth/react';
-import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { selectUser, setAuthUser } from '@/app/lib/store/features/user/slice/userSlice';
 import { Skeleton } from '../Skeleton/Skeleton';
 
 interface SocialList {
@@ -102,7 +99,7 @@ const ProfileClientSkeleton = () => {
                     nameInput={item.nameInput}
                     icon={item.icon}
                     placeholder={item.placeholder}
-                    authUser={null}
+                    authUser={undefined}
                   />
                 ))}
               </List>

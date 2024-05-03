@@ -1,3 +1,4 @@
+import { IRegion, ResultsTransform } from '../../..';
 
 export interface FinderProps {
   searchText?: string;
@@ -5,6 +6,6 @@ export interface FinderProps {
   jobCategory?: string;
   regionCode?: string;
   totalPages?: number;
-  vacancies?: Results;
+  vacancies?: ResultsTransform;
   regions?: IRegion[];
 }

@@ -24,14 +24,13 @@ export default async function Page({ params, searchParams }: Params) {
     jobCategory,
   });
 
-  /* const vacancies = results?.results;
-  const meta = results?.meta; */
+  //const vacancies = results?.results.vacancies;
+  //const meta = results?.meta;
   //const meta = results?.meta;
 
   // const { data: regions } = await getRegions();
 
   const totalPages = meta?.total / 100 > 100 ? 100 : Math.ceil(meta?.total / 100);
-  console.log('totalPages: ', totalPages);
 
   return (
     <div className={styles.vacancies}>

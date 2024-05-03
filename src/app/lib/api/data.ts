@@ -40,11 +40,13 @@ export async function getVacancies(params: QureyParams) {
     if (searchText) {
       url = url + `&text=${searchText}`;
     }
+    console.log('url: ', url);
 
-    const res = await axios.get(process.env.API_BASE_URL + url, {
+    const res = await axios.get<ResponseTransform>(process.env.API_BASE_URL + url, {
       transformResponse: (data) => {
         const dataParse: ResponseVacancies = JSON.parse(data);
-        const resTransform = {
+
+        const resTransform: ResponseTransform = {
           status: dataParse?.status || '',
           meta: dataParse?.meta || {
             total: 0,
@@ -59,6 +61,7 @@ export async function getVacancies(params: QureyParams) {
                 contact_person: '',
                 date: null,
               };
+
               return vacancyTransform;
             }),
           },

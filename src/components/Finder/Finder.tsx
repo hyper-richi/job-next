@@ -4,7 +4,7 @@ import { FinderProps } from './Finder.props';
 import styles from './Finder.module.scss';
 import React, { Suspense } from 'react';
 import RegionSelect from '../RegionSelect/RegionSelect';
-import { VacancyTransform } from '../../..';
+import { Vacancy, VacancyTransform } from '../../..';
 
 export default function Finder({ vacancies, regions, regionCode, searchText, offset, jobCategory }: FinderProps) {
   return (

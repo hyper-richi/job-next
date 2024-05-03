@@ -6,7 +6,6 @@ import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { StoreProvider } from './lib/provider/StoreProvider';
-import AuthProvider from './lib/provider/AuthProvider/AuthProvider';
 import { Notifications } from '@mantine/notifications';
 
 import '@mantine/core/styles.css';

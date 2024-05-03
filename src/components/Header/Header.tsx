@@ -31,6 +31,7 @@ const Sidebar = dynamic(() => import('../Sidebar/Sidebar'), {
 });
 
 const Header = ({ regions }: HeaderProps): JSX.Element => {
+  console.log('Header: ');
   const router = useRouter();
   const pathname = usePathname();
   const { jobCategory } = useParams<{ jobCategory: string }>();
@@ -45,8 +46,6 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
 
   const searchParams = useSearchParams();
   const regionCodeParams = searchParams.get('regionCode');
-
-  
 
   const onToggleSidebar = () => {
     setShowSidebar((prev) => !prev);

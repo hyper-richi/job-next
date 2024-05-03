@@ -69,7 +69,6 @@ export default function RegistrationForm({
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
-  const { data: session } = useSession();
 
   const [formState, formAction] = useFormState<SignInFormState, Payload>(login, initialState);
 

@@ -5,7 +5,6 @@ import { FormValues } from '../../..';
 import { useForm } from '@mantine/form';
 import { useFormState } from 'react-dom';
 import { login, logout } from '@/app/lib/actions';
-import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { LoginData } from '@/app/lib/store/features/user/types/userSchema';
 import CustomNotification from '../CustomNotification/CustomNotification';
@@ -59,11 +58,8 @@ export default function AuthenticationForm({
   closeModal?: () => void;
   setIsLogin: Dispatch<SetStateAction<boolean>>;
 }) {
-  // const dispatch = useAppDispatch();
-  // const file = useAppSelector(selectFile);
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
-  // const { data: session } = useSession();
 
   const [formState, formAction] = useFormState<SignUpFormStateT, Payload>(login, initialState);
 
@@ -126,8 +122,6 @@ export default function AuthenticationForm({
         {...form.getInputProps('password')}
         error={form.errors.password}
       />
-      {/*  <p>email:{session && session?.user?.email}</p>
-      <p>username:{session && session?.user.username}</p> */}
       <Group style={{ fontWeight: '400 !important' }} mt='md' justify='space-between'>
         <Button variant='default' onClick={toogleForm}>
           Регистрация

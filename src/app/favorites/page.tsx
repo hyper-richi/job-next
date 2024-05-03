@@ -5,7 +5,10 @@ import animationStyles from './animation.module.scss';
 import { Params, VacancyTransform } from '../../..';
 import FavoritesCard from '@/components/FavoritesCard/FavoritesCard';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { useSession } from 'next-auth/react';
+import { useAppSelector } from '../lib/store/hooks';
+// import { selectStatusUser, selectUser } from '../lib/store/features/user/slice/userSlice';
+import { selectFavorites } from '../lib/store/features/favorites/slice/favoritesSlice';
+import { createRef, useMemo } from 'react';
 
 const cardAnimation = {
   enter: animationStyles.cardEnter,
@@ -15,13 +18,10 @@ const cardAnimation = {
 };
 
 export default function Favorites({ params, searchParams }: Params) {
-  // const { data: session } = useSession();
+  // const authUser = useAppSelector(selectUser);
+  // const statusAuth = useAppSelector(selectStatusUser);
 
-  /* const authUser = useAppSelector(selectAuthUser);
-  const statusAuth = useAppSelector(selectStatusAuth); */
-
-  /* const favoritesVacancies = useAppSelector(selectFavorites);
-  const token = sessionStorage.getItem('token'); */
+  const favoritesVacancies = useAppSelector(selectFavorites);
 
   /*  useLayoutEffect(() => {
     if (!token) {
@@ -34,9 +34,9 @@ export default function Favorites({ params, searchParams }: Params) {
   const regionCode = searchParams?.regionCode || '';
   const jobCategory: string = params.jobCategory || '';
 
-  /*  const transformVacancies = useMemo(() => {
+  const transformVacancies = useMemo(() => {
     return favoritesVacancies.map((item) => ({ ...item, nodeRef: createRef() }));
-  }, [favoritesVacancies]); */
+  }, [favoritesVacancies]);
 
   /* if (!authUser) {
     return null;
@@ -52,11 +52,10 @@ export default function Favorites({ params, searchParams }: Params) {
       <div className={styles.container}>
         {/*    <Suspense key={searchText} fallback={<VacancysSkeleton />}> */}
         <TransitionGroup className={styles.content}>
-          {'transformVacancies.length' ? (
-            [].map((item: VacancyTransform, idx: number) => {
+          {transformVacancies.length ? (
+            transformVacancies.map((item: VacancyTransform, idx: number) => {
               return (
-                <CSSTransition key={item.id} nodeRef={item.nodeRef} timeout={300}
-                classNames={cardAnimation}>
+                <CSSTransition key={item.id} nodeRef={item.nodeRef} timeout={300} classNames={cardAnimation}>
                   <FavoritesCard
                     idx={idx}
                     key={item.id}
@@ -70,11 +69,7 @@ export default function Favorites({ params, searchParams }: Params) {
               );
             })
           ) : (
-            <h4 className={styles.empty}>
-              Нет избранных вакансий
-              {/*  {!session && <p>Not logged in!</p>}
-              {session && <p>Logged in!</p>} */}
-            </h4>
+            <h4 className={styles.empty}>Нет избранных вакансий</h4>
           )}
         </TransitionGroup>
         {/*   </Suspense> */}

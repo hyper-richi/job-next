@@ -94,6 +94,7 @@ interface VacancyTransform {
   term?: {
     text: string;
   };
+  nodeRef?: RefObject<unknown>;
   date: {
     day: number;
     hours: number;
@@ -101,7 +102,6 @@ interface VacancyTransform {
     month: number;
     year: number;
   } | null;
-  nodeRef?: RefObject<unknown>;
 }
 
 interface ResultsTransform {
