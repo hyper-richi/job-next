@@ -3,7 +3,8 @@ import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
 import { CredentialsSignin } from 'next-auth';
 import { authUser } from './app/lib/api/data';
-
+import GoogleProvider from 'next-auth/providers/google';
+import GithubProvider from 'next-auth/providers/github';
 class CustomAuthorizeError extends CredentialsSignin {
   message: string;
   statusCode: number;
@@ -58,5 +59,14 @@ export const {
         }
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+    GithubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
   ],
 });
+// Account: YANDEX BROWSER (kamalov.fortech@gmail.com)

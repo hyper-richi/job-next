@@ -25,11 +25,14 @@ function AvatarMenu({ openSignModal, session }: { openSignModal: () => void; ses
     // router.push('/');
   };
 
+  const srcImgAvatar = session?.user?.avatar?.url || (session?.user?.image as string);
+  const name = session?.user?.username || session?.user?.name;
+
   return (
     <div className={styles.AvatarMenu}>
       <Menu shadow='md' width={200} withArrow trigger='hover' openDelay={100} closeDelay={400}>
         <Menu.Target>
-          <AvatarButton imageSrc={session?.user?.avatar?.url} name={session?.user.username} email={session?.user.email} />
+          <AvatarButton imageSrc={srcImgAvatar} name={name} email={session?.user.email} />
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Label>Application</Menu.Label>

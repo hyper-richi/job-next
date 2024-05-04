@@ -135,14 +135,14 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
           <div></div>
         </div>
 
-        {/*  {showSidebar && (
+        {showSidebar && (
           <Sidebar
             regions={regions}
             showSidebar={showSidebar}
             onCloseSidebar={onCloseSidebar}
             onCloseMobileRegionsModal={onCloseMobileRegionsModal}
           />
-        )} */}
+        )}
       </div>
 
       <AnimatedModal opened={showDesktopRegionsModal} onClose={onCloseDesktopRegionsModal}>

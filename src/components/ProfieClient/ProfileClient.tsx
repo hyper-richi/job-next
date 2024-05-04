@@ -56,6 +56,19 @@ const ProfileClient = () => {
   console.log('ProfileClient: ');
   const { data: session } = useSession();
   const userSession = session?.user;
+  console.log('userSession: ', userSession);
+
+  const srcImgAvatar = userSession?.avatar?.url || (userSession?.image as string);
+  const name = userSession?.username || userSession?.name;
+
+/*
+  session.user = {
+    email:"kamalov.job@gmail.com"
+    id:"46dcd230-7ee1-4f12-a99d-9f296349d6ca"
+    image:"https://lh3.googleusercontent.com/a/ACg8ocKy-LztfVuvhT5xe4KxnrOBgUvBeSm00-0kjEl2f_gHZGFlCA=s96-c"
+    name:"E L"
+  }
+*/
 
   return (
     <section className={styles.container}>
@@ -64,12 +77,12 @@ const ProfileClient = () => {
           <Card shadow='sm' padding='lg' radius='md' withBorder>
             <Card.Section className={styles.card__header}>
               {userSession ? (
-                <Avatar size='md' radius={'8px'} className={styles.avatar} src={userSession.avatar.url} alt='profile picture' />
+                <Avatar size='md' radius={'8px'} className={styles.avatar} src={srcImgAvatar} alt='profile picture' />
               ) : (
                 <Skeleton minWidth={'150px'} height={'180px'} borderRadius='8px' paddingTop={'0'} />
               )}
               {userSession ? (
-                <h5 className={styles.card__title}>{userSession?.username}</h5>
+                <h5 className={styles.card__title}>{name}</h5>
               ) : (
                 <Skeleton minWidth={'100%'} height={'24px'} margin={'16px 0'} />
               )}
@@ -88,7 +101,7 @@ const ProfileClient = () => {
                 <p className={styles.text}>Full Name</p>
               </div>
               <div className={styles['col-sm-9']}>
-                {userSession ? <p className={styles.text}>{userSession?.username}</p> : <Skeleton minWidth={'100%'} height={'24px'} />}
+                {userSession ? <p className={styles.text}>{name}</p> : <Skeleton minWidth={'100%'} height={'24px'} />}
               </div>
             </div>
             <Divider my='md' />

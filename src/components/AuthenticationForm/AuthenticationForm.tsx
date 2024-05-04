@@ -8,7 +8,8 @@ import { login, logout } from '@/app/lib/actions';
 import { useSearchParams } from 'next/navigation';
 import { LoginData } from '@/app/lib/store/features/user/types/userSchema';
 import CustomNotification from '../CustomNotification/CustomNotification';
-
+import { GoogleIcon } from './GoogleIcon';
+import { signIn } from 'next-auth/react';
 export interface Payload {
   loginData: LoginData;
   callbackUrl: string | null;
@@ -59,7 +60,7 @@ export default function AuthenticationForm({
   setIsLogin: Dispatch<SetStateAction<boolean>>;
 }) {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl');
+  const callbackUrl = searchParams.get('callbackUrl') || '/profile';
 
   const [formState, formAction] = useFormState<SignUpFormStateT, Payload>(login, initialState);
 
@@ -131,6 +132,9 @@ export default function AuthenticationForm({
         </Button>
         <Button style={{ background: '#005bff' }} onClick={() => logout()}>
           Выйти
+        </Button>
+        <Button onClick={() => signIn('google', { callbackUrl })} leftSection={<GoogleIcon />} variant='default' color='gray'>
+          Continue with Google
         </Button>
       </Group>
     </form>
