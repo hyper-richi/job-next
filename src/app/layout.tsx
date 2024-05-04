@@ -113,6 +113,7 @@ const GTEestiProDisplay = localFont({
 }; */
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  console.log('RootLayout: ');
   // const { data: regions } = await getRegions();
   const session = await auth();
   return (

@@ -2,12 +2,10 @@
 import React, { ReactNode, useLayoutEffect } from 'react';
 import { Avatar, Card, Divider, Grid, List, ThemeIcon, rem } from '@mantine/core';
 import { IconBrandGithubFilled, IconBrandInstagram, IconBrandTwitterFilled, IconWorld } from '@tabler/icons-react';
-import styles from './ProfileClient.module.scss';
 import SocialItem from '@/components/SocialItem/SocialItem';
 import { useSession } from 'next-auth/react';
-import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { selectUser, setAuthUser } from '@/app/lib/store/features/user/slice/userSlice';
 import { Skeleton } from '../Skeleton/Skeleton';
+import styles from './ProfileClient.module.scss';
 interface SocialList {
   icon: ReactNode;
   placeholder: string;
@@ -56,18 +54,8 @@ const SOCIAL_LIST: SocialList[] = [
 
 const ProfileClient = () => {
   console.log('ProfileClient: ');
-  const { data: session, update } = useSession();
-  const dispatch = useAppDispatch();
-  const authUser = useAppSelector(selectUser);
-
-  useLayoutEffect(() => {
-    if (session) {
-      dispatch(setAuthUser(session?.user));
-    }
-  }, []);
-
-  // const authUser = authUser; // session?.user; // authUserSelect;
-  console.log('authUser: ', authUser);
+  const { data: session } = useSession();
+  const userSession = session?.user;
 
   return (
     <section className={styles.container}>
@@ -75,18 +63,18 @@ const ProfileClient = () => {
         <Grid.Col span={4}>
           <Card shadow='sm' padding='lg' radius='md' withBorder>
             <Card.Section className={styles.card__header}>
-              {authUser ? (
-                <Avatar size='md' radius={'8px'} className={styles.avatar} src={authUser.avatar.url} alt='profile picture' />
+              {userSession ? (
+                <Avatar size='md' radius={'8px'} className={styles.avatar} src={userSession.avatar.url} alt='profile picture' />
               ) : (
                 <Skeleton minWidth={'150px'} height={'180px'} borderRadius='8px' paddingTop={'0'} />
               )}
-              {authUser ? (
-                <h5 className={styles.card__title}>{authUser?.username}</h5>
+              {userSession ? (
+                <h5 className={styles.card__title}>{userSession?.username}</h5>
               ) : (
                 <Skeleton minWidth={'100%'} height={'24px'} margin={'16px 0'} />
               )}
-              {authUser ? (
-                <p className={styles.card__email}>{authUser?.email}</p>
+              {userSession ? (
+                <p className={styles.card__email}>{userSession?.email}</p>
               ) : (
                 <Skeleton minWidth={'100%'} height={'24px'} margin={'0 0 4px'} />
               )}
@@ -100,7 +88,7 @@ const ProfileClient = () => {
                 <p className={styles.text}>Full Name</p>
               </div>
               <div className={styles['col-sm-9']}>
-                {authUser ? <p className={styles.text}>{authUser?.username}</p> : <Skeleton minWidth={'100%'} height={'24px'} />}
+                {userSession ? <p className={styles.text}>{userSession?.username}</p> : <Skeleton minWidth={'100%'} height={'24px'} />}
               </div>
             </div>
             <Divider my='md' />
@@ -109,7 +97,7 @@ const ProfileClient = () => {
                 <p className={styles.text}>Email</p>
               </div>
               <div className={styles['col-sm-9']}>
-                {authUser ? <p className={styles.text}>{authUser?.email}</p> : <Skeleton minWidth={'100%'} height={'24px'} />}
+                {userSession ? <p className={styles.text}>{userSession?.email}</p> : <Skeleton minWidth={'100%'} height={'24px'} />}
               </div>
             </div>
           </Card>

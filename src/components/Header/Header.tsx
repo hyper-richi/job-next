@@ -1,10 +1,9 @@
 'use client';
-import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { HeaderProps } from './Header.props';
 import Link from 'next/link';
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
-import styles from './Header.module.scss';
 import Navbar from '../Navbar/Navbar';
 import clsx from 'clsx';
 import RegionName from '../RegionName/RegionName';
@@ -13,10 +12,11 @@ import SignModal from '../ModalSignin/ModalSignin';
 import { useDisclosure } from '@mantine/hooks';
 import AvatarMenu from '../AvatarMenu/AvatarMenu';
 import { IconStar } from '@tabler/icons-react';
-import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { UnstyledButton } from '@mantine/core';
+import { useAppDispatch } from '@/app/lib/store/hooks';
 import { AnimatedModal } from '../AnimatedModal';
 import { useSession } from 'next-auth/react';
+import { setAuthUser } from '@/app/lib/store/features/user/slice/userSlice';
+import styles from './Header.module.scss';
 
 const MobileRegionsModal = dynamic(() => import('../ModalMobileRegions/ModalMobileRegions'), {
   ssr: false,
@@ -34,15 +34,19 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   console.log('Header: ');
   const router = useRouter();
   const pathname = usePathname();
+  const [opened, { open, close }] = useDisclosure(false);
   const { jobCategory } = useParams<{ jobCategory: string }>();
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMobileRegionsModal, setMobileShowRegionsModal] = useState(false);
   const [showDesktopRegionsModal, setDesktopShowRegionsModal] = useState(false);
   const { data: session } = useSession();
-  const [opened, { open, close }] = useDisclosure(false);
-
-  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+
+  useLayoutEffect(() => {
+    if (session) {
+      dispatch(setAuthUser(session?.user));
+    }
+  }, []);
 
   const searchParams = useSearchParams();
   const regionCodeParams = searchParams.get('regionCode');
@@ -63,14 +67,6 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
     setDesktopShowRegionsModal((prev) => !prev);
   }, []);
 
-  const handleFavoritesClick = () => {
-    if (user) {
-      router.push('/favorites');
-    } else {
-      open();
-    }
-  };
-
   const isAuthRoute = useMemo(() => {
     if (jobCategory) {
       return pathname === `/vacancies/${jobCategory}`;
@@ -90,16 +86,10 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
         <div className={styles.wrapper}>
           <div className={styles.header}>
             <Link prefetch={false} className={styles.header__logo} href={'/'}>
-              JOB/
+              JOB
             </Link>
             <div className={styles.header__info}>
               <div className={styles.info__cities}>
-                <Link prefetch={false} href={'/login'}>
-                  login
-                </Link>
-                <Link prefetch={false} href={'/favorites'}>
-                  favorites
-                </Link>
                 <Link prefetch={false} href={'/vacancies'}>
                   vacancies
                 </Link>
@@ -118,10 +108,10 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
                 <svg width='1' height='46' viewBox='0 0 1 46' fill='none' xmlns='http://www.w3.org/2000/svg'>
                   <path fill='#fff' d='M0 0h1v46H0z'></path>
                 </svg>
-                <UnstyledButton onClick={handleFavoritesClick} className={styles.header__favorites}>
+                <Link prefetch={false} href={'/favorites'} style={{ display: 'flex' }}>
                   <IconStar className={styles.star__icon} />
-                </UnstyledButton>
-                <AvatarMenu openSignModal={open} />
+                </Link>
+                <AvatarMenu openSignModal={open} session={session} />
               </div>
             </div>
           </div>
@@ -145,14 +135,14 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
           <div></div>
         </div>
 
-        {showSidebar && (
+        {/*  {showSidebar && (
           <Sidebar
             regions={regions}
             showSidebar={showSidebar}
             onCloseSidebar={onCloseSidebar}
             onCloseMobileRegionsModal={onCloseMobileRegionsModal}
           />
-        )}
+        )} */}
       </div>
 
       <AnimatedModal opened={showDesktopRegionsModal} onClose={onCloseDesktopRegionsModal}>
@@ -172,4 +162,4 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   );
 };
 
-export default Header;
+export default memo(Header);

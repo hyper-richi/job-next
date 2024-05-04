@@ -5,7 +5,6 @@ import { FormValues, ResponseError } from '../../..';
 import { useForm } from '@mantine/form';
 import { useFormState } from 'react-dom';
 import { login, logout } from '@/app/lib/actions';
-import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { LoginData } from '@/app/lib/store/features/user/types/userSchema';
 import CustomNotification from '../CustomNotification/CustomNotification';

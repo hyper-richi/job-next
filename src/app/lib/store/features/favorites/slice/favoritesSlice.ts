@@ -18,6 +18,7 @@ export const favoritesSlice = createAppSlice({
     }),
     getFavorites: create.asyncThunk<VacancyTransform[], string>(
       async (user_id, thunkApi) => {
+        console.log('getFavorites: ');
         try {
           const res = await axios.get<VacancyTransform[]>(`https://6ede402e6a352dfb.mokky.dev/favoritesVacancies?user_id=${user_id}`);
           if (!res.data) {
@@ -61,6 +62,7 @@ export const favoritesSlice = createAppSlice({
           if (!res.data) {
             throw new Error('Ошибка в обработке запроса, повторите попытку позже!');
           }
+
           return res.data;
         } catch (error) {
           const err = error as AxiosError;

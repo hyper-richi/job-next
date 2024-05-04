@@ -1,6 +1,6 @@
 'use client';
 
-import { createRef, useMemo, useState } from 'react';
+import { createRef, useCallback, useMemo, useState } from 'react';
 import { VacancyCardProps } from './VacancyCard.props';
 import styles from './VacancyCard.module.scss';
 import Link from 'next/link';
@@ -14,12 +14,12 @@ import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { selectUser } from '@/app/lib/store/features/user/slice/userSlice';
 import clsx from 'clsx';
 import { useSession } from 'next-auth/react';
+import { useDisclosure } from '@mantine/hooks';
 // import { selectFavorites } from '@/app/lib/store/features/favorites/selectors/selectFavorites/selectFavorites';
 
-export default function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
+export default function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory, openModal }: VacancyCardProps) {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector(selectUser);
-  const { data: session } = useSession();
 
   const [isClick, setisClick] = useState(false);
 
@@ -50,45 +50,48 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
     [authUser?.id, favoritesVacancies.length, isClick]
   );
 
-  async function handleClick(event: React.MouseEvent<HTMLElement>) {
-    event.stopPropagation();
-    setisClick(true);
+  const handleClick = useCallback(
+    async (event: React.MouseEvent<HTMLElement>) => {
+      event.stopPropagation();
+      setisClick(true);
+      try {
+        if (authUser?.id) {
+          let currentDate = new Date();
+          const currentData = {
+            year: currentDate.getFullYear(),
+            month: currentDate.getMonth() + 1,
+            day: currentDate.getDate(),
+            hours: currentDate.getHours(),
+            minutes: currentDate.getMinutes(),
+          };
+          const transformVacancy: VacancyTransform = {
+            ...vacancy,
+            user_id: authUser?.id,
+            date: currentData,
+            // nodeRef: createRef(null),
+          };
 
-    try {
-      if (session?.user) {
-        let currentDate = new Date();
-        const currentData = {
-          year: currentDate.getFullYear(),
-          month: currentDate.getMonth() + 1,
-          day: currentDate.getDate(),
-          hours: currentDate.getHours(),
-          minutes: currentDate.getMinutes(),
-        };
-        const transformVacancy: VacancyTransform = {
-          ...vacancy,
-          user_id: authUser?.id,
-          date: currentData,
-          // nodeRef: createRef(null),
-        };
+          await dispatch(addFavorites(transformVacancy)).unwrap();
 
-        await dispatch(addFavorites(transformVacancy)).unwrap();
-
+          CustomNotification({
+            title: 'Вакансия',
+            message: 'Вакансия успешно добавлена в избранное!',
+            variant: 'success',
+          });
+        } else {
+          openModal();
+        }
+      } catch (rejectedError) {
+        const rejectValue = rejectedError as ResponseError;
         CustomNotification({
-          title: 'Вакансия',
-          message: 'Вакансия успешно добавлена в избранное!',
-          variant: 'success',
+          message: rejectValue.message,
+          additionalMessage: rejectValue.additionalMessage,
+          variant: 'error',
         });
       }
-    } catch (rejectedError) {
-      console.log('catch: ');
-      const rejectValue = rejectedError as ResponseError;
-      CustomNotification({
-        message: rejectValue.message,
-        additionalMessage: rejectValue.additionalMessage,
-        variant: 'error',
-      });
-    }
-  }
+    },
+    [authUser?.id]
+  );
 
   return (
     <div className={styles.vacancy}>

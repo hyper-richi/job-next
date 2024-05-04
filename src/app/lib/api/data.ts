@@ -40,7 +40,6 @@ export async function getVacancies(params: QureyParams) {
     if (searchText) {
       url = url + `&text=${searchText}`;
     }
-    console.log('url: ', url);
 
     const res = await axios.get<ResponseTransform>(process.env.API_BASE_URL + url, {
       transformResponse: (data) => {

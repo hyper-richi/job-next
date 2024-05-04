@@ -8,13 +8,14 @@ import AvatarButton from '../AvatarButton/AvatarButton';
 import { deleteUser } from '@/app/lib/store/features/user/slice/userSlice';
 // import { clearFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { useRouter } from 'next/navigation';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
+import { Session } from 'next-auth';
 
-function AvatarMenu({ openSignModal }: { openSignModal: () => void }) {
+function AvatarMenu({ openSignModal, session }: { openSignModal: () => void; session: Session | null }) {
+  console.log('AvatarMenu: ');
   // const { authUser } = useAppSelector((state) => state.authUser);
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { data: session } = useSession();
 
   const handleLogout = async () => {
     // dispatch(logoutUser());
