@@ -1,4 +1,4 @@
-import type { NextAuthConfig, Session } from 'next-auth';
+import type { NextAuthConfig } from 'next-auth';
 
 export const authConfig = {
   session: {
@@ -11,10 +11,7 @@ export const authConfig = {
       return isAuthenticated;
     },
 
-    async jwt({ token, account, user, trigger, session }) {
-      /*  if (account && account.type === 'credentials') {
-        token.user = user;
-      } */
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.user = user;
       }
@@ -24,9 +21,8 @@ export const authConfig = {
       }
       return token;
     },
-    async session({ session, token, trigger, newSession }: any) {
+    async session({ session, token }: any) {
       session.user = token.user;
-      // session.authToken = token.user.token;
       return session;
     },
   },

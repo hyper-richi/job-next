@@ -1,21 +1,21 @@
 'use client';
 import { Button, Group, PasswordInput, TextInput } from '@mantine/core';
 import { Dispatch, SetStateAction, useEffect } from 'react';
-import { FormValues } from '../../..';
+import { FormValues } from '../../../..';
 import { useForm } from '@mantine/form';
 import { useFormState } from 'react-dom';
 import { login, logout } from '@/app/lib/actions';
 import { useSearchParams } from 'next/navigation';
 import { LoginData } from '@/app/lib/store/features/user/types/userSchema';
-import CustomNotification from '../CustomNotification/CustomNotification';
+import CustomNotification from '../../CustomNotification/CustomNotification';
 import { GoogleIcon } from './GoogleIcon';
 import { signIn } from 'next-auth/react';
+import { IconBrandGithub } from '@tabler/icons-react';
+
 export interface Payload {
   loginData: LoginData;
   callbackUrl: string | null;
 }
-
-type StatusForm = 'idle' | 'success' | 'error';
 
 type SignUpFormInitialStateT = {
   error: boolean;
@@ -52,13 +52,9 @@ const initialState: SignUpFormInitialStateT = {
   // status: 'idle',
 };
 
-export default function AuthenticationForm({
-  closeModal,
-  setIsLogin,
-}: {
-  closeModal?: () => void;
-  setIsLogin: Dispatch<SetStateAction<boolean>>;
-}) {
+export default function AuthenticationForm({ setIsLogin }: { setIsLogin: Dispatch<SetStateAction<boolean>> }) {
+  console.log('AuthenticationForm: ');
+
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/profile';
 
@@ -67,7 +63,7 @@ export default function AuthenticationForm({
   const form = useForm<FormValues>({
     initialValues: {
       email: '',
-      username: '',
+      name: '',
       password: '',
     },
     validate: {
@@ -77,14 +73,16 @@ export default function AuthenticationForm({
             ? null
             : 'Длина ящика не более 25 символов'
           : 'Минимальное наименование email n@m',
-      username: (value) =>
+      name: (value) =>
         value && value.length < 2 ? 'Имя должно быть от 2' : value && value.length > 20 ? 'Имя должно быть до 20 символов' : null,
       password: (value) => {
         return value.length < 5 ? 'Минимальный пароль 5 символов' : null;
       },
     },
   });
+
   const loginData = { email: form.values.email, password: form.values.password };
+
   useEffect(() => {
     form.setFieldError('email', formState.validatedErrors?.email);
   }, [formState.validatedErrors?.email]);
@@ -111,32 +109,50 @@ export default function AuthenticationForm({
     }
   };
 
+  const googleSignIn = () => {
+    signIn('google', { callbackUrl }).then((res) => {
+      console.log('res: ', res);
+    });
+  };
+  const githubSignIn = () => {
+    signIn('github', { callbackUrl }).then((res) => {
+      console.log('res: ', res);
+    });
+  };
+
   return (
-    <form action={() => formAction({ loginData, callbackUrl })}>
-      <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
-      <PasswordInput
-        mt='md'
-        withAsterisk
-        label='password'
-        placeholder='Your password'
-        required
-        {...form.getInputProps('password')}
-        error={form.errors.password}
-      />
-      <Group style={{ fontWeight: '400 !important' }} mt='md' justify='space-between'>
-        <Button variant='default' onClick={toogleForm}>
-          Регистрация
+    <>
+      <Group style={{ fontWeight: '400 !important' }} mb='md' justify='space-between'>
+        <Button onClick={googleSignIn} leftSection={<GoogleIcon />} variant='default' color='gray'>
+          Google
         </Button>
-        <Button style={{ background: '#005bff' }} type='submit' /* onClick={() => signIn('credentials', loginData)} */>
-          Войти
-        </Button>
-        <Button style={{ background: '#005bff' }} onClick={() => logout()}>
-          Выйти
-        </Button>
-        <Button onClick={() => signIn('google', { callbackUrl })} leftSection={<GoogleIcon />} variant='default' color='gray'>
-          Continue with Google
+        <Button onClick={githubSignIn} leftSection={<IconBrandGithub />} variant='default' color='gray'>
+          GitHub
         </Button>
       </Group>
-    </form>
+      <form action={() => formAction({ loginData, callbackUrl })}>
+        <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
+        <PasswordInput
+          mt='md'
+          withAsterisk
+          label='password'
+          placeholder='Your password'
+          required
+          {...form.getInputProps('password')}
+          error={form.errors.password}
+        />
+        <Group style={{ fontWeight: '400 !important' }} mt='md' justify='space-between'>
+          <Button variant='default' onClick={toogleForm}>
+            Регистрация
+          </Button>
+          <Button style={{ background: '#005bff' }} type='submit' /* onClick={() => signIn('credentials', loginData)} */>
+            Войти
+          </Button>
+          <Button style={{ background: '#005bff' }} onClick={() => logout()}>
+            Выйти
+          </Button>
+        </Group>
+      </form>
+    </>
   );
 }

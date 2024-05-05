@@ -1,7 +1,7 @@
 'use client';
 
-import AuthenticationForm from '@/components/AuthenticationForm/AuthenticationForm';
-import RegistrationForm from '@/components/RegistrationForm/RegistrationForm';
+import AuthenticationForm from '@/components/Forms/AuthenticationForm/AuthenticationForm';
+import RegistrationForm from '@/components/Forms/RegistrationForm/RegistrationForm';
 import { Anchor, Paper, Title, Text, Container } from '@mantine/core';
 import { useState } from 'react';
 

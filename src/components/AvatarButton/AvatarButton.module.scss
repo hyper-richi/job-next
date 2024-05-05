@@ -1,3 +1,10 @@
+.avatar__name {
+  width: max-content;
+}
+.avatar__email {
+  width: max-content;
+}
+
 [aria-expanded='true'] {
   .avatar__name {
     opacity: 0.5;

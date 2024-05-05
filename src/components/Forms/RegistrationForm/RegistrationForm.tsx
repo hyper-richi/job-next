@@ -1,17 +1,18 @@
 'use client';
 import { Button, FileButton, Group, PasswordInput, Stack, TextInput } from '@mantine/core';
 import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
-import { FormValues, ResponseError } from '../../..';
+import { FormValues, ResponseError } from '../../../..';
 import { useForm } from '@mantine/form';
 import { useFormState } from 'react-dom';
 import { login, logout } from '@/app/lib/actions';
 import { useSearchParams } from 'next/navigation';
-import { LoginData } from '@/app/lib/store/features/user/types/userSchema';
-import CustomNotification from '../CustomNotification/CustomNotification';
-import CustomAvatar from '../CustomAvatar/CustomAvatar';
+import { LoginData, RegisterUserData } from '@/app/lib/store/features/user/types/userSchema';
+import CustomNotification from '../../CustomNotification/CustomNotification';
+import CustomAvatar from '../../CustomAvatar/CustomAvatar';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { deleteFile, selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
+import { registerUser } from '@/app/lib/store/features/user/slice/userSlice';
 
 export interface Payload {
   loginData: LoginData;
@@ -74,7 +75,7 @@ export default function RegistrationForm({
   const form = useForm<FormValues>({
     initialValues: {
       email: '',
-      username: '',
+      name: '',
       password: '',
     },
     validate: {
@@ -84,7 +85,7 @@ export default function RegistrationForm({
             ? null
             : 'Длина ящика не более 25 символов'
           : 'Минимальное наименование email n@m',
-      username: (value) =>
+      name: (value) =>
         value && value.length < 2 ? 'Имя должно быть от 2' : value && value.length > 20 ? 'Имя должно быть до 20 символов' : null,
       password: (value) => {
         return value.length < 5 ? 'Минимальный пароль 5 символов' : null;
@@ -92,6 +93,7 @@ export default function RegistrationForm({
     },
   });
   const loginData = { email: form.values.email, password: form.values.password };
+
   useEffect(() => {
     form.setFieldError('email', formState.validatedErrors?.email);
   }, [formState.validatedErrors?.email]);
@@ -111,7 +113,38 @@ export default function RegistrationForm({
     }
   }, [formState.credentials]);
 
+  const handleSubmit = async (values: FormValues) => {
+    if (values.name) {
+      // Registration
+      const registerData: RegisterUserData = {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        image: file?.url || '',
+        id_picture: file?.id || null,
+      };
+      try {
+        await dispatch(registerUser(registerData)).unwrap();
+        form.reset();
+        CustomNotification({
+          title: 'Пользователь',
+          message: 'Пользователь успешно создан!',
+          variant: 'success',
+        });
+      } catch (rejectedError) {
+        const rejectValue = rejectedError as ResponseError;
+        CustomNotification({
+          title: rejectValue.code,
+          message: rejectValue.message,
+          additionalMessage: rejectValue.additionalMessage,
+          variant: 'error',
+        });
+      }
+    }
+  };
+
   async function handleUploadImgAvatar(fileFormUpload: File | null) {
+    console.log('fileFormUpload: ', fileFormUpload);
     const formData = new FormData();
     if (fileFormUpload) {
       formData.append('file', fileFormUpload);
@@ -123,6 +156,7 @@ export default function RegistrationForm({
     try {
       await dispatch(uploadFile(formData)).unwrap();
     } catch (rejectedError) {
+      console.log('handleUploadImgAvatar-rejectedError: ', rejectedError);
       const rejectValue = rejectedError as ResponseError;
       CustomNotification({
         title: rejectValue.code,
@@ -163,7 +197,7 @@ export default function RegistrationForm({
 
   return (
     <>
-      <form action={() => formAction({ loginData, callbackUrl })}>
+      <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <Stack gap='xs'>
           <CustomAvatar />
           <Group justify='space-between'>
@@ -184,14 +218,7 @@ export default function RegistrationForm({
             </Button>
           </Group>
         </Stack>
-        <TextInput
-          mt='md'
-          label='username'
-          placeholder='username'
-          required
-          {...form.getInputProps('username')}
-          error={form.errors.username}
-        />
+        <TextInput mt='md' label='name' placeholder='name' required {...form.getInputProps('name')} error={form.errors.name} />
         <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
         <PasswordInput
           mt='md'

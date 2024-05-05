@@ -25,6 +25,7 @@ export const fileSlice = createAppSlice({
             return URL.createObjectURL(imageBlob);
           })
           .catch((err) => {
+            console.log('err-uploadImg: ', err);
             return rejectWithValue({
               message: 'Ошибка в обработке запроса: ' + err.message,
               additionalMessage: (err.response as AxiosResponse)?.data.message,
@@ -57,7 +58,7 @@ export const fileSlice = createAppSlice({
         const { dispatch, rejectWithValue } = thunkApi;
 
         try {
-          const response = await axios.post<ImageFile>('https://6ede402e6a352dfb.mokky.dev/uploads', formData);
+          const response = await axios.post<ImageFile>('https://6ede402e6a352dfb.mokky.dev' + `/uploads`, formData);
           if (!response.data) {
             throw new Error('Ошибка в обработке запроса, повторите попытку позже!');
           }
@@ -65,6 +66,7 @@ export const fileSlice = createAppSlice({
 
           return response.data;
         } catch (error) {
+          console.log('error-uploadFile: ', error);
           const err = error as AxiosError;
           return rejectWithValue({
             message: 'Ошибка в обработке запроса: ' + err.message,
@@ -95,9 +97,9 @@ export const fileSlice = createAppSlice({
     ),
     deleteFile: create.asyncThunk<AxiosError | void, number>(
       async (imageId, thunkApi) => {
-        const { /* extra, dispatch, */ rejectWithValue } = thunkApi;
+        const { rejectWithValue } = thunkApi;
         try {
-          await axios.delete(`https://6ede402e6a352dfb.mokky.dev/uploads/${imageId}`);
+          await axios.delete('https://6ede402e6a352dfb.mokky.dev' + `/uploads/${imageId}`);
         } catch (error) {
           const err = error as AxiosError;
           return rejectWithValue({

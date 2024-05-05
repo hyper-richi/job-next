@@ -215,8 +215,7 @@ interface ResponseRegions {
 
 export interface FormValues {
   email: string;
-  username: string | null;
-  // avatar: string | null;
+  name: string | null;
   password: string;
 }
 

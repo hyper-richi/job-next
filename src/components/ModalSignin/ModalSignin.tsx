@@ -6,10 +6,10 @@ import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { registerUser } from '@/app/lib/store/features/user/slice/userSlice';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import { deleteFile, selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
-import { RegisterData } from '@/app/lib/store/features/user/types/userSchema';
+import { RegisterUserData } from '@/app/lib/store/features/user/types/userSchema';
 import { useForm } from '@mantine/form';
-import AuthenticationForm from '../AuthenticationForm/AuthenticationForm';
-import RegistrationForm from '../RegistrationForm/RegistrationForm';
+import AuthenticationForm from '../Forms/AuthenticationForm/AuthenticationForm';
+import RegistrationForm from '../Forms/RegistrationForm/RegistrationForm';
 // import { useFormState, useFormStatus } from 'react-dom';
 // import { authenticate } from '@/app/lib/actions';
 
@@ -29,7 +29,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
   const form = useForm<FormValues>({
     initialValues: {
       email: '',
-      username: '',
+      name: '',
       password: '',
     },
     validate: {
@@ -39,7 +39,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
             ? null
             : 'Длина ящика не более 25 символов'
           : 'Минимальное наименование email n@m',
-      username: (value) =>
+      name: (value) =>
         value && value.length < 2 ? 'Имя должно быть от 2' : value && value.length > 20 ? 'Имя должно быть  до 20 символов' : null,
       password: (value) => {
         return value.length < 5 ? 'Минимальный пароль 5 символов' : null;
@@ -47,20 +47,16 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
     },
   });
 
-  const handleSubmit = async (values: FormValues) => {
-    if (values.username) {
+  /* const handleSubmit = async (values: FormValues) => {
+    if (values.name) {
       // Registration
-      const registrData: RegisterData = {
-        username: values.username,
+      const registerData: RegisterUserData = {
+        name: values.name,
         email: values.email,
         password: values.password,
-        avatar: {
-          url: file?.url,
-          id_picture: file?.id,
-        },
       };
       try {
-        await dispatch(registerUser(registrData)).unwrap();
+        await dispatch(registerUser(registerData)).unwrap();
 
         form.reset();
         closeModal();
@@ -82,16 +78,16 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
     } else {
       // Authentication
       try {
-        /* const loginData = { email: values.email, password: values.password };
-         */
-        // await dispatch(loginUser(loginData)).unwrap();
-        /*   CustomNotification({
+        const loginData = { email: values.email, password: values.password };
+
+         await dispatch(loginUser(loginData)).unwrap();
+           CustomNotification({
           title: 'Пользователь',
           message: 'Поздравляю! Вы успешно авторизовались!',
           variant: 'success',
-        }); */
-        /* form.reset();
-        closeModal(); */
+        });
+         form.reset();
+        closeModal();
       } catch (rejectedError) {
         const rejectValue = rejectedError as ResponseError;
         CustomNotification({
@@ -101,7 +97,7 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
         });
       }
     }
-  };
+  }; */
 
   async function handleUploadImgAvatar(fileFormUpload: File | null) {
     const formData = new FormData();
@@ -177,11 +173,11 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
         </Stack>
         <TextInput
           mt='md'
-          label='username'
-          placeholder='username'
+          label='name'
+          placeholder='name'
           required
-          {...form.getInputProps('username')}
-          error={form.errors.username}
+          {...form.getInputProps('name')}
+          error={form.errors.name}
         />
         <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
         <PasswordInput

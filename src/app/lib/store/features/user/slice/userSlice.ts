@@ -1,5 +1,5 @@
 import { type PayloadAction } from '@reduxjs/toolkit';
-import { AuthApiResponse, UserSchema, RegisterData, User, DataUserUpdate } from '../types/userSchema';
+import { AuthApiResponse, UserSchema, RegisterUserData, User, DataUserUpdate } from '../types/userSchema';
 import { createAppSlice } from '../../../createAppSlice';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { ResponseError } from '../../../../../../..';
@@ -21,11 +21,11 @@ export const userSlice = createAppSlice({
       }
       // state.token = action.payload.token;
     }),
-    registerUser: create.asyncThunk<AuthApiResponse, RegisterData>(
+    registerUser: create.asyncThunk<AuthApiResponse, RegisterUserData>(
       async (registrData, thunkApi) => {
         // const { dispatch, getState, fulfillWithValue } = thunkApi;
         try {
-          const res = await axios.post<AuthApiResponse>('https://6ede402e6a352dfb.mokky.dev/register', registrData);
+          const res = await axios.post<AuthApiResponse>('https://6ede402e6a352dfb.mokky.dev' + '/register', registrData);
           return res.data;
         } catch (error) {
           const err = error as AxiosError;
@@ -49,7 +49,6 @@ export const userSlice = createAppSlice({
           state.status = 'none';
           state.error = null;
           state.user = action.payload.data;
-          sessionStorage.setItem('token', action.payload.token);
         },
         // settled вызывается как за отклоненные, так и за выполненные действия
         settled: (state) => {
@@ -61,7 +60,7 @@ export const userSlice = createAppSlice({
       async ({ userId, ...data }, thunkApi) => {
         // const { dispatch, getState, fulfillWithValue } = thunkApi;
         try {
-          const res = await axios.patch<User>('https://6ede402e6a352dfb.mokky.dev/users/' + userId, { ...data });
+          const res = await axios.patch<User>('https://6ede402e6a352dfb.mokky.dev' + `/users/${userId}`, { ...data });
           // throw new Error('Custom Error');
           return res.data;
         } catch (error) {
@@ -97,7 +96,7 @@ export const userSlice = createAppSlice({
       async (_, thunkApi) => {
         const token = sessionStorage.getItem('token');
         return await axios
-          .get<User>('https://6ede402e6a352dfb.mokky.dev/auth_me', {
+          .get<User>('https://6ede402e6a352dfb.mokky.dev' + '/auth_me', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -132,7 +131,7 @@ export const userSlice = createAppSlice({
       async (userId, thunkApi) => {
         const token = sessionStorage.getItem('token');
         return await axios
-          .get<User>('https://6ede402e6a352dfb.mokky.dev/users/' + userId, {
+          .get<User>('https://6ede402e6a352dfb.mokky.dev' + `/users/${userId}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -166,7 +165,7 @@ export const userSlice = createAppSlice({
     deleteUser: create.asyncThunk<AxiosError | void, string>(
       async (user_id, thunkApi) => {
         try {
-          await axios.delete(`https://6ede402e6a352dfb.mokky.dev/users/${user_id}`);
+          await axios.delete('https://6ede402e6a352dfb.mokky.dev' + `/users/${user_id}`);
         } catch (error) {
           const err = error as AxiosError;
           return thunkApi.rejectWithValue({

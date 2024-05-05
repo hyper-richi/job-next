@@ -1,11 +1,16 @@
 'use client';
-import React, { ReactNode, useLayoutEffect } from 'react';
+import React, { ReactNode, useEffect, useLayoutEffect } from 'react';
 import { Avatar, Card, Divider, Grid, List, ThemeIcon, rem } from '@mantine/core';
 import { IconBrandGithubFilled, IconBrandInstagram, IconBrandTwitterFilled, IconWorld } from '@tabler/icons-react';
 import SocialItem from '@/components/SocialItem/SocialItem';
 import { useSession } from 'next-auth/react';
 import { Skeleton } from '../Skeleton/Skeleton';
 import styles from './ProfileClient.module.scss';
+import { useAppDispatch } from '@/app/lib/store/hooks';
+import { registerUser } from '@/app/lib/store/features/user/slice/userSlice';
+import { RegisterUserData } from '@/app/lib/store/features/user/types/userSchema';
+import CustomNotification from '../CustomNotification/CustomNotification';
+import { ResponseError } from '../../..';
 interface SocialList {
   icon: ReactNode;
   placeholder: string;
@@ -54,21 +59,33 @@ const SOCIAL_LIST: SocialList[] = [
 
 const ProfileClient = () => {
   console.log('ProfileClient: ');
+  const dispatch = useAppDispatch();
+
   const { data: session } = useSession();
   const userSession = session?.user;
   console.log('userSession: ', userSession);
 
-  const srcImgAvatar = userSession?.avatar?.url || (userSession?.image as string);
-  const name = userSession?.username || userSession?.name;
+  const srcImgAvatar = userSession?.image;
+  const name = userSession?.name;
 
-/*
-  session.user = {
-    email:"kamalov.job@gmail.com"
-    id:"46dcd230-7ee1-4f12-a99d-9f296349d6ca"
-    image:"https://lh3.googleusercontent.com/a/ACg8ocKy-LztfVuvhT5xe4KxnrOBgUvBeSm00-0kjEl2f_gHZGFlCA=s96-c"
-    name:"E L"
-  }
-*/
+  useEffect(() => {
+    if (userSession) {
+      fetch(`https://6ede402e6a352dfb.mokky.dev/users/${userSession.id}`).catch((error) => {
+        addUserToHistory();
+      });
+    }
+    const addUserToHistory = async () => {
+      if (userSession) {
+        const registerData: RegisterUserData = {
+          ...userSession,
+          password: '1234567',
+        };
+        try {
+          await dispatch(registerUser(registerData)).unwrap();
+        } catch (rejectedError) {}
+      }
+    };
+  }, []);
 
   return (
     <section className={styles.container}>

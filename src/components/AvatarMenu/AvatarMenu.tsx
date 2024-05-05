@@ -25,8 +25,8 @@ function AvatarMenu({ openSignModal, session }: { openSignModal: () => void; ses
     // router.push('/');
   };
 
-  const srcImgAvatar = session?.user?.avatar?.url || (session?.user?.image as string);
-  const name = session?.user?.username || session?.user?.name;
+  const srcImgAvatar = session?.user?.image;
+  const name = session?.user?.name;
 
   return (
     <div className={styles.AvatarMenu}>

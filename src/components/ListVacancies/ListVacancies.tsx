@@ -11,10 +11,6 @@ import SignModal from '../ModalSignin/ModalSignin';
 const ListVacancies = ({ vacancies, regionCode, searchText, offset, jobCategory }: ListVacanciesProps) => {
   const [opened, { open, close }] = useDisclosure(false);
 
-  const onAddToFavorites = () => {
-    open();
-  };
-
   return (
     <>
       <div className={styles.content}>
@@ -31,7 +27,6 @@ const ListVacancies = ({ vacancies, regionCode, searchText, offset, jobCategory 
                     offset={offset}
                     regionCode={regionCode}
                     vacancy={item}
-                    /* onAddToFavorites={onAddToFavorites} */
                     openModal={open}
                   />
                 );

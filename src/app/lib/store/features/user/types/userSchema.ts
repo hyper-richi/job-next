@@ -1,15 +1,5 @@
-export interface User {
+export interface User extends Omit<RegisterUserData, 'password'> {
   id: string;
-  username: string;
-  email: string;
-  github?: string;
-  twitter?: string;
-  instagram?: string;
-  website?: string;
-  avatar: {
-    url: string;
-    id_picture: string;
-  };
 }
 
 export interface AuthApiResponse {
@@ -22,17 +12,19 @@ export interface LoginData {
   password: string;
 }
 
-export interface RegisterData {
-  username: string;
-  email: string;
+export interface RegisterUserData {
   password: string;
-  avatar: {
-    url: string | undefined;
-    id_picture: number | undefined;
-  };
+  name: string;
+  email: string;
+  image: string;
+  id_picture: number | null;
+  github?: string;
+  twitter?: string;
+  instagram?: string;
+  website?: string;
 }
 
-export interface DataUserUpdate extends Partial<RegisterData> {
+export interface DataUserUpdate extends Partial<RegisterUserData> {
   userId: string;
   github?: string;
   twitter?: string;

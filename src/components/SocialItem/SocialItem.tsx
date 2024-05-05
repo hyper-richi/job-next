@@ -76,6 +76,10 @@ const SocialItem = ({ icon, placeholder, nameInput }: SocialItemProps) => {
         const updateData: DataUserUpdate = {
           userId: authUser?.id,
           [nameInput]: value,
+          github: '',
+          twitter: '',
+          instagram: '',
+          website: '',
         };
         if (session) {
           update({ ...session.user, [nameInput]: value });

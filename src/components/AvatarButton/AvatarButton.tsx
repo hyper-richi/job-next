@@ -29,7 +29,6 @@ const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(
             <Text size='sm' fw={500} className={styles.avatar__name}>
               {name}
             </Text>
-
             <Text c='dimmed' size='xs' className={styles.avatar__email}>
               {email}
             </Text>
