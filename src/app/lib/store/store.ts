@@ -1,10 +1,11 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
-import {userSlice } from './features/user/slice/userSlice';
 import { fileSlice } from './features/file/slice/fileSlice';
 import { favoritesSlice } from './features/favorites/slice/favoritesSlice';
 import { rtkApi } from '../api/rtkApi';
+import { authProfileSlice } from './features/authProfile/slice/authProfileSlice';
+import { usersSlice } from './features/users/slice/usersSlice';
 
-const rootReducer = combineSlices(userSlice, fileSlice, favoritesSlice, rtkApi);
+const rootReducer = combineSlices(authProfileSlice, usersSlice, fileSlice, favoritesSlice, rtkApi);
 
 export const makeStore = () => {
   return configureStore({

@@ -1,5 +1,5 @@
 import 'next-auth';
-import { User as CustomUser, AuthApiResponse as AuthUser } from './src/app/lib/store/features/user/types/userSchema';
+import { User as CustomUser, AuthApiResponse as authProfile } from './src/app/lib/store/features/authProfile/types/authProfileSchema';
 
 declare module 'next-auth' {
   interface Session {

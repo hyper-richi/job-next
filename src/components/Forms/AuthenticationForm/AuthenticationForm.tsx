@@ -6,11 +6,11 @@ import { useForm } from '@mantine/form';
 import { useFormState } from 'react-dom';
 import { login, logout } from '@/app/lib/actions';
 import { useSearchParams } from 'next/navigation';
-import { LoginData } from '@/app/lib/store/features/user/types/userSchema';
 import CustomNotification from '../../CustomNotification/CustomNotification';
 import { GoogleIcon } from './GoogleIcon';
 import { signIn } from 'next-auth/react';
 import { IconBrandGithub } from '@tabler/icons-react';
+import { LoginData } from '@/app/lib/store/features/authProfile/types/authProfileSchema';
 
 export interface Payload {
   loginData: LoginData;
@@ -110,14 +110,10 @@ export default function AuthenticationForm({ setIsLogin }: { setIsLogin: Dispatc
   };
 
   const googleSignIn = () => {
-    signIn('google', { callbackUrl }).then((res) => {
-      console.log('res: ', res);
-    });
+    signIn('google', { callbackUrl });
   };
   const githubSignIn = () => {
-    signIn('github', { callbackUrl }).then((res) => {
-      console.log('res: ', res);
-    });
+    signIn('github', { callbackUrl });
   };
 
   return (

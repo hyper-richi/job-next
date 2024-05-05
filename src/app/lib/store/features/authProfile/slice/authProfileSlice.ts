@@ -1,31 +1,31 @@
 import { type PayloadAction } from '@reduxjs/toolkit';
-import { AuthApiResponse, UserSchema, RegisterUserData, User, DataUserUpdate } from '../types/userSchema';
+import { AuthApiResponse, authProfileSchema, RegisterUserData, User, DataUserUpdate } from '../types/authProfileSchema';
 import { createAppSlice } from '../../../createAppSlice';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { ResponseError } from '../../../../../../..';
 
-const initialState: UserSchema = {
+const initialState: authProfileSchema = {
   status: 'none',
   token: null,
   user: null,
   error: null,
 };
 
-export const userSlice = createAppSlice({
+export const authProfileSlice = createAppSlice({
   name: 'user',
   initialState,
   reducers: (create) => ({
-    setAuthUser: create.reducer((state, action: PayloadAction<User>) => {
+    setauthProfile: create.reducer((state, action: PayloadAction<User>) => {
       if (!state.user) {
         state.user = action.payload;
       }
       // state.token = action.payload.token;
     }),
     registerUser: create.asyncThunk<AuthApiResponse, RegisterUserData>(
-      async (registrData, thunkApi) => {
+      async (registerData, thunkApi) => {
         // const { dispatch, getState, fulfillWithValue } = thunkApi;
         try {
-          const res = await axios.post<AuthApiResponse>('https://6ede402e6a352dfb.mokky.dev' + '/register', registrData);
+          const res = await axios.post<AuthApiResponse>('https://6ede402e6a352dfb.mokky.dev' + '/register', registerData);
           return res.data;
         } catch (error) {
           const err = error as AxiosError;
@@ -92,7 +92,7 @@ export const userSlice = createAppSlice({
         },
       }
     ),
-    initAuthUser: create.asyncThunk<User, void>(
+    initauthProfile: create.asyncThunk<User, void>(
       async (_, thunkApi) => {
         const token = sessionStorage.getItem('token');
         return await axios
@@ -127,7 +127,7 @@ export const userSlice = createAppSlice({
         },
       }
     ),
-    getAuthUser: create.asyncThunk<User, string>(
+    getauthProfile: create.asyncThunk<User, string>(
       async (userId, thunkApi) => {
         const token = sessionStorage.getItem('token');
         return await axios
@@ -200,5 +200,5 @@ export const userSlice = createAppSlice({
   },
 });
 
-export const { deleteUser, registerUser, setAuthUser, initAuthUser, updateUser } = userSlice.actions;
-export const { selectUser, selectStatusUser } = userSlice.selectors;
+export const { deleteUser, registerUser, setauthProfile, initauthProfile, updateUser } = authProfileSlice.actions;
+export const { selectUser, selectStatusUser } = authProfileSlice.selectors;

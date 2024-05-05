@@ -6,9 +6,10 @@ import SocialItem from '@/components/SocialItem/SocialItem';
 import { useSession } from 'next-auth/react';
 import { Skeleton } from '../Skeleton/Skeleton';
 import styles from './ProfileClient.module.scss';
-import { useAppDispatch } from '@/app/lib/store/hooks';
-import { registerUser } from '@/app/lib/store/features/user/slice/userSlice';
-import { RegisterUserData } from '@/app/lib/store/features/user/types/userSchema';
+import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
+import { registerUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
+import { RegisterUserData } from '@/app/lib/store/features/authProfile/types/authProfileSchema';
+import { fetchAllUsers, selectAllUsers } from '@/app/lib/store/features/users/slice/usersSlice';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import { ResponseError } from '../../..';
 interface SocialList {
@@ -60,31 +61,58 @@ const SOCIAL_LIST: SocialList[] = [
 const ProfileClient = () => {
   console.log('ProfileClient: ');
   const dispatch = useAppDispatch();
+  const usersList = useAppSelector(selectAllUsers);
 
   const { data: session } = useSession();
   const userSession = session?.user;
-  console.log('userSession: ', userSession);
 
   const srcImgAvatar = userSession?.image;
   const name = userSession?.name;
+  const isAdmin = userSession?.role === 'admin';
 
   useEffect(() => {
     if (userSession) {
-      fetch(`https://6ede402e6a352dfb.mokky.dev/users/${userSession.id}`).catch((error) => {
-        addUserToHistory();
-      });
+      fetch(`https://6ede402e6a352dfb.mokky.dev/users/${userSession.id}`)
+        .then((res) => {
+          if (!res.ok) {
+            addUserToHistory();
+          }
+          return res;
+        })
+        .catch((error) => {
+          addUserToHistory();
+        });
     }
-    const addUserToHistory = async () => {
+    const addUserToHistory = () => {
       if (userSession) {
         const registerData: RegisterUserData = {
           ...userSession,
           password: '1234567',
         };
         try {
-          await dispatch(registerUser(registerData)).unwrap();
+          dispatch(registerUser(registerData)).unwrap();
         } catch (rejectedError) {}
       }
     };
+  }, []);
+
+  useEffect(() => {
+    if (userSession && userSession.role === 'admin') {
+      const getAllUsers = async () => {
+        try {
+          await dispatch(fetchAllUsers()).unwrap();
+        } catch (rejectedError) {
+          const rejectValue = rejectedError as ResponseError;
+          CustomNotification({
+            title: rejectValue.code,
+            message: rejectValue.message,
+            additionalMessage: rejectValue.additionalMessage,
+            variant: 'error',
+          });
+        }
+      };
+      getAllUsers();
+    }
   }, []);
 
   return (
@@ -145,6 +173,34 @@ const ProfileClient = () => {
             </Card.Section>
           </Card>
         </Grid.Col>
+        {isAdmin && (
+          <Grid.Col span={'auto'}>
+            <Card shadow='sm' padding='lg' radius='md' withBorder style={{ color: '#757575' }}>
+              {usersList &&
+                usersList.map((item) => (
+                  <div>
+                    <div className={styles.row}>
+                      <div className={styles['col-sm-3']}>
+                        <p className={styles.text}>Name</p>
+                      </div>
+                      <div className={styles['col-sm-9']}>
+                        {usersList ? <p className={styles.text}>{item.name}</p> : <Skeleton minWidth={'100%'} height={'24px'} />}
+                      </div>
+                    </div>
+                    <div className={styles.row}>
+                      <div className={styles['col-sm-3']}>
+                        <p className={styles.text}>Email</p>
+                      </div>
+                      <div className={styles['col-sm-9']}>
+                        {usersList ? <p className={styles.text}>{item.email}</p> : <Skeleton minWidth={'100%'} height={'24px'} />}
+                      </div>
+                    </div>
+                    <Divider my='md' />
+                  </div>
+                ))}
+            </Card>
+          </Grid.Col>
+        )}
       </Grid>
     </section>
   );

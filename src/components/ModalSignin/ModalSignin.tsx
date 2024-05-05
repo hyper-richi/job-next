@@ -1,25 +1,17 @@
 'use client';
-import { Modal, Button, Group, PasswordInput, TextInput, Stack, FileButton } from '@mantine/core';
+import { Modal } from '@mantine/core';
 import { useCallback, useRef, useState } from 'react';
 import { FormValues, ResponseError } from '../../..';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { registerUser } from '@/app/lib/store/features/user/slice/userSlice';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import { deleteFile, selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
-import { RegisterUserData } from '@/app/lib/store/features/user/types/userSchema';
 import { useForm } from '@mantine/form';
 import AuthenticationForm from '../Forms/AuthenticationForm/AuthenticationForm';
 import RegistrationForm from '../Forms/RegistrationForm/RegistrationForm';
-// import { useFormState, useFormStatus } from 'react-dom';
-// import { authenticate } from '@/app/lib/actions';
 
 function SignModal({ opened, openModal, closeModal }: { opened: boolean; openModal: () => void; closeModal: () => void }) {
   const resetRef = useRef<() => void>(null);
   const [isLogin, setIsLogin] = useState(true);
-
-  // const [errorMessage, dispatch: ] = useFormState(authenticate, undefined);
-
-  // const [opened, { open, close }] = useDisclosure(false);
 
   const dispatch = useAppDispatch();
   const file = useAppSelector(selectFile);
@@ -145,11 +137,11 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
 
   return isLogin ? (
     <Modal className='Authentication' opened={opened} onClose={closeModal} title='Авторизация'>
-      <AuthenticationForm closeModal={closeModal} setIsLogin={setIsLogin} />
+      <AuthenticationForm setIsLogin={setIsLogin} />
     </Modal>
   ) : (
     <Modal className='Registration' opened={opened} onClose={closeModal} title='Регистрация'>
-      <RegistrationForm closeModal={closeModal} setIsLogin={setIsLogin} />
+      <RegistrationForm setIsLogin={setIsLogin} />
       {/* <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <Stack gap='xs'>
           <CustomAvatar />

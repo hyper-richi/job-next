@@ -11,12 +11,12 @@ import CustomNotification from '../CustomNotification/CustomNotification';
 import { ResponseError } from '../../..';
 import { deleteFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { selectUser } from '@/app/lib/store/features/user/slice/userSlice';
+import { selectUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
 import clsx from 'clsx';
 
 export default function FavoritesCard({ regionCode, vacancy, offset, searchText, jobCategory }: VacancyCardProps) {
   const dispatch = useAppDispatch();
-  const authUser = useAppSelector(selectUser);
+  const authProfile = useAppSelector(selectUser);
   const [isClick, setisClick] = useState(false);
 
   // const favoritesVacancies = useAppSelector(selectFavorites);
@@ -50,7 +50,7 @@ export default function FavoritesCard({ regionCode, vacancy, offset, searchText,
     event.stopPropagation();
     setisClick(true);
     try {
-      if (authUser) {
+      if (authProfile) {
         await dispatch(deleteFavorites(id)).unwrap();
 
         CustomNotification({

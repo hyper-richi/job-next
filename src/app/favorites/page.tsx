@@ -6,10 +6,10 @@ import { Params, VacancyTransform } from '../../..';
 import FavoritesCard from '@/components/FavoritesCard/FavoritesCard';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useAppDispatch, useAppSelector } from '../lib/store/hooks';
-// import { selectStatusUser, selectUser } from '../lib/store/features/user/slice/userSlice';
+// import { selectStatusUser, selectUser } from '../lib/store/features/authProfile/slice/userSlice';
 import { getFavorites, selectFavorites } from '../lib/store/features/favorites/slice/favoritesSlice';
 import { createRef, useLayoutEffect, useMemo } from 'react';
-import { selectUser } from '../lib/store/features/user/slice/userSlice';
+import { selectUser } from '../lib/store/features/authProfile/slice/authProfileSlice';
 
 const cardAnimation = {
   enter: animationStyles.cardEnter,
@@ -19,17 +19,17 @@ const cardAnimation = {
 };
 
 export default function Favorites({ params, searchParams }: Params) {
-  const authUser = useAppSelector(selectUser);
+  const authProfile = useAppSelector(selectUser);
   // const statusAuth = useAppSelector(selectStatusUser);
 
   const dispatch = useAppDispatch();
 
   useLayoutEffect(() => {
     console.log('useLayoutEffect: ');
-    if (authUser?.id) {
-      dispatch(getFavorites(authUser.id));
+    if (authProfile?.id) {
+      dispatch(getFavorites(authProfile.id));
     }
-  }, [authUser?.id]);
+  }, [authProfile?.id]);
 
   const favoritesVacancies = useAppSelector(selectFavorites);
   console.log('favoritesVacancies: ', favoritesVacancies);
@@ -49,7 +49,7 @@ export default function Favorites({ params, searchParams }: Params) {
     return favoritesVacancies.map((item) => ({ ...item, nodeRef: createRef() }));
   }, [favoritesVacancies]);
 
-  /* if (!authUser) {
+  /* if (!authProfile) {
     return null;
   } */
 

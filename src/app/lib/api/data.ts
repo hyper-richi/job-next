@@ -11,7 +11,7 @@ import {
   ResponseTransform,
   VacancyTransform,
 } from '../../../..';
-import { AuthApiResponse, LoginData, User } from '../store/features/user/types/userSchema';
+import { AuthApiResponse, LoginData, User } from '../store/features/authProfile/types/authProfileSchema';
 
 // "no-store" - SSR getServerSideProps рендер на сервере, Этот запрос должен повторяться при каждом запросе
 // "no-cache" ведет себя так же, как no-store в Next.js.
@@ -152,7 +152,7 @@ export async function getUsers(): Promise<User[]> {
   }
 }
 
-export async function authUser(loginData: LoginData) {
+export async function authProfile(loginData: LoginData) {
   return await axios.post<AuthApiResponse>(process.env.MOKKY_JOB_URL + '/auth', loginData).then((data) => {
     return data.data;
   });

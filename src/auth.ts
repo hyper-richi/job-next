@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
 import { CredentialsSignin } from 'next-auth';
-import { authUser } from './app/lib/api/data';
+import { authProfile } from './app/lib/api/data';
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
 class CustomAuthorizeError extends CredentialsSignin {
@@ -41,7 +41,7 @@ export const {
           password: credentials.password as string,
         };
         try {
-          const res = await authUser(loginData);
+          const res = await authProfile(loginData);
           // const userData = { ...res.data, token: res.token };
           return res.data;
         } catch (error) {

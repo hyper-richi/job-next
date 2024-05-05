@@ -22,6 +22,7 @@ export interface RegisterUserData {
   twitter?: string;
   instagram?: string;
   website?: string;
+  role: 'user' | 'admin';
 }
 
 export interface DataUserUpdate extends Partial<RegisterUserData> {
@@ -32,7 +33,7 @@ export interface DataUserUpdate extends Partial<RegisterUserData> {
   website?: string;
 }
 
-export interface UserSchema {
+export interface authProfileSchema {
   status: 'none' | 'loading' | 'error';
   user: User | null;
   token: string | null;

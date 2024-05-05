@@ -15,7 +15,7 @@ import { IconStar } from '@tabler/icons-react';
 import { useAppDispatch } from '@/app/lib/store/hooks';
 import { AnimatedModal } from '../AnimatedModal';
 import { useSession } from 'next-auth/react';
-import { setAuthUser } from '@/app/lib/store/features/user/slice/userSlice';
+import { setauthProfile } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
 import styles from './Header.module.scss';
 
 const MobileRegionsModal = dynamic(() => import('../ModalMobileRegions/ModalMobileRegions'), {
@@ -44,7 +44,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
 
   useLayoutEffect(() => {
     if (session) {
-      dispatch(setAuthUser(session?.user));
+      dispatch(setauthProfile(session?.user));
     }
   }, []);
 

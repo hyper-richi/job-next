@@ -6,13 +6,13 @@ import { useForm } from '@mantine/form';
 import { useFormState } from 'react-dom';
 import { login, logout } from '@/app/lib/actions';
 import { useSearchParams } from 'next/navigation';
-import { LoginData, RegisterUserData } from '@/app/lib/store/features/user/types/userSchema';
+import { LoginData, RegisterUserData } from '@/app/lib/store/features/authProfile/types/authProfileSchema';
 import CustomNotification from '../../CustomNotification/CustomNotification';
 import CustomAvatar from '../../CustomAvatar/CustomAvatar';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { deleteFile, selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
-import { registerUser } from '@/app/lib/store/features/user/slice/userSlice';
+import { registerUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
 
 export interface Payload {
   loginData: LoginData;
@@ -54,13 +54,7 @@ const initialState: SignInFormInitialState = {
   // status: 'idle',
 };
 
-export default function RegistrationForm({
-  closeModal,
-  setIsLogin,
-}: {
-  closeModal?: () => void;
-  setIsLogin: Dispatch<SetStateAction<boolean>>;
-}) {
+export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<SetStateAction<boolean>> }) {
   // const [isLogin, setIsLogin] = useState(true);
 
   const dispatch = useAppDispatch();
@@ -122,6 +116,7 @@ export default function RegistrationForm({
         password: values.password,
         image: file?.url || '',
         id_picture: file?.id || null,
+        role: 'user',
       };
       try {
         await dispatch(registerUser(registerData)).unwrap();

@@ -11,7 +11,7 @@ import CustomNotification from '../CustomNotification/CustomNotification';
 import { ResponseError, VacancyTransform } from '../../..';
 import { addFavorites, selectFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { selectUser } from '@/app/lib/store/features/user/slice/userSlice';
+import { selectUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
 import clsx from 'clsx';
 import { useSession } from 'next-auth/react';
 import { useDisclosure } from '@mantine/hooks';
@@ -19,7 +19,7 @@ import { useDisclosure } from '@mantine/hooks';
 
 export default function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory, openModal }: VacancyCardProps) {
   const dispatch = useAppDispatch();
-  const authUser = useAppSelector(selectUser);
+  const authProfile = useAppSelector(selectUser);
 
   const [isClick, setisClick] = useState(false);
 
@@ -47,7 +47,7 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
       [styles.isFavorites]: !!favoritesVacancies.find((item: VacancyTransform) => item.vacancy_id === vacancy.vacancy_id)?.vacancy_id,
       [styles.animation__icon]: isClick,
     }),
-    [authUser?.id, favoritesVacancies.length, isClick]
+    [authProfile?.id, favoritesVacancies.length, isClick]
   );
 
   const handleClick = useCallback(
@@ -55,7 +55,7 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
       event.stopPropagation();
       setisClick(true);
       try {
-        if (authUser?.id) {
+        if (authProfile?.id) {
           let currentDate = new Date();
           const currentData = {
             year: currentDate.getFullYear(),
@@ -66,7 +66,7 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
           };
           const transformVacancy: VacancyTransform = {
             ...vacancy,
-            user_id: authUser?.id,
+            user_id: authProfile?.id,
             date: currentData,
             // nodeRef: createRef(null),
           };
@@ -90,7 +90,7 @@ export default function VacancyCard({ regionCode, vacancy, offset, searchText, j
         });
       }
     },
-    [authUser?.id]
+    [authProfile?.id]
   );
 
   return (

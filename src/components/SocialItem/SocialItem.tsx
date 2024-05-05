@@ -2,9 +2,9 @@ import React, { ReactNode, forwardRef, useCallback, useEffect, useRef, useState 
 import { ActionIcon, Button, Divider, Input, List, rem } from '@mantine/core';
 import { IconCheck, IconDeviceFloppy, IconExclamationCircle } from '@tabler/icons-react';
 import { useClickOutside, useDisclosure, useFocusTrap, useMergedRef } from '@mantine/hooks';
-import { DataUserUpdate, User } from '@/app/lib/store/features/user/types/userSchema';
+import { DataUserUpdate, User } from '@/app/lib/store/features/authProfile/types/authProfileSchema';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { selectStatusUser, selectUser, updateUser } from '@/app/lib/store/features/user/slice/userSlice';
+import { selectStatusUser, selectUser, updateUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
 import { ResponseError } from '../../..';
 import { NameInput } from '@/components/ProfieClient/ProfileClient';
 import { Skeleton } from '../Skeleton/Skeleton';
@@ -19,7 +19,7 @@ interface SocialItemProps {
   icon: ReactNode;
   placeholder: string;
   nameInput: NameInput;
-  authUser?: User;
+  authProfile?: User;
 }
 
 const switchAnimation = {
@@ -32,9 +32,9 @@ const switchAnimation = {
 type StatusUpdateInput = 'none' | 'success' | 'error';
 
 const SocialItem = ({ icon, placeholder, nameInput }: SocialItemProps) => {
-  const authUser = useAppSelector(selectUser);
+  const authProfile = useAppSelector(selectUser);
 
-  const [value, setValue] = useState(authUser?.[nameInput]);
+  const [value, setValue] = useState(authProfile?.[nameInput]);
   const [loading, setLoadingSave] = useState(false);
   const [isInput, setIsInput] = useState(false);
   const [statusUpdate, setStatusUpdate] = useState<StatusUpdateInput>('none');
@@ -71,10 +71,10 @@ const SocialItem = ({ icon, placeholder, nameInput }: SocialItemProps) => {
   };
 
   const handleUpdateUser = useCallback(async () => {
-    if (authUser) {
+    if (authProfile) {
       try {
         const updateData: DataUserUpdate = {
-          userId: authUser?.id,
+          userId: authProfile?.id,
           [nameInput]: value,
           github: '',
           twitter: '',
@@ -101,7 +101,7 @@ const SocialItem = ({ icon, placeholder, nameInput }: SocialItemProps) => {
         });
       }
     }
-  }, [authUser, value, nameInput, session]);
+  }, [authProfile, value, nameInput, session]);
 
   const onKeyDownEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -154,9 +154,9 @@ const SocialItem = ({ icon, placeholder, nameInput }: SocialItemProps) => {
                     }
                   />
                 </div>
-              ) : authUser ? (
+              ) : authProfile ? (
                 <span onClick={handleSetIsInput} className={styles.notif}>
-                  {authUser?.[nameInput] || '...заполните поле'}
+                  {authProfile?.[nameInput] || '...заполните поле'}
                 </span>
               ) : (
                 <Skeleton minWidth={'100%'} height={'28px'} />

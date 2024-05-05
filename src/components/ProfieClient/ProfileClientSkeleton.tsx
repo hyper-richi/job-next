@@ -99,7 +99,7 @@ const ProfileClientSkeleton = () => {
                     nameInput={item.nameInput}
                     icon={item.icon}
                     placeholder={item.placeholder}
-                    authUser={undefined}
+                    authProfile={undefined}
                   />
                 ))}
               </List>
