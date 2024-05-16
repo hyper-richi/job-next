@@ -35,10 +35,7 @@ const SocialItem = ({ icon, placeholder, nameInput }: SocialItemProps) => {
 
   const [value, setValue] = useState<string | undefined>(authProfile?.[nameInput]);
 
-  console.log('authProfile?.[nameInput]: ', authProfile?.[nameInput]);
-
   useEffect(() => {
-    console.log('useEffect: ');
     if (authProfile && authProfile[nameInput]) {
       setValue(authProfile[nameInput]);
     }

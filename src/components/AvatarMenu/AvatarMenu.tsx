@@ -1,28 +1,23 @@
 'use client';
 
-import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
+import { useAppDispatch } from '@/app/lib/store/hooks';
 import { Menu, rem } from '@mantine/core';
-import { IconSettings, IconPhoto, IconMessageCircle, IconTrash, IconLogin2, IconLogout2, IconUserCircle } from '@tabler/icons-react';
+import { IconPhoto, IconMessageCircle, IconTrash, IconLogin2, IconLogout2, IconUserCircle } from '@tabler/icons-react';
 import styles from './AvatarMenu.module.scss';
 import AvatarButton from '../AvatarButton/AvatarButton';
 import { deleteUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
-// import { clearFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
-import { useRouter } from 'next/navigation';
-import { signOut } from 'next-auth/react';
 import { Session } from 'next-auth';
+import { logout } from '@/app/lib/actions';
 
 function AvatarMenu({ openSignModal, session }: { openSignModal: () => void; session: Session | null }) {
-  console.log('AvatarMenu: ');
-  // const { authProfile } = useAppSelector((state) => state.authProfile);
   const dispatch = useAppDispatch();
-  const router = useRouter();
 
   const handleLogout = async () => {
-    // dispatch(logoutUser());
-    // dispatch(clearFavorites());
-    const authData = await signOut();
-
-    // router.push('/');
+    await logout();
+  };
+  const handleDeleteUser = async (id: string) => {
+    await dispatch(deleteUser(id)).unwrap();
+    await logout();
   };
 
   const srcImgAvatar = session?.user?.image;
@@ -74,12 +69,12 @@ function AvatarMenu({ openSignModal, session }: { openSignModal: () => void; ses
           )}
           {session?.user && (
             <Menu.Item
-              onClick={() => dispatch(deleteUser(session?.user?.id))}
+              onClick={() => handleDeleteUser(session?.user?.id)}
               className={styles.menu__item}
               color='red'
               leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
             >
-              <span className={styles.menu__label}>Удалить акаунт</span>
+              <span className={styles.menu__label}>Удалить аккаунт</span>
             </Menu.Item>
           )}
         </Menu.Dropdown>

@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 import { FormValues } from '../../../..';
 import { useForm } from '@mantine/form';
 import { useFormState } from 'react-dom';
-import { login, logout } from '@/app/lib/actions';
+import { login } from '@/app/lib/actions';
 import { useSearchParams } from 'next/navigation';
 import CustomNotification from '../../CustomNotification/CustomNotification';
 import { GoogleIcon } from './GoogleIcon';
@@ -17,7 +17,7 @@ export interface Payload {
   callbackUrl: string | null;
 }
 
-type SignUpFormInitialStateT = {
+export type SignUpFormInitialStateT = {
   error: boolean;
   message: string;
   validatedErrors?: InputErrorsT;
@@ -53,7 +53,6 @@ const initialState: SignUpFormInitialStateT = {
 };
 
 export default function AuthenticationForm({ setIsLogin }: { setIsLogin: Dispatch<SetStateAction<boolean>> }) {
-
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/profile';
 
@@ -142,9 +141,6 @@ export default function AuthenticationForm({ setIsLogin }: { setIsLogin: Dispatc
           </Button>
           <Button style={{ background: '#005bff' }} type='submit' /* onClick={() => signIn('credentials', loginData)} */>
             Войти
-          </Button>
-          <Button style={{ background: '#005bff' }} onClick={() => logout()}>
-            Выйти
           </Button>
         </Group>
       </form>

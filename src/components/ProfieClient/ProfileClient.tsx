@@ -1,5 +1,5 @@
 'use client';
-import React, { ReactNode, useEffect, useLayoutEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { Avatar, Card, Divider, Grid, List, ThemeIcon, rem } from '@mantine/core';
 import { IconBrandGithubFilled, IconBrandInstagram, IconBrandTwitterFilled, IconWorld } from '@tabler/icons-react';
 import SocialItem from '@/components/SocialItem/SocialItem';
@@ -7,8 +7,6 @@ import { useSession } from 'next-auth/react';
 import { Skeleton } from '../Skeleton/Skeleton';
 import styles from './ProfileClient.module.scss';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { registerUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
-import { RegisterUserData } from '@/app/lib/store/features/authProfile/types/authProfileSchema';
 import { fetchAllUsers, selectAllUsers } from '@/app/lib/store/features/users/slice/usersSlice';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import { ResponseError } from '../../..';
@@ -64,7 +62,6 @@ const SOCIAL_LIST: SocialList[] = [
 ];
 
 const ProfileClient = () => {
-  console.log('ProfileClient: ');
   const dispatch = useAppDispatch();
   const usersList = useAppSelector(selectAllUsers);
 
@@ -75,7 +72,7 @@ const ProfileClient = () => {
   const name = userSession?.name;
   const isAdmin = userSession?.role === 'admin';
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (userSession) {
       fetch(`https://6ede402e6a352dfb.mokky.dev/users/${userSession.id}`)
         .then((res) => {
@@ -99,7 +96,7 @@ const ProfileClient = () => {
         } catch (rejectedError) {}
       }
     };
-  }, []);
+  }, []); */
 
   useEffect(() => {
     if (userSession && userSession.role === 'admin') {

@@ -3,10 +3,8 @@ import { Button, FileButton, Group, PasswordInput, Stack, TextInput } from '@man
 import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import { FormValues, ResponseError } from '../../../..';
 import { useForm } from '@mantine/form';
-import { useFormState } from 'react-dom';
-import { login, logout } from '@/app/lib/actions';
-import { useSearchParams } from 'next/navigation';
-import { LoginData, RegisterUserData } from '@/app/lib/store/features/authProfile/types/authProfileSchema';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { RegisterUserData } from '@/app/lib/store/features/authProfile/types/authProfileSchema';
 import CustomNotification from '../../CustomNotification/CustomNotification';
 import CustomAvatar from '../../CustomAvatar/CustomAvatar';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
@@ -18,52 +16,21 @@ import {
   uploadFile,
 } from '@/app/lib/store/features/file/slice/fileSlice';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
-import { registerUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
+import { registerUser, selectUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
+import { login } from '@/app/lib/actions';
+import { Payload, SignUpFormInitialStateT } from '../AuthenticationForm/AuthenticationForm';
 
-export interface Payload {
-  loginData: LoginData;
-  callbackUrl: string | null;
-}
-
-type SignInFormInitialState = {
-  error: boolean;
-  message: string;
-  validatedErrors?: InputErrors;
-  credentials?: {
-    message: string;
-    statusCode: number;
-    error: string;
-  };
-};
-
-type SignInFormErrorState = {
-  error: boolean;
-  message: string;
-  validatedErrors?: InputErrors;
-  credentials?: {
-    message: string;
-    statusCode: number;
-    error: string;
-  };
-};
-
-export type InputErrors = {
-  email?: string[];
-  password?: string[];
-};
-
-export type SignInFormState = SignInFormInitialState | SignInFormErrorState;
-
-const initialState: SignInFormInitialState = {
+const initialState: SignUpFormInitialStateT = {
   error: false,
   message: '',
-  // status: 'idle',
 };
 
 export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<SetStateAction<boolean>> }) {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const file = useAppSelector(selectFile);
   const statusUploadFile = useAppSelector(selectStatusUploadFile);
+  const authProfile = useAppSelector(selectUser);
 
   const isLoadingImg = statusUploadFile === 'loading';
 
@@ -73,8 +40,6 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
-
-  const [formState, formAction] = useFormState<SignInFormState, Payload>(login, initialState);
 
   const form = useForm<FormValues>({
     initialValues: {
@@ -100,26 +65,8 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
       },
     },
   });
-  const loginData = { email: form.values.email, password: form.values.password };
 
-  useEffect(() => {
-    form.setFieldError('email', formState.validatedErrors?.email);
-  }, [formState.validatedErrors?.email]);
-
-  useEffect(() => {
-    form.setFieldError('password', formState.validatedErrors?.password);
-  }, [formState.validatedErrors?.password]);
-
-  useEffect(() => {
-    if (formState.error) {
-      CustomNotification({
-        title: 'Пользователь',
-        message: formState.credentials?.message ?? formState.message,
-        variant: 'error',
-        statusCode: formState.credentials?.statusCode,
-      });
-    }
-  }, [formState.credentials]);
+  // const loginData = { email: form.values.email, password: form.values.password };
 
   const handleSubmit = async (values: FormValues) => {
     if (values.name) {
@@ -140,6 +87,11 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
           message: 'Пользователь успешно создан!',
           variant: 'success',
         });
+        const payload: Payload = {
+          loginData: { email: values.email, password: values.password },
+          callbackUrl,
+        };
+        login(initialState, payload);
       } catch (rejectedError) {
         const rejectValue = rejectedError as ResponseError;
         CustomNotification({
@@ -205,19 +157,13 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
     }
   }, [file]);
 
-  const toogleForm = () => {
-    if (setIsLogin) {
-      setIsLogin((isLogin: boolean) => !isLogin);
-    }
-  };
-
   useEffect(() => {
     return () => {
-      if (file) {
+      if (file && !authProfile?.id) {
         dispatch(deleteDatabaseImg(file?.id));
       }
     };
-  }, [file?.id]);
+  }, []);
 
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
@@ -264,6 +210,9 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
         </Button>
         <Button style={{ background: '#005bff' }} type='submit' disabled={errorSizeFile}>
           Создать
+        </Button>
+        <Button style={{ background: '#005bff' }} onClick={() => router.replace('/profile')} disabled={errorSizeFile}>
+          profile
         </Button>
       </Group>
     </form>

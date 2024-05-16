@@ -6,7 +6,7 @@ import { VacancyTransform } from '../../..';
 import { ListVacanciesProps } from '../ListVacancies/ListVacancies.props';
 import VacancyCard from '../VacancyCard/VacancyCard';
 import { useDisclosure } from '@mantine/hooks';
-import SignModal from '../ModalSignin/ModalSignin';
+import SignModal from '../Modals/ModalSignin/ModalSignin';
 
 const ListVacancies = ({ vacancies, regionCode, searchText, offset, jobCategory }: ListVacanciesProps) => {
   const [opened, { open, close }] = useDisclosure(false);
