@@ -1,4 +1,4 @@
-import { ResponseError } from "../../../../../../..";
+import { ResponseError } from '../../../../../../..';
 
 export interface ImageFile {
   bytes: number;
@@ -10,11 +10,9 @@ export interface ImageFile {
   width: number;
 }
 
-
-
 export interface FileSchema {
   status: 'idle' | 'loading' | 'error';
   file: ImageFile | null;
   error: ResponseError | null;
-  uploadImg: string | null;
+  downloadImg: string | null;
 }

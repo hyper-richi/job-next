@@ -19,7 +19,6 @@ interface SocialItemProps {
   icon: ReactNode;
   placeholder: string;
   nameInput: NameInput;
-  authProfile?: User;
 }
 
 const switchAnimation = {
@@ -34,7 +33,17 @@ type StatusUpdateInput = 'none' | 'success' | 'error';
 const SocialItem = ({ icon, placeholder, nameInput }: SocialItemProps) => {
   const authProfile = useAppSelector(selectUser);
 
-  const [value, setValue] = useState(authProfile?.[nameInput]);
+  const [value, setValue] = useState<string | undefined>(authProfile?.[nameInput]);
+
+  console.log('authProfile?.[nameInput]: ', authProfile?.[nameInput]);
+
+  useEffect(() => {
+    console.log('useEffect: ');
+    if (authProfile && authProfile[nameInput]) {
+      setValue(authProfile[nameInput]);
+    }
+  }, [authProfile]);
+
   const [loading, setLoadingSave] = useState(false);
   const [isInput, setIsInput] = useState(false);
   const [statusUpdate, setStatusUpdate] = useState<StatusUpdateInput>('none');
@@ -53,14 +62,6 @@ const SocialItem = ({ icon, placeholder, nameInput }: SocialItemProps) => {
     }
   });
 
-  const handleClick = useCallback(() => {}, []);
-
-  /* useEffect(() => {
-    if (!loading) {
-      setIsInput((prevIsInput) => !prevIsInput);
-    }
-  }, [loading]); */
-
   const myRef = useRef();
   const focusTrapRef = useFocusTrap();
   const mergedRef = useMergedRef(myRef, useClickOutsideRef, focusTrapRef);
@@ -76,10 +77,6 @@ const SocialItem = ({ icon, placeholder, nameInput }: SocialItemProps) => {
         const updateData: DataUserUpdate = {
           userId: authProfile?.id,
           [nameInput]: value,
-          github: '',
-          twitter: '',
-          instagram: '',
-          website: '',
         };
         if (session) {
           update({ ...session.user, [nameInput]: value });
@@ -125,6 +122,8 @@ const SocialItem = ({ icon, placeholder, nameInput }: SocialItemProps) => {
               {isInput ? (
                 <div ref={mergedRef} style={{ width: '100%' }}>
                   <Input
+                    id={nameInput}
+                    name={nameInput}
                     onKeyDown={(e) => onKeyDownEnter(e)}
                     data-autofocus
                     variant='unstyled'
@@ -156,7 +155,7 @@ const SocialItem = ({ icon, placeholder, nameInput }: SocialItemProps) => {
                 </div>
               ) : authProfile ? (
                 <span onClick={handleSetIsInput} className={styles.notif}>
-                  {authProfile?.[nameInput] || '...заполните поле'}
+                  {authProfile[nameInput] || '...заполните поле'}
                 </span>
               ) : (
                 <Skeleton minWidth={'100%'} height={'28px'} />
@@ -170,4 +169,4 @@ const SocialItem = ({ icon, placeholder, nameInput }: SocialItemProps) => {
   );
 };
 
-export default SocialItem;
+export default React.memo(SocialItem);

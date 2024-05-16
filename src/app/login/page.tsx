@@ -2,7 +2,7 @@
 
 import AuthenticationForm from '@/components/Forms/AuthenticationForm/AuthenticationForm';
 import RegistrationForm from '@/components/Forms/RegistrationForm/RegistrationForm';
-import { Anchor, Paper, Title, Text, Container } from '@mantine/core';
+import { Paper, Title, Container } from '@mantine/core';
 import { useState } from 'react';
 
 export default function Login() {
@@ -11,15 +11,8 @@ export default function Login() {
   return (
     <Container size={420} my={40}>
       <Title style={{ textAlign: 'center' }} order={2} textWrap='wrap'>
-        Добро пожаловать!
+        {isLogin ? 'Авторизация!' : 'Регистрация!'}
       </Title>
-      <Text c='dimmed' size='sm' mt={5}>
-        Do not have an account yet?{' '}
-        <Anchor<'a'> href='#' size='sm' onClick={(event) => event.preventDefault()}>
-          Create account
-        </Anchor>
-      </Text>
-
       <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
         {isLogin ? <AuthenticationForm setIsLogin={setIsLogin} /> : <RegistrationForm setIsLogin={setIsLogin} />}
       </Paper>

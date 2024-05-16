@@ -10,7 +10,13 @@ import { LoginData, RegisterUserData } from '@/app/lib/store/features/authProfil
 import CustomNotification from '../../CustomNotification/CustomNotification';
 import CustomAvatar from '../../CustomAvatar/CustomAvatar';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import { deleteFile, selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
+import {
+  deleteDatabaseImg,
+  deleteFile,
+  selectFile,
+  selectStatusUploadFile,
+  uploadFile,
+} from '@/app/lib/store/features/file/slice/fileSlice';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
 import { registerUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
 
@@ -55,11 +61,15 @@ const initialState: SignInFormInitialState = {
 };
 
 export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<SetStateAction<boolean>> }) {
-  // const [isLogin, setIsLogin] = useState(true);
-
   const dispatch = useAppDispatch();
   const file = useAppSelector(selectFile);
+  const statusUploadFile = useAppSelector(selectStatusUploadFile);
+
+  const isLoadingImg = statusUploadFile === 'loading';
+
   const resetRef = useRef<() => void>(null);
+
+  const [errorSizeFile, setErrorSizeFile] = useState(false);
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
@@ -78,9 +88,13 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
           ? value.length <= 25
             ? null
             : 'Длина ящика не более 25 символов'
-          : 'Минимальное наименование email n@m',
+          : 'Минимальное наименование email: n@m',
       name: (value) =>
-        value && value.length < 2 ? 'Имя должно быть от 2' : value && value.length > 20 ? 'Имя должно быть до 20 символов' : null,
+        value && value.length < 2
+          ? 'Имя должно быть длиннее 2 символов'
+          : value && value.length > 20
+          ? 'Имя должно быть до 20 символов'
+          : null,
       password: (value) => {
         return value.length < 5 ? 'Минимальный пароль 5 символов' : null;
       },
@@ -139,26 +153,33 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
   };
 
   async function handleUploadImgAvatar(fileFormUpload: File | null) {
-    console.log('fileFormUpload: ', fileFormUpload);
     const formData = new FormData();
-    if (fileFormUpload) {
-      formData.append('file', fileFormUpload);
-    }
-    if (file?.id) {
-      await dispatch(deleteFile(file?.id));
-    }
-
-    try {
-      await dispatch(uploadFile(formData)).unwrap();
-    } catch (rejectedError) {
-      console.log('handleUploadImgAvatar-rejectedError: ', rejectedError);
-      const rejectValue = rejectedError as ResponseError;
+    if (fileFormUpload && fileFormUpload.size > 3145728) {
+      setErrorSizeFile(true);
       CustomNotification({
-        title: rejectValue.code,
-        message: rejectValue.message,
-        additionalMessage: rejectValue.additionalMessage,
+        title: 'Аватар',
+        message: 'Добавьте картинку поменьше!',
+        additionalMessage: `Размер файла: ${(fileFormUpload.size / 1048576).toFixed(1)} мб`,
         variant: 'error',
       });
+      return;
+    } else if (fileFormUpload) {
+      if (file?.id) {
+        await dispatch(deleteDatabaseImg(file?.id));
+      }
+      setErrorSizeFile(false);
+      formData.append('file', fileFormUpload);
+      try {
+        await dispatch(uploadFile(formData)).unwrap();
+      } catch (rejectedError) {
+        const rejectValue = rejectedError as ResponseError;
+        CustomNotification({
+          title: rejectValue.code,
+          message: rejectValue.message,
+          additionalMessage: rejectValue.additionalMessage,
+          variant: 'error',
+        });
+      }
     }
   }
 
@@ -190,48 +211,61 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
     }
   };
 
+  useEffect(() => {
+    return () => {
+      if (file) {
+        dispatch(deleteDatabaseImg(file?.id));
+      }
+    };
+  }, [file?.id]);
+
   return (
-    <>
-      <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-        <Stack gap='xs'>
-          <CustomAvatar />
-          <Group justify='space-between'>
-            <FileButton resetRef={resetRef} onChange={handleUploadImgAvatar} accept='image/*'>
-              {(props) => (
-                <Button variant='default' {...props} leftSection={<IconPhoto size={18} />} style={{ lineHeight: '25px' }}>
-                  {file ? 'Сменить' : 'Добавить фото'}
-                </Button>
-              )}
-            </FileButton>
-            <Button
-              onClick={handleDeleteImgAvatar}
-              leftSection={<IconTrash size={18} />}
-              variant='default'
-              style={{ lineHeight: '25px' }}
-            >
-              Удалить
-            </Button>
-          </Group>
-        </Stack>
-        <TextInput mt='md' label='name' placeholder='name' required {...form.getInputProps('name')} error={form.errors.name} />
-        <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
-        <PasswordInput
-          mt='md'
-          label='password'
-          placeholder='Your password'
-          required
-          {...form.getInputProps('password')}
-          error={form.errors.password}
-        />
-        <Group mt='md' justify='space-between'>
-          <Button variant='default' onClick={() => setIsLogin((isLogin) => !isLogin)}>
-            Авторизация
-          </Button>
-          <Button style={{ background: '#005bff' }} type='submit'>
-            Создать
+    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+      <Stack gap='xs'>
+        <CustomAvatar />
+        {errorSizeFile && <span style={{ color: 'red', textAlign: 'center' }}>{'Размер файла не должен превышать 3 мб'}</span>}
+        <Group justify='space-between'>
+          <FileButton resetRef={resetRef} onChange={handleUploadImgAvatar} accept='image/*'>
+            {(props) => (
+              <Button
+                disabled={isLoadingImg}
+                variant='default'
+                {...props}
+                leftSection={<IconPhoto size={18} />}
+                style={{ lineHeight: '25px' }}
+              >
+                {file ? 'Сменить' : 'Добавить фото'}
+              </Button>
+            )}
+          </FileButton>
+          <Button
+            onClick={handleDeleteImgAvatar}
+            leftSection={<IconTrash size={18} />}
+            variant='default'
+            style={{ lineHeight: '25px' }}
+          >
+            Удалить
           </Button>
         </Group>
-      </form>
-    </>
+      </Stack>
+      <TextInput mt='md' label='name' placeholder='name' required {...form.getInputProps('name')} error={form.errors.name} />
+      <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
+      <PasswordInput
+        mt='md'
+        label='password'
+        placeholder='Your password'
+        required
+        {...form.getInputProps('password')}
+        error={form.errors.password}
+      />
+      <Group mt='md' justify='space-between'>
+        <Button variant='default' onClick={() => setIsLogin((isLogin) => !isLogin)}>
+          Авторизация
+        </Button>
+        <Button style={{ background: '#005bff' }} type='submit' disabled={errorSizeFile}>
+          Создать
+        </Button>
+      </Group>
+    </form>
   );
 }

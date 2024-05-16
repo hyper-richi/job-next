@@ -7,14 +7,14 @@ const initialState: FileSchema = {
   file: null,
   status: 'idle',
   error: null,
-  uploadImg: null,
+  downloadImg: null,
 };
 
 export const fileSlice = createAppSlice({
   name: 'file',
   initialState,
   reducers: (create) => ({
-    uploadImg: create.asyncThunk<string, string>(
+    downloadImg: create.asyncThunk<string, string>(
       async (urlImg, thunkApi) => {
         const { rejectWithValue } = thunkApi;
         return fetch(urlImg)
@@ -25,7 +25,7 @@ export const fileSlice = createAppSlice({
             return URL.createObjectURL(imageBlob);
           })
           .catch((err) => {
-            console.log('err-uploadImg: ', err);
+            console.log('err download Img: ', err);
             return rejectWithValue({
               message: 'Ошибка в обработке запроса: ' + err.message,
               additionalMessage: (err.response as AxiosResponse)?.data.message,
@@ -45,7 +45,7 @@ export const fileSlice = createAppSlice({
         fulfilled: (state, action) => {
           state.status = 'idle';
           state.error = null;
-          state.uploadImg = action.payload;
+          state.downloadImg = action.payload;
         },
         // settled вызывается как за отклоненные, так и за выполненные действия
         settled: (state) => {
@@ -95,6 +95,39 @@ export const fileSlice = createAppSlice({
         },
       }
     ),
+    deleteDatabaseImg: create.asyncThunk<AxiosError | void, number>(
+      async (imageId, thunkApi) => {
+        const { rejectWithValue } = thunkApi;
+        try {
+          await axios.delete('https://6ede402e6a352dfb.mokky.dev' + `/uploads/${imageId}`);
+        } catch (error) {
+          const err = error as AxiosError;
+          return rejectWithValue({
+            message: 'Ошибка при удалении аватар из базы данных: ' + err.message,
+            additionalMessage: (err.response as AxiosResponse)?.data.message,
+            code: err.status || (err.response as AxiosResponse)?.data.statusCode,
+          } as ResponseError);
+        }
+      },
+      {
+        pending: (state) => {
+          state.status = 'loading';
+        },
+        rejected: (state, action) => {
+          state.status = 'error';
+          state.error = action.payload as ResponseError;
+        },
+        fulfilled: (state) => {
+          state.status = 'idle';
+          state.file = null;
+         // state.downloadImg = null;
+        },
+        // settled вызывается как за отклоненные, так и за выполненные действия
+        settled: (state) => {
+          state.status = 'idle';
+        },
+      }
+    ),
     deleteFile: create.asyncThunk<AxiosError | void, number>(
       async (imageId, thunkApi) => {
         const { rejectWithValue } = thunkApi;
@@ -120,7 +153,7 @@ export const fileSlice = createAppSlice({
         fulfilled: (state) => {
           state.status = 'idle';
           state.file = null;
-          state.uploadImg = null;
+          state.downloadImg = null;
         },
         // settled вызывается как за отклоненные, так и за выполненные действия
         settled: (state) => {
@@ -131,11 +164,11 @@ export const fileSlice = createAppSlice({
   }),
   selectors: {
     selectFile: (state) => state.file,
-    selectUploadUrlImg: (state) => state.uploadImg,
+    selectUploadUrlImg: (state) => state.downloadImg,
     selectFileError: (state) => state.error,
     selectStatusUploadFile: (state) => state.status,
   },
 });
 
-export const { deleteFile, uploadFile, uploadImg } = fileSlice.actions;
+export const { deleteFile, uploadFile, downloadImg: uploadImg, deleteDatabaseImg } = fileSlice.actions;
 export const { selectFile, selectStatusUploadFile, selectFileError, selectUploadUrlImg } = fileSlice.selectors;

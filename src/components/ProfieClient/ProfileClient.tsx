@@ -16,11 +16,13 @@ interface SocialList {
   icon: ReactNode;
   placeholder: string;
   nameInput: NameInput;
+  id: number;
 }
 export type NameInput = 'website' | 'github' | 'twitter' | 'instagram';
 
 const SOCIAL_LIST: SocialList[] = [
   {
+    id: 1,
     icon: (
       <ThemeIcon color='#fff' radius='xl'>
         <IconWorld viewBox='2 2 20 20' size={28} color='#e4a11b' />
@@ -30,6 +32,7 @@ const SOCIAL_LIST: SocialList[] = [
     nameInput: 'website',
   },
   {
+    id: 2,
     icon: (
       <ThemeIcon color='#333333' size={28} radius='xl'>
         <IconBrandGithubFilled viewBox='2 2 20 20' style={{ width: rem(20), height: rem(20) }} color='#fff' />
@@ -39,6 +42,7 @@ const SOCIAL_LIST: SocialList[] = [
     nameInput: 'github',
   },
   {
+    id: 3,
     icon: (
       <ThemeIcon color='#fff' radius='xl'>
         <IconBrandTwitterFilled viewBox='2 2 20 20' size={28} style={{ color: '#55acee' }} />
@@ -48,6 +52,7 @@ const SOCIAL_LIST: SocialList[] = [
     nameInput: 'twitter',
   },
   {
+    id: 4,
     icon: (
       <ThemeIcon color='#fff' radius='xl'>
         <IconBrandInstagram viewBox='2 2 20 20' size={28} style={{ color: '#ac2bac' }} />
@@ -167,7 +172,7 @@ const ProfileClient = () => {
             <Card.Section>
               <List spacing='xs' size='sm' center>
                 {SOCIAL_LIST.map((item) => (
-                  <SocialItem key={item.placeholder} nameInput={item.nameInput} icon={item.icon} placeholder={item.placeholder} />
+                  <SocialItem key={item.id} nameInput={item.nameInput} icon={item.icon} placeholder={item.placeholder} />
                 ))}
               </List>
             </Card.Section>
@@ -178,7 +183,7 @@ const ProfileClient = () => {
             <Card shadow='sm' padding='lg' radius='md' withBorder style={{ color: '#757575' }}>
               {usersList &&
                 usersList.map((item) => (
-                  <div>
+                  <div key={item.id}>
                     <div className={styles.row}>
                       <div className={styles['col-sm-3']}>
                         <p className={styles.text}>Name</p>

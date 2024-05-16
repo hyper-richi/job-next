@@ -53,7 +53,6 @@ const initialState: SignUpFormInitialStateT = {
 };
 
 export default function AuthenticationForm({ setIsLogin }: { setIsLogin: Dispatch<SetStateAction<boolean>> }) {
-  console.log('AuthenticationForm: ');
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/profile';

@@ -8,21 +8,21 @@ import Navbar from '../Navbar/Navbar';
 import clsx from 'clsx';
 import RegionName from '../RegionName/RegionName';
 import PointIcon from '../../../public/images/svg/PointIcon';
-import SignModal from '../ModalSignin/ModalSignin';
 import { useDisclosure } from '@mantine/hooks';
 import AvatarMenu from '../AvatarMenu/AvatarMenu';
 import { IconStar } from '@tabler/icons-react';
 import { useAppDispatch } from '@/app/lib/store/hooks';
-import { AnimatedModal } from '../AnimatedModal';
 import { useSession } from 'next-auth/react';
 import { setauthProfile } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
 import styles from './Header.module.scss';
+import ModalSignin from '../Modals/ModalSignin/ModalSignin';
+import { AnimatedModal } from '../Modals/AnimatedModal';
 
-const MobileRegionsModal = dynamic(() => import('../ModalMobileRegions/ModalMobileRegions'), {
+const MobileRegionsModal = dynamic(() => import('../Modals/ModalMobileRegions/ModalMobileRegions'), {
   ssr: false,
 });
 
-const DesktopRegionsModal = dynamic(() => import('../DesktopRegionsModal/DesktopRegionsModal'), {
+const DesktopRegionsModal = dynamic(() => import('../Modals/DesktopRegionsModal/DesktopRegionsModal'), {
   ssr: false,
 });
 
@@ -149,7 +149,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
         <DesktopRegionsModal regions={regions} onClose={onCloseDesktopRegionsModal} />
       </AnimatedModal>
 
-      <SignModal opened={opened} openModal={open} closeModal={close} />
+      <ModalSignin opened={opened} openModal={open} closeModal={close} />
 
       {showMobileRegionsModal && (
         <MobileRegionsModal

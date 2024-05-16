@@ -6,5 +6,4 @@ declare module 'next-auth' {
     user: CustomUser;
     authToken: string;
   }
-  // interface Session extends CustomUser {}
 }

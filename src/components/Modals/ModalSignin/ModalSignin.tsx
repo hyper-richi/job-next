@@ -1,15 +1,15 @@
 'use client';
 import { Modal } from '@mantine/core';
 import { useCallback, useRef, useState } from 'react';
-import { FormValues, ResponseError } from '../../..';
+import { FormValues, ResponseError } from '../../../..';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
-import CustomNotification from '../CustomNotification/CustomNotification';
+import CustomNotification from '../../CustomNotification/CustomNotification';
 import { deleteFile, selectFile, uploadFile } from '@/app/lib/store/features/file/slice/fileSlice';
 import { useForm } from '@mantine/form';
-import AuthenticationForm from '../Forms/AuthenticationForm/AuthenticationForm';
-import RegistrationForm from '../Forms/RegistrationForm/RegistrationForm';
+import AuthenticationForm from '../../Forms/AuthenticationForm/AuthenticationForm';
+import RegistrationForm from '../../Forms/RegistrationForm/RegistrationForm';
 
-function SignModal({ opened, openModal, closeModal }: { opened: boolean; openModal: () => void; closeModal: () => void }) {
+function ModalSignin({ opened, openModal, closeModal }: { opened: boolean; openModal: () => void; closeModal: () => void }) {
   const resetRef = useRef<() => void>(null);
   const [isLogin, setIsLogin] = useState(true);
 
@@ -142,55 +142,8 @@ function SignModal({ opened, openModal, closeModal }: { opened: boolean; openMod
   ) : (
     <Modal className='Registration' opened={opened} onClose={closeModal} title='Регистрация'>
       <RegistrationForm setIsLogin={setIsLogin} />
-      {/* <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-        <Stack gap='xs'>
-          <CustomAvatar />
-          <Group justify='space-between'>
-            <FileButton resetRef={resetRef} onChange={handleUploadImgAvatar} accept='image/*'>
-              {(props) => (
-                <Button variant='default' {...props} leftSection={<IconPhoto size={18} />} style={{ lineHeight: '25px' }}>
-                  {file ? 'Сменить' : 'Добавить фото'}
-                </Button>
-              )}
-            </FileButton>
-            <Button
-              onClick={handleDeleteImgAvatar}
-              leftSection={<IconTrash size={18} />}
-              variant='default'
-              style={{ lineHeight: '25px' }}
-            >
-              Удалить
-            </Button>
-          </Group>
-        </Stack>
-        <TextInput
-          mt='md'
-          label='name'
-          placeholder='name'
-          required
-          {...form.getInputProps('name')}
-          error={form.errors.name}
-        />
-        <TextInput label='email' placeholder='your@email.com' required {...form.getInputProps('email')} error={form.errors.email} />
-        <PasswordInput
-          mt='md'
-          label='password'
-          placeholder='Your password'
-          required
-          {...form.getInputProps('password')}
-          error={form.errors.password}
-        />
-        <Group mt='md' justify='space-between'>
-          <Button variant='default' onClick={() => setIsLogin((isLogin) => !isLogin)}>
-            Авторизация
-          </Button>
-          <Button style={{ background: '#005bff' }} type='submit'>
-            Создать
-          </Button>
-        </Group>
-      </form> */}
     </Modal>
   );
 }
 
-export default SignModal;
+export default ModalSignin;

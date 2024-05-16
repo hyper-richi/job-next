@@ -2,8 +2,8 @@
 
 import { Button } from '@mantine/core';
 import styles from './DesktopRegionsModal.module.scss';
-import RegionSelect from '../RegionSelect/RegionSelect';
-import { IRegion } from '../../..';
+import RegionSelect from '../../RegionSelect/RegionSelect';
+import { IRegion } from '../../../..';
 
 const DesktopRegionsModal = ({ onClose, regions }: { onClose: () => void; regions?: IRegion[] }) => {
   return (

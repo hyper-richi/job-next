@@ -17,7 +17,6 @@ export const usersSlice = createAppSlice({
         return await axios
           .get<User[]>('https://6ede402e6a352dfb.mokky.dev' + `/users`)
           .then((res) => {
-            console.log('res-getAllUsers: ', res);
             return res.data;
           })
           .catch((error) => {
