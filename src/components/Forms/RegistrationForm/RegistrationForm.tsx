@@ -19,6 +19,7 @@ import { IconPhoto, IconTrash } from '@tabler/icons-react';
 import { registerUser, selectUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
 import { login } from '@/app/lib/actions';
 import { Payload, SignUpFormInitialStateT } from '../AuthenticationForm/AuthenticationForm';
+import { signIn } from 'next-auth/react';
 
 const initialState: SignUpFormInitialStateT = {
   error: false,
@@ -80,18 +81,21 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
         role: 'user',
       };
       try {
-        await dispatch(registerUser(registerData)).unwrap();
+        const authUser = await dispatch(registerUser(registerData)).unwrap();
+        console.log('authUser: ', authUser);
         form.reset();
         CustomNotification({
           title: 'Пользователь',
           message: 'Пользователь успешно создан!',
           variant: 'success',
         });
-        const payload: Payload = {
-          loginData: { email: values.email, password: values.password },
-          callbackUrl,
-        };
-        login(initialState, payload);
+        const loginData = { email: values.email, password: values.password };
+
+        await signIn('credentials', {
+          ...loginData,
+          redirectTo: callbackUrl || '/vacancies',
+        });
+        
       } catch (rejectedError) {
         const rejectValue = rejectedError as ResponseError;
         CustomNotification({
