@@ -3,7 +3,7 @@ import RegionSelect from '../RegionSelect/RegionSelect';
 import styles from './Finder.module.scss';
 import ListVacancies from '../ListVacancies/ListVacancies';
 
-export default function Finder({ vacancies, regions, searchText }: FinderProps) {
+export default function Finder({ vacancies, regions }: FinderProps) {
   return (
     <div className={styles.finder}>
       <div className={styles.filters}>
@@ -12,7 +12,7 @@ export default function Finder({ vacancies, regions, searchText }: FinderProps) 
         </div>
         <RegionSelect regions={regions} />
       </div>
-      <ListVacancies vacancies={vacancies} searchText={searchText} />
+      <ListVacancies vacancies={vacancies} />
     </div>
   );
 }

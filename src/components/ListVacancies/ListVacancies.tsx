@@ -7,9 +7,12 @@ import { ListVacanciesProps } from '../ListVacancies/ListVacancies.props';
 import VacancyCard from '../VacancyCard/VacancyCard';
 import { useDisclosure } from '@mantine/hooks';
 import SignModal from '../Modals/ModalSignin/ModalSignin';
+import { useSearchParams } from 'next/navigation';
 
-const ListVacancies = ({ vacancies, regionCode, searchText, offset, jobCategory }: ListVacanciesProps) => {
+const ListVacancies = ({ vacancies }: ListVacanciesProps) => {
   const [opened, { open, close }] = useDisclosure(false);
+  const searchParams = useSearchParams();
+  const searchText = searchParams.get('text') ?? '';
 
   return (
     <>
@@ -18,18 +21,7 @@ const ListVacancies = ({ vacancies, regionCode, searchText, offset, jobCategory 
           <Suspense key={searchText} fallback={<VacancysSkeleton />}>
             {vacancies?.vacancies ? (
               vacancies.vacancies?.map((item: VacancyTransform, idx: number) => {
-                return (
-                  <VacancyCard
-                    idx={idx}
-                    key={item.id}
-                    jobCategory={jobCategory}
-                    searchText={searchText}
-                    offset={offset}
-                    regionCode={regionCode}
-                    vacancy={item}
-                    openModal={open}
-                  />
-                );
+                return <VacancyCard idx={idx} key={item.id} vacancy={item} openModal={open} />;
               })
             ) : (
               <h4 className={styles.empty}>Ничего не найдено</h4>

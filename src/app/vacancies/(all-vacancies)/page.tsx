@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params, searchParams }: Params) {
-  const searchText = searchParams?.text || '';
+  const searchText = searchParams?.text ?? '';
   const offset = searchParams?.offset || '';
   const regionCode = searchParams?.regionCode || '';
   const jobCategory: string = params.jobCategory || '';
@@ -26,7 +26,7 @@ export default async function Page({ params, searchParams }: Params) {
 
   const regions = await getRegions();
 
-  const totalPages = meta?.total / 50 > 50 ? 50 : Math.ceil(meta?.total / 50);
+  const totalPages = meta?.total / 50 > 50 ? 50 : Math.ceil(meta?.total / 0);
 
   return (
     <div className={styles.vacancies}>
@@ -36,7 +36,7 @@ export default async function Page({ params, searchParams }: Params) {
       <Finder
         regions={regions}
         vacancies={vacancies}
-        searchText={searchText}
+        totalPages={totalPages}
       />
     </div>
   );

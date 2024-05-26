@@ -12,13 +12,34 @@ import PointIcon from '../../../../../../public/images/svg/PointIcon';
 import { ResponseAdress } from '../../../../../..';
 
 interface Params {
-  searchParams?: { text?: string; offset?: string; jobCategory?: string };
+  searchParams?: { text?: string; offset?: string; jobCategory?: string; regionCode?: string };
   params: { companyId: string; vacancy_id: string };
 }
 
-export default async function Vacancy({ params }: Params) {
+export default async function Vacancy({ params, searchParams }: Params) {
   const companyId = params.companyId;
   const vacancy_id = params.vacancy_id;
+
+  const searchText = searchParams?.text ?? '';
+  const offset = searchParams?.offset;
+  const regionCode = searchParams?.regionCode;
+  const jobCategory = searchParams?.jobCategory;
+
+  let url = `https://job-next.vercel.app/vacancies/vacancy/${companyId}/${vacancy_id}?`;
+  if (jobCategory) {
+    url = url + `jobCategory=${jobCategory}`;
+  }
+  if (regionCode) {
+    url = url + `&regionCode=${regionCode}`;
+  }
+  if (offset) {
+    url = url + `&offset=${offset}`;
+  }
+
+  if (searchText) {
+    url = url + `&text=${encodeURIComponent(searchText)}`;
+  }
+
   const { results } = await getVacancy(companyId, vacancy_id);
   const vacancy = Object.keys(results).length ? results.vacancies[0].vacancy : null;
 
@@ -118,7 +139,7 @@ export default async function Vacancy({ params }: Params) {
               <Link prefetch={false} className={styles.vacancy__actions__apply} href={vacancy.vac_url} target='_blank'>
                 Откликнуться
               </Link>
-              <VacancyShare textURL={vacancy.vac_url} />
+              <VacancyShare textURL={url} />
             </div>
           </div>
         </div>
@@ -126,7 +147,7 @@ export default async function Vacancy({ params }: Params) {
           <Link prefetch={false} className={styles.vacancy__actions__apply} href={vacancy.vac_url} target='_blank'>
             Откликнуться
           </Link>
-          <VacancyShare textURL={vacancy.vac_url} />
+          <VacancyShare textURL={url} />
         </div>
       </div>
     </div>

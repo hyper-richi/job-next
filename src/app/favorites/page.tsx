@@ -38,7 +38,7 @@ export default function Favorites({ params, searchParams }: Params) {
     }
   }, [token]); */
 
-  const searchText = searchParams?.text || '';
+  const searchText = searchParams?.text ?? '';
   const offset = searchParams?.offset || '';
   const regionCode = searchParams?.regionCode || '';
   const jobCategory: string = params.jobCategory || '';

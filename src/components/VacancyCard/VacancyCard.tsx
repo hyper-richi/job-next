@@ -1,6 +1,6 @@
 'use client';
 
-import { createRef, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { VacancyCardProps } from './VacancyCard.props';
 import styles from './VacancyCard.module.scss';
 import Link from 'next/link';
@@ -13,14 +13,19 @@ import { addFavorites, selectFavorites } from '@/app/lib/store/features/favorite
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { selectUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
 import clsx from 'clsx';
-import { useSession } from 'next-auth/react';
-import { useDisclosure } from '@mantine/hooks';
+import { useParams, useSearchParams } from 'next/navigation';
+//import { useSession } from 'next-auth/react';
+//import { useDisclosure } from '@mantine/hooks';
 // import { selectFavorites } from '@/app/lib/store/features/favorites/selectors/selectFavorites/selectFavorites';
 
-export default function VacancyCard({ regionCode, vacancy, offset, searchText, jobCategory, openModal }: VacancyCardProps) {
+export default function VacancyCard({ vacancy, openModal }: VacancyCardProps) {
   const dispatch = useAppDispatch();
   const authProfile = useAppSelector(selectUser);
-
+  const searchParams = useSearchParams();
+  const offset = searchParams.get('offset');
+  const regionCode = searchParams.get('regionCode');
+  const searchText = searchParams.get('text');
+  const { jobCategory } = useParams<{ jobCategory: string; item: string }>();
   const [isClick, setisClick] = useState(false);
 
   const favoritesVacancies = useAppSelector(selectFavorites);
