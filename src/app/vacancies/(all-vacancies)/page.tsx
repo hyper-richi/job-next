@@ -1,7 +1,7 @@
 import styles from './page.module.scss';
 import Search from '@/components/Search/Search';
 import { Metadata } from 'next';
-import { getVacancies } from '../../lib/api/data';
+import { getRegions, getVacancies } from '../../lib/api/data';
 import Finder from '@/components/Finder/Finder';
 import CustomPagination from '@/components/CustomPagination/CustomPagination';
 import TitleCategory from '@/components/TitleCategory/TitleCategory';
@@ -24,13 +24,9 @@ export default async function Page({ params, searchParams }: Params) {
     jobCategory,
   });
 
-  //const vacancies = results?.results.vacancies;
-  //const meta = results?.meta;
-  //const meta = results?.meta;
+  const regions = await getRegions();
 
-  // const { data: regions } = await getRegions();
-
-  const totalPages = meta?.total / 100 > 100 ? 100 : Math.ceil(meta?.total / 100);
+  const totalPages = meta?.total / 50 > 50 ? 50 : Math.ceil(meta?.total / 50);
 
   return (
     <div className={styles.vacancies}>
@@ -38,13 +34,9 @@ export default async function Page({ params, searchParams }: Params) {
       <TitleCategory jobCategory={jobCategory || '/vacancies'} />
       <Search countVacancies={meta?.total || 0} />
       <Finder
-        /*  regions={regions} */
+        regions={regions}
         vacancies={vacancies}
-        jobCategory={jobCategory}
-        regionCode={regionCode}
-        offset={offset}
         searchText={searchText}
-        totalPages={totalPages}
       />
     </div>
   );

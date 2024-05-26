@@ -25,14 +25,12 @@ export default function Favorites({ params, searchParams }: Params) {
   const dispatch = useAppDispatch();
 
   useLayoutEffect(() => {
-    console.log('useLayoutEffect: ');
     if (authProfile?.id) {
       dispatch(getFavorites(authProfile.id));
     }
   }, [authProfile?.id]);
 
   const favoritesVacancies = useAppSelector(selectFavorites);
-  console.log('favoritesVacancies: ', favoritesVacancies);
 
   /*  useLayoutEffect(() => {
     if (!token) {

@@ -55,7 +55,6 @@ const initialState: SignUpFormInitialStateT = {
 export default function AuthenticationForm({ setIsLogin }: { setIsLogin: Dispatch<SetStateAction<boolean>> }) {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/profile';
-
   const [formState, formAction] = useFormState<SignUpFormStateT, Payload>(login, initialState);
 
   const form = useForm<FormValues>({
@@ -139,7 +138,7 @@ export default function AuthenticationForm({ setIsLogin }: { setIsLogin: Dispatc
           <Button variant='default' onClick={toogleForm}>
             Регистрация
           </Button>
-          <Button style={{ background: '#005bff' }} type='submit' /* onClick={() => signIn('credentials', loginData)} */>
+          <Button style={{ background: '#005bff' }} type='submit'>
             Войти
           </Button>
         </Group>

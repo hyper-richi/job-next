@@ -1,12 +1,12 @@
 'use client';
 import styles from './Search.module.scss';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { plural } from '@/app/lib/helpers/plural';
 import clsx from 'clsx';
 import { useFormStatus } from 'react-dom';
 import SpinnerIcon from '../../../public/images/svg/spinnerIcon.svg';
 import SearchIcon from '../../../public/images/svg/searchIcon.svg';
+import { useDebouncedCallback } from 'use-debounce';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -19,22 +19,27 @@ function SubmitButton() {
 }
 
 function Search({ countVacancies }: { countVacancies: number }) {
-  const [inpVal, setInpValue] = useState('');
-
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const { replace } = useRouter();
 
   const jobCategory = searchParams.get('jobCategory');
   const encodeSearchText = encodeURIComponent(useSearchParams().get('text') || '');
 
-  const decodeSearchText = decodeURIComponent(useSearchParams().get('text') || '');
+  // const decodeSearchText = decodeURIComponent(useSearchParams().get('text') || '');
 
   const offset = searchParams.get('offset');
   const regionCode = searchParams.get('regionCode');
 
-  useEffect(() => {
-    setInpValue(decodeSearchText);
-  }, [decodeSearchText]);
+  const handleSearch = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set('text', term);
+    } else {
+      params.delete('text');
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
 
   const handleFormAction = (formData: FormData) => {
     const SearchParams = new URLSearchParams(searchParams);
@@ -69,12 +74,12 @@ function Search({ countVacancies }: { countVacancies: number }) {
           <div className={styles.search__wrap}>
             <SearchIcon className={styles.search__icon} />
             <input
-              onChange={(e) => setInpValue(e.target.value)}
+              onChange={(e) => handleSearch(e.target.value)}
               className={styles.search__input}
               placeholder='Введите название должности'
               type='text'
               name='text'
-              value={inpVal}
+              defaultValue={searchParams.get('text')?.toString()}
             />
             <p className={styles.search__count}>{plural(forms, countVacancies)}</p>
             <SubmitButton />
@@ -91,12 +96,12 @@ function Search({ countVacancies }: { countVacancies: number }) {
             </div>
             <form className={styles.search__form} action={handleFormAction}>
               <input
-                onChange={(e) => setInpValue(e.target.value)}
+                onChange={(e) => handleSearch(e.target.value)}
                 className={styles.search__input}
                 placeholder='Введите название должности'
                 type='text'
                 name='text'
-                value={inpVal}
+                defaultValue={searchParams.get('text')?.toString()}
               />
               <SubmitButton />
             </form>

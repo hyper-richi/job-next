@@ -1,16 +1,5 @@
-// http://opendata.trudvsem.ru/api/v1/vacancies?industry=%industry%
-//https://opendata.trudvsem.ru/api/v1/vacancies/region/6100000000000?offset=1&limit=100&text=инженер
-
 import axios from 'axios';
-import {
-  ResponseVacancies,
-  ResponseRegions,
-  IRegion,
-  ResponseVacancy,
-  ResponseAdress,
-  ResponseTransform,
-  VacancyTransform,
-} from '../../../..';
+import { ResponseVacancies, IRegion, ResponseVacancy, ResponseAdress, ResponseTransform, VacancyTransform } from '../../../..';
 import { AuthApiResponse, LoginData, User } from '../store/features/authProfile/types/authProfileSchema';
 
 // "no-store" - SSR getServerSideProps рендер на сервере, Этот запрос должен повторяться при каждом запросе
@@ -20,16 +9,16 @@ import { AuthApiResponse, LoginData, User } from '../store/features/authProfile/
 // next: { revalidate: 60 } - ISR getStaticProps and revalidate, Этот запрос должен быть кэширован со временем жизни 60 секунд.
 
 interface QureyParams {
-  jobCategory?: string;
+  jobCategory?: string | null;
   searchText?: string;
-  offset?: string;
-  regionCode?: string;
+  offset?: string | null;
+  regionCode?: string | null;
 }
 
 export async function getVacancies(params: QureyParams) {
   const { jobCategory, offset, searchText, regionCode } = params;
   try {
-    let url = `?limit=10&offset=${offset || '0'}`;
+    let url = `?limit=50&offset=${offset || '0'}`;
 
     if (regionCode && regionCode !== 'all') {
       url = `/region/${regionCode}` + url;
@@ -52,7 +41,7 @@ export async function getVacancies(params: QureyParams) {
             limit: 100,
           },
           results: {
-            vacancies: dataParse?.results.vacancies.map(({ vacancy }) => {
+            vacancies: dataParse?.results?.vacancies?.map(({ vacancy }) => {
               const vacancyTransform: VacancyTransform = {
                 ...vacancy,
                 vacancy_id: vacancy.id,
@@ -78,24 +67,14 @@ export async function getVacancies(params: QureyParams) {
   }
 }
 
-export async function getRegions(): Promise<ResponseRegions> {
+export async function getRegions(): Promise<IRegion[]> {
   try {
-    const res = await fetch('https://trudvsem.ru/iblocks/flat_filter_prr_search_cv/ref/regions', {
-      cache: 'no-store',
+    const res = await fetch('https://6ede402e6a352dfb.mokky.dev/regions').then((data) => {
+      return data;
     });
-    const regionMock: IRegion = {
-      code: 'all',
-      name: 'Россия',
-      shortName: '',
-      text: '',
-      key: '',
-    };
-    const { data, code }: ResponseRegions = await res.json();
-    const resObj: ResponseRegions = {
-      data: [regionMock, ...data],
-      code,
-    };
-    return resObj;
+    const data = await res.json();
+
+    return data;
   } catch (error) {
     console.error('Fetch Error:', error);
     throw new Error('Failed to fetch Regions data.');
@@ -156,21 +135,4 @@ export async function authProfile(loginData: LoginData) {
   return await axios.post<AuthApiResponse>(process.env.MOKKY_JOB_URL + '/auth', loginData).then((data) => {
     return data.data;
   });
-  // .catch((error) => console.log('error', error));
 }
-
-/* id: vacancy.id,
-              category: vacancy.category,
-              salary_min: vacancy.salary_min,
-              salary_max: vacancy.salary_max,
-              addresses: vacancy.addresses,
-              duty: vacancy.duty,
-              requirement: vacancy.requirement,
-              region: vacancy.region,
-              company: vacancy.company,
-              'job-name': vacancy['job-name'],
-              salary: vacancy.salary,
-              work_places: vacancy.work_places,
-              employment: vacancy.employment,
-              schedul: vacancy.schedule,
-              vac_url: vacancy.vac_url, */

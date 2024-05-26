@@ -11,7 +11,7 @@
 .header {
   display: flex;
   justify-content: space-between;
-
+  gap: 10px;
   height: 72px;
   padding: 0 80px;
   align-items: center;
@@ -65,7 +65,7 @@
     justify-content: space-around;
     grid-column-gap: 16px;
     column-gap: 16px;
-    grid-template-columns: 1fr min-content min-content;
+    grid-template-columns: min-content 1fr min-content;
   }
 }
 

@@ -17,8 +17,7 @@ import {
 } from '@/app/lib/store/features/file/slice/fileSlice';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
 import { registerUser, selectUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
-import { login } from '@/app/lib/actions';
-import { Payload, SignUpFormInitialStateT } from '../AuthenticationForm/AuthenticationForm';
+import { SignUpFormInitialStateT } from '../AuthenticationForm/AuthenticationForm';
 import { signIn } from 'next-auth/react';
 
 const initialState: SignUpFormInitialStateT = {
@@ -95,7 +94,6 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
           ...loginData,
           redirectTo: callbackUrl || '/vacancies',
         });
-        
       } catch (rejectedError) {
         const rejectValue = rejectedError as ResponseError;
         CustomNotification({

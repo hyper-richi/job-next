@@ -209,7 +209,6 @@ interface IRegion {
   key: string;
 }
 interface ResponseRegions {
-  code: string;
   data: IRegion[];
 }
 

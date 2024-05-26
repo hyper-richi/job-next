@@ -5,7 +5,6 @@ import { loginSchema } from './login.schema';
 import { Payload, SignUpFormStateT } from '@/components/Forms/AuthenticationForm/AuthenticationForm';
 
 export async function login(prevState: SignUpFormStateT, payload: Payload) {
-  console.log('login: ', payload);
   const { loginData, callbackUrl } = payload;
 
   const validatedFields = loginSchema.safeParse({
@@ -31,7 +30,7 @@ export async function login(prevState: SignUpFormStateT, payload: Payload) {
       error: false,
       message: 'Успешно',
     };
-    
+
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

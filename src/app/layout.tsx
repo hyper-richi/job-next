@@ -14,6 +14,7 @@ import styles from './layout.module.scss';
 import './globals.scss';
 import { auth } from '@/auth';
 import { SessionProvider } from 'next-auth/react';
+import { getRegions } from './lib/api/data';
 
 const GTEestiProText = localFont({
   src: [
@@ -62,17 +63,17 @@ const GTEestiProDisplay = localFont({
   variable: '--gteestiprodisplay',
 });
 
-/* export const metadata: Metadata = {
+export const metadata: Metadata = {
   title: {
     template: '%s | Лучшая Работа, поиск  вакансий',
-    default: 'Лучшая Работа, найди работу мечты',
+    default: 'Лучшая Работа, найди и работай в кайф!',
   },
   icons: {
     icon: [{ url: '/icon.svg' }], // new URL('/icon.svg', 'https://example.com')
     shortcut: ['/icon.svg'],
     apple: [{ url: '/icon.svg' }, { url: '/icon.svg', sizes: '180x180', type: 'image/svg' }],
   },
-  description: `Сайт, который помогает найти работу мечты! Создавайте резюме и откликайтесь на вакансии.`,
+  description: `Сайт, который помогает найти лучшую работу! Создавайте резюме и откликайтесь на вакансии.`,
   metadataBase: new URL('https://job-next.vercel.app'),
   keywords: ['работа', 'работа мечты', 'лучшая работа', 'самая лучшая работа в моей жизни'],
   robots: {
@@ -90,10 +91,10 @@ const GTEestiProDisplay = localFont({
   },
   openGraph: {
     title: 'Лучшая работа',
-    description: 'Лучшая Работа, найди работу мечты',
+    description: 'Лучшая Работа, найди и работай в кайф!',
     url: 'https://job-next.vercel.app',
     siteName: 'работа мечты',
-   // authors: ['Seb', 'Josh'],
+    // authors: ['Seb', 'Josh'],
     images: [
       {
         url: 'https://job-next.vercel.app/opengraph-image-min.jpg', // Must be an absolute URL
@@ -110,11 +111,10 @@ const GTEestiProDisplay = localFont({
     locale: 'ru_RU',
     type: 'website',
   },
-}; */
+};
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  console.log('RootLayout: ');
-  // const { data: regions } = await getRegions();
+  const regions = await getRegions();
   const session = await auth();
   return (
     <html lang='ru'>
@@ -127,14 +127,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <MantineProvider>
             <Notifications limit={5} />
             <SessionProvider session={session}>
-              <Header /* regions={regions} */ />
+              <Header regions={regions} />
             </SessionProvider>
             <main className={styles.container}>
               <SessionProvider session={session}>{children}</SessionProvider>
               <Analytics />
               <SpeedInsights />
             </main>
-            <Footer /* regions={regions} */ />
+            <Footer regions={regions} />
           </MantineProvider>
         </StoreProvider>
       </body>

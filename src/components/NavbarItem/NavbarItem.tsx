@@ -15,7 +15,9 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
   const searchParams = useSearchParams();
   const regionCodeParams = searchParams.get('regionCode') || '';
 
-  const encodeSearchText = encodeURIComponent(useSearchParams().get('text') || '');
+  // const decodeSearchText = decodeURIComponent(useSearchParams().get('text') || '');
+
+  const encodeSearchText = encodeURIComponent(useSearchParams().get('text') ?? '');
 
   useEffect(() => {
     setIsLoading(false);
@@ -30,14 +32,12 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
   }
 
   if (regionCodeParams) {
-    url = url + `regionCode=${regionCodeParams}`;
+    url = url + `regionCode=${regionCodeParams}&offset=0`;
   }
 
   if (encodeSearchText) {
     url = url + `&text=${encodeSearchText}`;
   }
-
-  url = url + '&offset=0';
 
   const handleCklick = () => {
     setIsLoading(true);

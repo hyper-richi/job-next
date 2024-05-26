@@ -31,7 +31,6 @@ const Sidebar = dynamic(() => import('../Sidebar/Sidebar'), {
 });
 
 const Header = ({ regions }: HeaderProps): JSX.Element => {
-  console.log('Header: ');
   const router = useRouter();
   const pathname = usePathname();
   const [opened, { open, close }] = useDisclosure(false);
@@ -91,7 +90,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
             <div className={styles.header__info}>
               <div className={styles.info__cities}>
                 <Link prefetch={false} href={'/vacancies'}>
-                  vacancies
+                  Вакансии
                 </Link>
                 <svg width='1' height='46' viewBox='0 0 1 46' fill='none' xmlns='http://www.w3.org/2000/svg'>
                   <path fill='#fff' d='M0 0h1v46H0z'></path>
