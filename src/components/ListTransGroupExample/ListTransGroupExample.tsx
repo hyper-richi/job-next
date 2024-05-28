@@ -35,10 +35,8 @@ export function ListTransGroupExample() {
       nodeRef: createRef<HTMLDivElement>(),
     },
   ]);
-  console.log('items: ', items);
 
   const handleDelete = (id: number) => {
-    console.log('handleDelete: ', id);
     setItems((items) => items.filter((item) => item.id !== id));
   };
 

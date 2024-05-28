@@ -115,7 +115,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
             </div>
           </div>
         </div>
-        {session?.user && isAuthRoute && <Navbar />}
+        {session?.user && isAuthRoute && <Navbar isMobile={false} />}
       </header>
 
       <div className={clsx(styles.mobile, styles.sticky)}>

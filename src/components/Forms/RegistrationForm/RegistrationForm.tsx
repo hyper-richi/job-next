@@ -81,7 +81,6 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
       };
       try {
         const authUser = await dispatch(registerUser(registerData)).unwrap();
-        console.log('authUser: ', authUser);
         form.reset();
         CustomNotification({
           title: 'Пользователь',

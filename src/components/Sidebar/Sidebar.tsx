@@ -36,7 +36,6 @@ const Sidebar = ({ regions, showSidebar, onCloseSidebar, onCloseMobileRegionsMod
               </svg>
             </div>
           </div>
-
           <Navbar isMobile />
         </div>
       </div>

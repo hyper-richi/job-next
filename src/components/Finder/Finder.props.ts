@@ -1,8 +1,8 @@
-import { IRegion, ResultsTransform } from '../../..';
+import { IRegion, ResultsTransform, Vacancy } from '../../..';
 
 export interface FinderProps {
   searchText?: string;
   totalPages?: number;
-  vacancies?: ResultsTransform;
+  vacancies?: Vacancy[];
   regions?: IRegion[];
 }

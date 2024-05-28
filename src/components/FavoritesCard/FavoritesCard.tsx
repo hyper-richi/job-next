@@ -24,7 +24,7 @@ export default function FavoritesCard({ regionCode, vacancy, offset, searchText,
   // await new Promise((resolve) => setTimeout(resolve, 0));
   const { 'job-name': vacancyName, salary_min, salary_max, company, vacancy_id, id, date } = vacancy;
 
-  let url = `/vacancies/vacancy/${company.companycode}/${vacancy_id}?`;
+  let url = `/vacancies/vacancy/${company?.companycode}/${vacancy_id}?`;
   if (jobCategory) {
     url = url + `jobCategory=${jobCategory}&`;
   }

@@ -35,19 +35,21 @@ const VacancyShare = ({ textURL }: VacancyShareProps) => {
     );
   }
   return (
-    <Tooltip
-      opened={show}
-      withinPortal={false}
-      events={{ hover: false, focus: false, touch: true }}
-      label={label()}
-      closeDelay={500}
-      transitionProps={{ transition: 'slide-down', duration: 300 }}
-    >
-      <div onClick={handleClick} className={styles.share}>
-        <ShareIcon />
-        <span>Поделиться вакансией</span>
-      </div>
-    </Tooltip>
+    <>
+      <Tooltip
+        opened={show}
+        withinPortal={false}
+        events={{ hover: false, focus: false, touch: true }}
+        label={label()}
+        closeDelay={500}
+        transitionProps={{ transition: 'slide-down', duration: 300 }}
+      >
+        <div onClick={handleClick} className={styles.share}>
+          <ShareIcon />
+          <span>Поделиться вакансией</span>
+        </div>
+      </Tooltip>
+    </>
   );
 };
 

@@ -107,13 +107,13 @@ const Navbar = ({ isMobile }: { isMobile?: boolean }) => {
   return (
     <nav className={clsx(styles.navbar, mods)}>
       <div className={styles.wrapper}>
-        {category.map((item) => {
-          if (!isMobile) {
-            return <NavbarItem key={item.jobCategory} categoryVacancy={item} />;
-          } else {
-            return <NavbarItem key={item.jobCategory} categoryVacancy={item} isMobile />;
-          }
-        })}
+        {category.map((item) =>
+          isMobile ? (
+            <NavbarItem key={item.jobCategory} categoryVacancy={item} isMobile />
+          ) : (
+            <NavbarItem key={item.jobCategory} categoryVacancy={item} />
+          )
+        )}
       </div>
     </nav>
   );

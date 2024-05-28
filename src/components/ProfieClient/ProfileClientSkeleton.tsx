@@ -53,7 +53,6 @@ const SOCIAL_LIST: SocialList[] = [
 ];
 
 const ProfileClientSkeleton = () => {
-  console.log('ProfileClientSkeleton: ');
   return (
     <section className={styles.container}>
       <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }} style={{ width: '100%' }}>
@@ -99,7 +98,6 @@ const ProfileClientSkeleton = () => {
                     nameInput={item.nameInput}
                     icon={item.icon}
                     placeholder={item.placeholder}
-                    authProfile={undefined}
                   />
                 ))}
               </List>

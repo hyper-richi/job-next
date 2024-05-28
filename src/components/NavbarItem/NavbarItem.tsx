@@ -44,8 +44,7 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
   };
 
   const modsIcon: Mods = {
-    [styles.navbar__icon__isMobile]: !isMobile,
-    [styles.navbar__icon]: isMobile,
+    [styles.icon__mobile]: isMobile,
   };
 
   const modsLink: Mods = {
@@ -56,7 +55,7 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
     <Link key={categoryVacancy.jobCategory} className={clsx(styles.navbar__links, modsLink)} href={url} onClick={handleCklick}>
       <div className={clsx(isMobile ? styles.navbar__name__mobile : styles.navbar__name)}>{categoryVacancy.icon}</div>
       <span className={styles['links-name']}>{categoryVacancy.name}</span>
-      {isLoading && <SpinnerIcon className={clsx(modsIcon)} width='24' height='24' />}
+      {isLoading && <SpinnerIcon className={clsx(styles.navbar__icon, modsIcon)} width='24' height='24' />}
     </Link>
   );
 };

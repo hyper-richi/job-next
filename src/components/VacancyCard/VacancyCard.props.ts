@@ -1,8 +1,8 @@
 import { DetailedHTMLProps, HTMLAttributes } from 'react';
-import { VacancyTransform } from '../../..';
+import { Vacancy, VacancyTransform } from '../../..';
 
 export interface VacancyCardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  vacancy: VacancyTransform;
+  vacancy: /* VacancyTransform */ Vacancy;
   idx?: number;
   openModal: () => void;
 }

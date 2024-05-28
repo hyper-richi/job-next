@@ -1,5 +1,5 @@
 import { Button } from '@mantine/core';
-import React, { Dispatch, RefObject, SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 import './animation.module.scss';
 
 const ItemTransition = ({
@@ -10,7 +10,6 @@ const ItemTransition = ({
   handleDelete: (id: number) => void;
 }) => {
   const [isInput, setIsInput] = useState(false);
-  console.log('text: ', text);
 
   const handleSetIsInput = () => {
     setIsInput((prevIsInput) => !prevIsInput);

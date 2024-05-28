@@ -30,7 +30,7 @@ export async function getVacancies(params: QureyParams) {
       url = url + `&text=${searchText}`;
     }
 
-    const res = await axios.get<ResponseTransform>(process.env.API_BASE_URL + url, {
+    /* const res = await axios.get<ResponseTransform>(process.env.API_BASE_URL + url, {
       transformResponse: (data) => {
         const dataParse: ResponseVacancies = JSON.parse(data);
 
@@ -53,16 +53,47 @@ export async function getVacancies(params: QureyParams) {
               return vacancyTransform;
             }),
           },
+
         };
 
         return resTransform;
       },
       responseType: 'json',
-    });
+    }); */
 
-    return res.data;
+    const res = await fetch(process.env.API_BASE_URL + url, {
+      cache: 'no-store',
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const resTransform: ResponseTransform = {
+          status: data?.status || '',
+          meta: data?.meta || {
+            total: 0,
+            limit: 100,
+          },
+          results: {
+            vacancies: data?.results?.vacancies?.map(({ vacancy }: { vacancy: VacancyTransform }) => {
+              const vacancyTransform: VacancyTransform = {
+                ...vacancy,
+                vacancy_id: vacancy.id,
+                contact_list: [],
+                contact_person: '',
+                date: null,
+              };
+
+              return vacancyTransform;
+            }),
+          },
+        };
+        return resTransform;
+      });
+
+    const resAxios = await axios.get<ResponseVacancies>(process.env.API_BASE_URL + url, { responseType: 'json' });
+
+    return resAxios.data;
   } catch (error) {
-    console.error('Fetch Error:', error);
+    console.error('Fetch Error getVacancies:', error);
     throw new Error('Failed to fetch Vacancies data');
   }
 }
@@ -76,7 +107,7 @@ export async function getRegions(): Promise<IRegion[]> {
 
     return data;
   } catch (error) {
-    console.error('Fetch Error:', error);
+    console.error('Fetch Error getRegions:', error);
     throw new Error('Failed to fetch Regions data.');
   }
 }
@@ -90,7 +121,7 @@ export async function getVacancy(companyId: string, vacancy_id: string): Promise
 
     return res.json();
   } catch (error) {
-    console.error('Fetch Error:', error);
+    console.error('Fetch Error getVacancy:', error);
     throw new Error('Failed to fetch Vacancy data.');
   }
 }
@@ -106,8 +137,8 @@ export async function getAdress(latitude: string, longitude: string): Promise<Re
         if (data.status.code === 200) {
           return data;
         } else {
-          console.error('Reverse geolocation request failed.');
-          throw new Error('Reverse geolocation request failed');
+          console.error('Geolocation request failed: getAdress');
+          throw new Error('Geolocation request failed: getAdress');
         }
       });
     return res;

@@ -33,15 +33,17 @@
   align-items: center;
 }
 
-.navbar__icon__isMobile {
+.navbar__icon {
+  color: #005bff;
   position: absolute;
   top: 23px;
   right: -10px;
-  color: #005bff;
 }
 
-.navbar__icon {
-  color: #005bff;
+.icon__mobile {
+  position: absolute;
+  top: 20px;
+  left: 60px;
 }
 
 .hidden {

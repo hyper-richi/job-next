@@ -14,9 +14,6 @@ import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { selectUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
 import clsx from 'clsx';
 import { useParams, useSearchParams } from 'next/navigation';
-//import { useSession } from 'next-auth/react';
-//import { useDisclosure } from '@mantine/hooks';
-// import { selectFavorites } from '@/app/lib/store/features/favorites/selectors/selectFavorites/selectFavorites';
 
 export default function VacancyCard({ vacancy, openModal }: VacancyCardProps) {
   const dispatch = useAppDispatch();
@@ -30,9 +27,9 @@ export default function VacancyCard({ vacancy, openModal }: VacancyCardProps) {
 
   const favoritesVacancies = useAppSelector(selectFavorites);
 
-  const { 'job-name': vacancyName, salary_min, salary_max, category, company, id: vacancy_id } = vacancy;
+  const { 'job-name': vacancyName, salary_min, salary_max, category, company, id: vacancy_id } = vacancy.vacancy;
 
-  let url = `/vacancies/vacancy/${company.companycode}/${vacancy_id}?`;
+  let url = `/vacancies/vacancy/${company?.companycode}/${vacancy_id}?`;
   if (jobCategory) {
     url = url + `jobCategory=${jobCategory}&`;
   }
@@ -49,7 +46,7 @@ export default function VacancyCard({ vacancy, openModal }: VacancyCardProps) {
 
   const mods = useMemo(
     () => ({
-      [styles.isFavorites]: !!favoritesVacancies.find((item: VacancyTransform) => item.vacancy_id === vacancy.vacancy_id)?.vacancy_id,
+      [styles.isFavorites]: !!favoritesVacancies.find((item) => item.vacancy_id === vacancy.vacancy_id)?.vacancy_id,
       [styles.animation__icon]: isClick,
     }),
     [authProfile?.id, favoritesVacancies.length, isClick]

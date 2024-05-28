@@ -2,7 +2,7 @@
 import { Suspense } from 'react';
 import { VacancysSkeleton } from '../VacancysSkeleton/VacancysSkeleton';
 import styles from './ListVacancies.module.scss';
-import { VacancyTransform } from '../../..';
+import { Vacancy, VacancyTransform } from '../../..';
 import { ListVacanciesProps } from '../ListVacancies/ListVacancies.props';
 import VacancyCard from '../VacancyCard/VacancyCard';
 import { useDisclosure } from '@mantine/hooks';
@@ -19,9 +19,9 @@ const ListVacancies = ({ vacancies }: ListVacanciesProps) => {
       <div className={styles.content}>
         <div className={styles.content__results}>
           <Suspense key={searchText} fallback={<VacancysSkeleton />}>
-            {vacancies?.vacancies ? (
-              vacancies.vacancies?.map((item: VacancyTransform, idx: number) => {
-                return <VacancyCard idx={idx} key={item.id} vacancy={item} openModal={open} />;
+            {vacancies ? (
+              vacancies.map((item: /* VacancyTransform */ Vacancy, idx: number) => {
+                return <VacancyCard idx={idx} key={item.vacancy.id} vacancy={item} openModal={open} />;
               })
             ) : (
               <h4 className={styles.empty}>Ничего не найдено</h4>

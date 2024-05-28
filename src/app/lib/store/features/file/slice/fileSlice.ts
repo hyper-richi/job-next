@@ -25,7 +25,7 @@ export const fileSlice = createAppSlice({
             return URL.createObjectURL(imageBlob);
           })
           .catch((err) => {
-            console.log('err download Img: ', err);
+            console.error('err download Img: ', err);
             return rejectWithValue({
               message: 'Ошибка в обработке запроса: ' + err.message,
               additionalMessage: (err.response as AxiosResponse)?.data.message,
@@ -66,7 +66,7 @@ export const fileSlice = createAppSlice({
 
           return response.data;
         } catch (error) {
-          console.log('error-uploadFile: ', error);
+          console.error('error uploadFile: ', error);
           const err = error as AxiosError;
           return rejectWithValue({
             message: 'Ошибка в обработке запроса: ' + err.message,

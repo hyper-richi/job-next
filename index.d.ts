@@ -58,8 +58,6 @@ interface Vacancy {
     requirement: Requirement;
     addresses: Addresses;
     social_protected: string;
-    // contact_list: ContactList[];
-    // contact_person: string;
     work_places: number;
     currency: string;
     term?: {
@@ -124,7 +122,7 @@ interface IRegionName {
 }
 
 interface Company {
-  companycode: string;
+  companycode?: string;
   'hr-agency': boolean;
   inn: string;
   kpp: string;
@@ -235,3 +233,5 @@ export interface Params {
     jobCategory?: string;
   };
 }
+
+

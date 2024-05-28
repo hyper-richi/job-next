@@ -45,7 +45,7 @@ export const {
           // const userData = { ...res.data, token: res.token };
           return res.data;
         } catch (error) {
-          console.log('error: ', error);
+          console.error('error authorize: ', error);
           //@ts-ignore
           const message = error?.response?.data?.message || error.response?.statusText;
           //@ts-ignore

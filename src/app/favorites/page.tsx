@@ -8,8 +8,9 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useAppDispatch, useAppSelector } from '../lib/store/hooks';
 // import { selectStatusUser, selectUser } from '../lib/store/features/authProfile/slice/userSlice';
 import { getFavorites, selectFavorites } from '../lib/store/features/favorites/slice/favoritesSlice';
-import { createRef, useLayoutEffect, useMemo } from 'react';
+import { Suspense, createRef, useLayoutEffect, useMemo } from 'react';
 import { selectUser } from '../lib/store/features/authProfile/slice/authProfileSlice';
+import { VacancysSkeleton } from '@/components/VacancysSkeleton/VacancysSkeleton';
 
 const cardAnimation = {
   enter: animationStyles.cardEnter,
@@ -59,7 +60,7 @@ export default function Favorites({ params, searchParams }: Params) {
         </div>
       </div>
       <div className={styles.container}>
-        {/*    <Suspense key={searchText} fallback={<VacancysSkeleton />}> */}
+        {/*  <Suspense key={searchText} fallback={<VacancysSkeleton />}> */}
         {transformVacancies.length ? (
           <TransitionGroup className={styles.content}>
             {transformVacancies.map((item: VacancyTransform, idx: number) => {
@@ -77,9 +78,9 @@ export default function Favorites({ params, searchParams }: Params) {
                 </CSSTransition>
               );
             })}
-            {/*   </Suspense> */}
           </TransitionGroup>
         ) : (
+          /*  </Suspense> */
           <h4 className={styles.empty}>Нет избранных вакансий</h4>
         )}
       </div>
