@@ -103,7 +103,7 @@ interface VacancyTransform {
 }
 
 interface ResultsTransform {
-  vacancies: VacancyTransform[];
+  vacancies?: VacancyTransform[];
 }
 
 interface ResponseTransform {
@@ -233,5 +233,3 @@ export interface Params {
     jobCategory?: string;
   };
 }
-
-

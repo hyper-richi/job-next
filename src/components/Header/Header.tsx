@@ -131,7 +131,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
           <Link prefetch={false} className={styles.header__logo} href={`/`}>
             JOB
           </Link>
-          <div></div>
+          <AvatarMenu openSignModal={open} session={session} />
         </div>
 
         {showSidebar && (

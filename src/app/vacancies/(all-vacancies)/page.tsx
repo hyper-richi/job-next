@@ -6,7 +6,7 @@ import Finder from '@/components/Finder/Finder';
 import CustomPagination from '@/components/CustomPagination/CustomPagination';
 import TitleCategory from '@/components/TitleCategory/TitleCategory';
 import { Params } from '../../../..';
-import { Suspense } from 'react';
+// import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Поиск по вакансиям | Все вакансии',
@@ -24,18 +24,17 @@ export default async function Page({ params, searchParams }: Params) {
     regionCode,
     jobCategory,
   });
+
   const regions = await getRegions();
 
-  const totalPages = meta?.total / 50 > 50 ? 50 : Math.ceil(meta?.total / 0);
+  const totalPages = meta?.total / 50 > 50 ? 50 : Math.ceil(meta?.total / 50);
 
   return (
     <div className={styles.vacancies}>
       <CustomPagination totalPages={totalPages} />
       <TitleCategory jobCategory={jobCategory || '/vacancies'} />
       <Search countVacancies={meta?.total || 0} />
-      <Suspense key={searchText + jobCategory} fallback={<div>Loading...</div>}>
-        <Finder regions={regions} vacancies={vacancies.vacancies} totalPages={totalPages} />
-      </Suspense>
+      <Finder regions={regions} vacancies={vacancies} totalPages={totalPages} searchText={searchText} />
     </div>
   );
 }

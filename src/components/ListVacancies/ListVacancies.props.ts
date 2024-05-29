@@ -1,6 +1,7 @@
-import { ResultsTransform, Vacancy } from '../../..';
+import { ResultsTransform } from '../../..';
 
 export interface ListVacanciesProps {
   totalPages?: number;
-  vacancies?: /* ResultsTransform | */ Vacancy[];
+  vacancies?: ResultsTransform;
+  searchText?: string;
 }

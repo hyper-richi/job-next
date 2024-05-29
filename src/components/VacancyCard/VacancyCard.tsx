@@ -27,7 +27,7 @@ export default function VacancyCard({ vacancy, openModal }: VacancyCardProps) {
 
   const favoritesVacancies = useAppSelector(selectFavorites);
 
-  const { 'job-name': vacancyName, salary_min, salary_max, category, company, id: vacancy_id } = vacancy.vacancy;
+  const { 'job-name': vacancyName, salary_min, salary_max, category, company, id: vacancy_id } = vacancy;
 
   let url = `/vacancies/vacancy/${company?.companycode}/${vacancy_id}?`;
   if (jobCategory) {

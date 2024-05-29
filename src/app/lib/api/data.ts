@@ -89,9 +89,9 @@ export async function getVacancies(params: QureyParams) {
         return resTransform;
       });
 
-    const resAxios = await axios.get<ResponseVacancies>(process.env.API_BASE_URL + url, { responseType: 'json' });
+   // const resAxios = await axios.get<ResponseVacancies>(process.env.API_BASE_URL + url, { responseType: 'json' });
 
-    return resAxios.data;
+    return res;
   } catch (error) {
     console.error('Fetch Error getVacancies:', error);
     throw new Error('Failed to fetch Vacancies data');

@@ -72,32 +72,6 @@ const ProfileClient = () => {
   const name = userSession?.name;
   const isAdmin = userSession?.role === 'admin';
 
-  /* useEffect(() => {
-    if (userSession) {
-      fetch(`https://6ede402e6a352dfb.mokky.dev/users/${userSession.id}`)
-        .then((res) => {
-          if (!res.ok) {
-            addUserToHistory();
-          }
-          return res;
-        })
-        .catch((error) => {
-          addUserToHistory();
-        });
-    }
-    const addUserToHistory = () => {
-      if (userSession) {
-        const registerData: RegisterUserData = {
-          ...userSession,
-          password: '1234567',
-        };
-        try {
-          dispatch(registerUser(registerData)).unwrap();
-        } catch (rejectedError) {}
-      }
-    };
-  }, []); */
-
   useEffect(() => {
     if (userSession && userSession.role === 'admin') {
       const getAllUsers = async () => {
@@ -120,9 +94,9 @@ const ProfileClient = () => {
   return (
     <section className={styles.container}>
       <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }} style={{ width: '100%' }}>
-        <Grid.Col span={4}>
-          <Card shadow='sm' padding='lg' radius='md' withBorder>
-            <Card.Section className={styles.card__header}>
+        <Grid.Col span={{ base: 12, xs: 5, sm: 4 }}>
+          <Card shadow='sm' padding='lg' radius='md' withBorder className='Card'>
+            <Card.Section className={styles.card__header /* , 'Card.Section' */}>
               {userSession ? (
                 <Avatar size='md' radius={'8px'} className={styles.avatar} src={srcImgAvatar} alt='profile picture' />
               ) : (
@@ -141,15 +115,11 @@ const ProfileClient = () => {
             </Card.Section>
           </Card>
         </Grid.Col>
-        <Grid.Col span={'auto'}>
+        <Grid.Col span={{ base: 12, xs: 7, sm: 8 }}>
           <Card shadow='sm' padding='lg' radius='md' withBorder style={{ color: '#757575' }}>
             <div className={styles.row}>
-              <div className={styles['col-sm-3']}>
-                <p className={styles.text}>Full Name</p>
-              </div>
-              <div className={styles['col-sm-9']}>
-                {userSession ? <p className={styles.text}>{name}</p> : <Skeleton minWidth={'100%'} height={'24px'} />}
-              </div>
+              <div className={styles['col-sm-3']}>Full Name</div>
+              <div className={styles['col-sm-9']}>{userSession ? name : <Skeleton minWidth={'100%'} height={'24px'} />}</div>
             </div>
             <Divider my='md' />
             <div className={styles.row}>
@@ -163,8 +133,9 @@ const ProfileClient = () => {
           </Card>
         </Grid.Col>
       </Grid>
+
       <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }} style={{ width: '100%' }}>
-        <Grid.Col span={4}>
+        <Grid.Col span={{ sm: 12, md: 4 }}>
           <Card shadow='sm' padding='lg' radius='md' withBorder>
             <Card.Section>
               <List spacing='xs' size='sm' center>
@@ -176,7 +147,7 @@ const ProfileClient = () => {
           </Card>
         </Grid.Col>
         {isAdmin && (
-          <Grid.Col span={'auto'}>
+          <Grid.Col span={{ sm: 12, md: 8 }}>
             <Card shadow='sm' padding='lg' radius='md' withBorder style={{ color: '#757575' }}>
               {usersList &&
                 usersList.map((item) => (
