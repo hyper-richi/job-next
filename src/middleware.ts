@@ -29,7 +29,7 @@ export default auth((req) => {
 
     return Response.redirect(new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl));
   }
-  return null;
+  return NextResponse.next();
 });
 
 export const config = {
