@@ -1,22 +1,28 @@
 'use client';
-import React, { useCallback, useState } from 'react';
+import React, { memo, useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { HeaderProps } from './Header.props';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
-import styles from './Header.module.scss';
 import Navbar from '../Navbar/Navbar';
 import clsx from 'clsx';
-import VKIcon from '../../../public/images/svg/vkIcon.svg';
-import TelegramIcon from '../../../public/images/svg/telegramIcon.svg';
 import RegionName from '../RegionName/RegionName';
 import PointIcon from '../../../public/images/svg/PointIcon';
+import { useDisclosure } from '@mantine/hooks';
+import AvatarMenu from '../AvatarMenu/AvatarMenu';
+import { IconStar } from '@tabler/icons-react';
+import { useAppDispatch } from '@/app/lib/store/hooks';
+import { useSession } from 'next-auth/react';
+import { setauthProfile } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
+import styles from './Header.module.scss';
+import ModalSignin from '../Modals/ModalSignin/ModalSignin';
+import { AnimatedModal } from '../Modals/AnimatedModal';
 
-const MobileRegionsModal = dynamic(() => import('../MobileRegionsModal/MobileRegionsModal'), {
+const MobileRegionsModal = dynamic(() => import('../Modals/ModalMobileRegions/ModalMobileRegions'), {
   ssr: false,
 });
 
-const DesktopRegionsModal = dynamic(() => import('../DesktopRegionsModal/DesktopRegionsModal'), {
+const DesktopRegionsModal = dynamic(() => import('../Modals/DesktopRegionsModal/DesktopRegionsModal'), {
   ssr: false,
 });
 
@@ -25,9 +31,21 @@ const Sidebar = dynamic(() => import('../Sidebar/Sidebar'), {
 });
 
 const Header = ({ regions }: HeaderProps): JSX.Element => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [opened, { open, close }] = useDisclosure(false);
+  const { jobCategory } = useParams<{ jobCategory: string }>();
   const [showSidebar, setShowSidebar] = useState(false);
   const [showMobileRegionsModal, setMobileShowRegionsModal] = useState(false);
   const [showDesktopRegionsModal, setDesktopShowRegionsModal] = useState(false);
+  const { data: session } = useSession();
+  const dispatch = useAppDispatch();
+
+  useLayoutEffect(() => {
+    if (session) {
+      dispatch(setauthProfile(session?.user));
+    }
+  }, []);
 
   const searchParams = useSearchParams();
   const regionCodeParams = searchParams.get('regionCode');
@@ -48,38 +66,56 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
     setDesktopShowRegionsModal((prev) => !prev);
   }, []);
 
-  let url = `/`;
+  const isAuthRoute = useMemo(() => {
+    if (jobCategory) {
+      return pathname === `/vacancies/${jobCategory}`;
+    }
+    return pathname === `/vacancies`;
+  }, [pathname, jobCategory]);
+
+  /* let url = `/`;
 
   if (regionCodeParams) {
     url = url + `?regionCode=${regionCodeParams}`;
-  }
+  } */
 
   return (
     <>
       <header className={clsx(styles.desktop)}>
         <div className={styles.wrapper}>
           <div className={styles.header}>
-            <Link prefetch={false} className={styles.header__logo} href={url}>
+            <Link prefetch={false} className={styles.header__logo} href={'/'}>
               JOB
             </Link>
             <div className={styles.header__info}>
+              <div className={styles.info__cities}>
+                <Link prefetch={false} href={'/vacancies'}>
+                  Вакансии
+                </Link>
+                <svg width='1' height='46' viewBox='0 0 1 46' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                  <path fill='#fff' d='M0 0h1v46H0z'></path>
+                </svg>
+              </div>
+
               <div className={styles.info__cities} onClick={onCloseDesktopRegionsModal}>
                 <RegionName regions={regions} />
                 <div className={styles['city-logo']}>
                   <PointIcon style={{ width: 24, height: 24, color: '#ffffff' }} />
                 </div>
               </div>
-              <div className={styles.info__socials}>
+              <div className={styles.info__avatar}>
                 <svg width='1' height='46' viewBox='0 0 1 46' fill='none' xmlns='http://www.w3.org/2000/svg'>
                   <path fill='#fff' d='M0 0h1v46H0z'></path>
                 </svg>
-                <VKIcon />
-                <TelegramIcon />
+                <Link prefetch={false} href={'/favorites'} style={{ display: 'flex' }}>
+                  <IconStar className={styles.star__icon} />
+                </Link>
+                <AvatarMenu openSignModal={open} session={session} />
               </div>
             </div>
           </div>
         </div>
-        <Navbar />
+        {session?.user && isAuthRoute && <Navbar isMobile={false} />}
       </header>
 
       <div className={clsx(styles.mobile, styles.sticky)}>
@@ -95,7 +131,7 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
           <Link prefetch={false} className={styles.header__logo} href={`/`}>
             JOB
           </Link>
-          <div></div>
+          <AvatarMenu openSignModal={open} session={session} />
         </div>
 
         {showSidebar && (
@@ -108,13 +144,11 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
         )}
       </div>
 
-      {showDesktopRegionsModal && (
-        <DesktopRegionsModal
-          showDesktopRegionsModal={showDesktopRegionsModal}
-          regions={regions}
-          onCloseDesktopRegionsModal={onCloseDesktopRegionsModal}
-        />
-      )}
+      <AnimatedModal opened={showDesktopRegionsModal} onClose={onCloseDesktopRegionsModal}>
+        <DesktopRegionsModal regions={regions} onClose={onCloseDesktopRegionsModal} />
+      </AnimatedModal>
+
+      <ModalSignin opened={opened} openModal={open} closeModal={close} />
 
       {showMobileRegionsModal && (
         <MobileRegionsModal
@@ -127,4 +161,4 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
   );
 };
 
-export default Header;
+export default memo(Header);

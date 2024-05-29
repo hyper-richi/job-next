@@ -4,6 +4,5 @@ export interface SidebarProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivEl
   regions?: IRegion[];
   showSidebar: boolean;
   onCloseSidebar: () => void;
-  // onContentClick: (e: React.MouseEvent) => void;
   onCloseMobileRegionsModal: () => void;
 }

@@ -1,0 +1,29 @@
+.root {
+  // background-color: var(--notification-color, var(--mantine-primary-color-filled));
+
+  &::before {
+    background-color: var(--notification-color);
+  }
+
+  &[data-variant='error'] {
+    outline: #ff5656;
+    outline-width: 0.9px;
+    outline-style: solid;
+  }
+  &[data-variant='success'] {
+    outline: #7ef693;
+    outline-width: 0.9px;
+    outline-style: solid;
+  }
+}
+
+.description,
+.title {
+  color: var(--mantine-color-gray-9);
+}
+
+.additionalMessage {
+  display: flex;
+  flex-direction: column;
+  gap: 10;
+}

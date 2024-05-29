@@ -1,10 +1,8 @@
-import { DetailedHTMLProps, HTMLAttributes } from "react";
+import { DetailedHTMLProps, HTMLAttributes } from 'react';
+import { Vacancy, VacancyTransform } from '../../..';
 
 export interface VacancyCardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-    vacancy: Vacancy;
-    searchText?: string;
-    offset?: string;
-    regionCode?: string;
-    jobCategory?: string;
-    idx: number;
+  vacancy:  VacancyTransform;
+  idx?: number;
+  openModal: () => void;
 }

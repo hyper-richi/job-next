@@ -1,0 +1,22 @@
+.avatar__name {
+  width: max-content;
+}
+.avatar__email {
+  width: max-content;
+}
+
+[aria-expanded='true'] {
+  .avatar__name {
+    opacity: 0.5;
+  }
+  .avatar__email {
+    opacity: 0.5;
+  }
+  .avatar__picture {
+    background-color: #868e961a;
+    opacity: 0.5;
+  }
+  .avatar__icon {
+    opacity: 0.5;
+  }
+}

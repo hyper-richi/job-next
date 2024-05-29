@@ -1,11 +1,9 @@
-import VacancyCard from '../VacancyCard/VacancyCard';
-import { VacancysSkeleton } from '../VacancysSkeleton/VacancysSkeleton';
 import { FinderProps } from './Finder.props';
-import styles from './Finder.module.scss';
-import React, { Suspense } from 'react';
 import RegionSelect from '../RegionSelect/RegionSelect';
+import styles from './Finder.module.scss';
+import ListVacancies from '../ListVacancies/ListVacancies';
 
-export default function Finder({ vacancies, regions, regionCode, searchText, offset, jobCategory }: FinderProps) {
+export default function Finder({ vacancies, regions, searchText }: FinderProps) {
   return (
     <div className={styles.finder}>
       <div className={styles.filters}>
@@ -14,29 +12,7 @@ export default function Finder({ vacancies, regions, regionCode, searchText, off
         </div>
         <RegionSelect regions={regions} />
       </div>
-      <div className={styles.content}>
-        <div className={styles.content__results}>
-          <Suspense key={searchText} fallback={<VacancysSkeleton />}>
-            {vacancies?.vacancies ? (
-              vacancies?.vacancies?.map((item, idx) => {
-                return (
-                  <VacancyCard
-                    idx={idx}
-                    key={item.vacancy.id}
-                    jobCategory={jobCategory}
-                    searchText={searchText}
-                    offset={offset}
-                    regionCode={regionCode}
-                    vacancy={item}
-                  />
-                );
-              })
-            ) : (
-              <h4 className={styles.empty}>Ничего не найдено</h4>
-            )}
-          </Suspense>
-        </div>
-      </div>
+      <ListVacancies vacancies={vacancies} searchText={searchText} />
     </div>
   );
 }
