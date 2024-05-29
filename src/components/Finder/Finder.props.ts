@@ -1,4 +1,4 @@
-import { IRegion, ResultsTransform, Vacancy } from '../../..';
+import { IRegion, ResultsTransform } from '../../..';
 
 export interface FinderProps {
   searchText?: string;
