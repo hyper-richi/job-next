@@ -2,7 +2,7 @@
 import React, { memo, useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { HeaderProps } from './Header.props';
 import Link from 'next/link';
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import Navbar from '../Navbar/Navbar';
 import clsx from 'clsx';
@@ -31,7 +31,6 @@ const Sidebar = dynamic(() => import('../Sidebar/Sidebar'), {
 });
 
 const Header = ({ regions }: HeaderProps): JSX.Element => {
-  const router = useRouter();
   const pathname = usePathname();
   const [opened, { open, close }] = useDisclosure(false);
   const { jobCategory } = useParams<{ jobCategory: string }>();
@@ -47,8 +46,6 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
     }
   }, []);
 
-  const searchParams = useSearchParams();
-  const regionCodeParams = searchParams.get('regionCode');
 
   const onToggleSidebar = () => {
     setShowSidebar((prev) => !prev);
