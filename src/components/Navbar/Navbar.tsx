@@ -12,6 +12,7 @@ import ConstructionIcon from '../../../public/images/svg/constructionIcon.svg';
 import clsx from 'clsx';
 import NavbarItem from '../NavbarItem/NavbarItem';
 import { useEffect, useRef, useState } from 'react';
+import { CategoryVacancy, Mods } from '../../..';
 
 export const category: CategoryVacancy[] = [
   {
@@ -77,8 +78,6 @@ export const category: CategoryVacancy[] = [
 ];
 
 const Navbar = ({ isMobile }: { isMobile?: boolean }) => {
-  // const regionCodeStorage = localStorage.getItem('regionCode') || 'all';
-  // const encodeSearchText = encodeURIComponent(useSearchParams().get('text') || '');
 
   const [hidenNavbar, setHidenNavbar] = useState(false);
   const lastScrollRef = useRef(0);
@@ -108,13 +107,13 @@ const Navbar = ({ isMobile }: { isMobile?: boolean }) => {
   return (
     <nav className={clsx(styles.navbar, mods)}>
       <div className={styles.wrapper}>
-        {category.map((item) => {
-          if (!isMobile) {
-            return <NavbarItem key={item.jobCategory} categoryVacancy={item} />;
-          } else {
-            return <NavbarItem key={item.jobCategory} categoryVacancy={item} isMobile />;
-          }
-        })}
+        {category.map((item) =>
+          isMobile ? (
+            <NavbarItem key={item.jobCategory} categoryVacancy={item} isMobile />
+          ) : (
+            <NavbarItem key={item.jobCategory} categoryVacancy={item} />
+          )
+        )}
       </div>
     </nav>
   );

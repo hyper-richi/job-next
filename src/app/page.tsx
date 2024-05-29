@@ -5,8 +5,9 @@ import LighthouseWebp from '../../public/images/lighthouse.webp';
 import Image from 'next/image';
 
 export default function Home() {
+  // console.log('Home: ');
   return (
-    <>
+    <div>
       <div className={styles.container}>
         <div>
           <h1 className={styles.title}>Найдите работу вашей мечты в любой точке России</h1>
@@ -50,6 +51,6 @@ export default function Home() {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -41,41 +41,89 @@ interface Results {
 
 interface Vacancy {
   vacancy: {
-      id: string;
-      source: string;
-      region: IRegionName;
-      company: Company;
-      "creation-date": string;
-      salary: string;
-      salary_min: number;
-      salary_max: number;
-      "job-name": string;
-      vac_url: string;
-      employment: string;
-      schedule: string;
-      duty: string;
-      category: Category;
-      requirement: Requirement;
-      addresses: Addresses;
-      social_protected: string;
-      contact_list: ContactList[];
-      contact_person: string;
-      work_places: number;
-      currency: string;
-      term?: {
-          text: string;
-      };
+    id: string;
+    source: string;
+    region: IRegionName;
+    company: Company;
+    'creation-date': string;
+    salary: string;
+    salary_min: number;
+    salary_max: number;
+    'job-name': string;
+    vac_url: string;
+    employment: string;
+    schedule: string;
+    duty: string;
+    category: Category;
+    requirement: Requirement;
+    addresses: Addresses;
+    social_protected: string;
+    work_places: number;
+    currency: string;
+    term?: {
+      text: string;
+    };
   };
 }
+interface VacancyTransform {
+  vacancy_id: string;
+  user_id?: string;
+  id: string;
+  source: string;
+  region: IRegionName;
+  company: Company;
+  'creation-date': string;
+  salary: string;
+  salary_min: number;
+  salary_max: number;
+  'job-name': string;
+  vac_url: string;
+  employment: string;
+  schedule: string;
+  duty: string;
+  category: Category;
+  requirement: Requirement;
+  addresses: Addresses;
+  social_protected: string;
+  contact_list: Array;
+  contact_person: string;
+  work_places: number;
+  currency: string;
+  term?: {
+    text: string;
+  };
+  nodeRef?: RefObject<unknown>;
+  date: {
+    day: number;
+    hours: number;
+    minutes: number;
+    month: number;
+    year: number;
+  } | null;
+}
 
+interface ResultsTransform {
+  vacancies?: VacancyTransform[];
+}
+
+interface ResponseTransform {
+  status: string;
+  meta: Meta;
+  results: ResultsTransform;
+}
+interface ResponseVacancies {
+  status: string;
+  meta: Meta;
+  results: Results;
+}
 interface IRegionName {
   region_code: string;
   name: string;
 }
 
 interface Company {
-  companycode: string;
-  "hr-agency": boolean;
+  companycode?: string;
+  'hr-agency': boolean;
   inn: string;
   kpp: string;
   name: string;
@@ -115,17 +163,11 @@ interface ResponseAdress {
   results: ResultAdress[];
 }
 
-interface ResponseVacancies {
-  status: string;
-  meta: Meta;
-  results: Results;
-}
 interface ResponseVacancy {
   status: string;
   meta: Meta;
   results: Results;
 }
-
 
 interface Components {
   city: string;
@@ -165,6 +207,29 @@ interface IRegion {
   key: string;
 }
 interface ResponseRegions {
-  code: string;
   data: IRegion[];
+}
+
+export interface FormValues {
+  email: string;
+  name: string | null;
+  password: string;
+}
+
+export interface LoginByEmailProps {
+  email: string;
+  password: string;
+}
+
+export interface ResponseError {
+  message: string;
+  additionalMessage: string;
+  code: string;
+}
+
+export interface Params {
+  searchParams?: { text?: string; offset: string; regionCode?: string };
+  params: {
+    jobCategory?: string;
+  };
 }

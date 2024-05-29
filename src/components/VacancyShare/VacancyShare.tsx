@@ -11,7 +11,6 @@ interface VacancyShareProps {
 
 const VacancyShare = ({ textURL }: VacancyShareProps) => {
   const [show, setShow] = useState(false);
-
   const handleClick = useCallback(() => {
     navigator.clipboard.writeText(textURL);
     setShow((show) => !show);
@@ -23,13 +22,7 @@ const VacancyShare = ({ textURL }: VacancyShareProps) => {
   function label(): ReactElement {
     return (
       <div className={clsx(styles.tooltip)}>
-        <svg
-          width='24'
-          height='24'
-          viewBox='0 0 24 24'
-          fill='none'
-          xmlns='http://www.w3.org/2000/svg'
-        >
+        <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
           <path
             fillRule='evenodd'
             clipRule='evenodd'
@@ -42,19 +35,21 @@ const VacancyShare = ({ textURL }: VacancyShareProps) => {
     );
   }
   return (
-    <Tooltip
-      opened={show}
-      withinPortal={false}
-      events={{ hover: false, focus: false, touch: true }}
-      label={label()}
-      closeDelay={500}
-      transitionProps={{ transition: 'slide-down', duration: 300 }}
-    >
-      <div onClick={handleClick} className={styles.share}>
-        <ShareIcon />
-        <span>Поделиться вакансией</span>
-      </div>
-    </Tooltip>
+    <>
+      <Tooltip
+        opened={show}
+        withinPortal={false}
+        events={{ hover: false, focus: false, touch: true }}
+        label={label()}
+        closeDelay={500}
+        transitionProps={{ transition: 'slide-down', duration: 300 }}
+      >
+        <div onClick={handleClick} className={styles.share}>
+          <ShareIcon />
+          <span>Поделиться вакансией</span>
+        </div>
+      </Tooltip>
+    </>
   );
 };
 

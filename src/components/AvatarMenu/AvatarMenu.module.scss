@@ -1,0 +1,25 @@
+.AvatarMenu {
+  cursor: pointer;
+  height: 100%;
+  &__item {
+    // border: 1px solid black;
+
+    svg {
+      // margin-bottom: 3px;
+      // border: 1px solid black;
+      width: 14px;
+      height: 14px;
+    }
+
+    & :global(.mantine-Menu-itemLabel) {
+      display: flex;
+    }
+
+    /* & :global(.mantine-UnstyledButton-root) {
+      padding: 0 !important;
+    } */
+  }
+  &__label {
+    margin-top: 2px;
+  }
+}

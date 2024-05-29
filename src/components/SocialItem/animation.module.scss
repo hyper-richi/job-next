@@ -1,0 +1,18 @@
+.switchEnter {
+  opacity: 0;
+}
+.switchExit {
+  opacity: 1;
+}
+.switchEnterActive {
+  opacity: 1;
+}
+.switchExitActive {
+  opacity: 0;
+}
+.switchEnterActive {
+  transition: opacity 100ms;
+}
+.switchExitActive {
+  transition: opacity 400ms;
+}

@@ -1,0 +1,14 @@
+.cardEnter {
+  opacity: 0;
+}
+.cardEnterActive {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+.cardDelete {
+  opacity: 1;
+}
+.cardDeleteActive {
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+}

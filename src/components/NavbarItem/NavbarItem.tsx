@@ -5,6 +5,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import SpinnerIcon from '../../../public/images/svg/spinnerIcon.svg';
+import { CategoryVacancy, Mods } from '../../..';
 
 const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVacancy; isMobile?: boolean }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +15,9 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
   const searchParams = useSearchParams();
   const regionCodeParams = searchParams.get('regionCode') || '';
 
-  const encodeSearchText = encodeURIComponent(useSearchParams().get('text') || '');
+  // const decodeSearchText = decodeURIComponent(useSearchParams().get('text') || '');
+
+  const encodeSearchText = encodeURIComponent(useSearchParams().get('text') ?? '');
 
   useEffect(() => {
     setIsLoading(false);
@@ -29,14 +32,12 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
   }
 
   if (regionCodeParams) {
-    url = url + `regionCode=${regionCodeParams}`;
+    url = url + `regionCode=${regionCodeParams}&offset=0`;
   }
 
   if (encodeSearchText) {
     url = url + `&text=${encodeSearchText}`;
   }
-
-  url = url + '&offset=0';
 
   const handleCklick = () => {
     if (pathname !== `/vacancies/${categoryVacancy.jobCategory}`) {
@@ -45,8 +46,7 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
   };
 
   const modsIcon: Mods = {
-    [styles.navbar__icon__isMobile]: !isMobile,
-    [styles.navbar__icon]: isMobile,
+    [styles.icon__mobile]: isMobile,
   };
 
   const modsLink: Mods = {
@@ -55,11 +55,17 @@ const NavbarItem = ({ categoryVacancy, isMobile }: { categoryVacancy: CategoryVa
 
   return (
     <Link key={categoryVacancy.jobCategory} className={clsx(styles.navbar__links, modsLink)} href={url} onClick={handleCklick}>
+<<<<<<< HEAD
       <div className={clsx(isMobile ? styles.navbar__name__mobile : styles.navbar__name)}>
         {categoryVacancy.icon}
         <span className={styles['links-name']}>{categoryVacancy.name}</span>
       </div>
       {isLoading && <SpinnerIcon className={clsx(modsIcon)} width='24' height='24' />}
+=======
+      <div className={clsx(isMobile ? styles.navbar__name__mobile : styles.navbar__name)}>{categoryVacancy.icon}</div>
+      <span className={styles['links-name']}>{categoryVacancy.name}</span>
+      {isLoading && <SpinnerIcon className={clsx(styles.navbar__icon, modsIcon)} width='24' height='24' />}
+>>>>>>> auth
     </Link>
   );
 };
