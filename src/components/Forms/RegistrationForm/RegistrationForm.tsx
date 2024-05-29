@@ -17,13 +17,13 @@ import {
 } from '@/app/lib/store/features/file/slice/fileSlice';
 import { IconPhoto, IconTrash } from '@tabler/icons-react';
 import { registerUser, selectUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
-import { SignUpFormInitialStateT } from '../AuthenticationForm/AuthenticationForm';
+// import { SignUpFormInitialStateT } from '../AuthenticationForm/AuthenticationForm';
 import { signIn } from 'next-auth/react';
 
-const initialState: SignUpFormInitialStateT = {
+/* const initialState: SignUpFormInitialStateT = {
   error: false,
   message: '',
-};
+}; */
 
 export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<SetStateAction<boolean>> }) {
   const dispatch = useAppDispatch();
@@ -80,7 +80,7 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
         role: 'user',
       };
       try {
-        const authUser = await dispatch(registerUser(registerData)).unwrap();
+        await dispatch(registerUser(registerData)).unwrap();
         form.reset();
         CustomNotification({
           title: 'Пользователь',

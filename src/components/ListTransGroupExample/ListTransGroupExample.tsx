@@ -1,4 +1,4 @@
-import React, { useState, createRef, RefObject } from 'react';
+import React, { useState, createRef } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { Button } from '@mantine/core';
 // import './animation.module.scss';

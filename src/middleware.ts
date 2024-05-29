@@ -1,4 +1,3 @@
-import { registerUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import { NextResponse } from 'next/server';

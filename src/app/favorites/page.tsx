@@ -6,11 +6,9 @@ import { Params, VacancyTransform } from '../../..';
 import FavoritesCard from '@/components/FavoritesCard/FavoritesCard';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useAppDispatch, useAppSelector } from '../lib/store/hooks';
-// import { selectStatusUser, selectUser } from '../lib/store/features/authProfile/slice/userSlice';
 import { getFavorites, selectFavorites } from '../lib/store/features/favorites/slice/favoritesSlice';
-import { Suspense, createRef, useLayoutEffect, useMemo } from 'react';
+import {  createRef, useLayoutEffect, useMemo } from 'react';
 import { selectUser } from '../lib/store/features/authProfile/slice/authProfileSlice';
-import { VacancysSkeleton } from '@/components/VacancysSkeleton/VacancysSkeleton';
 
 const cardAnimation = {
   enter: animationStyles.cardEnter,

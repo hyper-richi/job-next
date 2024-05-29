@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { ResultAdress } from '../../..';
 
 const Adress = ({ adress, location }: { adress?: ResultAdress[]; location?: string }) => {
   if (adress) {

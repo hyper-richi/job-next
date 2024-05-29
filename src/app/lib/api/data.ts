@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ResponseVacancies, IRegion, ResponseVacancy, ResponseAdress, ResponseTransform, VacancyTransform } from '../../../..';
+import {  IRegion, ResponseVacancy, ResponseAdress, ResponseTransform, VacancyTransform } from '../../../..';
 import { AuthApiResponse, LoginData, User } from '../store/features/authProfile/types/authProfileSchema';
 
 // "no-store" - SSR getServerSideProps рендер на сервере, Этот запрос должен повторяться при каждом запросе

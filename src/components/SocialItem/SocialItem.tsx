@@ -1,8 +1,8 @@
-import React, { ReactNode, forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { ActionIcon, Button, Divider, Input, List, rem } from '@mantine/core';
+import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { ActionIcon, Divider, Input, List, rem } from '@mantine/core';
 import { IconCheck, IconDeviceFloppy, IconExclamationCircle } from '@tabler/icons-react';
-import { useClickOutside, useDisclosure, useFocusTrap, useMergedRef } from '@mantine/hooks';
-import { DataUserUpdate, User } from '@/app/lib/store/features/authProfile/types/authProfileSchema';
+import { useClickOutside, useFocusTrap, useMergedRef } from '@mantine/hooks';
+import { DataUserUpdate } from '@/app/lib/store/features/authProfile/types/authProfileSchema';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { selectStatusUser, selectUser, updateUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
 import { ResponseError } from '../../..';
@@ -47,7 +47,6 @@ const SocialItem = ({ icon, placeholder, nameInput }: SocialItemProps) => {
 
   const nodeRef = useRef<HTMLDivElement | null>(null);
 
-  const [active, { toggle }] = useDisclosure(false);
   const dispatch = useAppDispatch();
   const { data: session, update } = useSession();
   const statusUser = useAppSelector(selectStatusUser);

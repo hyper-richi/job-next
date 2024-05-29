@@ -3,6 +3,8 @@
 //'https://trudvsem.ru/iblocks/flat_filter_prr_search_cv/ref/regions'
 //'https://trudvsem.ru/iblocks/flat_filter_prr_search_vacancies/ref/regions'
 
+import { ResponseAdress, ResponseVacancies, ResponseVacancy } from "../../..";
+
 //import axios from 'axios';
 
 // "no-store" - SSR getServerSideProps рендер на сервере, Этот запрос должен повторяться при каждом запросе
