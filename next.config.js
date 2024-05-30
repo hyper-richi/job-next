@@ -30,9 +30,6 @@ const nextConfig = {
     defaultLocale: 'ru',
     localeDetection: false,
   },
-  images: {
-    domains: ['https://6ede402e6a352dfb.mokky.dev'],
-  },
   reactStrictMode: false,
 };
 

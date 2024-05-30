@@ -28,6 +28,7 @@ import { signIn } from 'next-auth/react';
 export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<SetStateAction<boolean>> }) {
   const dispatch = useAppDispatch();
   const file = useAppSelector(selectFile);
+  console.log('file: ', file);
   const statusUploadFile = useAppSelector(selectStatusUploadFile);
   const authProfile = useAppSelector(selectUser);
 
@@ -162,7 +163,7 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
         dispatch(deleteDatabaseImg(file?.id));
       }
     };
-  }, []);
+  }, [file]);
 
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmitRegister(values))}>
