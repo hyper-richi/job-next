@@ -16,6 +16,7 @@ export const fileSlice = createAppSlice({
   reducers: (create) => ({
     downloadImg: create.asyncThunk<string, string>(
       async (urlImg, thunkApi) => {
+        console.log('downloadImg: ');
         const { rejectWithValue } = thunkApi;
         return fetch(urlImg)
           .then((response) => {
@@ -62,7 +63,7 @@ export const fileSlice = createAppSlice({
           if (!response.data) {
             throw new Error('Ошибка в обработке запроса, повторите попытку позже!');
           }
-          await dispatch(uploadImg(response.data.url));
+          await dispatch(downloadImg(response.data.url));
 
           return response.data;
         } catch (error) {
@@ -120,7 +121,7 @@ export const fileSlice = createAppSlice({
         fulfilled: (state) => {
           state.status = 'idle';
           state.file = null;
-         // state.downloadImg = null;
+          // state.downloadImg = null;
         },
         // settled вызывается как за отклоненные, так и за выполненные действия
         settled: (state) => {
@@ -170,5 +171,5 @@ export const fileSlice = createAppSlice({
   },
 });
 
-export const { deleteFile, uploadFile, downloadImg: uploadImg, deleteDatabaseImg } = fileSlice.actions;
+export const { deleteFile, uploadFile, downloadImg, deleteDatabaseImg } = fileSlice.actions;
 export const { selectFile, selectStatusUploadFile, selectFileError, selectUploadUrlImg } = fileSlice.selectors;

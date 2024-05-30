@@ -65,8 +65,7 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
     },
   });
 
-
-  const handleSubmit = async (values: FormValues) => {
+  const handleSubmitRegister = async (values: FormValues) => {
     if (values.name) {
       // Registration
       const registerData: RegisterUserData = {
@@ -104,6 +103,7 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
   };
 
   async function handleUploadImgAvatar(fileFormUpload: File | null) {
+    console.log('handleUploadImgAvatar: ');
     const formData = new FormData();
     if (fileFormUpload && fileFormUpload.size > 3145728) {
       setErrorSizeFile(true);
@@ -165,7 +165,7 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
   }, []);
 
   return (
-    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+    <form onSubmit={form.onSubmit((values) => handleSubmitRegister(values))}>
       <Stack gap='xs'>
         <CustomAvatar />
         {errorSizeFile && <span style={{ color: 'red', textAlign: 'center' }}>{'Размер файла не должен превышать 3 мб'}</span>}
