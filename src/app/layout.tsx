@@ -121,6 +121,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <ColorSchemeScript />
         <meta name='robots' content='all' />
+        <meta httpEquiv='Content-Security-Policy' content='upgrade-insecure-requests' />
       </head>
       <body className={`${GTEestiProDisplay.className} ${GTEestiProText.variable} `}>
         <StoreProvider>
