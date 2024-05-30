@@ -3,7 +3,7 @@ import { Button, FileButton, Group, PasswordInput, Stack, TextInput } from '@man
 import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import { FormValues, ResponseError } from '../../../..';
 import { useForm } from '@mantine/form';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { RegisterUserData } from '@/app/lib/store/features/authProfile/types/authProfileSchema';
 import CustomNotification from '../../CustomNotification/CustomNotification';
 import CustomAvatar from '../../CustomAvatar/CustomAvatar';
@@ -27,7 +27,6 @@ import { signIn } from 'next-auth/react';
 
 export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<SetStateAction<boolean>> }) {
   const dispatch = useAppDispatch();
-  const router = useRouter();
   const file = useAppSelector(selectFile);
   const statusUploadFile = useAppSelector(selectStatusUploadFile);
   const authProfile = useAppSelector(selectUser);
@@ -66,7 +65,6 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
     },
   });
 
-  // const loginData = { email: form.values.email, password: form.values.password };
 
   const handleSubmit = async (values: FormValues) => {
     if (values.name) {
@@ -211,9 +209,6 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
         </Button>
         <Button style={{ background: '#005bff' }} type='submit' disabled={errorSizeFile}>
           Создать
-        </Button>
-        <Button style={{ background: '#005bff' }} onClick={() => router.replace('/profile')} disabled={errorSizeFile}>
-          profile
         </Button>
       </Group>
     </form>
