@@ -7,6 +7,7 @@ import { useFormStatus } from 'react-dom';
 import SpinnerIcon from '../../../public/images/svg/spinnerIcon.svg';
 import SearchIcon from '../../../public/images/svg/searchIcon.svg';
 import { useDebouncedCallback } from 'use-debounce';
+import { getVacancies } from '@/app/lib/data';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -23,13 +24,10 @@ function Search({ countVacancies }: { countVacancies: number }) {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
 
-  const jobCategory = searchParams.get('jobCategory');
+  const jobCategory = searchParams.get('jobCategory') || '';
+  const offset = searchParams.get('offset') || '';
+  const regionCode = searchParams.get('regionCode') || '';
   const encodeSearchText = encodeURIComponent(useSearchParams().get('text') || '');
-
-  // const decodeSearchText = decodeURIComponent(useSearchParams().get('text') || '');
-
-  const offset = searchParams.get('offset');
-  const regionCode = searchParams.get('regionCode');
 
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
@@ -39,9 +37,10 @@ function Search({ countVacancies }: { countVacancies: number }) {
       params.delete('text');
     }
     replace(`${pathname}?${params.toString()}`);
+    console.log(window.location.href);
   }, 300);
 
-  const handleFormAction = (formData: FormData) => {
+  const handleFormAction = async (formData: FormData) => {
     const SearchParams = new URLSearchParams(searchParams);
     const searchTextForm = formData.get('text') as string;
 
@@ -62,6 +61,13 @@ function Search({ countVacancies }: { countVacancies: number }) {
       return;
     }
     replace(`?${SearchParams.toString()}`);
+
+    await getVacancies({
+      searchText: searchTextForm,
+      offset,
+      regionCode,
+      jobCategory,
+    });
   };
 
   const forms = ['вакансия', 'вакансии', 'вакансий'];

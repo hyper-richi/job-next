@@ -57,7 +57,7 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
         value && value.length < 2
           ? 'Имя должно быть длиннее 2 символов'
           : value && value.length > 20
-          ? 'Имя должно быть до 20 символов'
+          ? 'Имя должно быть не длиннее 20 символов'
           : null,
       password: (value) => {
         return value.length < 5 ? 'Минимальный пароль 5 символов' : null;
