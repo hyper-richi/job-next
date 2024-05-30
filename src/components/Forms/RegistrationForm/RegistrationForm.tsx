@@ -212,9 +212,6 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
         <Button style={{ background: '#005bff' }} type='submit' disabled={errorSizeFile}>
           Создать
         </Button>
-        <Button style={{ background: '#005bff' }} onClick={() => router.replace('/profile')} disabled={errorSizeFile}>
-          profile
-        </Button>
       </Group>
     </form>
   );
