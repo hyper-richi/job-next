@@ -18,6 +18,8 @@ export const favoritesSlice = createAppSlice({
     }),
     getFavorites: create.asyncThunk<VacancyTransform[], string>(
       async (user_id, thunkApi) => {
+        console.log('getFavorites: ');
+
         try {
           const res = await axios.get<VacancyTransform[]>(`https://6ede402e6a352dfb.mokky.dev/favoritesVacancies?user_id=${user_id}`);
           if (!res.data) {
@@ -82,6 +84,7 @@ export const favoritesSlice = createAppSlice({
           state.error = action.error;
         },
         fulfilled: (state, action) => {
+          console.log('action: ', action.payload);
           state.status = 'idle';
           state.error = null;
           state.favorites.push(action.payload);

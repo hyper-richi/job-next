@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {  IRegion, ResponseVacancy, ResponseAdress, ResponseTransform, VacancyTransform } from '../../../..';
+import { IRegion, ResponseVacancy, ResponseAdress, ResponseTransform, VacancyTransform } from '../../../..';
 import { AuthApiResponse, LoginData, User } from '../store/features/authProfile/types/authProfileSchema';
 
 // "no-store" - SSR getServerSideProps рендер на сервере, Этот запрос должен повторяться при каждом запросе
@@ -30,42 +30,14 @@ export async function getVacancies(params: QureyParams) {
       url = url + `&text=${searchText}`;
     }
 
-    /* const res = await axios.get<ResponseTransform>(process.env.API_BASE_URL + url, {
-      transformResponse: (data) => {
-        const dataParse: ResponseVacancies = JSON.parse(data);
-
-        const resTransform: ResponseTransform = {
-          status: dataParse?.status || '',
-          meta: dataParse?.meta || {
-            total: 0,
-            limit: 100,
-          },
-          results: {
-            vacancies: dataParse?.results?.vacancies?.map(({ vacancy }) => {
-              const vacancyTransform: VacancyTransform = {
-                ...vacancy,
-                vacancy_id: vacancy.id,
-                contact_list: [],
-                contact_person: '',
-                date: null,
-              };
-
-              return vacancyTransform;
-            }),
-          },
-
-        };
-
-        return resTransform;
-      },
-      responseType: 'json',
-    }); */
-
     const res = await fetch(process.env.API_BASE_URL + url, {
       cache: 'no-store',
     })
       .then((response) => response.json())
       .then((data) => {
+        if (data?.status !== '200') {
+          throw new Error(`Failed to fetch with status code: ${data?.status}`, data?.status);
+        }
         const resTransform: ResponseTransform = {
           status: data?.status || '',
           meta: data?.meta || {
@@ -86,15 +58,13 @@ export async function getVacancies(params: QureyParams) {
             }),
           },
         };
+
         return resTransform;
       });
 
-   // const resAxios = await axios.get<ResponseVacancies>(process.env.API_BASE_URL + url, { responseType: 'json' });
-
     return res;
-  } catch (error) {
-    console.error('Fetch Error getVacancies:', error);
-    throw new Error('Failed to fetch Vacancies data');
+  } catch (message) {
+    throw new Error(`${message}`);
   }
 }
 
@@ -107,8 +77,7 @@ export async function getRegions(): Promise<IRegion[]> {
 
     return data;
   } catch (error) {
-    console.error('Fetch Error getRegions:', error);
-    throw new Error('Failed to fetch Regions data.');
+    throw new Error(`Failed to fetch Regions data: ${error}`);
   }
 }
 
@@ -121,8 +90,7 @@ export async function getVacancy(companyId: string, vacancy_id: string): Promise
 
     return res.json();
   } catch (error) {
-    console.error('Fetch Error getVacancy:', error);
-    throw new Error('Failed to fetch Vacancy data.');
+    throw new Error(`Failed to fetch Vacancy data: ${error}`);
   }
 }
 
@@ -137,14 +105,12 @@ export async function getAdress(latitude: string, longitude: string): Promise<Re
         if (data.status.code === 200) {
           return data;
         } else {
-          console.error('Geolocation request failed: getAdress');
           throw new Error('Geolocation request failed: getAdress');
         }
       });
     return res;
-  } catch (error) {
-    console.error('Reverse geolocation request failed.', error);
-    throw new Error('Reverse geolocation request failed.');
+  } catch (message) {
+    throw new Error(`${message}`);
   }
 }
 
@@ -157,8 +123,7 @@ export async function getUsers(): Promise<User[]> {
       .then((data) => data);
     return resp;
   } catch (error) {
-    console.error('catch Request users failed.', error);
-    throw new Error('catch Request users failed.');
+    throw new Error('Request users failed');
   }
 }
 

@@ -22,7 +22,7 @@ export default function FavoritesCard({ regionCode, vacancy, offset, searchText,
   // const favoritesVacancies = useAppSelector(selectFavorites);
 
   // await new Promise((resolve) => setTimeout(resolve, 0));
-  const { 'job-name': vacancyName, salary_min, salary_max, company, vacancy_id, id, date } = vacancy;
+  const { 'job-name': vacancyName, salary_min, salary_max, company, vacancy_id, id: favorites_id, date } = vacancy;
 
   let url = `/vacancies/vacancy/${company?.companycode}/${vacancy_id}?`;
   if (jobCategory) {
@@ -51,7 +51,7 @@ export default function FavoritesCard({ regionCode, vacancy, offset, searchText,
     setisClick(true);
     try {
       if (authProfile) {
-        await dispatch(deleteFavorites(id)).unwrap();
+        await dispatch(deleteFavorites(favorites_id)).unwrap();
 
         CustomNotification({
           title: 'Вакансия',

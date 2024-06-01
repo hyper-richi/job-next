@@ -7,7 +7,7 @@ import FavoritesCard from '@/components/FavoritesCard/FavoritesCard';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useAppDispatch, useAppSelector } from '../lib/store/hooks';
 import { getFavorites, selectFavorites } from '../lib/store/features/favorites/slice/favoritesSlice';
-import {  createRef, useLayoutEffect, useMemo } from 'react';
+import { createRef, useLayoutEffect, useMemo } from 'react';
 import { selectUser } from '../lib/store/features/authProfile/slice/authProfileSlice';
 
 const cardAnimation = {
@@ -31,12 +31,6 @@ export default function Favorites({ params, searchParams }: Params) {
 
   const favoritesVacancies = useAppSelector(selectFavorites);
 
-  /*  useLayoutEffect(() => {
-    if (!token) {
-     // redirect('/login');
-    }
-  }, [token]); */
-
   const searchText = searchParams?.text ?? '';
   const offset = searchParams?.offset || '';
   const regionCode = searchParams?.regionCode || '';
@@ -45,10 +39,6 @@ export default function Favorites({ params, searchParams }: Params) {
   const transformVacancies = useMemo(() => {
     return favoritesVacancies.map((item) => ({ ...item, nodeRef: createRef() }));
   }, [favoritesVacancies]);
-
-  /* if (!authProfile) {
-    return null;
-  } */
 
   return (
     <div>

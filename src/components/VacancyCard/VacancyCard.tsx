@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { VacancyCardProps } from './VacancyCard.props';
 import styles from './VacancyCard.module.scss';
 import Link from 'next/link';
@@ -9,7 +9,7 @@ import { IconStar } from '@tabler/icons-react';
 import { UnstyledButton } from '@mantine/core';
 import CustomNotification from '../CustomNotification/CustomNotification';
 import { ResponseError, VacancyTransform } from '../../..';
-import { addFavorites, selectFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
+import { addFavorites, deleteFavorites, selectFavorites } from '@/app/lib/store/features/favorites/slice/favoritesSlice';
 import { useAppDispatch, useAppSelector } from '@/app/lib/store/hooks';
 import { selectUser } from '@/app/lib/store/features/authProfile/slice/authProfileSlice';
 import clsx from 'clsx';
@@ -23,7 +23,7 @@ export default function VacancyCard({ vacancy, openModal }: VacancyCardProps) {
   const regionCode = searchParams.get('regionCode');
   const searchText = searchParams.get('text');
   const { jobCategory } = useParams<{ jobCategory: string; item: string }>();
-  const [isClick, setisClick] = useState(false);
+  const [animationClick, setAnimationClick] = useState(false);
 
   const favoritesVacancies = useAppSelector(selectFavorites);
 
@@ -44,47 +44,67 @@ export default function VacancyCard({ vacancy, openModal }: VacancyCardProps) {
     url = url + `&text=${encodeURIComponent(searchText)}`;
   }
 
-  const mods = useMemo(
-    () => ({
-      [styles.isFavorites]: !!favoritesVacancies.find((item) => item.vacancy_id === vacancy.vacancy_id)?.vacancy_id,
-      [styles.animation__icon]: isClick,
-    }),
-    [authProfile?.id, favoritesVacancies.length, isClick]
-  );
+  const favorite_id = favoritesVacancies.find((item) => item.vacancy_id === vacancy_id)?.id;
+
+  const mods = {
+    [styles.isFavorites]: !!favorite_id,
+    [styles.animation__icon]: animationClick,
+  };
 
   const handleClick = useCallback(
     async (event: React.MouseEvent<HTMLElement>) => {
       event.stopPropagation();
-      setisClick(true);
+
+      setAnimationClick(true);
+
       try {
         if (authProfile?.id) {
-          let currentDate = new Date();
-          const currentData = {
-            year: currentDate.getFullYear(),
-            month: currentDate.getMonth() + 1,
-            day: currentDate.getDate(),
-            hours: currentDate.getHours(),
-            minutes: currentDate.getMinutes(),
-          };
-          const transformVacancy: VacancyTransform = {
-            ...vacancy,
-            user_id: authProfile?.id,
-            date: currentData,
-            // nodeRef: createRef(null),
-          };
+          if (!favorite_id) {
+            let currentDate = new Date();
+            const currentData = {
+              year: currentDate.getFullYear(),
+              month: currentDate.getMonth() + 1,
+              day: currentDate.getDate(),
+              hours: currentDate.getHours(),
+              minutes: currentDate.getMinutes(),
+            };
+            const transformVacancy: VacancyTransform = {
+              ...vacancy,
+              user_id: authProfile?.id,
+              date: currentData,
+            };
 
-          await dispatch(addFavorites(transformVacancy)).unwrap();
+            await dispatch(addFavorites(transformVacancy)).unwrap();
 
-          CustomNotification({
-            title: 'Вакансия',
-            message: 'Вакансия успешно добавлена в избранное!',
-            variant: 'success',
-          });
+            CustomNotification({
+              title: 'Вакансия',
+              message: 'Вакансия успешно добавлена в избранное!',
+              variant: 'success',
+            });
+          } else {
+            try {
+              await dispatch(deleteFavorites(favorite_id)).unwrap();
+
+              CustomNotification({
+                title: 'Вакансия',
+                message: 'Вакансия успешно удалена из избранного!',
+                variant: 'success',
+              });
+            } catch (rejectedError) {
+              const rejectValue = rejectedError as ResponseError;
+              CustomNotification({
+                message: rejectValue.message,
+                additionalMessage: rejectValue.additionalMessage,
+                variant: 'error',
+              });
+            }
+          }
         } else {
           openModal();
         }
       } catch (rejectedError) {
         const rejectValue = rejectedError as ResponseError;
+
         CustomNotification({
           message: rejectValue.message,
           additionalMessage: rejectValue.additionalMessage,
@@ -92,7 +112,7 @@ export default function VacancyCard({ vacancy, openModal }: VacancyCardProps) {
         });
       }
     },
-    [authProfile?.id]
+    [authProfile?.id, favorite_id, vacancy_id]
   );
 
   return (

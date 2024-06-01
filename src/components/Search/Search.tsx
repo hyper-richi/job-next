@@ -7,7 +7,7 @@ import { useFormStatus } from 'react-dom';
 import SpinnerIcon from '../../../public/images/svg/spinnerIcon.svg';
 import SearchIcon from '../../../public/images/svg/searchIcon.svg';
 import { useDebouncedCallback } from 'use-debounce';
-import { getVacancies } from '@/app/lib/data';
+// import { getVacancies } from '@/app/lib/data';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -37,7 +37,7 @@ function Search({ countVacancies }: { countVacancies: number }) {
       params.delete('text');
     }
     replace(`${pathname}?${params.toString()}`);
-    console.log(window.location.href);
+    // console.log(window.location.href);
   }, 300);
 
   const handleFormAction = async (formData: FormData) => {
@@ -62,12 +62,12 @@ function Search({ countVacancies }: { countVacancies: number }) {
     }
     replace(`?${SearchParams.toString()}`);
 
-    await getVacancies({
+    /* await getVacancies({
       searchText: searchTextForm,
       offset,
       regionCode,
       jobCategory,
-    });
+    }); */
   };
 
   const forms = ['вакансия', 'вакансии', 'вакансий'];

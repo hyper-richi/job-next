@@ -131,9 +131,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <Header regions={regions} />
             </SessionProvider>
             <main className={styles.container}>
-              <SessionProvider session={session}>{children}</SessionProvider>
-              <Analytics />
-              <SpeedInsights />
+                <SessionProvider session={session}>{children}</SessionProvider>
+                <Analytics />
+                <SpeedInsights />
             </main>
             <Footer regions={regions} />
           </MantineProvider>

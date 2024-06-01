@@ -8,6 +8,7 @@ interface CategoryVacancy {
 interface Meta {
   total: number;
   limit: number;
+  error?: string;
 }
 
 interface Category {

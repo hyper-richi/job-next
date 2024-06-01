@@ -1,13 +1,26 @@
 .vacancies {
-    margin: 57px auto 100px;
-    max-width: 1200px;
-    padding: 0 20px
+  margin: 57px auto 100px;
+  max-width: 1200px;
+  padding: 0 20px;
 }
 
 .loading {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 6rem;
+}
+
+.error {
+  &__container {
+    max-width: 1440px;
+    padding: 0 16px;
+    padding-top: 20px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  &__title {
+    margin: 10px 0;
+  }
 }

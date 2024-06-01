@@ -28,7 +28,6 @@ import { signIn } from 'next-auth/react';
 export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<SetStateAction<boolean>> }) {
   const dispatch = useAppDispatch();
   const file = useAppSelector(selectFile);
-  console.log('file: ', file);
   const statusUploadFile = useAppSelector(selectStatusUploadFile);
   const authProfile = useAppSelector(selectUser);
 
@@ -40,6 +39,16 @@ export default function RegistrationForm({ setIsLogin }: { setIsLogin: Dispatch<
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
+
+  /* function name() {
+    async function throwsValue() {
+      // throw new Error("oops");
+      return 2;
+    }
+    const res = throwsValue();
+    console.log('res: ', res);
+  }
+  name(); */
 
   const form = useForm<FormValues>({
     initialValues: {
