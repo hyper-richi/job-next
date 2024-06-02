@@ -4,7 +4,7 @@
     z-index: 10;
     width: 100vw;
     height: 100%;
-    background-color: none;
+    // background-color: none;
     display: none;
     opacity: 0;
   }
@@ -16,7 +16,6 @@
   animation: fadeInFromOpacity1 0.3s ease-in-out;
   animation-fill-mode: forwards;
 }
-
 
 .hide {
   animation: fadeInFromOpacity0 1s ease-in-out;
@@ -77,6 +76,16 @@
     bottom: 4px;
     circle {
       fill: #fff;
+    }
+  }
+
+  &__closebutton {
+    position: absolute;
+    right: 15px;
+    color: inherit;
+    
+    &:hover {
+      background-color: transparent;
     }
   }
 }

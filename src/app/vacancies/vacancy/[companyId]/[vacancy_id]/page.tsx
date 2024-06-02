@@ -77,81 +77,79 @@ export default async function Vacancy({ params, searchParams }: Params) {
   };
 
   return (
-      <div className={styles.container}>
-        <div className={styles.vacancy}>
-          <div className={styles.vacancy__info}>
-            <ButtonBack />
-            <div className={styles.vacancy__info__title}>
-              <div className={styles.vacancy__info__title__city}>
-                <div className={styles.vacancy__info__title__city__icon}>
-                  <PointIcon style={{ width: 24, height: 24, color: '#4c6888' }} />
-                </div>
-                {vacancy.region.name}
+    <div className={styles.container}>
+      <div className={styles.vacancy}>
+        <div className={styles.vacancy__info}>
+          <ButtonBack />
+          <div className={styles.vacancy__info__title}>
+            <div className={styles.vacancy__info__title__city}>
+              <div className={styles.vacancy__info__title__city__icon}>
+                <PointIcon style={{ width: 24, height: 24, color: '#4c6888' }} />
               </div>
-              <span>{vacancy.company.name}</span>
+              {vacancy.region.name}
             </div>
-            <h1 className={styles.vacancy__info__name}>
-              {vacancy['job-name'].charAt(0).toUpperCase() + vacancy['job-name'].slice(1)}
-            </h1>
-            <p className={styles.vacancy__info__salary}>
-              {vacancy?.salary && vacancy?.salary !== 'от 0'
-                ? `${vacancy.salary_min}-${vacancy.salary_max} ₽`
-                : '«з/п по договоренности»'}
-            </p>
-            <div className={styles.vacancy__info__workplaces}>
-              <div className={styles.vacancy__info__count}>
-                <CountVacancyIcon width='18' height='22' />
-                <p className={styles.workplaces}>Количество рабочих мест: {vacancy.work_places}</p>
-              </div>
-              <Adress adress={dataAdress?.results} location={location} />
+            <span>{vacancy.company.name}</span>
+          </div>
+          <h1 className={styles.vacancy__info__name}>{vacancy['job-name'].charAt(0).toUpperCase() + vacancy['job-name'].slice(1)}</h1>
+          <p className={styles.vacancy__info__salary}>
+            {vacancy?.salary && vacancy?.salary !== 'от 0'
+              ? `${vacancy.salary_min}-${vacancy.salary_max} ₽`
+              : '«з/п по договоренности»'}
+          </p>
+          <div className={styles.vacancy__info__workplaces}>
+            <div className={styles.vacancy__info__count}>
+              <CountVacancyIcon width='18' height='22' />
+              <p className={styles.workplaces}>Количество рабочих мест: {vacancy.work_places}</p>
             </div>
-            <MapVacancy lng={longitude || ''} lat={latitude || ''} />
-            <div className={styles.vacancy__info__body}>
+            <Adress adress={dataAdress?.results} location={location} />
+          </div>
+          <MapVacancy lng={longitude || ''} lat={latitude || ''} />
+          <div className={styles.vacancy__info__body}>
+            <div>
+              <p>
+                <strong>Вам предстоит: </strong>
+              </p>
+              <div className={styles.vacancy__duty}>{duty}</div>
               <div>
                 <p>
-                  <strong>Вам предстоит: </strong>
+                  <strong>Мы ожидаем: </strong>
                 </p>
-                <div className={styles.vacancy__duty}>{duty}</div>
-                <div>
-                  <p>
-                    <strong>Мы ожидаем: </strong>
-                  </p>
-                  <ul>
-                    <li>Образование:{` ${vacancy.requirement.education}`};</li>
-                    <li>Опыт работы:{` ${experience(vacancy.requirement.experience)}`};</li>
-                  </ul>
-                  <p>
-                    <strong>Тип занятости:</strong>
-                  </p>
-                  <ul>
-                    <li>{vacancy.employment}</li>
-                    <li>{vacancy.schedule}</li>
-                  </ul>
-                  {qualification && (
-                    <div>
-                      <p>
-                        <strong>Мы предлагаем:</strong>
-                      </p>
-                      <div>{qualification}</div>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className={styles.vacancy__actions__desktop}>
-                <Link prefetch={false} className={styles.vacancy__actions__apply} href={vacancy.vac_url} target='_blank'>
-                  Откликнуться
-                </Link>
-                <VacancyShare textURL={url} />
+                <ul>
+                  <li>Образование:{` ${vacancy.requirement.education}`};</li>
+                  <li>Опыт работы:{` ${experience(vacancy.requirement.experience)}`};</li>
+                </ul>
+                <p>
+                  <strong>Тип занятости:</strong>
+                </p>
+                <ul>
+                  <li>{vacancy.employment}</li>
+                  <li>{vacancy.schedule}</li>
+                </ul>
+                {qualification && (
+                  <div>
+                    <p>
+                      <strong>Мы предлагаем:</strong>
+                    </p>
+                    <div>{qualification}</div>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-          <div className={styles.vacancy__actions__mobile}>
-            <Link prefetch={false} className={styles.vacancy__actions__apply} href={vacancy.vac_url} target='_blank'>
-              Откликнуться
-            </Link>
-            <VacancyShare textURL={url} />
+            <div className={styles.vacancy__actions__desktop}>
+              <Link prefetch={false} className={styles.vacancy__actions__apply} href={vacancy.vac_url} target='_blank'>
+                Откликнуться
+              </Link>
+              <VacancyShare textURL={url} />
+            </div>
           </div>
         </div>
+        <div className={styles.vacancy__actions__mobile}>
+          <Link prefetch={false} className={styles.vacancy__actions__apply} href={vacancy.vac_url} target='_blank'>
+            Откликнуться
+          </Link>
+          <VacancyShare textURL={url} />
+        </div>
       </div>
+    </div>
   );
 }

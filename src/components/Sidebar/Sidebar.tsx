@@ -6,6 +6,7 @@ import styles from './Sidebar.module.scss';
 import { SidebarProps } from './Sidebar.props';
 import PointIcon from '../../../public/images/svg/PointIcon';
 import RegionName from '../RegionName/RegionName';
+import { CloseButton } from '@mantine/core';
 
 const Sidebar = ({ regions, showSidebar, onCloseSidebar, onCloseMobileRegionsModal }: SidebarProps) => {
   const onContentClick = (e: React.MouseEvent) => {
@@ -15,8 +16,8 @@ const Sidebar = ({ regions, showSidebar, onCloseSidebar, onCloseMobileRegionsMod
   return (
     <div className={clsx(styles.mobile__sidebar, showSidebar ? styles.show : styles.hide)} onClick={onCloseSidebar}>
       <div className={styles.sidebar__content} onClick={onContentClick}>
+        <CloseButton className={styles.sidebar__closebutton} onClick={onCloseSidebar}/>
         <div className={styles.sidebar__nav}>
-
           <div onClick={onCloseMobileRegionsModal} className={styles.sidebar__item__logo}>
             <div className={styles.sidebar__city__logo}>
               <PointIcon style={{ width: 24, height: 24, fill: '#005bff' }} />
