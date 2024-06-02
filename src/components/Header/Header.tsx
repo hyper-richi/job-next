@@ -46,7 +46,6 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
     }
   }, []);
 
-
   const onToggleSidebar = () => {
     setShowSidebar((prev) => !prev);
   };
@@ -127,6 +126,9 @@ const Header = ({ regions }: HeaderProps): JSX.Element => {
           </button>
           <Link prefetch={false} className={styles.header__logo} href={`/`}>
             JOB
+          </Link>
+          <Link prefetch={false} href={'/favorites'} style={{ display: 'flex' }}>
+            <IconStar className={styles.star__icon} />
           </Link>
           <AvatarMenu openSignModal={open} session={session} />
         </div>

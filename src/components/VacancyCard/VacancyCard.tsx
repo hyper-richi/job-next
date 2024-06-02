@@ -18,6 +18,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 export default function VacancyCard({ vacancy, openModal }: VacancyCardProps) {
   const dispatch = useAppDispatch();
   const authProfile = useAppSelector(selectUser);
+  console.log('authProfile: ', authProfile);
   const searchParams = useSearchParams();
   const offset = searchParams.get('offset');
   const regionCode = searchParams.get('regionCode');
@@ -73,6 +74,7 @@ export default function VacancyCard({ vacancy, openModal }: VacancyCardProps) {
               user_id: authProfile?.id,
               date: currentData,
             };
+            console.log('transformVacancy: ', transformVacancy);
 
             await dispatch(addFavorites(transformVacancy)).unwrap();
 

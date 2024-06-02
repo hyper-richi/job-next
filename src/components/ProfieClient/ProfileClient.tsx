@@ -130,6 +130,16 @@ const ProfileClient = () => {
                 {userSession ? <p className={styles.text}>{userSession?.email}</p> : <Skeleton minWidth={'100%'} height={'24px'} />}
               </div>
             </div>
+            <Divider my='md' />
+
+            <div className={styles.row}>
+              <div className={styles['col-sm-3']}>
+                <p className={styles.text}>User_id </p>
+              </div>
+              <div className={styles['col-sm-9']}>
+                {userSession ? <p className={styles.text}>{userSession?.id}</p> : <Skeleton minWidth={'100%'} height={'24px'} />}
+              </div>
+            </div>
           </Card>
         </Grid.Col>
       </Grid>
